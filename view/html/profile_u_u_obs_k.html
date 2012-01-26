@@ -1,0 +1,47 @@
+<div id="main">
+    <div class="lineAccount"></div><!-- lineAccount -->
+    <div class="myAccount">
+        <div class="menuAccount">
+            <div class="accountButtonB"><a href="?w=servs">USŁUGI</a></div><!-- accountButtonB -->
+            <div class="accountButtonW"><a href="?w=comms">ZLECENIA</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=dane">MOJE DANE</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=faktury">FAKTURY</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=pakiety">PAKIETY</a></div><!-- accountButtonW -->
+            <div class="buttonInfo">Witaj, {%name%} | <a href="logout.php">wyloguj</a></div><!-- buttonInfo -->
+        </div><!-- menuAccount -->
+        <div class="accountStrip"></div><!-- accountStrip -->
+    </div><!-- myAccount -->
+    <div class="menuAccountD">
+        <div class="accountButtonD"><a href="?w=servs&a=0">obserwowane kategorie</a></div><!-- accountButtonD -->
+        <div class="accountButtonDb"><a href="?w=servs&a=1">moje usługi</a></div><!-- accountButtonD -->
+    </div><!-- menuAccountD -->
+    <div class="accountMain">
+        <div class="accountTitle">
+        Kategorie, obszary oraz tematyki usług, które obserwujesz (kolor niebieski).
+        </div><!-- accountTitle -->
+        <br clear="all" />
+        <div class="accountLine"></div><!-- accountLine -->
+        <div class="tables">
+                    <table cellpadding="0" cellspacing="0">
+                    <thead>
+                            <tr>
+                                    <th>Kategoria</th>
+                                    <th>Obszar</th>
+                                    <th>Tematyka</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+
+                        <form method="post" action="profile.php">
+                            <input type="hidden" name="action" value="d_kasuj" />
+
+                            {%here%}
+
+                        </form>
+
+                    </tbody>
+
+            </table>
+</div><!-- viewCategory -->
+    </div><!-- accountMain -->
+</div><!-- main -->

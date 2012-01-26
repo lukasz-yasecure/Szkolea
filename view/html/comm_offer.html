@@ -1,0 +1,61 @@
+            <form action="comm.php" method="get">
+                <input type="hidden" name="offer_check" value="oferta" />
+                <input type="hidden" name="id" value="{%id%}" />
+                <div id="contactform">
+                    <div id="contact1">
+                        <fieldset>
+                        <legend>Złóż ofertę</legend>
+                        <label for="name">Cena za osobę (brutto): *</label>
+                        <div>
+                            <input type="text" name="cena" id="location" size="30" class="field label" value="{%cena%}" />
+                            <span class="hint">cena<span class="hint-pointer">&nbsp;</span></span>
+                        </div>
+                        <div>
+                            <label><input type="radio" name="cenax" value="1" class="radio" {%cenax1%} />Bez Vat</label>
+                            <label><input type="radio" name="cenax" value="2" class="radio" {%cenax2%} />Zwolnione z Vat</label>
+                            <label><input type="radio" name="cenax" value="3" class="radio" {%cenax3%} />Z Vat (23%)</label>
+                        </div>
+                        <br />
+                        <div>
+                            <label for="city">Sposób rozliczania: *</label>
+                            <select name="rozl" id="search_subcat" class="field">
+                            <option></option>
+                            <option value="1" {%rozl1%} >Rachunek</option>
+                            <option value="2" {%rozl2%} >Faktura Vat</option>
+                            <option value="3" {%rozl3%} >Rachunek do umowy o dzieło</option>
+                            </select>
+                        </div>
+                        <br />
+                        <label>Co zawiera cena?</label>
+                        <div>
+                            <label><input type="checkbox" name="inne[]" value="1" class="norequired" {%inne1%} /> wynajem sali </label>
+                        </div>
+                        <div>
+                            <label><input type="checkbox" name="inne[]" value="2" class="norequired" {%inne2%} /> materiały </label>
+                        </div>
+                        <div>
+                            <label><input type="checkbox" name="inne[]" value="3" class="norequired" {%inne3%} /> lunch </label>
+                        </div>
+                        <div id="small">
+                            <div class="cenainline"> <label><input type="checkbox" name="inne[]" value="4" class="norequired" {%inne4%} /> przerwy kawowe </label> &nbsp;&nbsp;    ilość: <input type="text" name="ile_kaw" size="30" class="field" value="{%ile_kaw%}" /></div>
+                        </div>
+                        <br/>
+                        <p>Zaproponuj termin: *</p>
+                        <div>
+                            początek: <input id="exampleXIa" name="date_a" type="text" maxlength="10" autocomplete="off" value="{%date_a%}" />
+                            koniec:<input id="exampleXIb" name="date_b" type="text" maxlength="10" autocomplete="off" value="{%date_b%}" />
+                        </div>
+                        </fieldset>
+                    </div><!-- contact1 -->
+                    <div id="contact2">
+                        <fieldset>
+                        <legend>Informacje</legend>
+                        <p>* - Pola obowiązkowe.</p>
+                        <div>
+                            <label><input type="checkbox" name="reg" value="1" checked="checked" class="required" /> Akceptuję regulamin *</label>
+                        </div>
+                        </fieldset>
+                        <div class="submit"><button type="submit" id="comm_submit">Złóż ofertę</button></div>
+                    </div><!-- contact2 -->
+                </div>
+                </form>

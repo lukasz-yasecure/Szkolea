@@ -1,0 +1,30 @@
+OBSERWOWANIE
+    limity? 1 kategoria 2 obszary 3 tematyki ? 10 zlecen?
+    index/zlecenie -> ajax -> php -> mysql -> php -> feedback (zmiana ikonki/alert)
+        jquery - ajax
+        php walidacja
+        tabele w mysql
+        feedback
+    mailing
+        np. w godzinach 4-6:
+            cron -> php -> mysql (ostatni mailing) -> lista nowych zlecen/uslug -> do bazy z data mailingu
+        np. w godzinach 6-8:
+        cron -> php -> mysql (przygotowane mailingi) -> wysylamy 30 i kasujemy z bazy
+PROFIL
+    wyswietlanie obserwowanych rzeczy - kategorie (uslugi/zlecenia) oraz zlecenia
+        kasowanie
+    uslugi - dodane, zlozone oferty
+        usuwanie
+    zlecenia - moje, biore udzial
+        anuluj
+        wybierz oferte
+        OCENIANIE         
+    edycja danych
+    FAKTURY
+        operacja za kase -> oplata -> faktura zwykla
+    PLATNOSCI
+        operacja za kase
+    PAKIETY
+        wybor pakietu -> oplata
+    WIZYTÓWKA
+KATALOGI

@@ -1,0 +1,130 @@
+            <div id="search">
+                <div id="search_l"></div><!-- search_l -->
+                <div id="search_t">
+                    <div id="search_t_top">
+                        <div id="search_t_top_1">
+                            <img class="wyszukiwarka" src="img/wyszukiwarka.png" alt="" />
+                        </div><!-- search_t_top_1 -->
+                        <div id="search_t_top_2"></div><!-- search_t_top_2 -->
+                        <div id="search_t_top_3">
+                            {%logbar%}
+                        </div><!-- search_t_top_3 -->
+                    </div><!-- search_t_top -->
+                    <div id="search_t_bottom">
+                        <div id="fields">
+                            <div id="f_line_1">
+                                <div class="f_column_b1">
+                                    <form action="index.php" method="post" name="searchForm">
+                                    <input type="hidden" name="search" value="1" />
+                                    <input type="radio" name="what" value="z" checked /> zlecenia
+                                </div><!-- f_column_b1 -->
+                                <div class="f_column_b2">
+                                    <input type="radio" name="what" value="u" /> usługi
+                                </div><!-- f_column_b2 -->
+                            </div><!-- f_line_1 -->
+                            <div id="f_line_2">
+                                <div class="f_column_a1"><span class="title_s">Kategoria</span>
+                                    <select name="cat" class="select_2" id="search_cat">
+                                        <option value="0">wszystkie</option>
+                                        {%kategorie%}
+                                    </select>
+                                </div><!-- f_column_a1 -->
+                                <div class="f_column_a2" id="kat2">
+                                    <span class="title_s">Obszar</span>
+                                    <select name="subcat" class="select_2" id="search_subcat">
+                                        <option value="0">wszystkie</option>
+                                    </select>
+                                </div><!-- f_column_a2 -->
+                                <div class="f_column_a3" id="kat3">
+                                    <span class="title_s">Tematyka</span>
+                                    <select name="subsubcat" class="select_2" id="search_subsubcat">
+                                        <option value="0">wszystkie</option>
+                                    </select>
+                                </div><!-- f_column_a3 -->
+                            </div><!-- f_line_2 -->
+                            <div id="f_line_3">
+                                <div class="f_column_c1">
+                                    <span class="title_s">Województwo</span>
+                                    <select name="woj" class="select_2">
+                                        <option value="0">wszystkie</option>
+                                        {%wojewodztwa%}
+                                    </select>
+                                </div><!-- f_column_c1 -->
+                                <div class="f_column_c2">
+                                    <span class="title_s">miasto</span>
+                                    <input type="text" name="place" class="input2"/>
+                                </div><!-- f_column_c2 -->
+                                <div class="f_column_c3">
+                                    <span class="title_s">cena od</span>
+                                    <input type="text" name="cena_min" class="input2"/>
+                                </div><!-- f_column_c3 -->
+                                <div class="f_column_c4">
+                                    <span class="title_s">cena do</span>
+                                    <input type="text" name="cena_max" class="input2"/>
+                                </div><!-- f_column_c4 -->
+                            </div><!-- f_line_3 -->
+                            <div id="f_line_4">
+                                <div class="f_column_c1">
+                                    <span class="title_s">kiedy</span>
+                                    <select name="dur0" class="select_2">
+                                        <option value="0">wszystkie</option>
+                                        <option value="1">dni robocze</option>
+                                        <option value="2">weekend</option>
+                                        <option value="3">dni wolne</option>
+                                        <option value="4">wieczorowo</option>
+                                    </select>
+                                </div><!-- f_column_c1 -->
+                                <div class="f_column_c2">
+                                    <span class="title_s">jak długo</span>
+                                    <select name="dur1" class="select_dur1">
+                                        <option value="0">wszystkie</option>
+                                        <option value="1">1 dzień</option>
+                                        <option value="2">2 dni</option>
+                                        <option value="3">3 dni</option>
+                                    </select>
+                                </div><!-- f_column_c2 -->
+                                <div class="f_column_c3">
+                                    <span class="title_s">liczebność od</span>
+                                    <input type="text" name="grupa_min" class="input2"/>
+                                </div><!-- f_column_c3 -->
+                                <div class="f_column_c4">
+                                    <span class="title_s">liczebność do</span>
+                                    <input type="text" name="grupa_max" class="input2"/>
+                                </div><!-- f_column_c4 -->
+                            </div><!-- f_line_4 -->
+                            <div id="f_line_5">
+                                <span class="title_s">Słowa w treści ogłoszenia:</span>
+                                <br />
+                                <input name="word" class="input1" />
+                            </div><!-- f_line_5 -->
+                        </div><!-- fields -->
+                        <div id="butt_search">
+                            <button class="butt_search" type="submit" id="search_submit"></button>
+                            </form>
+                        </div><!-- butt_search -->
+                    </div><!-- search_t_bottom -->
+                </div><!-- search_t -->
+                <div id="search_r">
+                </div><!-- search_r -->
+            </div><!-- search -->
+            <div id="main_line"></div><!-- main_line -->
+            <div id="main">
+                <div id="main_top">
+                    <div id="main_links">
+                        <div id="main_links_in_l">
+                            <div class="links_in">
+                                KATEGORIE
+                            </div><!-- links_in -->
+                        </div><!-- main_links_in_l -->
+                        <div id="main_links_in_r">
+                            <span class="links_in_r">WYNIKI WYSZUKIWANIA:</span><!-- links_in -->
+                        </div><!-- main_links_in_r -->
+                    </div><!-- main_links -->
+                    <div id="main_container">
+                        {%leftMenu%}
+                        <div id="main_results">
+                            {%wyniki%}
+                        </div><!-- main_results -->
+                    </div><!-- main_container -->
+                </div><!-- main_top -->
+            </div><!-- main -->

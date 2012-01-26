@@ -1,0 +1,581 @@
+<?php
+
+/**
+ * Zwraca nowe szablony uzupelnione odpowiednimi danymi.
+ *
+ *  2011-09-21  getRemindFormTemplate() +
+ *              getRemindMailTemplate() +
+ *              getPasswordChangeFormTemplate() +
+ *  2011-09-22  getRegisterFormTemplate() + podmianki zmiennych
+ *  2011-09-26  getCommGroupJoinFormTemplate()
+ *  2011-09-27  getSearchTemplate()
+ *              getLoginbarTemplate()
+ *              getUserbarTemplate()
+ *              getIndexTemplate()
+ *  2011-09-28  getLeftMenuTemplate()
+ *              getLeftMenuListTemplate
+ *  2011-09-29  getResultsListTemplate
+ *              getResultsTemplate
+ *  2011-10-10  getLoginFormTemplate
+ *  2011-10-11  getLoginFormTemplate + BackURL
+ *              getAddCommFormTemplate - bez RFD
+ *  2011-10-31  getAddCommFormTemplate + setDays setLong
+ *  2011-11-04  getAddServFormTemplate
+ *  2011-11-08  poprawilem getResultsListTemplate na razie dla Commisions
+ *  2011-11-10  wyswietlaja sie zlecenie i uslugi
+ */
+class TemplateManager
+{
+    /**
+     *
+     * @param System $sys
+     * @param ActivationLink $al
+     * @return ActivationMailTemplate
+     * @throws NoTemplateFile jesli nie ma pliku html z szablonem
+     */
+    public function getActivationMailTemplate(System $sys, ActivationLink $al)
+    {
+        $path = $sys->getTemplateActivationMailPath();
+        
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $content = file_get_contents($path);
+        $amt = new ActivationMailTemplate($content);
+        $amt->setLink($al->getLink());
+        return $amt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @return RemindFormTemplate
+     * @throws NoTemplateFile
+     */
+    public function getRemindFormTemplate(System $sys)
+    {
+        $path = $sys->getTemplateRemindFormPath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $rft = new RemindFormTemplate(file_get_contents($path));
+        return $rft;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param RemindLink $rl
+     * @return RemindMailTemplate
+     * @throws NoTemplateFile
+     */
+    public function getRemindMailTemplate(System $sys, RemindLink $rl)
+    {
+        $path = $sys->getTemplateRemindMailPath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $content = file_get_contents($path);
+        $rmt = new RemindMailTemplate($content);
+        $rmt->setLink($rl->getLink());
+        return $rmt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param string $content
+     * @param string $bfec
+     * @param string skrypty
+     * @return MainTemplate
+     * @throws NoTemplateFile
+     */
+    public function getMainTemplate(System $sys, $content, $bfec, $skrypty = '')
+    {
+        $path = $sys->getTemplateMainPath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $mt = new MainTemplate(file_get_contents($path));
+        $mt->setMain($content);
+        $mt->setBFEC($bfec);
+        $mt->setSkrypty($skrypty);
+        return $mt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @return PasswordChangeFormTemplate
+     */
+    public function getPasswordChangeFormTemplate(System $sys)
+    {
+        $path = $sys->getTemplatePasswordChangePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $pcft = new PasswordChangeFormTemplate(file_get_contents($path));
+        return $pcft;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @return RegisterFormTemplate
+     * @throws NoTemplateFile
+     */
+    public function getRegisterFormTemplate(System $sys)
+    {
+        $path = $sys->getTemplateRegisterFormPath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $rft = new RegisterFormTemplate(file_get_contents($path));
+        $rft->setEmail(RFD::get('regForm', 'email'));
+        $rft->setUkind(RFD::get('regForm', 'ukind'));
+        $rft->setOs_name(RFD::get('regForm', 'os_name'));
+        $rft->setOs_surname(RFD::get('regForm', 'os_surname'));
+        $rft->setOs_street(RFD::get('regForm', 'os_street'));
+        $rft->setOs_house_number(RFD::get('regForm', 'os_house_number'));
+        $rft->setOs_postcode(RFD::get('regForm', 'os_postcode'));
+        $rft->setOs_city(RFD::get('regForm', 'os_city'));
+        $rft->setOs_phone(RFD::get('regForm', 'os_phone'));
+        $rft->setF_name(RFD::get('regForm', 'f_name'));
+        $rft->setF_surname(RFD::get('regForm', 'f_surname'));
+        $rft->setF_company(RFD::get('regForm', 'f_company'));
+        $rft->setF_position(RFD::get('regForm', 'f_position'));
+        $rft->setF_street(RFD::get('regForm', 'f_street'));
+        $rft->setF_house_number(RFD::get('regForm', 'f_house_number'));
+        $rft->setF_postcode(RFD::get('regForm', 'f_postcode'));
+        $rft->setF_city(RFD::get('regForm', 'f_city'));
+        $rft->setF_phone(RFD::get('regForm', 'f_phone'));
+        $rft->setF_nip(RFD::get('regForm', 'f_nip'));
+        $rft->setF_regon(RFD::get('regForm', 'f_regon'));
+        $rft->setF_krs(RFD::get('regForm', 'f_krs'));
+        $rft->setOs_woj(RFD::get('regForm', 'os_woj'));
+        $rft->setF_woj(RFD::get('regForm', 'f_woj'));
+        return $rft;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @return CommGroupJoinFormTemplate
+     * @throws NoTemplateFile
+     */
+    public function getCommGroupJoinFormTemplate(System $sys, $grupa)
+    {
+        $path = $sys->getCommGroupJoinFormTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $cgjft = new CommGroupJoinFormTemplate(file_get_contents($path));
+        $cgjft->setGrupa($grupa);
+        return $cgjft;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param string $bar_content
+     * @return SearchTemplate
+     * @throws NoTemplateFile
+     */
+    public function getSearchTemplate(System $sys, Categories $c, $bar_content)
+    {
+        $path = $sys->getSearchTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $st = new SearchTemplate(file_get_contents($path));
+        $st->setBar($bar_content);
+        $st->setCategories($c, RFD::get('searchForm', 'cat'));
+        $st->setObszary($c, RFD::get('searchForm', 'subcat'));
+        $st->setTematyki($c, RFD::get('searchForm', 'subsubcat'));
+        $st->setWoj(RFD::get('searchForm', 'woj'));
+        $st->setDates(RFD::get('searchForm', 'date_a'), RFD::get('searchForm', 'date_b'));
+        $st->setPlace(RFD::get('searchForm', 'place'));
+        $st->setCeny(RFD::get('searchForm', 'cena_min'), RFD::get('searchForm', 'cena_max'));
+        $st->setWord(RFD::get('searchForm', 'word'));
+        $st->setWhat(RFD::get('searchForm', 'what'));
+        return $st;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @return LoginbarTemplate
+     * @throws NoTemplateFile
+     */
+    public function getLoginbarTemplate(System $sys)
+    {
+        $path = $sys->getLoginbarTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $lt = new LoginbarTemplate(file_get_contents($path));
+        return $lt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param string $name
+     * @return UserbarTemplate
+     * @throws NoTemplateFile
+     */
+    public function getUserbarTemplate(System $sys, $name)
+    {
+        $path = $sys->getUserbarTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $ut = new UserbarTemplate(file_get_contents($path));
+        $ut->setUsername($name);
+        return $ut;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param string $search
+     * @param string $left_menu
+     * @param string $results
+     * @return IndexTemplate
+     * @throws NoTemplateFile
+     */
+    public function getIndexTemplate(System $sys, $search, $left_menu, $results)
+    {
+        $path = $sys->getIndexTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $it = new IndexTemplate(file_get_contents($path));
+        $it->setSearch($search);
+        $it->setLeftMenu($left_menu);
+        $it->setResults($results);
+        return $it;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param CategoryManager $cm
+     * @param LeftMenuListTemplate $lmlt
+     * @return LeftMenuTemplate
+     */
+    public function getLeftMenuTemplate(System $sys, CategoryManager $cm, LeftMenuListTemplate $lmlt)
+    {
+        $path = $sys->getLeftMenuPath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $lmt = new LeftMenuTemplate(file_get_contents($path));
+
+        $commsStyle = '';
+        $servsStyle = '';
+
+        if(isset($_GET['what']) && $_GET['what'] == 'comms')
+        {
+            $commsStyle = 'active';
+            $servsStyle = 'disactive';
+        }
+        else if(isset($_GET['what']) && $_GET['what'] == 'servs')
+        {
+            $commsStyle = 'disactive';
+            $servsStyle = 'active';
+        }
+        else
+        {
+            $_GET['what'] = 'comms';
+            $commsStyle = 'active';
+            $servsStyle = 'disactive';
+        }
+
+        $lmt->setCommsStyle($commsStyle);
+        $lmt->setServsStyle($servsStyle);
+        $lmt->setList($lmlt->getContent());
+        $lmt->setWht($_GET['what']);
+        return $lmt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param Categories $c
+     * @param string $what
+     * @return LeftMenuListTemplate
+     */
+    public function getLeftMenuListTemplate(System $sys, Categories $c, $what)
+    {
+        $path = $sys->getLeftMenuListTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $lmlt = new LeftMenuListTemplate(file_get_contents($path));
+
+        while(!is_null($t = $c->getK()))
+        {
+            $a = $c->isActK() ? 'active' : 'disactive';
+            $lmlt->addPosition('kategoria', $a, $what.'&id='.$t[1], $t[0], $t[1]);
+        }
+
+        while(!is_null($t = $c->getO()))
+        {
+            $a = $c->isActO() ? 'active' : 'disactive';
+            $lmlt->addPosition('obszar', $a, $what.'&id='.$t[1], $t[0], $t[1]);
+        }
+
+        while(!is_null($t = $c->getT()))
+        {
+            $a = $c->isActT() ? 'active' : 'disactive';
+            $lmlt->addPosition('tematyka', $a, $what.'&id='.$t[1], $t[0], $t[1]);
+        }
+
+        return $lmlt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @return ResultsListTemplate
+     * @throws NoTemplateFile
+     */
+    public function getResultsListTemplate(System $sys, Results $r)
+    {
+        if($r->areCommisionsSet()) $path = $sys->getResultsRowCommTemplatePath();
+        else $path = $sys->getResultsRowServTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $rlt = new ResultsListTemplate(file_get_contents($path));
+
+        $colors = array('#f9f9f9', '#ececec', '#f9f9f9', '#ececec');
+        $i = 0;
+
+
+        if($r->areCommisionsSet())
+        {
+            while(!is_null($c = $r->getComm()))
+            {
+                $rlt->addComm($colors[$i%4], $colors[(++$i)%4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names());
+            }
+        }
+        else
+        {
+            while(!is_null($s = $r->getServ()))
+            {
+                $rlt->addServ($colors[$i%4], $colors[(++$i)%4], 'img/icons/free-for-job.png', $s->getKategoria_name(), $s->getName(), $s->getId_serv(), $s->getPlace(), $s->getCena(), UF::getDoKonca($s->getDate_end()), $s->getModuly_names(), $s->getProgram());
+            }
+        }
+        return $rlt;
+    }
+
+    public function getResultsListTemplateForProfile(System $sys, Results $r, $profile = null)
+    {
+        if(is_null($profile)) $path = 'view/html/index_results_row_comm_profile.html';
+        else if($profile == 'offer') $path = 'view/html/index_results_row_comm_profile_offer.html';
+        else if($profile == 'moje') $path = 'view/html/index_results_row_comm_profile_moje.html';
+        else if($profile == 'biore') $path = 'view/html/index_results_row_comm_profile_biore.html';
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $rlt = new ResultsListTemplate(file_get_contents($path));
+
+        $colors = array('#f9f9f9', '#ececec', '#f9f9f9', '#ececec');
+        $i = 0;
+
+
+        if($r->areCommisionsSet())
+        {
+            while(!is_null($c = $r->getComm()))
+            {
+                $rlt->addComm($colors[$i%4], $colors[(++$i)%4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names());
+            }
+        }
+        else
+        {
+            while(!is_null($s = $r->getServ()))
+            {
+                $rlt->addServ($colors[$i%4], $colors[(++$i)%4], 'img/icons/free-for-job.png', $s->getKategoria_name(), $s->getName(), $s->getId_serv(), $s->getPlace(), $s->getCena(), UF::getDoKonca($s->getDate_end()), $s->getModuly_names(), $s->getProgram());
+            }
+        }
+        return $rlt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param ResultsListTemplate $rlt
+     * @return ResultsTemplate
+     * @throws NoTemplateFile
+     */
+    public function getResultsTemplate(System $sys, ResultsListTemplate $rlt)
+    {
+        $path = '';
+        if($rlt->comms()) $path = $sys->getResultsTableCommsTemplatePath();
+        else $path = $sys->getResultsTableServsTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $rt = new ResultsTemplate(file_get_contents($path));
+        $rt->setWyniki($rlt->getContent());
+        return $rt;
+    }
+
+    public function getResultsTemplateForProfile(System $sys, ResultsListTemplate $rlt, $profile = null)
+    {
+        if(is_null($profile)) $path = 'view/html/index_results_table_comms_profile.html';
+        else if($profile == 'offer') $path = 'view/html/index_results_table_comms_profile_offer.html';
+        else if($profile == 'moje') $path = 'view/html/index_results_table_comms_profile_moje.html';
+        else if($profile == 'biore') $path = 'view/html/index_results_table_comms_profile_biore.html';
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $rt = new ResultsTemplate(file_get_contents($path));
+        $rt->setWyniki($rlt->getContent());
+        return $rt;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @return LoginFormTemplate
+     * @throws NoTemplateFile
+     */
+    public function getLoginFormTemplate(System $sys)
+    {
+        $path = $sys->getLoginFormTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $lft = new LoginFormTemplate(file_get_contents($path));
+        $lft->setEmail(RFD::get('logForm', 'email'));
+        $lft->setAction($sys->getScriptLoginPath());
+        return $lft;
+    }
+
+    /**
+     *
+     * @param System $sys
+     * @param Categories $c
+     * @return AddCommFormTemplate
+     * @throws NoTemplateFile
+     */
+    public function getAddCommFormTemplate(System $sys, Categories $c)
+    {
+        $path = $sys->getAddCommTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $acft = new AddCommFormTemplate(file_get_contents($path));
+        $acft->setCategories($c, RFD::get('addCommForm', 'cat'));
+        $acft->setObszary($c, RFD::get('addCommForm', 'subcat'));
+        $acft->setTematyki($c, RFD::get('addCommForm', 'subsubcat'));
+        $acft->setModuly($c, RFD::get('addCommForm', 'moduly'));
+        $acft->setLong(RFD::get('addCommForm', 'long'));
+        $acft->setDays(RFD::get('addCommForm', 'days'));
+        $acft->setDates(RFD::get('addCommForm', 'date_a'), RFD::get('addCommForm', 'date_b'), RFD::get('addCommForm', 'date_c'), RFD::get('addCommForm', 'date_d'));
+        $acft->setExpire(RFD::get('addCommForm', 'expire'));
+        $acft->setPlace(RFD::get('addCommForm', 'place'));
+        $acft->setWoj(RFD::get('addCommForm', 'woj'));
+        $acft->setCeny(RFD::get('addCommForm', 'cena_min'), RFD::get('addCommForm', 'cena_max'));
+        $acft->setPart0(RFD::get('addCommForm', 'part0'));
+        $acft->setParticipants(RFD::get('addCommForm', 'parts'));
+        return $acft;
+    }
+
+    public function getAddServFormTemplate(System $sys, Categories $c)
+    {
+        $path = $sys->getAddServTemplatePath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $asft = new AddServFormTemplate(file_get_contents($path));
+        $asft->setCategories($c, RFD::get('addServForm', 'cat'));
+        $asft->setObszary($c, RFD::get('addServForm', 'subcat'));
+        $asft->setTematyki($c, RFD::get('addServForm', 'subsubcat'));
+        $asft->setModuly($c, RFD::get('addServForm', 'moduly'));
+        $asft->setName(RFD::get('addServForm', 'name'));
+        $asft->setProgram(RFD::get('addServForm', 'program'));
+        $asft->setDates(RFD::get('addServForm', 'date_uzg'), RFD::get('addServForm', 'date_a'), RFD::get('addServForm', 'date_b'));
+        $asft->setCena(RFD::get('addServForm', 'cena'));
+        $asft->setCena_(RFD::get('addServForm', 'cena_'));
+        $asft->setDesc(RFD::get('addServForm', 'desc'));
+        $asft->setMail(RFD::get('addServForm', 'mail'));
+        $asft->setContact(RFD::get('addServForm', 'contact'));
+        $asft->setPhone(RFD::get('addServForm', 'phone'));
+        $asft->setWoj(RFD::get('addServForm', 'woj'));
+        $asft->setPlace(RFD::get('addServForm', 'place'));
+        return $asft;
+    }
+
+    public function getCommTemplate(System $sys, Commision $c)
+    {
+        $path = $sys->getTemplateCommPath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $ct = new CommTemplate(file_get_contents($path));
+        $ct->setId_comm($c->getId_comm());
+        $ct->setDate_end($c->getDate_end());
+        $ct->setCeny($c->getCena_min(), $c->getCena_max());
+        $ct->setDays($c->getDays());
+        $ct->setLong($c->getLong());
+        $ct->setParts_count($c->getParts_count());
+        $ct->setPlace($c->getPlace(), $c->getWoj());
+        $ct->setTerminy($c->getDate_a(), $c->getDate_b(), $c->getDate_c(), $c->getDate_d());
+        $ct->setKategoria_name($c->getKategoria_name());
+        $ct->setObszar_name($c->getObszar_name());
+        $ct->setTematyka_name($c->getTematyka_name());
+        $ct->setModuly_names($c->getModuly_names());
+        $ct->setOferty($c->getOferty());
+        return $ct;
+    }
+
+    public function getServTemplate(System $sys, Service $s, $user_logged)
+    {
+        $path = $sys->getTemplateServPath();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $st = new ServTemplate(file_get_contents($path));
+        $st->setId_serv($s->getId_serv());
+        $st->setModuly_names($s->getModuly_names());
+        $st->setProgram($s->getProgram());
+        $st->setDate_end($s->getDate_end());
+        $st->setKategoria_name($s->getKategoria_name());
+        $st->setObszar_name($s->getObszar_name());
+        $st->setTematyka_name($s->getTematyka_name());
+        $st->setTerminy($s->getDate_a(), $s->getDate_b());
+        $st->setPlace($s->getPlace(), $s->getWoj());
+        $st->setCena($s->getCena(), $s->getCena_());
+        $st->setInfo($s->getDesc());
+        $st->setKontakt($s->getMail(), $s->getPhone(), $s->getContact(), $user_logged);
+        $st->setName($s->getName());
+        return $st;
+    }
+}
+
+?>

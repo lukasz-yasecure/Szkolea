@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-language" content="pl" />
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <link rel="stylesheet" href="view/index.css" type="text/css" />
+        {%skrypty%}
+        <title>szkolea</title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="container_t">
+                <div id="top">
+                        <div id="top_l_logo">
+                            <a href="index.php"><img src="img/logo.png" class="logo" alt="szkolea.pl" /></a>
+                        </div><!-- top_l_logo -->
+                        <div id="top_r">
+                        <span class="links">
+                           <a href="index.php">Strona główna</a> |
+                           <a href="#cat.php?u" onclick="nie_dziala()">Katalog uslug</a> |
+                           <a href="#cat.php?z" onclick="nie_dziala()">Katalog zleceń</a> |
+                           <a href="#cat.php?ud" onclick="nie_dziala()">Katalog usługodawców</a> |
+                           <a href="#reklama.php" onclick="nie_dziala()">Reklama</a> |
+                           <a href="rules.php">Regulamin</a> |
+                           <a href="#contact.php" onclick="nie_dziala()">Kontakt</a>
+                        </span><!-- links -->
+                        </div><!-- top_r -->
+                        <div id="top_r_baner">
+                    <img src="img/banner.png" class="banner" />
+                        </div><!-- top_r_baner -->
+                </div><!-- top -->
+                <div id="buttons">
+                        <div id="button1">
+                                                <a href="addcomm.php"><img class="butt3" src="img/button3.png" /></a>
+                        </div><!-- button1 -->
+                        <div id="button2">
+                                <a href="addserv.php"><img class="butt4" src="img/button4.png" /></a>
+                        </div><!-- button2 -->
+                        <div id="button3">
+                                <a href="jtd.php"><img class="butt2" src="img/button2.png" /></a>
+                        </div><!-- button3 -->
+                        <div id="button4">
+                    <a href="index.php"><img class="butt1" src="img/button1.png" /></a>
+                        </div><!-- button4 -->
+                </div><!-- buttons -->
+                {%bfec%}
+                {%main%}
+            </div>
+        </div>
+    </body>
+</html>

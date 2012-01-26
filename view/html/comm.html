@@ -1,0 +1,102 @@
+        <div id="contactform">
+            <div id="contact1x">
+                <div class="tables">
+                    <h3>[ID zlecenia: {%id_comm%}]</h3>
+                    <table cellpadding="0" cellspacing="0">
+                        <thead>
+                        <tr>
+                        <th>Moduły</th>
+                        <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <td>{%moduly_names%}</td>
+                        <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0">
+                        <thead>
+                        <tr>
+                        <th>Zapisanych</th>
+                        <th>{%parts_count%}</th>
+                        </tr>
+                        <tr>
+                        <th>Liczba ofert</th>
+                        <th>{%oferty%}</th>
+                        </tr>
+                        <tr>
+                        <th>Zamknięcie zlecenia</th>
+                        <th>{%date_end%}</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <br/>
+                    <table cellpadding="0" cellspacing="0">
+                        <thead>
+                        <tr>
+                        <th>Szczegóły</th>
+                        <th>Opis</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <td>Kategoria</td>
+                        <td>{%kategoria_name%}</td>
+                        </tr>
+                        <tr>
+                        <td>Obszar</td>
+                        <td>{%obszar_name%}</td>
+                        </tr>
+                        <tr>
+                        <td>Tematyka</td>
+                        <td>{%tematyka_name%}</td>
+                        </tr>
+                        <tr>
+                        <td>Długość szkolenia</td>
+                        <td>{%long%}</td>
+                        </tr>
+                        <tr>
+                        <td>Preferowane dni tygodnia</td>
+                        <td>{%days%}</td>
+                        </tr>
+                        <tr>
+                        <td>Preferowane terminy</td>
+                        <td>{%terminy%}</td>
+                        </tr>
+                        <tr>
+                        <td>Miejsce</td>
+                        <td>{%place%}</td>
+                        </tr>
+                        <tr>
+                        <td>Cena za osobę (brutto)</td>
+                        <td>{%ceny%}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- contact1 -->
+            <div id="contact2x">
+                <form action="comm.php" method="get">
+                <input type="hidden" name="id" value="{%id_comm%}" />
+                <fieldset>
+                <legend>Uczestnik</legend>
+                <p>Chcę wziąć udział w szkoleniu.</p>
+                <div>
+                <label><input type="checkbox" name="reg" value="1" checked="checked" class="required" /> Akceptuję regulamin *</label>
+                </div>
+                <br/>
+                <div>
+                    <button type="submit" name="join">Dopisz się!</button> <button id="observe_k" name="{%id_comm%}">Obserwuj!</button><br/><br/>
+                    <a href="comm_group_join.php?id={%id_comm%}">dopisz grupę</a>
+                </div>
+                </fieldset>
+                <fieldset>
+                <legend>Trener</legend>
+                <p>Chcę poprowadzić to szkolenie.</p>
+                <div><button type="submit" name="offer">Złóż ofertę!</button> <button id="observe_d" name="{%id_comm%}">Obserwuj!</button></div>
+                </fieldset>
+                </form>
+            </div><!-- contact2 -->
+        </div>

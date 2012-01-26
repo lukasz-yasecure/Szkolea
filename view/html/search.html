@@ -1,0 +1,112 @@
+            <div id="search">
+                <div id="search_l"></div><!-- search_l -->
+                <div id="search_t">
+                    <div id="search_t_top">
+                        <div id="search_t_top_1">
+                            <img class="wyszukiwarka" src="img/wyszukiwarka.png" alt="" />
+                        </div><!-- search_t_top_1 -->
+                        <div id="search_t_top_2"></div><!-- search_t_top_2 -->
+                        <div id="search_t_top_3">
+                            {%bar%}
+                        </div><!-- search_t_top_3 -->
+                    </div><!-- search_t_top -->
+                    <div id="search_t_bottom">
+                        <div id="fields">
+                            <div id="f_line_1">
+                                <div class="f_column_b1">
+                                    <form action="index.php" method="get" name="searchForm">
+                                    <input type="hidden" name="search" value="1" />
+                                    <input type="radio" name="what" value="comms" {%radio1%} /> zlecenia
+                                </div><!-- f_column_b1 -->
+                                <div class="f_column_b2">
+                                    <input type="radio" name="what" value="servs" {%radio2%} /> usługi
+                                </div><!-- f_column_b2 -->
+                            </div><!-- f_line_1 -->
+                            <div id="f_line_2">
+                                <div class="f_column_a1"><span class="title_s">Kategoria</span>
+                                    <select name="cat" class="select_2" id="search_cat">
+                                        <option value="0"></option>
+                                        {%cats%}
+                                    </select>
+                                </div><!-- f_column_a1 -->
+                                <div class="f_column_a2" id="kat2">
+                                    <span class="title_s">Obszar</span>
+                                    <select name="subcat" class="select_2" id="scat">
+                                        <option value="0"></option>
+                                        {%obszary%}
+                                    </select>
+                                </div><!-- f_column_a2 -->
+                                <div class="f_column_a3" id="kat3">
+                                    <span class="title_s">Tematyka</span>
+                                    <select name="subsubcat" class="select_2" id="sscat">
+                                        <option value="0"></option>
+                                        {%tematyki%}
+                                    </select>
+                                    <select name="moduly[]" multiple="multiple" id="moduls" class="field" style="display: none"></select>
+                                </div><!-- f_column_a3 -->
+                            </div><!-- f_line_2 -->
+                            <div id="f_line_3">
+                                <div class="f_column_c1">
+                                    <span class="title_s">Województwo</span>
+                                    <select name="woj" class="select_2">
+                                        <option value="0" {%woj0%}></option>
+                                        <option value="1" {%woj1%}>dolnośląskie</option>
+                                        <option value="2" {%woj2%}>kujawsko-pomorskie</option>
+                                        <option value="3" {%woj3%}>lubelskie</option>
+                                        <option value="4" {%woj4%}>lubuskie</option>
+                                        <option value="5" {%woj5%}>łódzkie</option>
+                                        <option value="6" {%woj6%}>małopolskie</option>
+                                        <option value="7" {%woj7%}>mazowieckie</option>
+                                        <option value="8" {%woj8%}>opolskie</option>
+                                        <option value="9" {%woj9%}>podkarpackie</option>
+                                        <option value="10" {%woj10%}>podlaskie</option>
+                                        <option value="11" {%woj11%}>pomorskie</option>
+                                        <option value="12" {%woj12%}>śląskie</option>
+                                        <option value="13" {%woj13%}>świętokrzyskie</option>
+                                        <option value="14" {%woj14%}>warmińsko-mazurskie</option>
+                                        <option value="15" {%woj15%}>wielkopolskie</option>
+                                        <option value="16" {%woj16%}>zachodniopomorskie</option>
+                                    </select>
+                                </div><!-- f_column_c1 -->
+                                <div class="f_column_c2">
+                                    <span class="title_s">miasto</span>
+                                    <input type="text" name="place" class="input2" value="{%place%}"/>
+                                </div><!-- f_column_c2 -->
+                                <div class="f_column_c3">
+                                    <span class="title_s">cena od</span>
+                                    <input type="text" name="cena_min" class="input2" value="{%cena_min%}"/>
+                                </div><!-- f_column_c3 -->
+                                <div class="f_column_c4">
+                                    <span class="title_s">cena do</span>
+                                    <input type="text" name="cena_max" class="input2" value="{%cena_max%}"/>
+                                </div><!-- f_column_c4 -->
+                            </div><!-- f_line_3 -->
+                            <div id="f_line_4">
+                                <div class="f_column_c1">
+                                    <span class="title_s">kiedy (przedział)</span>
+                                    <input id="exampleXIa" name="date_a" type="text" maxlength="10" autocomplete="off" class="input2" value="{%date_a%}"/>
+                                </div><!-- f_column_c1 -->
+                                <div class="f_column_c2">
+                                    <span class="title_s"> &nbsp;  &nbsp;  &nbsp;  &nbsp; </span>
+                                    <input id="exampleXIb" name="date_b" type="text" maxlength="10" autocomplete="off" class="input2" value="{%date_b%}"/>
+                                </div><!-- f_column_c2 -->
+                                <!--<div class="f_column_c3">
+                                    <span class="title_s"> &nbsp;  &nbsp;  &nbsp;  &nbsp; </span>
+                                    <button type="button" id="kasuj_daty">kasuj daty</button>
+                                </div> -->
+                            </div><!-- f_line_4 -->
+                            <div id="f_line_5">
+                                <span class="title_s">Słowa w treści ogłoszenia:</span>
+                                <br />
+                                <input name="word" class="input1" value="{%word%}"/>
+                            </div><!-- f_line_5 -->
+                        </div><!-- fields -->
+                        <div id="butt_search">
+                            <button class="butt_search" type="submit" id="search_submit"></button>
+                            </form>
+                        </div><!-- butt_search -->
+                    </div><!-- search_t_bottom -->
+                </div><!-- search_t -->
+                <div id="search_r">
+                </div><!-- search_r -->
+            </div><!-- search -->

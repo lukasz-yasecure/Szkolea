@@ -1,0 +1,35 @@
+        <table width="560" class="tabela" rules="none" >
+            <tr bgcolor="{%bgcolor1%}">
+                <th scope="col" width="49" height="37" rowspan="2" >
+                    <img src="{%ikona%}" alt="{%kategoria%}" />
+                </th>
+                <th scope="col" colspan="5" width="484" height="20">
+                    <span class="modul"><a href="comm.php?id={%id%}">{%tematyka%}</a></span>
+                </th>
+                 <th scope="col" rowspan="2" height="37" width="40">
+                     <img src="img/icons/special-offer.png" alt="moduly" style="cursor: pointer" onclick="showProgram('{%id%}');"/>
+                 </th>
+            </tr>
+            <tr bgcolor="{%bgcolor1%}">
+                <td width="50" height="30">
+                    <span class="padbot"><a href="comm.php?id={%id%}">&nbsp;id: {%id%}</a></span>
+                </td>
+                <td width="143" height="30">
+                    <span class="padbot"></span>&nbsp;<span class="blue">{%gdzie%}</span>
+                </td>
+                <td width="67" height="30">
+                    <span class="padbot"></span>&nbsp;<span class="blue">{%zapisanych%}</span>
+                </td>
+                <td width="117" height="30">
+                    <span class="padbot"></span>&nbsp;<span class="blue">{%cena_min%}-{%cena_max%}</span>
+                </td>
+                <td width="107" height="30">
+                    <span class="padbot"></span>&nbsp;<span class="blue">{%pozostalo%}</span>
+                </td>
+            </tr>
+            <tr bgcolor="{%bgcolor2%}" style="display: none" id="comm{%id%}">
+                <td colspan="7" height="24" width="560">
+                    <span class="moduly">{%moduly%}</span>
+                </td>
+            </tr>
+        </table>

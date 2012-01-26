@@ -1,0 +1,137 @@
+            <div id="contact2">
+                <form id="regForm" action="reg.php" method="post">
+                <input type="hidden" name="register" value="1" />
+                    <fieldset>
+                        <legend>Zarejestruj się</legend>
+                        <div>
+                            <label><input type="radio" name="ukind" value="K" checked="checked" class="radio" /> szukam szkolenia</label> <br />
+                            <label><input type="radio" name="ukind" value="D" class="radio" /> oferuję szkolenia</label>
+                        </div>
+                        <div>
+                            <label for="name">E-mail *</label>
+                            <input type="text" name="email" id="name" size="30" class="field required email" />
+                        </div>
+                        <div>
+                            <label for="url">Hasło *</label>
+                            <input type="password" name="pass1" id="name1" size="30" class="field" />
+                            <span class="hint">o hasłach<span class="hint-pointer">&nbsp;</span></span>
+                        </div>
+                        <div>
+                            <label for="email">Powtórz hasło *</label>
+                            <input type="password" name="pass2" id="name2" size="30" class="field" />
+                            <span class="hint">o hasłach<span class="hint-pointer">&nbsp;</span></span>
+                        </div>
+                        <div>
+                            <label for="email">Hasło musi mieć co najmniej 6 znaków.</label>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="toggle"><p style="cursor: pointer; margin: 0px; padding: 0px;">Osoba fizyczna</p></legend>
+                        <div>
+                            <div>
+                                <label for="name">Imię *</label>
+                                <input type="text" name="os_name" id="name" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="url">Nazwisko *</label>
+                                <input type="text" name="os_surname" id="url" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="email">Ulica *</label>
+                                <input type="text" name="os_street" id="email" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">Dom / mieszkanie *</label>
+                                <input type="text" name="os_house_number" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">Kod pocztowy *</label>
+                                <input type="text" name="os_postcode" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">Miasto *</label>
+                                <input type="text" name="os_city" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="city">Województwo</label>
+                                <select name="os_woj" id="city" class="select">
+                                <option></option>
+                                {%wojs%}
+                            </select>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Telefon *</label>
+                                <input type="text" name="os_phone" id="phonenumber" size="30" class="field" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="toggle"><p style="cursor: pointer; margin: 0px; padding: 0px;">Firma</p></legend>
+                        <div>
+                            <div>
+                                <label for="name">Imię *</label>
+                                <input type="text" name="f_name" id="name" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="url">Nazwisko *</label>
+                                <input type="text" name="f_surname" id="url" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="email">Stanowisko *</label>
+                                <input type="text" name="f_position" id="email" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="name">Pełna nazwa firmy *</label>
+                                <input type="text" name="f_company" id="name" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="email">Ulica *</label>
+                                <input type="text" name="f_street" id="email" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">Numer *</label>
+                                <input type="text" name="f_house_number" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">Kod pocztowy *</label>
+                                <input type="text" name="f_postcode" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">Miasto *</label>
+                                <input type="text" name="f_city" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="city">Województwo</label>
+                                <select name="f_woj" id="city" class="select">
+                                <option></option>
+                                {%wojs%}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Telefon *</label>
+                                <input type="text" name="f_phone" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">REGON</label>
+                                <input type="text" name="f_regon" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">NIP *</label>
+                                <input type="text" name="f_nip" id="phonenumber" size="30" class="field" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">KRS</label>
+                                <input type="text" name="f_krs" id="phonenumber" size="30" class="field" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Informacje</legend>
+                        <p>* - Pola obowiązkowe.<br/><br/>Rejestracja oznacza akceptację <a href="rules.php" target="_blank">regulaminu</a> Szkolea.pl w aktualnym brzmieniu.</p>
+                        <div>
+                            <label><input type="checkbox" name="reg" value="1" checked="checked" class="required" /> Akceptuję <a href="rules.php" target="_blank">regulamin</a> *</label>
+                        </div>
+                    </fieldset>
+                    <div class="submit"><button type="submit" id="reg_submit">Rejestruj</button></div>
+                </form>
+            </div><!-- contact2 -->

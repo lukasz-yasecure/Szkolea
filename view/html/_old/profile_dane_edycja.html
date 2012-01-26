@@ -1,0 +1,160 @@
+<div id="contactform">
+    <div id="contact1">
+        <form id="logForm" action="log.php" method="post">
+        <input type="hidden" name="logging" value="1" />
+            <fieldset>
+                <legend>Zmiana hasła</legend>
+
+                <div>
+                    <label for="email">Stare hasło</label>
+                    <input type="text" name="email" id="email" size="30" class="field required email" />
+                </div>
+                <div>
+                    <label for="name">Nowe hasło</label>
+                    <input type="password" name="pass" id="name" size="30" class="field required" />
+                </div>
+                <div>
+                    <label for="name">Powtórz nowe hasło</label>
+                    <input type="password" name="pass" id="name" size="30" class="field required" />
+                </div>
+
+                <div>
+                    <label for="email"><a href="log.php?remind">przypomnij hasło</a></label>
+                </div>
+            </fieldset>
+        </form>
+
+                                <fieldset>
+                <legend class="toggle"><p style="cursor: pointer; margin: 0px; padding: 0px;">Osoba fizyczna</p></legend>
+                <div>
+                    <div>
+                        <label for="name">Imię *</label>
+                        <input type="text" name="os_name" id="name" size="30" class="field" />
+                    </div>
+
+                    <div>
+                        <label for="url">Nazwisko *</label>
+                        <input type="text" name="os_surname" id="url" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="email">Ulica *</label>
+                        <input type="text" name="os_street" id="email" size="30" class="field" />
+                    </div>
+
+                    <div>
+                        <label for="phonenumber">Dom / mieszkanie *</label>
+                        <input type="text" name="os_house_number" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="phonenumber">Kod pocztowy *</label>
+                        <input type="text" name="os_postcode" id="phonenumber" size="30" class="field" />
+                    </div>
+
+
+                    <div>
+                        <label for="phonenumber">Miasto *</label>
+                        <input type="text" name="os_city" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="city">Województwo</label>
+                        <select name="os_woj" id="city" class="select">
+                        <option></option>
+
+                        <option value="1">dolnośląskie</option><option value="2">kujawsko-pomorskie</option><option value="3">lubelskie</option><option value="4">lubuskie</option><option value="5">łódzkie</option><option value="6">małopolskie</option><option value="7">mazowieckie</option><option value="8">opolskie</option><option value="9">podkarpackie</option><option value="10">podlaskie</option><option value="11">pomorskie</option><option value="12">śląskie</option><option value="13">świętokrzyskie</option><option value="14">warmińsko-mazurskie</option><option value="15">wielkopolskie</option><option value="16">zachodniopomorskie</option>
+
+                    </select>
+                    </div>
+                    <div>
+                        <label for="phonenumber">Telefon *</label>
+                        <input type="text" name="os_phone" id="phonenumber" size="30" class="field" />
+                    </div>
+                </div>
+            </fieldset>
+
+    </div><!-- contact1 -->
+
+    <div id="contact2">
+
+        <form id="regForm" action="reg.php" method="post">
+        <input type="hidden" name="register" value="1" />
+
+
+            <fieldset>
+                <legend class="toggle"><p style="cursor: pointer; margin: 0px; padding: 0px;">Firma</p></legend>
+                <div>
+                    <div>
+                        <label for="name">Imię *</label>
+                        <input type="text" name="f_name" id="name" size="30" class="field" />
+                    </div>
+                    <div>
+
+                        <label for="url">Nazwisko *</label>
+                        <input type="text" name="f_surname" id="url" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="email">Stanowisko *</label>
+                        <input type="text" name="f_position" id="email" size="30" class="field" />
+                    </div>
+                    <div>
+
+                        <label for="name">Pełna nazwa firmy *</label>
+                        <input type="text" name="f_company" id="name" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="email">Ulica *</label>
+                        <input type="text" name="f_street" id="email" size="30" class="field" />
+                    </div>
+                    <div>
+
+                        <label for="phonenumber">Numer *</label>
+                        <input type="text" name="f_house_number" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="phonenumber">Kod pocztowy *</label>
+                        <input type="text" name="f_postcode" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+
+                        <label for="phonenumber">Miasto *</label>
+                        <input type="text" name="f_city" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="city">Województwo</label>
+                        <select name="f_woj" id="city" class="select">
+                        <option></option>
+                        <option value="1">dolnośląskie</option><option value="2">kujawsko-pomorskie</option><option value="3">lubelskie</option><option value="4">lubuskie</option><option value="5">łódzkie</option><option value="6">małopolskie</option><option value="7">mazowieckie</option><option value="8">opolskie</option><option value="9">podkarpackie</option><option value="10">podlaskie</option><option value="11">pomorskie</option><option value="12">śląskie</option><option value="13">świętokrzyskie</option><option value="14">warmińsko-mazurskie</option><option value="15">wielkopolskie</option><option value="16">zachodniopomorskie</option>
+
+                        </select>
+                    </div>
+                    <div>
+                        <label for="phonenumber">Telefon *</label>
+                        <input type="text" name="f_phone" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="phonenumber">REGON</label>
+
+                        <input type="text" name="f_regon" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="phonenumber">NIP *</label>
+                        <input type="text" name="f_nip" id="phonenumber" size="30" class="field" />
+                    </div>
+                    <div>
+                        <label for="phonenumber">KRS</label>
+
+                        <input type="text" name="f_krs" id="phonenumber" size="30" class="field" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Informacje</legend>
+                <p>* - Pola obowiązkowe.<br/><br/>Jakieś info jak np. na allegro</p>
+
+                <div>
+                    <label><input type="checkbox" name="reg" value="1" checked="checked" class="required" /> Akceptuję regulamin *</label>
+                </div>
+            </fieldset>
+            <div class="submit"><button type="submit" id="reg_submit">Zapisz zmiany</button></div>
+        </form>
+    </div><!-- contact2 -->
+</div>

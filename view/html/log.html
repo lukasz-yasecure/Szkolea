@@ -1,0 +1,20 @@
+            <div id="contact1">
+                <form id="logForm" action="{%action%}" method="post" name="logForm" class="easy">
+                <input type="hidden" name="logging" value="1" />
+                    <fieldset>
+                        <legend>Zaloguj się</legend>
+                        <div>
+                            <label for="email">E-mail</label>
+                            <input type="text" name="email" id="email" size="30" class="field required email" value="{%email%}" />
+                        </div>
+                        <div>
+                            <label for="name">Hasło</label>
+                            <input type="password" name="pass" id="name" size="30" class="field required" />
+                        </div>
+                        <div>
+                            <label for="email"><a href="remind.php">przypomnij hasło</a></label>
+                        </div>
+                    </fieldset>
+                    <div class="submit"><button type="submit" id="log_submit">Zaloguj się</button></div>
+                </form>
+            </div><!-- contact1 -->

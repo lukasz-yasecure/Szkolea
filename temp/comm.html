@@ -1,0 +1,35 @@
+<script type="text/javascript" src="js/onloader.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+    function init()
+    {
+        var b1 = document.getElementById('observe_k');
+        b1.onclick = function()
+        {
+            $.getJSON("observe.php", {"id": this.name, "what": "comm"}, function(json)
+            {
+                if(json.result == 1)
+                {
+                    alert('Dodano do obserwowanych!');
+                }
+                else alert('Błąd! Nie jesteś zalogowany albo nie aktywowałeś swojego konta.');
+            });
+            return false;
+        }
+        var b2 = document.getElementById('observe_d');
+        b2.onclick = function()
+        {
+            $.getJSON("observe.php", {"id": this.name, "what": "comm"}, function(json)
+            {
+                if(json.result == 1)
+                {
+                    alert('Dodano do obserwowanych!');
+                }
+                else alert('Błąd! Nie jesteś zalogowany albo nie aktywowałeś swojego konta.');
+            });
+            return false;
+        }
+    }
+
+    addLoadEvent(init);
+</script>
