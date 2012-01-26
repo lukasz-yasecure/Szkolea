@@ -1,6 +1,6 @@
 <?php
 
-/* test */
+/* test !!!!! */
 
 $sysFile = 'engine/class.system.php';
 $logFile = 'engine/class.log.php';
