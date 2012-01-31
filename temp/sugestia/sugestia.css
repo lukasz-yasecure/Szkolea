@@ -1,0 +1,10 @@
+	#sugestia
+	{
+	width: 222px;
+	height: 383px;
+	top: 20%;
+	right: -175px;
+	position: fixed;
+	padding: 5px;
+	background: url("sugestia.png") no-repeat;
+	}
