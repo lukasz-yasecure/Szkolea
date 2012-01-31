@@ -58,8 +58,8 @@ class System
     private $activation_expired_days = 7; // ile dni jest wazna aktywacja
 
     private $db_host = 'localhost';
-    private $db_login = 'www.szkolea';
-    private $db_pass = 'Gh96$hjOtm';
+    private $db_login = 'root';
+    private $db_pass = 'xcAW21';
     private $db_dbname = 'szkolea';
 
     private $mail_szkolea = 'szkolea.pl <no-reply@szkolea.pl>';
