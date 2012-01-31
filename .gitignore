@@ -1,3 +1,4 @@
+.gitignore
 *~
 *.swp
 engine/class.system.php
