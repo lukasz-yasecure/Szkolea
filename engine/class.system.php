@@ -159,7 +159,7 @@ class System
             if(($m = $this->loadSTD()) !== true) throw new ModuleDoesNotExist('Niedostepny modul: '.$m);
         }
 
-        UF::basicHttpAuth();
+        //UF::basicHttpAuth();
     }
 
     /**

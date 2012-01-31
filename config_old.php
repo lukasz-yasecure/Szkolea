@@ -129,9 +129,4 @@ class Config
     }
 }
 
-/*
- * PASS
- */
-$a->basicHttpAuth();
-
 ?>
