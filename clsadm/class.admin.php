@@ -45,7 +45,7 @@ class Admin
 
         $sql = '';
 
-        if($id != '') $sql = 'SELECT * FROM `subcats_569` WHERE `id` LIKE \''.$id.'_%\' ORDER BY subcat ASC';
+        if($id != '') $sql = 'SELECT * FROM `subcats_569` WHERE `id` LIKE \''.$id.'\_%\' ORDER BY subcat ASC';
         else $sql = 'SELECT * FROM `subcats_569` ORDER BY id ASC';
 
         $res = $this->db->query($sql);
@@ -66,7 +66,7 @@ class Admin
 
         $sql = '';
 
-        if($id != '') $sql = 'SELECT * FROM `subsubcats_569` WHERE `id` LIKE \''.$id.'_%\' ORDER BY subsubcat ASC';
+        if($id != '') $sql = 'SELECT * FROM `subsubcats_569` WHERE `id` LIKE \''.$id.'\_%\' ORDER BY subsubcat ASC';
         else $sql = 'SELECT * FROM `subsubcats_569` ORDER BY id ASC';
 
         $res = $this->db->query($sql);
@@ -87,7 +87,7 @@ class Admin
 
         $sql = '';
 
-        if($id != '') $sql = 'SELECT * FROM `moduls_569` WHERE `id` LIKE \''.$id.'_%\' ORDER BY modul ASC';
+        if($id != '') $sql = 'SELECT * FROM `moduls_569` WHERE `id` LIKE \''.$id.'\_%\' ORDER BY modul ASC';
         else $sql = 'SELECT * FROM `moduls_569` ORDER BY id ASC';
 
         $res = $this->db->query($sql);
