@@ -49,6 +49,7 @@ class PrivilegesManager
                 break;
             case 'comm':
             case 'serv':
+            case 'jtd':
                 $this->allAllowed();
                 break;
             case 'profile':

@@ -91,7 +91,8 @@ class System
         'observe' => '',
         'comm_join' => '',
         'comm_offer' => '',
-        'comm_offer_check' => ''
+        'comm_offer_check' => '',
+        'jtd' => ''
     );
 
     private $template_path = 'view/html/';
