@@ -1,0 +1,140 @@
+            <div id="contact2">
+                <form id="profEditForm" action="profile.php?w=dane" method="post" class="easy">
+                    <input type="hidden" name="profile_edit_form" value="1" />
+                    <fieldset>
+                        <legend class="toggle"><p style="cursor: pointer; margin: 0px; padding: 0px;">Osoba fizyczna</p></legend>
+                        <div>
+                            <div>
+                                <label for="name">Imię *</label>
+                                <input type="text" name="os_name" id="name" size="30" class="field" value="{%os_name%}"/>
+                            </div>
+                            <div>
+                                <label for="url">Nazwisko *</label>
+                                <input type="text" name="os_surname" id="url" size="30" class="field" value="{%os_surname%}"/>
+                            </div>
+                            <div>
+                                <label for="email">Ulica *</label>
+                                <input type="text" name="os_street" id="email" size="30" class="field" value="{%os_street%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Dom / mieszkanie *</label>
+                                <input type="text" name="os_house_number" id="phonenumber" size="30" class="field" value="{%os_house_number%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Kod pocztowy *</label>
+                                <input type="text" name="os_postcode" id="phonenumber" size="30" class="field" value="{%os_postcode%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Miasto *</label>
+                                <input type="text" name="os_city" id="phonenumber" size="30" class="field" value="{%os_city%}"/>
+                            </div>
+                            <div>
+                                <label for="city">Województwo</label>
+                                <select name="os_woj" id="city" class="select">
+                                    <option></option>
+                                    <option value="1" {%os_woj1%}>dolnośląskie</option>
+                                    <option value="2" {%os_woj2%}>kujawsko-pomorskie</option>
+                                    <option value="3" {%os_woj3%}>lubelskie</option>
+                                    <option value="4" {%os_woj4%}>lubuskie</option>
+                                    <option value="5" {%os_woj5%}>łódzkie</option>
+                                    <option value="6" {%os_woj6%}>małopolskie</option>
+                                    <option value="7" {%os_woj7%}>mazowieckie</option>
+                                    <option value="8" {%os_woj8%}>opolskie</option>
+                                    <option value="9" {%os_woj9%}>podkarpackie</option>
+                                    <option value="10" {%os_woj10%}>podlaskie</option>
+                                    <option value="11" {%os_woj11%}>pomorskie</option>
+                                    <option value="12" {%os_woj12%}>śląskie</option>
+                                    <option value="13" {%os_woj13%}>świętokrzyskie</option>
+                                    <option value="14" {%os_woj14%}>warmińsko-mazurskie</option>
+                                    <option value="15" {%os_woj15%}>wielkopolskie</option>
+                                    <option value="16" {%os_woj16%}>zachodniopomorskie</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Telefon *</label>
+                                <input type="text" name="os_phone" id="phonenumber" size="30" class="field" value="{%os_phone%}"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="toggle"><p style="cursor: pointer; margin: 0px; padding: 0px;">Firma</p></legend>
+                        <div>
+                            <div>
+                                <label for="name">Imię *</label>
+                                <input type="text" name="f_name" id="name" size="30" class="field" value="{%f_name%}"/>
+                            </div>
+                            <div>
+                                <label for="url">Nazwisko *</label>
+                                <input type="text" name="f_surname" id="url" size="30" class="field" value="{%f_surname%}"/>
+                            </div>
+                            <div>
+                                <label for="email">Stanowisko *</label>
+                                <input type="text" name="f_position" id="email" size="30" class="field" value="{%f_position%}"/>
+                            </div>
+                            <div>
+                                <label for="name">Pełna nazwa firmy *</label>
+                                <input type="text" name="f_company" id="name" size="30" class="field" value="{%f_company%}"/>
+                            </div>
+                            <div>
+                                <label for="email">Ulica *</label>
+                                <input type="text" name="f_street" id="email" size="30" class="field" value="{%f_street%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Numer *</label>
+                                <input type="text" name="f_house_number" id="phonenumber" size="30" class="field" value="{%f_house_number%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Kod pocztowy *</label>
+                                <input type="text" name="f_postcode" id="phonenumber" size="30" class="field" value="{%f_postcode%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Miasto *</label>
+                                <input type="text" name="f_city" id="phonenumber" size="30" class="field" value="{%f_city%}"/>
+                            </div>
+                            <div>
+                                <label for="city">Województwo</label>
+                                <select name="f_woj" id="city" class="select">
+                                    <option></option>
+                                    <option value="1" {%f_woj1%}>dolnośląskie</option>
+                                    <option value="2" {%f_woj2%}>kujawsko-pomorskie</option>
+                                    <option value="3" {%f_woj3%}>lubelskie</option>
+                                    <option value="4" {%f_woj4%}>lubuskie</option>
+                                    <option value="5" {%f_woj5%}>łódzkie</option>
+                                    <option value="6" {%f_woj6%}>małopolskie</option>
+                                    <option value="7" {%f_woj7%}>mazowieckie</option>
+                                    <option value="8" {%f_woj8%}>opolskie</option>
+                                    <option value="9" {%f_woj9%}>podkarpackie</option>
+                                    <option value="10" {%f_woj10%}>podlaskie</option>
+                                    <option value="11" {%f_woj11%}>pomorskie</option>
+                                    <option value="12" {%f_woj12%}>śląskie</option>
+                                    <option value="13" {%f_woj13%}>świętokrzyskie</option>
+                                    <option value="14" {%f_woj14%}>warmińsko-mazurskie</option>
+                                    <option value="15" {%f_woj15%}>wielkopolskie</option>
+                                    <option value="16" {%f_woj16%}>zachodniopomorskie</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="phonenumber">Telefon *</label>
+                                <input type="text" name="f_phone" id="phonenumber" size="30" class="field" value="{%f_phone%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">REGON</label>
+                                <input type="text" name="f_regon" id="phonenumber" size="30" class="field" value="{%f_regon%}" />
+                            </div>
+                            <div>
+                                <label for="phonenumber">NIP *</label>
+                                <input type="text" name="f_nip" id="phonenumber" size="30" class="field" value="{%f_nip%}"/>
+                            </div>
+                            <div>
+                                <label for="phonenumber">KRS</label>
+                                <input type="text" name="f_krs" id="phonenumber" size="30" class="field" value="{%f_krs%}"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Informacje</legend>
+                        <p>* - Pola obowiązkowe.
+                    </fieldset>
+                    <div class="submit"><button type="submit" id="reg_submit">Wyślij</button></div>
+                </form>
+            </div><!-- contact2 -->
