@@ -47,6 +47,17 @@ class Mailer
         if(!@mail($rm->getReceiver(), 'Nowe hasło do serwisu szkolea.pl', $rm->getContent(), $naglowki))
                 throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: '.$rm->getReceiver());
     }
+    
+    public function sendMail($do, $od, $temat, $tresc)
+    {
+        $naglowki = 'Reply-to: '.$od.PHP_EOL;
+        $naglowki.= 'From: '.$od.PHP_EOL;
+        $naglowki.= 'MIME-Version: 1.0'.PHP_EOL;
+        $naglowki.= 'Content-type: text/html; utf-8'.PHP_EOL;
+
+        if(!@mail($do, $temat, $tresc, $naglowki))
+                throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: '.$do);
+    }
 }
 
 ?>

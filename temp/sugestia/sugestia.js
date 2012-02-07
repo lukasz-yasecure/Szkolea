@@ -6,7 +6,7 @@ function()
 		jQuery(this).stop().animate({right: 0}, "normal");
 	}).mouseleave(function()
 	{
-		jQuery(this).stop().animate({right: -175}, "normal");
+		jQuery(this).stop().animate({right: -225}, "normal");
 	});;
 	
 });

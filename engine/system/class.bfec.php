@@ -70,7 +70,8 @@ class BFEC
             'InvalidUserValidation' => 'Nie pamiętasz hasła? <a href="remind.php">Poproś o nowe</a>.<br/>Nie masz konta? <a href="register.php">Rejestracja jest za darmo</a>!',
             'nieaktywowany' => 'Aktywuj swoje konto, aby mieć pełny dostęp do usług w Szkolea.pl! Aby to zrobić kliknij w link podany w mailu otrzymanym po rejestracji.<br/><a href="activation.php?resend">Nie otrzymałem maila</a>.',
             'serv_niezalogowany' => 'Aby zobaczyć dane kontaktowe usługodawcy, musisz się <a href="log.php">zalogować</a>!'
-        )
+        ),
+        'contact' => 'Musisz podać treść wiadomości!'
     );
 
     static $m = array(
@@ -79,7 +80,8 @@ class BFEC
             'wylogowany' => 'Zostałeś wylogowany!'
         ),
         'add_comm' => 'Twoje zlecenie zostało dodane!',
-        'add_serv' => 'Twoja usługa została dodana!'
+        'add_serv' => 'Twoja usługa została dodana!',
+        'contact' => 'Twoja wiadomość została wysłana! Dziękujemy!'
     );
 
     public static function add($message, $critic = false, $redirection = null)

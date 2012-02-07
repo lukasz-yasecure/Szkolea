@@ -93,7 +93,8 @@ class System
         'comm_offer' => '',
         'comm_offer_check' => '',
         'jtd' => '',
-        'cat' => ''
+        'cat' => '',
+        'contact' => ''
     );
 
     private $template_path = 'view/html/';

@@ -1,6 +1,17 @@
-Formularz kontaktowy<br/>
-<br/>
-pole Temat z listą proponowanych tematów<br/>
-pole na email zwrotny<br/>
-pole na treść<br/>
-przycisk wyślij
+Szkolea.pl, 51-605 Wrocław, ul. Pilata 12/2, e-mail szkolea@szkolea.pl tel 602 605 952
+
+<form class="cmxform" id="commentForm2" method="post" action="contact_mail.php">
+    <p>
+        <label for="cemail">E-mail:</label>
+        <input id="cemail" name="email" size="25"  type="text"  class="email" />
+    </p>
+
+    <p>
+        <label for="ccomment">Treść wiadomości: *</label>
+        <textarea id="ccomment" name="comment" cols="29" rows="10" class="required"></textarea>
+    </p>
+    <p>
+        <input class="submit"  name="submit" type="submit" value="Wyślij"/>
+    </p>
+
+</form>
