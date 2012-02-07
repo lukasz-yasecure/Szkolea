@@ -26,6 +26,7 @@ try
 {
     $sys = new System('profile', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
     $sm = new SessionManager();
+    $ud = new UserData(); // operacje na danych od usera
     $um = new UserManager();
     $u = $um->getUserFromSession($sm);
     $pm = new PrivilegesManager($sys);
@@ -140,7 +141,22 @@ try
             }
             else if($_GET['w'] == 'dane')
             {
-                $t = new Template('view/html/profile_k_dane_edycja.html');
+                if(!isset($_POST['profile_edit_form']))
+                {
+                    $t = new Template('view/html/profile_k_dane_edycja.html'); 
+                    $pft = $tm->getProfileEditFormTemplateK($sys,$u);
+                    RFD::clear('profEditForm');
+                    $r = $pft->getContent();
+                }
+                else if(isset($_POST['profile_edit_form']))
+                { 
+                    $t = new Template('view/html/profile_k_dane_edycja.html'); 
+                    $pft = $tm->getProfileEditFormTemplateK($sys,$u);
+                    $rfd = $ud->getProfileEditFormData(); // dane z ProfileEditForm
+                    $um->updateProfileData($dbc,$rfd,$u);
+                    RFD::clear('profEditForm');
+                    $r = $pft->getContent();
+                }
             }
             else $t = new Template(Pathes::getPathTemplateProfileK());
         }
@@ -254,11 +270,16 @@ try
         }
         else $t = new Template(Pathes::getPathTemplateProfileU());
     }
-
+    
     $t->addSearchReplace('here', $r);
     $t->addSearchReplace('name', $u->getEmail());
     $mt = $tm->getMainTemplate($sys, $t->getContent(), BFEC::showAll(), file_get_contents('temp/profile.html'));
     echo $mt->getContent();
+                    // print_r($_SESSION);
+}
+catch(ErrorsInprofileEditForm $e) // UserData
+{
+    BFEC::add('', true, 'profile.php?w=dane');
 }
 catch(Exception $e)
 {

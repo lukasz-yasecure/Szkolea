@@ -24,12 +24,12 @@ else
 
 try
 {
-    $sys = new System('XXX', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
+    $sys = new System('cat', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
     $sm = new SessionManager();
     $um = new UserManager();
     $u = $um->getUserFromSession($sm);
-    $pm = new PrivilegesManager($sys);
-    $p = $pm->checkPrivileges($u);
+    //$pm = new PrivilegesManager($sys);
+    //$p = $pm->checkPrivileges($u);
 
 
 }

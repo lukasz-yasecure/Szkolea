@@ -224,6 +224,20 @@ class UserManager
     /**
      *
      * @param DBC $dbc
+     * @param ProfileEditFormData $rfd
+     * @throws DBQueryException
+     */
+    public function updateProfileData(DBC $dbc, ProfileEditFormData $rfd,$u)
+    {
+        $sql = Query::updateProfileData($rfd,$u);
+        $result = $dbc->query($sql); // false, true
+
+        if(!$result) throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+    }
+
+    /**
+     *
+     * @param DBC $dbc
      * @param string $email
      * @throws DBQueryException
      * @throws EmailIsNotAvailable

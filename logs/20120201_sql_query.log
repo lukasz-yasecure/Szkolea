@@ -1,3 +1,132 @@
 2012-02-01 13:18:00 SELECT * FROM `cats_569` ORDER BY cat ASC
 2012-02-01 13:18:00 SELECT * FROM `commisions` WHERE date_end > 1328098680 ORDER BY date_end ASC
 2012-02-01 13:18:00 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:20:56 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:20:56 SELECT * FROM `commisions` WHERE date_end > 1328098856 ORDER BY date_end ASC
+2012-02-01 13:20:56 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:21:08 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:21:08 SELECT * FROM `commisions` WHERE date_end > 1328098868 ORDER BY date_end ASC
+2012-02-01 13:21:08 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:21:38 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:21:38 SELECT * FROM `commisions` WHERE date_end > 1328098898 ORDER BY date_end ASC
+2012-02-01 13:21:38 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:21:52 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:21:52 SELECT * FROM `commisions` WHERE date_end > 1328098912 ORDER BY date_end ASC
+2012-02-01 13:21:52 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 13:22:03 SELECT * FROM observe_servs_kot WHERE id_user='72'
+2012-02-01 14:21:02 SELECT * FROM observe_comms_kot WHERE id_user='72'
+2012-02-01 14:21:04 SELECT * FROM `observe_comms` OC LEFT JOIN commisions C ON OC.id_obs=C.id_comm WHERE OC.id_user=72
+2012-02-01 14:21:07 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 14:21:09 SELECT * FROM `commisions_group` CG LEFT JOIN commisions C ON CG.id_comm=C.id_comm WHERE CG.id_user=72 GROUP BY C.id_comm
+2012-02-01 14:21:12 SELECT * FROM observe_comms_kot WHERE id_user='72'
+2012-02-01 14:21:15 SELECT * FROM `observe_comms` OC LEFT JOIN commisions C ON OC.id_obs=C.id_comm WHERE OC.id_user=72
+2012-02-01 14:21:18 SELECT * FROM observe_servs_kot WHERE id_user='72'
+2012-02-01 14:21:22 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 14:21:26 SELECT * FROM observe_comms_kot WHERE id_user='72'
+2012-02-01 14:21:28 SELECT * FROM observe_servs_kot WHERE id_user='72'
+2012-02-01 14:21:29 SELECT * FROM observe_comms_kot WHERE id_user='72'
+2012-02-01 14:21:31 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 14:22:14 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 14:23:30 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 14:28:33 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 14:28:34 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 14:28:35 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 14:29:37 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 15:35:28 SELECT * FROM observe_comms_kot WHERE id_user='72'
+2012-02-01 16:07:03 SELECT * FROM observe_comms_kot WHERE id_user='72'
+2012-02-01 16:07:06 SELECT * FROM `observe_comms` OC LEFT JOIN commisions C ON OC.id_obs=C.id_comm WHERE OC.id_user=72
+2012-02-01 16:07:11 SELECT * FROM `commisions` WHERE id_user=72
+2012-02-01 16:07:12 SELECT * FROM `commisions_group` CG LEFT JOIN commisions C ON CG.id_comm=C.id_comm WHERE CG.id_user=72 GROUP BY C.id_comm
+2012-02-01 16:07:15 SELECT * FROM observe_comms_kot WHERE id_user='72'
+2012-02-01 16:07:16 SELECT * FROM observe_servs_kot WHERE id_user='72'
+2012-02-01 16:08:04 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:04 SELECT * FROM `commisions` WHERE date_end > 1328108884 ORDER BY date_end ASC
+2012-02-01 16:08:04 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:10 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:10 SELECT * FROM `commisions` WHERE `woj`='3' AND date_end > 1328108890 ORDER BY date_end ASC
+2012-02-01 16:08:10 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:12 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:12 SELECT * FROM `commisions` WHERE `woj`='3' AND date_end > 1328108892 ORDER BY date_end ASC
+2012-02-01 16:08:12 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:14 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:14 SELECT * FROM `commisions` WHERE `woj`='3' AND date_end > 1328108894 ORDER BY date_end ASC
+2012-02-01 16:08:14 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:23 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:23 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:23 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4%' AND `woj`='3' AND date_end > 1328108903 ORDER BY date_end ASC
+2012-02-01 16:08:23 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:23 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:27 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:27 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:27 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4%' AND `woj`='3' AND date_end > 1328108907 ORDER BY date_end ASC
+2012-02-01 16:08:27 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:27 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:30 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:30 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:30 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4%' AND `woj`='3' AND date_end > 1328108910 ORDER BY date_end ASC
+2012-02-01 16:08:30 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:30 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:31 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:31 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:31 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4%' AND `woj`='3' AND date_end > 1328108911 ORDER BY date_end ASC
+2012-02-01 16:08:31 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:31 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:34 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:34 SELECT * FROM `subcats_569` WHERE `id`='4_2'
+2012-02-01 16:08:34 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_2\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:34 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4_2%' AND `woj`='3' AND date_end > 1328108914 ORDER BY date_end ASC
+2012-02-01 16:08:34 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:34 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:34 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_2\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:37 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:37 SELECT * FROM `subcats_569` WHERE `id`='4_2'
+2012-02-01 16:08:37 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_2\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:37 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4_2%' AND `woj`='3' AND date_end > 1328108917 ORDER BY date_end ASC
+2012-02-01 16:08:37 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:37 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:37 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_2\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:39 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:39 SELECT * FROM `subcats_569` WHERE `id`='4_2'
+2012-02-01 16:08:39 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_2\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:39 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4_2%' AND `woj`='3' AND date_end > 1328108919 ORDER BY date_end ASC
+2012-02-01 16:08:39 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:39 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:39 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_2\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:43 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:43 SELECT * FROM `subcats_569` WHERE `id`='4_2'
+2012-02-01 16:08:43 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_2\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:43 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4_2%' AND date_end > 1328108923 ORDER BY date_end ASC
+2012-02-01 16:08:43 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:45 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:45 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:45 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4%' AND date_end > 1328108925 ORDER BY date_end ASC
+2012-02-01 16:08:45 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:47 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:47 SELECT * FROM `subcats_569` WHERE `id`='4_1'
+2012-02-01 16:08:47 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_1\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:47 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4_1%' AND date_end > 1328108927 ORDER BY date_end ASC
+2012-02-01 16:08:47 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:49 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:49 SELECT * FROM `subcats_569` WHERE `id`='4_1'
+2012-02-01 16:08:49 SELECT * FROM `subsubcats_569` WHERE `id` LIKE '4\_1\_%' ORDER BY subsubcat ASC
+2012-02-01 16:08:49 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4_1%' AND date_end > 1328108929 ORDER BY date_end ASC
+2012-02-01 16:08:49 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:08:51 SELECT * FROM `cats_569` WHERE `id_cat`=4
+2012-02-01 16:08:51 SELECT * FROM `subcats_569` WHERE `id` LIKE '4\_%' ORDER BY subcat ASC
+2012-02-01 16:08:51 SELECT * FROM `commisions` WHERE `tematyka` LIKE '4%' AND date_end > 1328108931 ORDER BY date_end ASC
+2012-02-01 16:08:51 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:09:01 SELECT * FROM `cats_569` WHERE `id_cat`=1
+2012-02-01 16:09:01 SELECT * FROM `subcats_569` WHERE `id` LIKE '1\_%' ORDER BY subcat ASC
+2012-02-01 16:09:01 SELECT * FROM `commisions` WHERE `tematyka` LIKE '1%' AND `woj`='4' AND date_end > 1328108941 ORDER BY date_end ASC
+2012-02-01 16:09:01 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:09:01 SELECT * FROM `subcats_569` WHERE `id` LIKE '1\_%' ORDER BY subcat ASC
+2012-02-01 16:09:03 SELECT * FROM `cats_569` WHERE `id_cat`=1
+2012-02-01 16:09:03 SELECT * FROM `subcats_569` WHERE `id` LIKE '1\_%' ORDER BY subcat ASC
+2012-02-01 16:09:03 SELECT * FROM `commisions` WHERE `tematyka` LIKE '1%' AND `woj`='4' AND date_end > 1328108943 ORDER BY date_end ASC
+2012-02-01 16:09:03 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:09:03 SELECT * FROM `subcats_569` WHERE `id` LIKE '1\_%' ORDER BY subcat ASC
+2012-02-01 16:09:07 SELECT * FROM `cats_569` WHERE `id_cat`=1
+2012-02-01 16:09:07 SELECT * FROM `subcats_569` WHERE `id` LIKE '1\_%' ORDER BY subcat ASC
+2012-02-01 16:09:07 SELECT * FROM `commisions` WHERE `tematyka` LIKE '1%' AND `woj`='4' AND date_end > 1328108947 ORDER BY date_end ASC
+2012-02-01 16:09:07 SELECT * FROM `cats_569` ORDER BY cat ASC
+2012-02-01 16:09:07 SELECT * FROM `subcats_569` WHERE `id` LIKE '1\_%' ORDER BY subcat ASC

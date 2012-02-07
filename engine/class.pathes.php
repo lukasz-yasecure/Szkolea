@@ -28,7 +28,9 @@ class Pathes
     public static $template_comm = 'comm.html';
     public static $template_serv = 'serv.html';
     public static $template_profile_k = 'profile_k.html';
+    public static $template_profile_edit_form_k = 'profile_k_edit_form.html';
     public static $template_profile_u = 'profile_u.html';
+    public static $template_profile_edit_form_u = 'profile_edit_form_u.html';
 
     public static $script_path = '';
     public static $script_index = 'index.php';
@@ -196,10 +198,20 @@ class Pathes
     {
         return Pathes::$template_path.Pathes::$template_profile_k;
     }
+    
+    public static function getPathTemplateProfileEditFormK()
+    {
+        return Pathes::$template_path.Pathes::$template_profile_edit_form_k;
+    }
 
     public static function getPathTemplateProfileU()
     {
         return Pathes::$template_path.Pathes::$template_profile_u;
+    }
+    
+    public static function getPathTemplateProfileEditFormU()
+    {
+        return Pathes::$template_path.Pathes::$template_profile_edit_form_u;
     }
 }
 

@@ -114,6 +114,40 @@ class Query
                 )';
         return str_replace('\'\'', 'NULL', $sql);
     }
+    
+    public static function updateProfileData(ProfileEditFormData $pefd, $u)
+    {
+        $sql = 'UPDATE `szkolea`.`users_324` SET 
+                    `os_name` = \''.$pefd->getOs_name().'\',
+                    `os_surname` = \''.$pefd->getOs_surname().'\',
+                    `os_street` =  \''.$pefd->getOs_street().'\',
+                    `os_house_number` = \''.$pefd->getOs_house_number().'\',
+                    `os_postcode` = \''.$pefd->getOs_postcode().'\',
+                    `os_city` =  \''.$pefd->getOs_city().'\',
+                    `os_woj` = \''.$pefd->getOs_woj().'\',
+                    `os_phone` = \''.$pefd->getOs_phone().'\',
+                    `f_name` =  \''.$pefd->getF_name().'\',
+                    `f_surname` = \''.$pefd->getF_surname().'\',
+                    `f_position` = \''.$pefd->getF_position().'\',
+                    `f_company` = \''.$pefd->getF_company().'\',
+                    `f_street` =  \''.$pefd->getF_street().'\',
+                    `f_house_number` = \''.$pefd->getF_house_number().'\',
+                    `f_postcode` = \''.$pefd->getF_postcode().'\',
+                    `f_city` = \''.$pefd->getF_city().'\',
+                    `f_woj` = \''.$pefd->getF_woj().'\',
+                    `f_regon` = \''.$pefd->getF_regon().'\',
+                    `f_nip` = \''.$pefd->getF_nip().'\',
+                    `f_krs` = \''.$pefd->getF_krs().'\',
+                    `f_phone` = \''.$pefd->getF_phone().'\'
+                    WHERE `users_324`.`id_user` = '.$u->getId_user();
+        return $sql;
+    }
+
+    public static function saveProfileEdit(RegisterFormData $rfd)
+    {
+        $sql = 'UPDATE `szkolea`.`users_324` SET `piass` = \''.$pass.'\' WHERE `users_324`.`id_user` = '.$id;
+        return $sql;
+    }
 
     public static function saveNewCommisionInDB(Commision $c)
     {

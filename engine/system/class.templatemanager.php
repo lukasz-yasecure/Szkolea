@@ -161,6 +161,47 @@ class TemplateManager
         $rft->setF_woj(RFD::get('regForm', 'f_woj'));
         return $rft;
     }
+    
+    /**
+     *
+     * @param System $sys
+     * @return ProfileEditFormTemplateK
+     * @throws NoTemplateFile
+     */
+    public function getProfileEditFormTemplateK(System $sys, $u)
+    {
+        $path = Pathes::getPathTemplateProfileEditFormK();
+
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+
+        $pft = new ProfileEditFormTemplateK(file_get_contents($path));
+        // osobiste
+        is_null($os_name=RFD::get('profEditForm','os_name'))?$pft->setOs_name($os_name=$u->getOs_name()):$pft->setOs_name($os_name);
+        is_null($os_surname=RFD::get('profEditForm','os_surname'))?$pft->setOs_surname($os_surname=$u->getOs_surname()):$pft->setOs_surname($os_surname);
+        is_null($os_street=RFD::get('profEditForm','os_street'))?$pft->setOs_street($os_street=$u->getOs_street()):$pft->setOs_street($os_street);
+        is_null($os_house_number=RFD::get('profEditForm','os_house_number'))?$pft->setOs_house_number($os_house_number=$u->getOs_house_number()):$pft->setOs_house_number($os_house_number);
+        is_null($os_postcode=RFD::get('profEditForm','os_postcode'))?$pft->setOs_postcode($os_postcode=$u->getOs_postcode()):$pft->setOs_postcode($os_postcode);
+        is_null($os_city=RFD::get('profEditForm','os_city'))?$pft->setOs_city($os_city=$u->getOs_city()):$pft->setOs_city($os_city);
+        is_null($os_woj=RFD::get('profEditForm','os_woj'))?$pft->setOs_woj($os_woj=$u->getOs_woj()):$pft->setOs_woj($os_woj);
+        is_null($os_phone=RFD::get('profEditForm','os_phone'))?$pft->setOs_phone($os_phone=$u->getOs_phone()):$pft->setOs_phone($os_phone);
+        // firmowe
+        is_null($f_name=RFD::get('profEditForm','f_name'))?$pft->setF_name($f_name=$u->getF_name()):$pft->setF_name($f_name);
+        is_null($f_surname=RFD::get('profEditForm','f_surname'))?$pft->setF_surname($f_surname=$u->getF_surname()):$pft->setF_surname($f_surname);
+        is_null($f_position=RFD::get('profEditForm','f_position'))?$pft->setF_position($f_position=$u->getF_position()):$pft->setF_position($f_position);
+        is_null($f_company=RFD::get('profEditForm','f_company'))?$pft->setF_company($f_company=$u->getF_company()):$pft->setF_company($f_company);
+        is_null($f_street=RFD::get('profEditForm','f_street'))?$pft->setF_street($f_street=$u->getF_street()):$pft->setF_street($f_street);
+        is_null($f_house_number=RFD::get('profEditForm','f_house_number'))?$pft->setF_house_number($f_house_number=$u->getF_house_number()):$pft->setF_house_number($f_house_number);
+        is_null($f_postcode=RFD::get('profEditForm','f_postcode'))?$pft->setF_postcode($f_postcode=$u->getF_postcode()):$pft->setF_postcode($f_postcode);
+        is_null($f_city=RFD::get('profEditForm','f_city'))?$pft->setF_city($f_postcode=$u->getF_city()):$pft->setF_city($f_city);
+        is_null($f_woj=RFD::get('profEditForm','f_woj'))?$pft->setF_woj($f_woj=$u->getF_woj()):$pft->setF_woj($f_woj);
+        is_null($f_phone=RFD::get('profEditForm','f_phone'))?$pft->setF_phone($f_phone=$u->getF_phone()):$pft->setF_phone($f_phone);
+        is_null($f_regon=RFD::get('profEditForm','f_regon'))?$pft->setF_regon($f_regon=$u->getF_regon()):$pft->setF_regon($f_regon);
+        is_null($f_nip=RFD::get('profEditForm','f_nip'))?$pft->setF_nip($f_nip=$u->getF_nip()):$pft->setF_nip($f_nip);
+        is_null($f_krs=RFD::get('profEditForm','f_krs'))?$pft->setF_krs($f_krs=$u->getF_krs()):$pft->setF_krs($f_krs);
+
+        return $pft;
+    }
 
     /**
      *
