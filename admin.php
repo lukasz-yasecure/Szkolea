@@ -1,6 +1,7 @@
 <?php
 require_once('config_old.php');
 require_once('clsadm/class.admin.php');
+require_once('engine/class.sc.php');
 
 if(isset($_GET['get']))
 {
