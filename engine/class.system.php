@@ -57,11 +57,6 @@ class System
     private $base_url;
     private $activation_expired_days = 7; // ile dni jest wazna aktywacja
 
-    private $db_host = 'localhost';
-    private $db_login = 'www.szkolea';
-    private $db_pass = 'Gh96$hjOtm';
-    private $db_dbname = 'szkolea';
-
     private $mail_szkolea = 'szkolea.pl <no-reply@szkolea.pl>';
 
     private $actual_action;
@@ -124,7 +119,7 @@ class System
 
     private $class_path = 'engine/';
     private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/');
-    private $class_basic = array('class.log.php', 'class.uf.php', 'class.excmanager.php', 'classes.exceptions.php', 'class.pathes.php');
+    private $class_basic = array('class.log.php', 'class.uf.php', 'class.excmanager.php', 'classes.exceptions.php', 'class.pathes.php', 'class.sc.php');
     private $class_std = 'class.std.php';
 
     private $script_path = '';
@@ -233,19 +228,19 @@ class System
     }
 
     public function getDb_host() {
-        return $this->db_host;
+        return SC::$db_host;
     }
 
     public function getDb_login() {
-        return $this->db_login;
+        return SC::$db_login;
     }
 
     public function getDb_pass() {
-        return $this->db_pass;
+        return SC::$db_pass;
     }
 
     public function getDb_dbname() {
-        return $this->db_dbname;
+        return SC::$db_dbname;
     }
 
     public function getFatalError()

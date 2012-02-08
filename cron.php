@@ -1,6 +1,7 @@
 <?php
 
 require_once('config.php');
+require_once('engine/class.sc.php');
 
 class Cron
 {
@@ -11,7 +12,7 @@ class Cron
         if(is_null($this->db))
         {
             $db = new mysqli();
-            $db->real_connect(DBHOST, DBLOG, DBPASS, DBNAME);
+            $db->real_connect(SC::$db_host, SC::$db_login, SC::$db_pass, SC::$db_dbname);
             $db->set_charset('utf8');
             $this->db = $db;
         }

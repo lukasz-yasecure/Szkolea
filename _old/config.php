@@ -7,10 +7,6 @@ ini_set('display_errors', 1);
 header('content-Type: text/html; charset=utf8');
 
 define('INSIDE', 'OK');
-define('DBHOST', 'localhost');
-define('DBLOG', 'www.szkolea');
-define('DBPASS', 'Gh96$hjOtm');
-define('DBNAME', 'szkolea');
 define('TIMEFORACT', 1);
 
 date_default_timezone_set('Europe/Warsaw');
@@ -78,7 +74,7 @@ class Config
         if(!is_null($this->db)) return true;
 
         $db = new mysqli();
-        $db->real_connect(DBHOST, DBLOG, DBPASS, DBNAME);
+        $db->real_connect(SC::$db_host, SC::$db_login, SC::$db_pass, SC::$db_dbname);
         $db->set_charset('utf8');
         $this->db = $db;
     }

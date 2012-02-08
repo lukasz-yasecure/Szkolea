@@ -30,7 +30,7 @@ class Register
     public function connectDB()
     {
         $db = new mysqli();
-        $db->real_connect(DBHOST, DBLOG, DBPASS, DBNAME);
+        $db->real_connect(SC::$db_host, SC::$db_login, SC::$db_pass, SC::$db_dbname);
         $db->set_charset('utf8');
         $this->db = $db;
     }

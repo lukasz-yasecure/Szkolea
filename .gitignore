@@ -1,2 +1,4 @@
 *~
 *.swp
+/engine/class.sc.php
+/logs/
