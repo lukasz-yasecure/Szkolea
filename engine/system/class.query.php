@@ -21,39 +21,33 @@
  *              storeNewUser... - dzialamy na Password
  *  2011-11-08  dodalem nowe metody do zapisywania zlecenia w bazie
  */
-class Query
-{
-    public static function escapeUnderscore($sql)
-    {
+class Query {
+
+    public static function escapeUnderscore($sql) {
         return str_replace('_', '\\_', $sql);
     }
 
-    public static function storeActivationKey($id, $key)
-    {
-        $sql = 'INSERT INTO users_activ (`id_user`, `key`, `send_time`) VALUES ('.$id.', \''.$key.'\', \''.time().'\')';
+    public static function storeActivationKey($id, $key) {
+        $sql = 'INSERT INTO users_activ (`id_user`, `key`, `send_time`) VALUES (' . $id . ', \'' . $key . '\', \'' . time() . '\')';
         return $sql;
     }
 
-    public static function getUser($id)
-    {
-        $sql = 'SELECT * FROM users_324 WHERE id_user='.$id;
+    public static function getUser($id) {
+        $sql = 'SELECT * FROM users_324 WHERE id_user=' . $id;
         return $sql;
     }
 
-    public static function getUserByEmail($email)
-    {
-        $sql = 'SELECT * FROM users_324 WHERE email=\''.$email.'\'';
+    public static function getUserByEmail($email) {
+        $sql = 'SELECT * FROM users_324 WHERE email=\'' . $email . '\'';
         return $sql;
     }
 
-    public static function getUpdatePassword($pass, $id)
-    {
-        $sql = 'UPDATE `szkolea`.`users_324` SET `pass` = \''.$pass.'\' WHERE `users_324`.`id_user` = '.$id;
+    public static function getUpdatePassword($pass, $id) {
+        $sql = 'UPDATE `szkolea`.`users_324` SET `pass` = \'' . $pass . '\' WHERE `users_324`.`id_user` = ' . $id;
         return $sql;
     }
 
-    public static function storeNewUserInDB(RegisterFormData $rfd)
-    {
+    public static function storeNewUserInDB(RegisterFormData $rfd) {
         $sql = 'INSERT INTO `users_324` (
                     `id_user` ,
                     `email` ,
@@ -85,38 +79,37 @@ class Query
                     )
                 VALUES (
                     NULL ,
-                    \''.$rfd->getEmail().'\',
-                    \''.$rfd->getPass()->getHash().'\',
+                    \'' . $rfd->getEmail() . '\',
+                    \'' . $rfd->getPass()->getHash() . '\',
                     \'0\',
-                    \''.time().'\',
-                    \''.$rfd->getKind().'\',
-                    \''.$rfd->getOs_name().'\',
-                    \''.$rfd->getOs_surname().'\',
-                    \''.$rfd->getOs_street().'\',
-                    \''.$rfd->getOs_house_number().'\',
-                    \''.$rfd->getOs_postcode().'\',
-                    \''.$rfd->getOs_city().'\',
-                    \''.$rfd->getOs_woj().'\',
-                    \''.$rfd->getOs_phone().'\',
-                    \''.$rfd->getF_name().'\',
-                    \''.$rfd->getF_surname().'\',
-                    \''.$rfd->getF_position().'\',
-                    \''.$rfd->getF_company().'\',
-                    \''.$rfd->getF_street().'\',
-                    \''.$rfd->getF_house_number().'\',
-                    \''.$rfd->getF_postcode().'\',
-                    \''.$rfd->getF_city().'\',
-                    \''.$rfd->getF_woj().'\',
-                    \''.$rfd->getF_regon().'\',
-                    \''.$rfd->getF_nip().'\',
-                    \''.$rfd->getF_krs().'\',
-                    \''.$rfd->getF_phone().'\'
+                    \'' . time() . '\',
+                    \'' . $rfd->getKind() . '\',
+                    \'' . $rfd->getOs_name() . '\',
+                    \'' . $rfd->getOs_surname() . '\',
+                    \'' . $rfd->getOs_street() . '\',
+                    \'' . $rfd->getOs_house_number() . '\',
+                    \'' . $rfd->getOs_postcode() . '\',
+                    \'' . $rfd->getOs_city() . '\',
+                    \'' . $rfd->getOs_woj() . '\',
+                    \'' . $rfd->getOs_phone() . '\',
+                    \'' . $rfd->getF_name() . '\',
+                    \'' . $rfd->getF_surname() . '\',
+                    \'' . $rfd->getF_position() . '\',
+                    \'' . $rfd->getF_company() . '\',
+                    \'' . $rfd->getF_street() . '\',
+                    \'' . $rfd->getF_house_number() . '\',
+                    \'' . $rfd->getF_postcode() . '\',
+                    \'' . $rfd->getF_city() . '\',
+                    \'' . $rfd->getF_woj() . '\',
+                    \'' . $rfd->getF_regon() . '\',
+                    \'' . $rfd->getF_nip() . '\',
+                    \'' . $rfd->getF_krs() . '\',
+                    \'' . $rfd->getF_phone() . '\'
                 )';
         return str_replace('\'\'', 'NULL', $sql);
     }
 
-    public static function saveNewCommisionInDB(Commision $c)
-    {
+    public static function saveNewCommisionInDB(Commision $c) {
         $sql = 'INSERT INTO `szkolea`.`commisions` (
                 `id_comm` ,
                 `id_user` ,
@@ -137,42 +130,45 @@ class Query
                 `parts` ,
                 `kotm` ,
                 `kategoria_name` ,
+                `kategoria_id` ,
                 `obszar_name`,
+                `obszar_id` ,
                 `tematyka_name` ,
                 `tematyka` ,
                 `moduly_names`
                 )
                 VALUES (
                     NULL,
-                    \''.$c->getId_user().'\',
-                    \''.$c->getDate_add().'\',
-                    \''.$c->getDate_end().'\',
-                    \''.$c->getLong().'\',
-                    \''.$c->getDays().'\',
-                    \''.$c->getDate_a().'\',
-                    \''.$c->getDate_b().'\',
-                    \''.$c->getDate_c().'\',
-                    \''.$c->getDate_d().'\',
-                    \''.$c->getExpire().'\',
-                    \''.$c->getPlace().'\',
-                    \''.$c->getWoj().'\',
-                    \''.$c->getCena_min().'\',
-                    \''.$c->getCena_max().'\',
-                    \''.$c->getParts_count().'\',
-                    \''.$c->getParts().'\',
-                    \''.$c->getKotm().'\',
-                    \''.$c->getKategoria_name().'\',
-                    \''.$c->getObszar_name().'\',
-                    \''.$c->getTematyka_name().'\',
-                    \''.$c->getTematyka().'\',
-                    \''.$c->getModuly_names().'\'
+                    \'' . $c->getId_user() . '\',
+                    \'' . $c->getDate_add() . '\',
+                    \'' . $c->getDate_end() . '\',
+                    \'' . $c->getLong() . '\',
+                    \'' . $c->getDays() . '\',
+                    \'' . $c->getDate_a() . '\',
+                    \'' . $c->getDate_b() . '\',
+                    \'' . $c->getDate_c() . '\',
+                    \'' . $c->getDate_d() . '\',
+                    \'' . $c->getExpire() . '\',
+                    \'' . $c->getPlace() . '\',
+                    \'' . $c->getWoj() . '\',
+                    \'' . $c->getCena_min() . '\',
+                    \'' . $c->getCena_max() . '\',
+                    \'' . $c->getParts_count() . '\',
+                    \'' . $c->getParts() . '\',
+                    \'' . $c->getKotm() . '\',
+                    \'' . $c->getKategoria_name() . '\',
+                    \'' . $c->getCat() . '\',
+                    \'' . $c->getObszar_name() . '\',
+                    \'' . $c->getSubcat() . '\',
+                    \'' . $c->getTematyka_name() . '\',
+                    \'' . $c->getTematyka() . '\',
+                    \'' . $c->getModuly_names() . '\'
                 )';
 
         return str_replace('\'\'', 'NULL', $sql);
     }
 
-    public static function saveModulsForCommision(Commision $c)
-    {
+    public static function saveModulsForCommision(Commision $c) {
         $sql = 'INSERT INTO `szkolea`.`comm_moduls` (
             `id_comm` ,
             `id_mod`
@@ -181,19 +177,16 @@ class Query
 
         $moduly = $c->getModuly();
         $id = $c->getId_comm();
-        if(is_array($moduly))
-        {
-            foreach($moduly as $m)
-            {
-                $sql.= '(\''.$id.'\', \''.$m.'\'),';
+        if (is_array($moduly)) {
+            foreach ($moduly as $m) {
+                $sql.= '(\'' . $id . '\', \'' . $m . '\'),';
             }
         }
 
         return substr($sql, 0, -1);
     }
 
-    public static function saveParticipantsForCommision(Commision $c)
-    {
+    public static function saveParticipantsForCommision(Commision $c) {
         $sql = 'INSERT INTO `szkolea`.`commisions_group` (
             `id_comm` ,
             `id_user` ,
@@ -205,16 +198,14 @@ class Query
         $id_comm = $c->getId_comm();
         $id_user = $c->getId_user();
 
-        for($i=0; $i<$parts_count; $i++)
-        {
-            $sql.= '(\''.$id_comm.'\', \''.$id_user.'\', \''.time().'\'),';
+        for ($i = 0; $i < $parts_count; $i++) {
+            $sql.= '(\'' . $id_comm . '\', \'' . $id_user . '\', \'' . time() . '\'),';
         }
 
         return substr($sql, 0, -1);
     }
 
-    public static function saveNewServiceInDB(Service $s)
-    {
+    public static function saveNewServiceInDB(Service $s) {
         $sql = 'INSERT INTO `szkolea`.`services` (
                 `id_serv` ,
                 `id_user` ,
@@ -234,40 +225,43 @@ class Query
                 `contact` ,
                 `kotm` ,
                 `kategoria_name` ,
+                `kategoria_id` ,
                 `obszar_name` ,
+                `obszar_id` ,
                 `tematyka_name` ,
                 `tematyka` ,
                 `moduly_names`
                 )
                 VALUES (
                     NULL,
-                    \''.$s->getId_user().'\',
-                    \''.$s->getDate_add().'\',
-                    \''.$s->getDate_end().'\',
-                    \''.$s->getName().'\',
-                    \''.$s->getProgram().'\',
-                    \''.$s->getDate_a().'\',
-                    \''.$s->getDate_b().'\',
-                    \''.$s->getPlace().'\',
-                    \''.$s->getWoj().'\',
-                    \''.$s->getCena().'\',
-                    \''.$s->getCena_().'\',
-                    \''.$s->getDesc().'\',
-                    \''.$s->getMail().'\',
-                    \''.$s->getPhone().'\',
-                    \''.$s->getContact().'\',
-                    \''.$s->getKotm().'\',
-                    \''.$s->getKategoria_name().'\',
-                    \''.$s->getObszar_name().'\',
-                    \''.$s->getTematyka_name().'\',
-                    \''.$s->getTematyka().'\',
-                    \''.$s->getModuly_names().'\'
+                    \'' . $s->getId_user() . '\',
+                    \'' . $s->getDate_add() . '\',
+                    \'' . $s->getDate_end() . '\',
+                    \'' . $s->getName() . '\',
+                    \'' . $s->getProgram() . '\',
+                    \'' . $s->getDate_a() . '\',
+                    \'' . $s->getDate_b() . '\',
+                    \'' . $s->getPlace() . '\',
+                    \'' . $s->getWoj() . '\',
+                    \'' . $s->getCena() . '\',
+                    \'' . $s->getCena_() . '\',
+                    \'' . $s->getDesc() . '\',
+                    \'' . $s->getMail() . '\',
+                    \'' . $s->getPhone() . '\',
+                    \'' . $s->getContact() . '\',
+                    \'' . $s->getKotm() . '\',
+                    \'' . $s->getKategoria_name() . '\',
+                          \'' . $s->getCat() . '\',
+                    \'' . $s->getObszar_name() . '\',
+                          \'' . $s->getSubcat() . '\',
+                    \'' . $s->getTematyka_name() . '\',
+                    \'' . $s->getTematyka() . '\',
+                    \'' . $s->getModuly_names() . '\'
                 )';
         return str_replace('\'\'', 'NULL', $sql);
     }
 
-    public static function saveModulsForService(Service $s)
-    {
+    public static function saveModulsForService(Service $s) {
         $sql = 'INSERT INTO `szkolea`.`serv_moduls` (
             `id_serv` ,
             `id_mod`
@@ -276,216 +270,219 @@ class Query
 
         $moduly = $s->getModuly();
         $id = $s->getId_serv();
-        if(is_array($moduly))
-        {
-            foreach($moduly as $m)
-            {
-                $sql.= '(\''.$id.'\', \''.$m.'\'),';
+        if (is_array($moduly)) {
+            foreach ($moduly as $m) {
+                $sql.= '(\'' . $id . '\', \'' . $m . '\'),';
             }
         }
 
         return substr($sql, 0, -1);
     }
 
-    public static function getUsersIDByAMK($key_code)
-    {
-        $sql = 'SELECT id_user, send_time FROM `users_activ` WHERE `key`=\''.$key_code.'\'';
+    public static function getUsersIDByAMK($key_code) {
+        $sql = 'SELECT id_user, send_time FROM `users_activ` WHERE `key`=\'' . $key_code . '\'';
         return $sql;
     }
 
-    public static function activateUser($user_id)
-    {
-        $sql = 'UPDATE `szkolea`.`users_324` SET `status` = \'1\' WHERE `users_324`.`id_user` = '.$user_id;
+    public static function activateUser($user_id) {
+        $sql = 'UPDATE `szkolea`.`users_324` SET `status` = \'1\' WHERE `users_324`.`id_user` = ' . $user_id;
         return $sql;
     }
 
-    public static function deleteUser($user_id)
-    {
-        $sql = 'DELETE FROM `szkolea`.`users_324` WHERE `users_324`.`id_user` = '.$user_id;
+    public static function deleteUser($user_id) {
+        $sql = 'DELETE FROM `szkolea`.`users_324` WHERE `users_324`.`id_user` = ' . $user_id;
         return $sql;
     }
 
-    public static function deleteKeyForUser($user_id)
-    {
-        $sql = 'DELETE FROM `szkolea`.`users_activ` WHERE `users_activ`.`id_user` = '.$user_id;
+    public static function deleteKeyForUser($user_id) {
+        $sql = 'DELETE FROM `szkolea`.`users_activ` WHERE `users_activ`.`id_user` = ' . $user_id;
         return $sql;
     }
 
-    public static function getAllCats()
-    {
+    public static function getAllCats() {
         $sql = 'SELECT * FROM `cats_569` ORDER BY cat ASC';
         return $sql;
     }
 
-    public static function getAllSubcats($id = '')
-    {
+    public static function getAllSubcats($id = '') {
         $sql = '';
-        $id = Query::escapeUnderscore($id.'_');
 
-        if($id != '') $sql = 'SELECT * FROM `subcats_569` WHERE `id` LIKE \''.$id.'%\' ORDER BY subcat ASC';
-        else $sql = 'SELECT * FROM `subcats_569` ORDER BY id ASC';
+
+        if ($id != '') {
+            $id = Query::escapeUnderscore($id . '_');
+            $sql = 'SELECT * FROM `subcats_569` WHERE `id` LIKE \'' . $id . '%\' ORDER BY subcat ASC';
+        }
+        else
+            $sql = 'SELECT * FROM `subcats_569` ORDER BY id ASC';
 
         return $sql;
     }
 
-    public static function getAllSubsubcats($id = '')
-    {
+    public static function getAllSubsubcats($id = '') {
         $sql = '';
-        $id = Query::escapeUnderscore($id.'_');
-
-        if($id != '') $sql = 'SELECT * FROM `subsubcats_569` WHERE `id` LIKE \''.$id.'%\' ORDER BY subsubcat ASC';
-        else $sql = 'SELECT * FROM `subsubcats_569` ORDER BY id ASC';
+        if ($id != '') {
+            $id = Query::escapeUnderscore($id . '_');
+            $sql = 'SELECT * FROM `subsubcats_569` WHERE `id` LIKE \'' . $id . '%\' ORDER BY subsubcat ASC';
+        }
+        else
+            $sql = 'SELECT * FROM `subsubcats_569` ORDER BY id ASC';
 
         return $sql;
     }
 
-    public static function getAllModuls($id = '')
-    {
+    public static function getAllModuls($id = '') {
         $sql = '';
-        $id = Query::escapeUnderscore($id.'_');
+        $id = Query::escapeUnderscore($id . '_');
 
-        if($id != '') $sql = 'SELECT * FROM `moduls_569` WHERE `id` LIKE \''.$id.'%\' ORDER BY modul ASC';
-        else $sql = 'SELECT * FROM `moduls_569` ORDER BY id ASC';
+        if ($id != '')
+            $sql = 'SELECT * FROM `moduls_569` WHERE `id` LIKE \'' . $id . '%\' ORDER BY modul ASC';
+        else
+            $sql = 'SELECT * FROM `moduls_569` ORDER BY id ASC';
 
         return $sql;
     }
 
-    public static function getCatName($id)
-    {
-        $sql = 'SELECT * FROM `cats_569` WHERE `id_cat`='.$id;
+    public static function getCatName($id) {
+        $sql = 'SELECT * FROM `cats_569` WHERE `id_cat`=' . $id;
         return $sql;
     }
 
-    public static function getSubcatName($id)
-    {
-        $sql = 'SELECT * FROM `subcats_569` WHERE `id`=\''.$id.'\'';
+    public static function getSubcatName($id) {
+        $sql = 'SELECT * FROM `subcats_569` WHERE `id`=\'' . $id . '\'';
         return $sql;
     }
 
-    public static function getTematykaName($id)
-    {
-        $sql = 'SELECT * FROM `subsubcats_569` WHERE `id`=\''.$id.'\'';
+    public static function getTematykaName($id) {
+        $sql = 'SELECT * FROM `subsubcats_569` WHERE `id`=\'' . $id . '\'';
         return $sql;
     }
 
-    public static function getModulName($id)
-    {
-        $sql = 'SELECT * FROM `moduls_569` WHERE `id`=\''.$id.'\'';
+    public static function getModulName($id) {
+        $sql = 'SELECT * FROM `moduls_569` WHERE `id`=\'' . $id . '\'';
         return $sql;
     }
 
-    public static function getVerifyUser($email, $pass)
-    {
-        $sql = 'SELECT * FROM `users_324` WHERE email=\''.$email.'\' AND pass=\''.$pass.'\'';
+    public static function getVerifyUser($email, $pass) {
+        $sql = 'SELECT * FROM `users_324` WHERE email=\'' . $email . '\' AND pass=\'' . $pass . '\'';
         return $sql;
     }
 
-    public static function getAllCommisions()
-    {
-        $sql = 'SELECT * FROM `commisions` WHERE date_end > '.time().' ORDER BY date_end ASC';
+    public static function getAllCommisions() {
+        $sql = 'SELECT * FROM `commisions` WHERE date_end > ' . time() . ' ORDER BY date_end ASC';
         return $sql;
     }
 
-    public static function getCommisionsForSearch(Search $s)
-    {
+    public static function getCommisionsForSearch(Search $s) {
         $sql = 'SELECT * FROM `commisions` WHERE';
 
-        if(!is_null($s->getT())) $sql.= ' `tematyka` LIKE \''.$s->getT().'\' AND';
-        else if(!is_null($s->getO())) $sql.= ' `tematyka` LIKE \''.$s->getO().'%\' AND';
-        else if(!is_null($s->getK())) $sql.= ' `tematyka` LIKE \''.$s->getK().'%\' AND';
-        if(!is_null($s->getWoj())) $sql.= ' `woj`=\''.$s->getWoj().'\' AND';
-        if(!is_null($s->getPlace())) $sql.= ' `place`=\''.$s->getPlace().'\' AND';
-        if(!is_null($s->getCena_min())) $sql.= ' `cena_max`>=\''.$s->getCena_min().'\' AND';
-        if(!is_null($s->getCena_max())) $sql.= ' `cena_max`<=\''.$s->getCena_max().'\' AND';
-        if(!is_null($s->getData_a()) && !is_null($s->getData_b())) $sql.= ' (`date_a`>=\''.$s->getData_a().'\' AND `date_b`<=\''.$s->getData_b().'\') OR (`date_c`>=\''.$s->getData_a().'\' AND `date_d`<=\''.$s->getData_b().'\') AND';
-        else if(!is_null($s->getData_a())) $sql.= ' (`date_a`>=\''.$s->getData_a().'\' OR `date_c`>=\''.$s->getData_a().'\') AND';
-        else if(!is_null($s->getData_b())) $sql.= ' (`date_b`<=\''.$s->getData_b().'\' OR `date_d`>=\''.$s->getData_b().'\') AND';
-        if(!is_null($s->getWord())) $sql.= ' `kotm` LIKE \'%'.$s->getWord().'%\' AND';
+        if (!is_null($s->getT()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getT() . '\' AND';
+        else if (!is_null($s->getO()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getO() . '%\' AND';
+        else if (!is_null($s->getK()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getK() . '%\' AND';
+        if (!is_null($s->getWoj()))
+            $sql.= ' `woj`=\'' . $s->getWoj() . '\' AND';
+        if (!is_null($s->getPlace()))
+            $sql.= ' `place`=\'' . $s->getPlace() . '\' AND';
+        if (!is_null($s->getCena_min()))
+            $sql.= ' `cena_max`>=\'' . $s->getCena_min() . '\' AND';
+        if (!is_null($s->getCena_max()))
+            $sql.= ' `cena_max`<=\'' . $s->getCena_max() . '\' AND';
+        if (!is_null($s->getData_a()) && !is_null($s->getData_b()))
+            $sql.= ' (`date_a`>=\'' . $s->getData_a() . '\' AND `date_b`<=\'' . $s->getData_b() . '\') OR (`date_c`>=\'' . $s->getData_a() . '\' AND `date_d`<=\'' . $s->getData_b() . '\') AND';
+        else if (!is_null($s->getData_a()))
+            $sql.= ' (`date_a`>=\'' . $s->getData_a() . '\' OR `date_c`>=\'' . $s->getData_a() . '\') AND';
+        else if (!is_null($s->getData_b()))
+            $sql.= ' (`date_b`<=\'' . $s->getData_b() . '\' OR `date_d`>=\'' . $s->getData_b() . '\') AND';
+        if (!is_null($s->getWord()))
+            $sql.= ' `kotm` LIKE \'%' . $s->getWord() . '%\' AND';
 
-        $sql.= ' date_end > '.time().' ORDER BY date_end ASC';
+        $sql.= ' date_end > ' . time() . ' ORDER BY date_end ASC';
         return $sql;
     }
 
-    public static function getServicesForSearch(Search $s)
-    {
+    public static function getServicesForSearch(Search $s) {
         $sql = 'SELECT * FROM `services` WHERE';
 
-        if(!is_null($s->getT())) $sql.= ' `tematyka` LIKE \''.$s->getT().'\' AND';
-        else if(!is_null($s->getO())) $sql.= ' `tematyka` LIKE \''.$s->getO().'%\' AND';
-        else if(!is_null($s->getK())) $sql.= ' `tematyka` LIKE \''.$s->getK().'%\' AND';
-        if(!is_null($s->getWoj())) $sql.= ' `woj`=\''.$s->getWoj().'\' AND';
-        if(!is_null($s->getPlace())) $sql.= ' `place`=\''.$s->getPlace().'\' AND';
-        if(!is_null($s->getCena_min())) $sql.= ' `cena`>=\''.$s->getCena_min().'\' AND';
-        if(!is_null($s->getCena_max())) $sql.= ' `cena`<=\''.$s->getCena_max().'\' AND';
-        if(!is_null($s->getData_a())) $sql.= ' `date_a`>=\''.$s->getData_a().'\' AND';
-        if(!is_null($s->getData_b())) $sql.= ' `date_b`<=\''.$s->getData_b().'\' AND';
-        if(!is_null($s->getWord())) $sql.= ' `kotm` LIKE \'%'.$s->getWord().'%\' OR `desc` LIKE \'%'.$s->getWord().'%\' OR `name` LIKE \'%'.$s->getWord().'%\' AND';
+        if (!is_null($s->getT()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getT() . '\' AND';
+        else if (!is_null($s->getO()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getO() . '%\' AND';
+        else if (!is_null($s->getK()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getK() . '%\' AND';
+        if (!is_null($s->getWoj()))
+            $sql.= ' `woj`=\'' . $s->getWoj() . '\' AND';
+        if (!is_null($s->getPlace()))
+            $sql.= ' `place`=\'' . $s->getPlace() . '\' AND';
+        if (!is_null($s->getCena_min()))
+            $sql.= ' `cena`>=\'' . $s->getCena_min() . '\' AND';
+        if (!is_null($s->getCena_max()))
+            $sql.= ' `cena`<=\'' . $s->getCena_max() . '\' AND';
+        if (!is_null($s->getData_a()))
+            $sql.= ' `date_a`>=\'' . $s->getData_a() . '\' AND';
+        if (!is_null($s->getData_b()))
+            $sql.= ' `date_b`<=\'' . $s->getData_b() . '\' AND';
+        if (!is_null($s->getWord()))
+            $sql.= ' `kotm` LIKE \'%' . $s->getWord() . '%\' OR `desc` LIKE \'%' . $s->getWord() . '%\' OR `name` LIKE \'%' . $s->getWord() . '%\' AND';
 
-        $sql.= ' date_end > '.time().' ORDER BY date_end ASC';
+        $sql.= ' date_end > ' . time() . ' ORDER BY date_end ASC';
         return $sql;
     }
 
-    public static function getCommisionsForLeftMenu(Search $s)
-    {
+    public static function getCommisionsForLeftMenu(Search $s) {
         $sql = 'SELECT * FROM `commisions` WHERE';
 
-        if(!is_null($s->getKot_id())) $sql.= ' `tematyka` LIKE \''.$s->getKot_id().'%\' AND';
+        if (!is_null($s->getKot_id()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getKot_id() . '%\' AND';
 
-        $sql.= ' date_end > '.time().' ORDER BY date_end ASC';
+        $sql.= ' date_end > ' . time() . ' ORDER BY date_end ASC';
         return $sql;
     }
 
-    public static function getServicesForLeftMenu(Search $s)
-    {
+    public static function getServicesForLeftMenu(Search $s) {
         $sql = 'SELECT * FROM `services` WHERE';
 
-        if(!is_null($s->getKot_id())) $sql.= ' `tematyka` LIKE \''.$s->getKot_id().'%\' AND';
+        if (!is_null($s->getKot_id()))
+            $sql.= ' `tematyka` LIKE \'' . $s->getKot_id() . '%\' AND';
 
-        $sql.= ' date_end > '.time().' ORDER BY date_end ASC';
+        $sql.= ' date_end > ' . time() . ' ORDER BY date_end ASC';
         return $sql;
     }
 
-    public static function getAllServices()
-    {
-        $sql = 'SELECT * FROM `services` WHERE date_end > '.time().' ORDER BY date_end ASC';
+    public static function getAllServices() {
+        $sql = 'SELECT * FROM `services` WHERE date_end > ' . time() . ' ORDER BY date_end ASC';
         return $sql;
     }
 
-    public static function getCommision($id)
-    {
-        $sql = 'SELECT * FROM `commisions` WHERE `id_comm`='.$id;
+    public static function getCommision($id) {
+        $sql = 'SELECT * FROM `commisions` WHERE `id_comm`=' . $id;
         return $sql;
     }
 
-    public static function getService($id)
-    {
-        $sql = 'SELECT * FROM `services` WHERE `id_serv`='.$id;
+    public static function getService($id) {
+        $sql = 'SELECT * FROM `services` WHERE `id_serv`=' . $id;
         return $sql;
     }
 
-    public static function getOfferCountForCommision($id)
-    {
-        $sql = 'SELECT COUNT(*) ile FROM `commisions_ofe` WHERE `id_comm`='.$id;
+    public static function getOfferCountForCommision($id) {
+        $sql = 'SELECT COUNT(*) ile FROM `commisions_ofe` WHERE `id_comm`=' . $id;
         return $sql;
     }
 
-    public static function getObserveAddForComm($uid, $id)
-    {
-        return 'INSERT INTO `observe_comms` (`id_user`, `id_obs`) VALUES (\''.$uid.'\', \''.$id.'\')';
+    public static function getObserveAddForComm($uid, $id) {
+        return 'INSERT INTO `observe_comms` (`id_user`, `id_obs`) VALUES (\'' . $uid . '\', \'' . $id . '\')';
     }
 
-    public static function getObserveAddForCommKOT($uid, $id)
-    {
-        return 'INSERT INTO `observe_comms_kot` (`id_user`, `id_obs`) VALUES (\''.$uid.'\', \''.$id.'\')';
+    public static function getObserveAddForCommKOT($uid, $id) {
+        return 'INSERT INTO `observe_comms_kot` (`id_user`, `id_obs`) VALUES (\'' . $uid . '\', \'' . $id . '\')';
     }
 
-    public static function getObserveAddForServKOT($uid, $id)
-    {
-        return 'INSERT INTO `observe_servs_kot` (`id_user`, `id_obs`) VALUES (\''.$uid.'\', \''.$id.'\')';
+    public static function getObserveAddForServKOT($uid, $id) {
+        return 'INSERT INTO `observe_servs_kot` (`id_user`, `id_obs`) VALUES (\'' . $uid . '\', \'' . $id . '\')';
     }
 
-    public static function getOfferAdd(Offer $o)
-    {
+    public static function getOfferAdd(Offer $o) {
         $sql = "INSERT INTO `commisions_ofe` (
                     `id_ofe` ,
                     `id_comm` ,
@@ -501,20 +498,51 @@ class Query
                 )
                 VALUES (
                     NULL ,
-                    '".$o->getId_comm()."',
-                    '".$o->getId_user()."',
-                    '".$o->getDate_add()."',
-                    '".$o->getCena()."',
-                    '".$o->getCenax()."',
-                    '".$o->getRozl()."',
-                    '".(!is_null($o->getInne()) ? implode(';', $o->getInne()) : "NULL")."',
-                    '".(!is_null($o->getIle_kaw()) ? $o->getIle_kaw() : "NULL")."',
-                    '".UF::date2timestamp($o->getDate_a())."',
-                    '".UF::date2timestamp($o->getDate_b())."'
+                    '" . $o->getId_comm() . "',
+                    '" . $o->getId_user() . "',
+                    '" . $o->getDate_add() . "',
+                    '" . $o->getCena() . "',
+                    '" . $o->getCenax() . "',
+                    '" . $o->getRozl() . "',
+                    '" . (!is_null($o->getInne()) ? implode(';', $o->getInne()) : "NULL") . "',
+                    '" . (!is_null($o->getIle_kaw()) ? $o->getIle_kaw() : "NULL") . "',
+                    '" . UF::date2timestamp($o->getDate_a()) . "',
+                    '" . UF::date2timestamp($o->getDate_b()) . "'
                 )";
 
         return str_replace("'NULL'", 'NULL', $sql);
     }
+
+    public static function CatsSums() {
+        $sql = 'SELECT kategoria_id, COUNT( commisions.kategoria_id ) AS CatsSums FROM commisions GROUP BY kategoria_id';
+        return $sql;
+    }
+
+    public static function SubcatsSums() {
+        $sql = 'SELECT obszar_id, COUNT( commisions.obszar_id ) AS SubcatsSums FROM commisions GROUP BY obszar_id';
+        return $sql;
+    }
+
+    public static function SubsubcatsSums() {
+        $sql = 'SELECT tematyka, COUNT( commisions.tematyka ) AS SubsubcatsSums FROM commisions GROUP BY tematyka';
+        return $sql;
+    }
+
+    public static function ServsSums() {
+        $sql = 'SELECT kategoria_id, COUNT( services.kategoria_id ) AS ServsSums FROM services GROUP BY kategoria_id';
+        return $sql;
+    }
+
+    public static function SubservsSums() {
+        $sql = 'SELECT obszar_id, COUNT( services.obszar_id ) AS SubservsSums FROM services GROUP BY obszar_id';
+        return $sql;
+    }
+
+    public static function SubsubservsSums() {
+        $sql = 'SELECT tematyka, COUNT( services.tematyka ) AS SubsubservsSums FROM services GROUP BY tematyka';
+        return $sql;
+    }
+
 }
 
 ?>
