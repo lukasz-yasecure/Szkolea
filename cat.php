@@ -30,122 +30,122 @@ try {
 
     $dbc = new DBC($sys);
     $cm = new CategoryManager();
-    
 
 
 
+//zaczytywanie danych
     $c = $cm->getCategoriesForCatalogs($dbc);
 
-    
-    if(isset($_GET['c'])) {
-    $CatsSums = $cm->getCatsSums($dbc);
-    $SubcatsSums = $cm->getSubcatsSums($dbc);
-    $SubsubcatsSums = $cm->getSubsubcatsSums($dbc);
+
+    //wczytywanie szablonów
+    $tempK = file_get_contents('view/html/cat.html');
+    $tempO = file_get_contents('view/html/cat_oit.html');
+    $tempT = file_get_contents('view/html/cat_t.html');
+    $content = '';
 
 
-    while ($k = $c->getK()) {
-        echo '<h1><a href="index.php?what=comms&id=' . $k[1] . '">' . $k[0] . '</a>' . '(';
+// wyświetlanie listy K,O,T dla zleceń z liczebnością w postaci: Kategoria(ilość), Obszar(ilość), Tematyka(ilość)
+// dla cat.php?c zlecenia, w przeciwnym przypadku usługi    
+    if (isset($_GET['c'])) {
+        $what = 'comms';
 
 
-        if (!empty($CatsSums[$k[1]])) {
-            echo $CatsSums[$k[1]];
-        } else {
-            echo '0';
-        }
+        //zliczamy wszystko w 3 krokach
+        $CatsSums = $cm->getCatsSums($dbc);
+        $SubcatsSums = $cm->getSubcatsSums($dbc);
+        $SubsubcatsSums = $cm->getSubsubcatsSums($dbc);
 
-        echo ')' . '</h1>';
+        $t1 = '';
+//wyświetlamy wszystko za pośrednictwem szablonów
+        while ($k = $c->getK()) {
 
-        while (($o = $c->getO())) {
-            if ((strpos($o[1], $k[1] . '_')) === 0) {
-        echo '<h2><a href="index.php?what=comms&id=' . $o[1] . '">' . $o[0] . '</a>' . '(';
+            $t1 .= str_replace(array('{%what%}', '{%id%}', '{%kategoria%}', '{%ile%}'), array($what, $k[1], $k[0], empty($CatsSums[$k[1]]) ? 0 : $CatsSums[$k[1]]), $tempK);
 
-                if (!empty($SubcatsSums[$o[1]])) {
-                    echo $SubcatsSums[$o[1]];
-                } else {
-                    echo '0';
-                }
-                echo ')' . '</h2>';
+            $t2 = '';
+//przydzielanie obszarów do kategorii
+            while (($o = $c->getO())) {
+                if ((strpos($o[1], $k[1] . '_')) === 0) {
 
-                echo '<p>';
-                while (($t = $c->getT())) {
-                    if ((strpos($t[1], $o[1] . '_')) === 0) {
+                    $t2 .= str_replace(array('{%what%}', '{%id%}', '{%obszar%}', '{%ile%}'), array($what, $o[1], $o[0], empty($SubcatsSums[$o[1]]) ? 0 : $SubcatsSums[$o[1]]), $tempO);
 
-        echo '<a href="index.php?what=comms&id=' . $t[1] . '">' . $t[0] . '</a>' . '(';
 
-                        if (!empty($SubsubcatsSums[$t[1]])) {
-                            echo $SubsubcatsSums[$t[1]];
-                        } else {
-                            echo '0';
+                    $t3 = '';
+//przydzielanie tematyk do obszarów
+                    while (($t = $c->getT())) {
+                        if ((strpos($t[1], $o[1] . '_')) === 0) {
+
+
+                            $t3 .= str_replace(array('{%what%}', '{%id%}', '{%tematyka%}', '{%ile%}'), array($what, $t[1], $t[0], empty($SubsubcatsSums[$t[1]]) ? 0 : $SubsubcatsSums[$t[1]]), $tempT);
                         }
-
-                        echo ')' . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                     }
+                    $t2 = str_replace('{%cat_t.html%}', $t3, $t2);
                 }
-                echo '</p>';
+                $c->resetNrT(); //reset wartości
             }
-            $c->resetNrT();
+            $t1 = str_replace('{%cat_oit.html%}', $t2, $t1);
+
+
+
+            $c->resetNrO(); //reset wartości
         }
-        $c->resetNrO();
-    }
-    
-}else {
-    
-    
-    $ServsSums = $cm->getServsSums($dbc);
-    $SubservsSums = $cm->getSubservsSums($dbc);
-    $SubsubservsSums = $cm->getSubsubservsSums($dbc);
+        $t1 = str_replace('{%cat.html%}', $t2, $t1);
+
+        $content = $t1;
+        // wyświetlanie listy K,O,T dla zleceń z liczebnością w postaci: Kategoria(ilość), Obszar(ilość), Tematyka(ilość)
+// domyślnie dla usług
+    } else {
+        $what = 'servs';
 
 
-    while ($k = $c->getK()) {
-        echo '<h1><a href="index.php?what=servs&id=' . $k[1] . '">' . $k[0] . '</a>' . '(';
+        //zliczamy wszystko w 3 krokach
+        $ServsSums = $cm->getServsSums($dbc);
+        $SubservsSums = $cm->getSubservsSums($dbc);
+        $SubsubservsSums = $cm->getSubsubservsSums($dbc);
+
+        $t1 = '';
+//wyświetlamy wszystko za pośrednictwem szablonów
+        while ($k = $c->getK()) {
+
+            $t1 .= str_replace(array('{%what%}', '{%id%}', '{%kategoria%}', '{%ile%}'), array($what, $k[1], $k[0], empty($ServsSums[$k[1]]) ? 0 : $ServsSums[$k[1]]), $tempK);
+
+            $t2 = '';
+//przydzielanie obszarów do kategorii
+            while (($o = $c->getO())) {
+                if ((strpos($o[1], $k[1] . '_')) === 0) {
+
+                    $t2 .= str_replace(array('{%what%}', '{%id%}', '{%obszar%}', '{%ile%}'), array($what, $o[1], $o[0], empty($SubservsSums[$o[1]]) ? 0 : $SubservsSums[$o[1]]), $tempO);
 
 
-        if (!empty($ServsSums[$k[1]])) {
-            echo $ServsSums[$k[1]];
-        } else {
-            echo '0';
-        }
+                    $t3 = '';
+//przydzielanie tematyk do obszarów
+                    while (($t = $c->getT())) {
+                        if ((strpos($t[1], $o[1] . '_')) === 0) {
 
-        echo ')' . '</h1>';
 
-        while (($o = $c->getO())) {
-            if ((strpos($o[1], $k[1] . '_')) === 0) {
-        echo '<h2><a href="index.php?what=servs&id=' . $o[1] . '">' . $o[0] . '</a>' . '(';
-
-                if (!empty($SubservsSums[$o[1]])) {
-                    echo $SubservsSums[$o[1]];
-                } else {
-                    echo '0';
-                }
-                echo ')' . '</h2>';
-
-                echo '<p>';
-                while (($t = $c->getT())) {
-                    if ((strpos($t[1], $o[1] . '_')) === 0) {
-
-        echo '<a href="index.php?what=servs&id=' . $t[1] . '">' . $t[0] . '</a>' . '(';
-
-                        if (!empty($SubsubservsSums[$t[1]])) {
-                            echo $SubsubservsSums[$t[1]];
-                        } else {
-                            echo '0';
+                            $t3 .= str_replace(array('{%what%}', '{%id%}', '{%tematyka%}', '{%ile%}'), array($what, $t[1], $t[0], empty($SubsubservsSums[$t[1]]) ? 0 : $SubsubservsSums[$t[1]]), $tempT);
                         }
-
-                        echo ')' . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                     }
+                    $t2 = str_replace('{%cat_t.html%}', $t3, $t2);
                 }
-                echo '</p>';
+                $c->resetNrT(); //reset wartości
             }
-            $c->resetNrT();
+            $t1 = str_replace('{%cat_oit.html%}', $t2, $t1);
+
+
+
+            $c->resetNrO(); //reset wartości
         }
-        $c->resetNrO();
+        $t1 = str_replace('{%cat.html%}', $t2, $t1);
+
+        $content = $t1;
     }
-    
-    
-}
 
 
 
+    $tm = new TemplateManager();
+    $skrypty = '';
+    $mt = $tm->getMainTemplate($sys, $content, BFEC::showAll(), $skrypty);
+    echo $mt->getContent();
 } catch (Exception $e) {
     $em = new EXCManager($e);
 }
