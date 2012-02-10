@@ -67,7 +67,8 @@ class ProfileEditFormTemplate
     /**
      *
      * @param string $content
-     */
+     */    
+   
     public function __construct($content)
     {
         $this->content = $content;
@@ -151,12 +152,12 @@ class ProfileEditFormTemplate
 
     public function setOs_woj($w)
     {
-        if(!is_null($w)) $this->replace[(18+$w)] = 'selected="selected"';
+        if(!is_null($w) AND $w != 0) $this->replace[(18+$w)] = 'selected="selected"';
     }
 
     public function setF_woj($w)
     {
-        if(!is_null($w)) $this->replace[(34+$w)] = 'selected="selected"';
+        if(!is_null($w) AND $w != 0) $this->replace[(34+$w)] = 'selected="selected"';
     }
 
     /**

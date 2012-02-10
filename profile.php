@@ -145,9 +145,6 @@ try
                     $gu = $um->getUser($dbc, $u->getId_user()); // get user
                     $t = new Template('view/html/profile_k_dane_edycja.html'); 
                     $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u);
-                    // print_r($_SESSION);
-                    // print_r($gu);
-                    RFD::clear('profEditForm');
                     $r = $pft->getContent();
                 }
                 else if(isset($_POST['profile_edit_form']))
