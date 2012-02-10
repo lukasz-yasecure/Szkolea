@@ -403,6 +403,281 @@ class UserData
 
     /**
      *
+     * @return ProfileEditFormData
+     * @throws ErrorsInRegisterForm
+     */
+    public function getProfileEditFormData()
+    {
+        //
+        // DANE OSOBOWE OBOWIAZKOWE
+        //
+        $os = 0;
+
+        if(!isset($_POST['os_name']) || empty($_POST['os_name'])) $os++;
+        else
+        {
+            if(Valid::name($_POST['os_name'])) RFD::add('profEditForm', 'os_name', $_POST['os_name']);
+            else
+            {
+                BFEC::add('imie moze skladac sie tylko i wylacznie z liter');
+                $os++;
+            }
+        }
+        if(!isset($_POST['os_surname']) || empty($_POST['os_surname'])) $os++;
+        else
+        {
+            if(Valid::surname($_POST['os_surname'])) RFD::add('profEditForm', 'os_surname', $_POST['os_surname']);
+            else
+            {
+                BFEC::add('w nazwisku wystepuja niedozwolone znaki');
+                $os++;
+            }
+        }
+        if(!isset($_POST['os_street']) || empty($_POST['os_street'])) $os++;
+        else
+        {
+            if(Valid::street($_POST['os_street'])) RFD::add('profEditForm', 'os_street', $_POST['os_street']);
+            else
+            {
+                BFEC::add('w nazwie ulicy wystepuja niedozwolone znaki');
+                $os++;
+            }
+        }
+        if(!isset($_POST['os_house_number']) || empty($_POST['os_house_number'])) $os++;
+        else
+        {
+            if(Valid::house_number($_POST['os_house_number'])) RFD::add('profEditForm', 'os_house_number', $_POST['os_house_number']);
+            else
+            {
+                BFEC::add('w numerze domu/mieszkania wystepuja niedozwolone znaki');
+                $os++;
+            }
+        }
+        if(!isset($_POST['os_postcode']) || empty($_POST['os_postcode'])) $os++;
+        else
+        {
+            if(Valid::postcode($_POST['os_postcode'])) RFD::add('profEditForm', 'os_postcode', $_POST['os_postcode']);
+            else
+            {
+                BFEC::add('w kodzie pocztowym wystepuja niedozwolone znaki');
+                $os++;
+            }
+        }
+        if(!isset($_POST['os_city']) || empty($_POST['os_city'])) $os++;
+        else
+        {
+            if(Valid::city($_POST['os_city'])) RFD::add('profEditForm', 'os_city', $_POST['os_city']);
+            else
+            {
+                BFEC::add('w miescie wystepuja niedozwolone znaki');
+                $os++;
+            }
+        }
+        if(!isset($_POST['os_phone']) || empty($_POST['os_phone'])) $os++;
+        else
+        {
+            if(Valid::phone($_POST['os_phone'])) RFD::add('profEditForm', 'os_phone', $_POST['os_phone']);
+            else
+            {
+                BFEC::add('telefon w zlym formacie');
+                $os++;
+            }
+        }
+
+        if($os > 0 && $os < 7) BFEC::add('nalezy podac wszystkie wymagane dane osobowe');
+
+        //
+        // DANE FIRMOWE OBOWIAZKOWE
+        //
+        $f = 0;
+
+        if(!isset($_POST['f_name']) || empty($_POST['f_name'])) $f++;
+        else
+        {
+            if(Valid::name($_POST['f_name'])) RFD::add('profEditForm', 'f_name', $_POST['f_name']);
+            else
+            {
+                BFEC::add('imie moze skladac sie tylko i wylacznie z liter');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_surname']) || empty($_POST['f_surname'])) $f++;
+        else
+        {
+            if(Valid::surname($_POST['f_surname'])) RFD::add('profEditForm', 'f_surname', $_POST['f_surname']);
+            else
+            {
+                BFEC::add('w nazwisku wystepuja niedozwolone znaki');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_position']) || empty($_POST['f_position'])) $f++;
+        else
+        {
+            if(Valid::position($_POST['f_position'])) RFD::add('profEditForm', 'f_position', $_POST['f_position']);
+            else
+            {
+                BFEC::add('stanowisko zawiera niedozwolone znaki');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_company']) || empty($_POST['f_company'])) $f++;
+        else
+        {
+            if(Valid::company($_POST['f_company'])) RFD::add('profEditForm', 'f_company', $_POST['f_company']);
+            else
+            {
+                BFEC::add('w nazwie firmy wystepuja niedozwolone znaki');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_street']) || empty($_POST['f_street'])) $f++;
+        else
+        {
+            if(Valid::street($_POST['f_street'])) RFD::add('profEditForm', 'f_street', $_POST['f_street']);
+            else
+            {
+                BFEC::add('w nazwie ulicy wystepuja niedozwolone znaki');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_house_number']) || empty($_POST['f_house_number'])) $f++;
+        else
+        {
+            if(Valid::house_number($_POST['f_house_number'])) RFD::add('profEditForm', 'f_house_number', $_POST['f_house_number']);
+            else
+            {
+                BFEC::add('w numerze domu/mieszkania wystepuja niedozwolone znaki');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_postcode']) || empty($_POST['f_postcode'])) $f++;
+        else
+        {
+            if(Valid::postcode($_POST['f_postcode'])) RFD::add('profEditForm', 'f_postcode', $_POST['f_postcode']);
+            else
+            {
+                BFEC::add('w kodzie pocztowym wystepuja niedozwolone znaki');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_city']) || empty($_POST['f_city'])) $f++;
+        else
+        {
+            if(Valid::city($_POST['f_city'])) RFD::add('profEditForm', 'f_city', $_POST['f_city']);
+            else
+            {
+                BFEC::add('w miescie wystepuja niedozwolone znaki');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_phone']) || empty($_POST['f_phone'])) $f++;
+        else
+        {
+            if(Valid::phone($_POST['f_phone'])) RFD::add('profEditForm', 'f_phone', $_POST['f_phone']);
+            else
+            {
+                BFEC::add('telefon w zlym formacie');
+                $f++;
+            }
+        }
+        if(!isset($_POST['f_nip']) || empty($_POST['f_nip'])) $f++;
+        else
+        {
+            if(Valid::nip($_POST['f_nip'])) RFD::add('profEditForm', 'f_nip', $_POST['f_nip']);
+            else
+            {
+                BFEC::add('nip w zlym formacie');
+                $f++;
+            }
+        }
+
+        if($f > 0 && $f < 10) BFEC::add('nalezy podac wszystkie wymagane dane firmowe');
+
+        if($os == 7 && $f == 10) BFEC::add('musisz uzupelnic wszystkie wymagane dane osobowe lub firmowe');
+
+        //
+        // DANE FIRMOWE I OSOBOWE NIEOBOWIAZKOWE
+        //
+        $rfd = new ProfileEditFormData();
+        
+        if(isset($_POST['f_regon']) && !empty($_POST['f_regon']))
+        {
+            if(Valid::regon($_POST['f_regon']))
+            {
+                RFD::add('profEditForm', 'f_regon', $_POST['f_regon']);
+                $rfd->setF_regon($_POST['f_regon']);
+            }
+            else BFEC::add('regon w zlym formacie');
+        }
+
+        if(isset($_POST['f_krs']) && !empty($_POST['f_krs']))
+        {
+            if(Valid::krs($_POST['f_krs']))
+            {
+                RFD::add('profEditForm', 'f_krs', $_POST['f_krs']);
+                $rfd->setF_krs($_POST['f_krs']);
+            }
+            else BFEC::add('krs w zlym formacie');
+        }
+
+        if(isset($_POST['os_woj']) && !empty($_POST['os_woj']))
+        {
+            if(Valid::woj($_POST['os_woj']))
+            {
+                RFD::add('profEditForm', 'os_woj', $_POST['os_woj']);
+                $rfd->setOs_woj($_POST['os_woj']);
+            }
+            else BFEC::add('bledne wojewodztwo');
+        }
+
+        if(isset($_POST['f_woj']) && !empty($_POST['f_woj']))
+        {
+            if(Valid::woj($_POST['f_woj']))
+            {
+                RFD::add('profEditForm', 'f_woj', $_POST['f_woj']);
+                $rfd->setF_woj($_POST['f_woj']);
+            }
+            else BFEC::add('bledne wojewodztwo');
+        }
+
+        if(BFEC::isError()) throw new ErrorsInProfileEditForm('');
+
+        //
+        // RFD
+        //
+
+        if($os == 0)
+        {
+            $rfd->setOs_name($_POST['os_name']);
+            $rfd->setOs_surname($_POST['os_surname']);
+            $rfd->setOs_street($_POST['os_street']);
+            $rfd->setOs_house_number($_POST['os_house_number']);
+            $rfd->setOs_postcode($_POST['os_postcode']);
+            $rfd->setOs_city($_POST['os_city']);
+            $rfd->setOs_phone($_POST['os_phone']);
+        }
+
+        if($f == 0)
+        {
+            $rfd->setF_name($_POST['f_name']);
+            $rfd->setF_surname($_POST['f_surname']);
+            $rfd->setF_position($_POST['f_position']);
+            $rfd->setF_company($_POST['f_company']);
+            $rfd->setF_street($_POST['f_street']);
+            $rfd->setF_house_number($_POST['f_house_number']);
+            $rfd->setF_postcode($_POST['f_postcode']);
+            $rfd->setF_city($_POST['f_city']);
+            $rfd->setF_phone($_POST['f_phone']);
+            $rfd->setF_nip($_POST['f_nip']);
+        }
+
+        RFD::clear('profEditForm');
+        return $rfd;
+    }
+
+    /**
+     *
      * @return string
      */
     public function getIdForLeftMenu()

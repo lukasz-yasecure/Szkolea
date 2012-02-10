@@ -29,6 +29,7 @@ class Pathes
     public static $template_serv = 'serv.html';
     public static $template_profile_k = 'profile_k.html';
     public static $template_profile_u = 'profile_u.html';
+    public static $template_profile_edit_form = 'profile_edit_form.html';
 
     public static $script_path = '';
     public static $script_index = 'index.php';
@@ -201,6 +202,13 @@ class Pathes
     {
         return Pathes::$template_path.Pathes::$template_profile_u;
     }
+
+    public static function getPathTemplateProfileEditForm()
+    {
+        return Pathes::$template_path.Pathes::$template_profile_edit_form;
+    }
+
+
 }
 
 ?>

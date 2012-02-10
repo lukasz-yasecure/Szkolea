@@ -139,8 +139,28 @@ try
                     }
             }
             else if($_GET['w'] == 'dane')
-            {
-                $t = new Template('view/html/profile_k_dane_edycja.html');
+            {                
+            if(!isset($_POST['profile_edit_form']))
+                {
+                    $gu = $um->getUser($dbc, $u->getId_user()); // get user
+                    $t = new Template('view/html/profile_k_dane_edycja.html'); 
+                    $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u);
+                    // print_r($_SESSION);
+                    // print_r($gu);
+                    RFD::clear('profEditForm');
+                    $r = $pft->getContent();
+                }
+                else if(isset($_POST['profile_edit_form']))
+                {
+                    $ud = new UserData();
+                    $gu = $um->getUser($dbc, $u->getId_user()); // get user
+                    $t = new Template('view/html/profile_k_dane_edycja.html'); 
+                    $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u);
+                    $rfd = $ud->getProfileEditFormData(); // dane z ProfileEditForm
+                    $um->updateProfileData($dbc,$rfd,$u);
+                    header('Location:'.$_SERVER['REQUEST_URI']);
+                    $r = $pft->getContent();
+                }
             }
             else $t = new Template(Pathes::getPathTemplateProfileK());
         }
@@ -259,6 +279,10 @@ try
     $t->addSearchReplace('name', $u->getEmail());
     $mt = $tm->getMainTemplate($sys, $t->getContent(), BFEC::showAll(), file_get_contents('temp/profile.html'));
     echo $mt->getContent();
+}
+catch(ErrorsInprofileEditForm $e) // UserData
+{
+    BFEC::add('', true, 'profile.php?w=dane');
 }
 catch(Exception $e)
 {
