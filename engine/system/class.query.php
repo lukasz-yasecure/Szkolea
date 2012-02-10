@@ -109,7 +109,7 @@ class Query {
         return str_replace('\'\'', 'NULL', $sql);
     }
 
-    public static function updateProfileData(ProfileEditFormData $pefd, $u) // @todo $u zmienić trzeba 
+    public static function updateProfileData(ProfileEditFormData $pefd, $u) 
     {
         $sql = 'UPDATE `szkolea`.`users_324` SET 
                     `os_name` = \''.$pefd->getOs_name().'\',
@@ -134,7 +134,7 @@ class Query {
                     `f_krs` = \''.$pefd->getF_krs().'\',
                     `f_phone` = \''.$pefd->getF_phone().'\'
                     WHERE `users_324`.`id_user` = '.$u->getId_user();
-        return $sql;
+                    return str_replace('\'\'', 'NULL', $sql);
     }
 
     public static function saveNewCommisionInDB(Commision $c) {
