@@ -168,10 +168,9 @@ class TemplateManager
      * @return ProfileEditFormTemplate
      * @throws NoTemplateFile
      */
-    public function getProfileEditFormTemplate(System $sys,$gu,$u) // @todo zmienić $gu i $u
+    public function getProfileEditFormTemplate(System $sys,User $gu,User $u)
     {
         $path = Pathes::getPathTemplateProfileEditForm();
-
         if(!file_exists($path))
             throw new NoTemplateFile($path.' plik nie istnieje!');
         $pft = new ProfileEditFormTemplate(file_get_contents($path));
@@ -194,11 +193,10 @@ class TemplateManager
         is_null($f_postcode=RFD::get('profEditForm','f_postcode'))?$pft->setF_postcode($f_postcode=$gu->getF_postcode()):$pft->setF_postcode($f_postcode);
         is_null($f_city=RFD::get('profEditForm','f_city'))?$pft->setF_city($f_postcode=$u->getF_city()):$pft->setF_city($f_city);
         is_null($f_woj=RFD::get('profEditForm','f_woj'))?$pft->setF_woj($f_woj=$gu->getF_woj()):$pft->setF_woj($f_woj);
-        is_null($f_phone=RFD::get('profEditForm','f_phone'))?$pft->setF_phone($f_phone=$u->getF_phone()):$pft->setF_phone($f_phone);
+        is_null($f_phone=RFD::get('profEditForm','f_phone'))?$pft->setF_phone($f_phone=$gu->getF_phone()):$pft->setF_phone($f_phone);
         is_null($f_regon=RFD::get('profEditForm','f_regon'))?$pft->setF_regon($f_regon=$gu->getF_regon()):$pft->setF_regon($f_regon);
         is_null($f_nip=RFD::get('profEditForm','f_nip'))?$pft->setF_nip($f_nip=$gu->getF_nip()):$pft->setF_nip($f_nip);
         is_null($f_krs=RFD::get('profEditForm','f_krs'))?$pft->setF_krs($f_krs=$gu->getF_krs()):$pft->setF_krs($f_krs);
-
         return $pft;
     }
 
