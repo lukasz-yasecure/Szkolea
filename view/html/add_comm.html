@@ -1,309 +1,1 @@
-            <form action="addcomm.php" method="post" id="commForm">
-                <input type="hidden" name="add_comm" value="1" />
-                <div id="contactform">
-                    <div id="contact1">
-                        <fieldset>
-                        <legend>Dodaj zlecenie</legend>
-                        <div>
-                            <label for="city">Kategoria *</label>
-                            <select name="cat" id="cat" class="field">
-                            <option></option>
-                            {%cats%}
-                            </select>
-                            <span class="hint">Wybierz kategorię szkolenia z listy.<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <div>
-                            <label for="city">Obszar *</label>
-                            <select name="subcat" id="scat" class="field">
-                            <option></option>
-                            {%obszary%}
-                            </select>
-                            <span class="hint">Wybierz obszar szkolenia z listy.<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <div>
-                            <label for="city">Tematyka *</label>
-                            <select name="subsubcat" id="sscat" class="field">
-                            <option></option>
-                            {%tematyki%}
-                            </select>
-                            <span class="hint">Wybierz tematykę szkolenia z listy.<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <div>
-                            <label for="city">Moduły *</label>
-                            <select name="moduly[]" multiple="multiple" id="moduls" class="field">
-                            {%moduly%}
-                            </select>
-                            <span class="hint">Wybierz moduły szkolenia z listy. Im lepiej określisz swoje potrzeby (wybierając moduły) tym lepsze szkolenie otrzymasz (dopasowane do twoich potrzeb).<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <div>
-                            <label for="city">Długość szkolenia *</label>
-                            <select name="long" id="dur1" class="field">
-                            <option></option>
-                            <option value="1" {%long1%}>1 dzień</option>
-                            <option value="2" {%long2%}>2 dni</option>
-                            <option value="3" {%long3%}>3 dni</option>
-                            <option value="4" {%long4%}>4 dni</option>
-                            </select>
-                            <span class="hint">Wybierz preferowaną długość szkolenia.<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <br />
-                        <label>Preferowane dni tygodnia *</label>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="0" class="norequired" id="day0" {%days0%}/> Obojętnie </label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="1" class="norequired" id="day1" {%days1%}/> Poniedziałek</label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="2" class="norequired" id="day2" {%days2%}/> Wtorek </label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="3" class="norequired" id="day3" {%days3%}/> Środa </label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="4" class="norequired" id="day4" {%days4%}/> Czwartek </label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="5" class="norequired" id="day5" {%days5%}/> Piątek </label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="6" class="norequired" id="day6" {%days6%}/> Sobota </label>
-                        </div>
-                        <div>
-                            <label><input type="checkbox" name="days[]" value="7" class="norequired" id="day7" {%days7%}/> Niedziela </label>
-                        </div>
-                        <span class="hint hint_days" id="days_hint">Wybierz w których kolejnych dniach ma odbyć się szkolenie.<span class="hint-pointer">&nbsp;</span></span>
-                        <br />
-                        <div id="usluga_calendar">
-                            <label>Preferowane terminy *</label>
-                            <div>
-                                    <label>Pierwszy termin </label>
-                                    początek: <input id="exampleXIa" name="date_a" type="text" maxlength="10" autocomplete="off" value="{%date_a%}" />koniec:<input id="exampleXIb" name="date_b" type="text" maxlength="10" autocomplete="off" value="{%date_b%}" />
-                            </div>
-                            <br/>
-                            <div>
-                                <label><input type="checkbox" name="drugi_termin" value="1" id="drugi_termin_cb" {%drugi_termin%} /> Dodaj drugi termin</label>
-                            </div>
-                            <div id="drugi_termin_div">
-                                    <label>Drugi termin </label>
-                                    początek: <input id="exampleXIc" name="date_c" type="text" maxlength="10" autocomplete="off" value="{%date_c%}" />koniec:<input id="exampleXId" name="date_d" type="text" maxlength="10" autocomplete="off" value="{%date_d%}" />
-                            </div>
-                            <span class="hint hint_cal" id="cal_hint">Wybierz w jakim przedziale czasowym chciałbyś odbyć szkolenie np. 07-08.01.2012 lub 15-22.01.2012 lub 01.01.2012-31.03.2012.<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Ważność *</label>
-                            <input type="text" name="expire" size="30" class="field" value="{%expire%}" />
-                            <span class="hint">Wpisz liczbę dni przez jaką twoje głoszenie ma być aktualne np. 40 (maksymalnie 365).<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <div>
-                            <label>Miejsce *</label>
-                            <input type="text" name="place" size="30" class="field" value="{%place%}" />
-                            <span class="hint">Wpisz preferowaną miejscowość w której chcesz odbyć szkolenie. Wpisz pełną nawę miejscowości używając polskich liter. Możesz też wpisać słowo "dowolne".<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <div>
-                            <label>Województwo</label>
-                            <select name="woj" class="field">
-                                <option></option>
-                                <option value="1" {%woj1%}>dolnośląskie</option>
-                                <option value="2" {%woj2%}>kujawsko-pomorskie</option>
-                                <option value="3" {%woj3%}>lubelskie</option>
-                                <option value="4" {%woj4%}>lubuskie</option>
-                                <option value="5" {%woj5%}>łódzkie</option>
-                                <option value="6" {%woj6%}>małopolskie</option>
-                                <option value="7" {%woj7%}>mazowieckie</option>
-                                <option value="8" {%woj8%}>opolskie</option>
-                                <option value="9" {%woj9%}>podkarpackie</option>
-                                <option value="10" {%woj10%}>podlaskie</option>
-                                <option value="11" {%woj11%}>pomorskie</option>
-                                <option value="12" {%woj12%}>śląskie</option>
-                                <option value="13" {%woj13%}>świętokrzyskie</option>
-                                <option value="14" {%woj14%}>warmińsko-mazurskie</option>
-                                <option value="15" {%woj15%}>wielkopolskie</option>
-                                <option value="16" {%woj16%}>zachodniopomorskie</option>
-                            </select>
-                            <span class="hint">Wybierz województwo w którym chcesz odbyć szkolenie lub opcję cała Polska.<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        <div id="small">
-                            <label for="name">Cena za osobę (brutto) *</label>
-                            od <input type="text" name="cena_min" size="30" class="field" value="{%cena_min%}" />
-                            do <input type="text" name="cena_max" size="30" class="field" value="{%cena_max%}" />
-                            <span class="hint">Wybierz przedział cenowy – kwotę brutto jaką chcesz zapłacić za przeszkolenie jednej osoby.<span class="hint-pointer">&nbsp;</span></span>
-                        </div>
-                        </fieldset>
-                    </div><!-- contact1 -->
-                    <div id="contact2">
-                        <fieldset>
-                            <legend>Uczestnicy</legend>
-                            <div>
-                                Grupa może liczyć maksymalnie 15 uczestników.<br/><br/>
-                                <label><input type="checkbox" name="part0" value="1"  class="norequired"  {%part0%} /> biorę udział w szkoleniu (uczestnik 1)
-                                <span class="hint">Zaznacz aby wziąć udział w szkoleniu.<span class="hint-pointer">&nbsp;</span></span></label>
-                            </div>
-                            <br/>
-                            <div>
-                                <button type="button" id="addParticipant">Dodaj uczestnika</button>
-                                <span class="hint">Zapisz kolejnego uczestnika.<span class="hint-pointer">&nbsp;</span></span>
-                            </div>
-                            <div style="display:none" id="uczestnik2">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part2_name"  size="30" class="field" value="{%part2_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part2_surname"  size="30" class="field" value="{%part2_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik3">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part3_name" size="30" class="field" value="{%part3_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part3_surname" size="30" class="field" value="{%part3_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik4">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part4_name" size="30" class="field" value="{%part4_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part4_surname" size="30" class="field" value="{%part4_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik5">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part5_name" size="30" class="field" value="{%part5_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part5_surname" size="30" class="field" value="{%part5_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik6">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part6_name" size="30" class="field" value="{%part6_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part6_surname" size="30" class="field" value="{%part6_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik7">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part7_name" size="30" class="field" value="{%part7_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part7_surname" size="30" class="field" value="{%part7_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik8">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part8_name" size="30" class="field" value="{%part8_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part8_surname" size="30" class="field" value="{%part8_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik9">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part9_name" size="30" class="field" value="{%part9_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part9_surname" size="30" class="field" value="{%part9_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik10">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part10_name" size="30" class="field" value="{%part10_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part10_surname" size="30" class="field" value="{%part10_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik11">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part11_name" size="30" class="field" value="{%part11_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part11_surname" size="30" class="field" value="{%part11_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik12">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part12_name" size="30" class="field" value="{%part12_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part12_surname" size="30" class="field" value="{%part12_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik13">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part13_name" size="30" class="field" value="{%part13_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part13_surname" size="30" class="field" value="{%part13_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik14">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part14_name" size="30" class="field" value="{%part14_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part14_surname" size="30" class="field" value="{%part14_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik15">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part15_name" size="30" class="field" value="{%part15_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part15_surname" size="30" class="field" value="{%part15_surname%}" />
-                                </div>
-                            </div>
-                            <div style="display:none" id="uczestnik16">
-                                <div>
-                                    <label for="email">Imię *</label>
-                                    <input type="text" name="part16_name" size="30" class="field" value="{%part16_name%}" />
-                                </div>
-                                <div>
-                                    <label for="email">Nazwisko *</label>
-                                    <input type="text" name="part16_surname" size="30" class="field" value="{%part16_surname%}" />
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Informacje</legend>
-                            <p>* - Pola obowiązkowe.<br/><br/>Jakieś info</p>
-                            <div>
-                                <label><input type="checkbox" name="regulamin" value="1" checked="checked" class="required" /> Akceptuję regulamin *</label>
-                            </div>
-                        </fieldset>
-                        <div class="submit"><button type="submit" id="comm_submit">Dodaj zlecenie!</button></div>
-                    </div><!-- contact2 -->
-                </div>
-                </form>
+<script type="text/javascript">			$(function(){				// Datepicker				$('#exampleXIa').datepicker({					inline: true				})								//hover states on the static widgets				$('#dialog_link, ul#icons li').hover(					function() { $(this).addClass('ui-state-hover'); }, 					function() { $(this).removeClass('ui-state-hover'); }				);							});						$(function(){				// Datepicker				$('#exampleXIb').datepicker({					inline: true				})								//hover states on the static widgets				$('#dialog_link, ul#icons li').hover(					function() { $(this).addClass('ui-state-hover'); }, 					function() { $(this).removeClass('ui-state-hover'); }				);							});		</script>                                                <form action="addcomm.php" method="post" id="commForm">                <input type="hidden" name="add_comm" value="1" />                <div id="contactform">                    <div id="contact1">                        <fieldset>                        <legend>Dodaj zlecenie</legend>                        <div>                            <label for="city">Kategoria *</label>                            <select name="cat" id="cat" class="field">                            <option></option>                            {%cats%}                            </select>                            <span class="hint">Wybierz kategorię szkolenia z listy.<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <div>                            <label for="city">Obszar *</label>                            <select name="subcat" id="scat" class="field">                            <option></option>                            {%obszary%}                            </select>                            <span class="hint">Wybierz obszar szkolenia z listy.<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <div>                            <label for="city">Tematyka *</label>                            <select name="subsubcat" id="sscat" class="field">                            <option></option>                            {%tematyki%}                            </select>                            <span class="hint">Wybierz tematykę szkolenia z listy.<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <div>                            <label for="city">Moduły *</label>                            <select name="moduly[]" multiple="multiple" id="moduls" class="field">                            {%moduly%}                            </select>                            <span class="hint">Wybierz moduły szkolenia z listy. Im lepiej określisz swoje potrzeby (wybierając moduły) tym lepsze szkolenie otrzymasz (dopasowane do twoich potrzeb).<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <div>                            <label for="city">Długość szkolenia *</label>                            <select name="long" id="dur1" class="field">                            <option></option>                            <option value="1" {%long1%}>1 dzień</option>                            <option value="2" {%long2%}>2 dni</option>                            <option value="3" {%long3%}>3 dni</option>                            <option value="4" {%long4%}>4 dni</option>                            </select>                            <span class="hint">Wybierz preferowaną długość szkolenia.<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <br />                        <label>Preferowane dni tygodnia *</label>                        <div>                            <label><input type="checkbox" name="days[]" value="0" class="norequired" id="day0" {%days0%}/> Obojętnie </label>                        </div>                        <div>                            <label><input type="checkbox" name="days[]" value="1" class="norequired" id="day1" {%days1%}/> Poniedziałek</label>                        </div>                        <div>                            <label><input type="checkbox" name="days[]" value="2" class="norequired" id="day2" {%days2%}/> Wtorek </label>                        </div>                        <div>                            <label><input type="checkbox" name="days[]" value="3" class="norequired" id="day3" {%days3%}/> Środa </label>                        </div>                        <div>                            <label><input type="checkbox" name="days[]" value="4" class="norequired" id="day4" {%days4%}/> Czwartek </label>                        </div>                        <div>                            <label><input type="checkbox" name="days[]" value="5" class="norequired" id="day5" {%days5%}/> Piątek </label>                        </div>                        <div>                            <label><input type="checkbox" name="days[]" value="6" class="norequired" id="day6" {%days6%}/> Sobota </label>                        </div>                        <div>                            <label><input type="checkbox" name="days[]" value="7" class="norequired" id="day7" {%days7%}/> Niedziela </label>                        </div>                        <span class="hint hint_days" id="days_hint">Wybierz w których kolejnych dniach ma odbyć się szkolenie.<span class="hint-pointer">&nbsp;</span></span>                        <br />                        <div id="usluga_calendar">                            <label>Preferowane terminy *</label>                            <div>                                    <label>Pierwszy termin </label>                                    początek: <input id="exampleXIa" name="date_a" type="text" maxlength="10" autocomplete="off" value="{%date_a%}" />koniec:<input id="exampleXIb" name="date_b" type="text" maxlength="10" autocomplete="off" value="{%date_b%}" />                            </div>                            <br/>                            <div>                                <label><input type="checkbox" name="drugi_termin" value="1" id="drugi_termin_cb" {%drugi_termin%} /> Dodaj drugi termin</label>                            </div>                            <div id="drugi_termin_div">                                    <label>Drugi termin </label>                                    początek: <input id="exampleXIc" name="date_c" type="text" maxlength="10" autocomplete="off" value="{%date_c%}" />koniec:<input id="exampleXId" name="date_d" type="text" maxlength="10" autocomplete="off" value="{%date_d%}" />                            </div>                            <span class="hint hint_cal" id="cal_hint">Wybierz w jakim przedziale czasowym chciałbyś odbyć szkolenie np. 07-08.01.2012 lub 15-22.01.2012 lub 01.01.2012-31.03.2012.<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <br/>                        <div>                            <label>Ważność *</label>                            <input type="text" name="expire" size="30" class="field" value="{%expire%}" />                            <span class="hint">Wpisz liczbę dni przez jaką twoje głoszenie ma być aktualne np. 40 (maksymalnie 365).<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <div>                            <label>Miejsce *</label>                            <input type="text" name="place" size="30" class="field" value="{%place%}" />                            <span class="hint">Wpisz preferowaną miejscowość w której chcesz odbyć szkolenie. Wpisz pełną nawę miejscowości używając polskich liter. Możesz też wpisać słowo "dowolne".<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <div>                            <label>Województwo</label>                            <select name="woj" class="field">                                <option></option>                                <option value="1" {%woj1%}>dolnośląskie</option>                                <option value="2" {%woj2%}>kujawsko-pomorskie</option>                                <option value="3" {%woj3%}>lubelskie</option>                                <option value="4" {%woj4%}>lubuskie</option>                                <option value="5" {%woj5%}>łódzkie</option>                                <option value="6" {%woj6%}>małopolskie</option>                                <option value="7" {%woj7%}>mazowieckie</option>                                <option value="8" {%woj8%}>opolskie</option>                                <option value="9" {%woj9%}>podkarpackie</option>                                <option value="10" {%woj10%}>podlaskie</option>                                <option value="11" {%woj11%}>pomorskie</option>                                <option value="12" {%woj12%}>śląskie</option>                                <option value="13" {%woj13%}>świętokrzyskie</option>                                <option value="14" {%woj14%}>warmińsko-mazurskie</option>                                <option value="15" {%woj15%}>wielkopolskie</option>                                <option value="16" {%woj16%}>zachodniopomorskie</option>                            </select>                            <span class="hint">Wybierz województwo w którym chcesz odbyć szkolenie lub opcję cała Polska.<span class="hint-pointer">&nbsp;</span></span>                        </div>                        <div id="small">                            <label for="name">Cena za osobę (brutto) *</label>                            od <input type="text" name="cena_min" size="30" class="field" value="{%cena_min%}" />                            do <input type="text" name="cena_max" size="30" class="field" value="{%cena_max%}" />                            <span class="hint">Wybierz przedział cenowy – kwotę brutto jaką chcesz zapłacić za przeszkolenie jednej osoby.<span class="hint-pointer">&nbsp;</span></span>                        </div>                        </fieldset>                    </div><!-- contact1 -->                    <div id="contact2">                        <fieldset>                            <legend>Uczestnicy</legend>                            <div>                                Grupa może liczyć maksymalnie 15 uczestników.<br/><br/>                                <label><input type="checkbox" name="part0" value="1"  class="norequired"  {%part0%} /> biorę udział w szkoleniu (uczestnik 1)                                <span class="hint">Zaznacz aby wziąć udział w szkoleniu.<span class="hint-pointer">&nbsp;</span></span></label>                            </div>                            <br/>                            <div>                                <button type="button" id="addParticipant">Dodaj uczestnika</button>                                <span class="hint">Zapisz kolejnego uczestnika.<span class="hint-pointer">&nbsp;</span></span>                            </div>                            <div style="display:none" id="uczestnik2">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part2_name"  size="30" class="field" value="{%part2_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part2_surname"  size="30" class="field" value="{%part2_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik3">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part3_name" size="30" class="field" value="{%part3_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part3_surname" size="30" class="field" value="{%part3_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik4">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part4_name" size="30" class="field" value="{%part4_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part4_surname" size="30" class="field" value="{%part4_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik5">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part5_name" size="30" class="field" value="{%part5_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part5_surname" size="30" class="field" value="{%part5_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik6">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part6_name" size="30" class="field" value="{%part6_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part6_surname" size="30" class="field" value="{%part6_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik7">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part7_name" size="30" class="field" value="{%part7_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part7_surname" size="30" class="field" value="{%part7_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik8">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part8_name" size="30" class="field" value="{%part8_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part8_surname" size="30" class="field" value="{%part8_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik9">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part9_name" size="30" class="field" value="{%part9_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part9_surname" size="30" class="field" value="{%part9_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik10">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part10_name" size="30" class="field" value="{%part10_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part10_surname" size="30" class="field" value="{%part10_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik11">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part11_name" size="30" class="field" value="{%part11_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part11_surname" size="30" class="field" value="{%part11_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik12">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part12_name" size="30" class="field" value="{%part12_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part12_surname" size="30" class="field" value="{%part12_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik13">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part13_name" size="30" class="field" value="{%part13_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part13_surname" size="30" class="field" value="{%part13_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik14">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part14_name" size="30" class="field" value="{%part14_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part14_surname" size="30" class="field" value="{%part14_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik15">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part15_name" size="30" class="field" value="{%part15_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part15_surname" size="30" class="field" value="{%part15_surname%}" />                                </div>                            </div>                            <div style="display:none" id="uczestnik16">                                <div>                                    <label for="email">Imię *</label>                                    <input type="text" name="part16_name" size="30" class="field" value="{%part16_name%}" />                                </div>                                <div>                                    <label for="email">Nazwisko *</label>                                    <input type="text" name="part16_surname" size="30" class="field" value="{%part16_surname%}" />                                </div>                            </div>                        </fieldset>                        <fieldset>                            <legend>Informacje</legend>                            <p>* - Pola obowiązkowe.<br/><br/>Jakieś info</p>                            <div>                                <label><input type="checkbox" name="regulamin" value="1" checked="checked" class="required" /> Akceptuję regulamin *</label>                            </div>                        </fieldset>                        <div class="submit"><button type="submit" id="comm_submit">Dodaj zlecenie!</button></div>                    </div><!-- contact2 -->                </div>                </form>

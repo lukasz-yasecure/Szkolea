@@ -1,27 +1,11 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/onloader.js"></script>
-<link rel="stylesheet" type="text/css" href="css/calendar-eightysix-v1.1-default.css" media="screen" />
 
 <script type="text/javascript" src="js/dynamic_selects.js"></script>
 <script type="text/javascript" src="js/ajax.js"></script>
 
-<script type="text/javascript" src="js/mootools-1.2.4-core.js"></script>
-<script type="text/javascript" src="js/mootools-1.2.4.4-more.js"></script>
-<script type="text/javascript" src="js/calendar-eightysix-v1.1.js"></script>
 <script type="text/javascript" src="js/hints_addserv.js"></script>
-<script type="text/javascript" src="js/add_serv.js"></script>
+<script type="text/javascript" src="js/add_serv.js"></script> <!-- w tym jest skrypt od checkboxa "do uzgodnienia" -->
 
-<script type="text/javascript">
-        window.addEvent('domready', function() {
-
-                //Example XI
-                var calendarXIa = new CalendarEightysix('exampleXIa', { 'disallowUserInput': true, 'minDate': 'today',  'alignX': 'left', 'alignY': 'bottom', 'offsetX': -4 });
-                var calendarXIb = new CalendarEightysix('exampleXIb', { 'disallowUserInput': true, 'minDate': 'tomorrow', 'alignX': 'left', 'alignY': 'bottom', 'offsetX': -4 });
-                calendarXIa.addEvent('change', function(date) {
-                        date = date.clone().increment(); //At least one day higher; so increment with one day
-                        calendarXIb.options.minDate = date; //Set the minimal date
-                        if(calendarXIb.getDate().diff(date) >= 1) calendarXIb.setDate(date); //If the current date is lower change it
-                        else calendarXIb.render(); //Always re-render
-                });
-        });
-</script>
+<script type="text/javascript" src="js/calendar.js"></script>
+<link type="text/css" href="css/calendar.css" rel="stylesheet" />	

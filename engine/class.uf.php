@@ -9,7 +9,7 @@ class UF
     {
         if(is_null($d)) return null;
 
-        $t = explode('/', $d);
+        $t = explode('-', $d);
 
         if(count($t) != 3) return false;
 
@@ -22,7 +22,7 @@ class UF
         $t[1] = intval($t[1]);
         $t[2] = intval($t[2]);
 
-        return mktime(0, 0, 0, $t[0], $t[1], $t[2]);
+        return mktime(0, 0, 0, $t[1], $t[0], $t[2]);
     }
 
     public static function days2names($d)

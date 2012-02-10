@@ -1,49 +1,8 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/observe.js"></script>
 
-
-<link rel="stylesheet" type="text/css" href="css/calendar-eightysix-v1.1-default.css" media="screen" />
-
 <script type="text/javascript" src="js/dynamic_selects.js"></script>
 <script type="text/javascript" src="js/ajax.js"></script>
 
-<script type="text/javascript" src="js/mootools-1.2.4-core.js"></script>
-<script type="text/javascript" src="js/mootools-1.2.4.4-more.js"></script>
-<script type="text/javascript" src="js/calendar-eightysix-v1.1.js"></script>
-
-<script type="text/javascript">
-        window.addEvent('domready', function() {
-                var czysc_cal1 = false;
-                var cal1 = document.getElementById('exampleXIa');
-                if(cal1.value == '') czysc_cal1 = true;
-                var czysc_cal2 = false;
-                var cal2 = document.getElementById('exampleXIb');
-                if(cal2.value == '') czysc_cal2 = true;
-
-                //Example XI
-                var calendarXIa = new CalendarEightysix('exampleXIa', { 'disallowUserInput': true, 'minDate': 'today',  'alignX': 'left', 'alignY': 'bottom', 'offsetX': -4 });
-                var calendarXIb = new CalendarEightysix('exampleXIb', { 'disallowUserInput': true, 'minDate': 'tomorrow', 'alignX': 'left', 'alignY': 'bottom', 'offsetX': -4 });
-                if(czysc_cal1) cal1.value = '';
-                if(czysc_cal2) cal2.value = '';
-                calendarXIa.addEvent('change', function(date) {
-                        date = date.clone().increment(); //At least one day higher; so increment with one day
-                        calendarXIb.options.minDate = date; //Set the minimal date
-                        if(calendarXIb.getDate().diff(date) >= 1) calendarXIb.setDate(date); //If the current date is lower change it
-                        else calendarXIb.render(); //Always re-render
-                });
-        });
-
-        /*function setButtonKasujDaty()
-        {
-            var but = document.getElementById('kasuj_daty');
-            but.onclick = function()
-            {
-                var cal1 = document.getElementById('exampleXIa');
-                var cal2 = document.getElementById('exampleXIb');
-                cal1.value = '';
-                cal2.value = '';
-            }
-        }
-
-        addLoadEvent(setButtonKasujDaty);*/
-</script>
+<script type="text/javascript" src="js/calendar.js"></script>
+<link type="text/css" href="css/calendar.css" rel="stylesheet" />	

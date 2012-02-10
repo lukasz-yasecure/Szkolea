@@ -370,7 +370,7 @@ class Valid
 
     static function add_comm_date($d)
     {
-        $t = explode('/', $d);
+        $t = explode('-', $d);
 
         if(count($t) != 3) return false;
 
@@ -383,7 +383,7 @@ class Valid
         $t[1] = intval($t[1]);
         $t[2] = intval($t[2]);
 
-        return checkdate($t[0], $t[1], $t[2]);
+        return checkdate($t[1], $t[0], $t[2]);
     }
 
     static function add_comm_date_long($d1, $d2, $l)
