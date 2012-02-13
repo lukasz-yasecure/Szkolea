@@ -191,7 +191,7 @@ class TemplateManager
         is_null($f_street=RFD::get('profEditForm','f_street'))?$pft->setF_street($f_street=$gu->getF_street()):$pft->setF_street($f_street);
         is_null($f_house_number=RFD::get('profEditForm','f_house_number'))?$pft->setF_house_number($f_house_number=$gu->getF_house_number()):$pft->setF_house_number($f_house_number);
         is_null($f_postcode=RFD::get('profEditForm','f_postcode'))?$pft->setF_postcode($f_postcode=$gu->getF_postcode()):$pft->setF_postcode($f_postcode);
-        is_null($f_city=RFD::get('profEditForm','f_city'))?$pft->setF_city($f_postcode=$u->getF_city()):$pft->setF_city($f_city);
+        is_null($f_city=RFD::get('profEditForm','f_city'))?$pft->setF_city($f_postcode=$gu->getF_city()):$pft->setF_city($f_city);
         is_null($f_woj=RFD::get('profEditForm','f_woj'))?$pft->setF_woj($f_woj=$gu->getF_woj()):$pft->setF_woj($f_woj);
         is_null($f_phone=RFD::get('profEditForm','f_phone'))?$pft->setF_phone($f_phone=$gu->getF_phone()):$pft->setF_phone($f_phone);
         is_null($f_regon=RFD::get('profEditForm','f_regon'))?$pft->setF_regon($f_regon=$gu->getF_regon()):$pft->setF_regon($f_regon);
