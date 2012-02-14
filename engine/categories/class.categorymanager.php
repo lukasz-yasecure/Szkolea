@@ -330,7 +330,8 @@ class CategoryManager {
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            throw new EmptyList();
+            //throw new EmptyList();
+            return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['kategoria_id']] = $r['CatsSums'];
@@ -344,7 +345,8 @@ class CategoryManager {
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            throw new EmptyList();
+            //throw new EmptyList();
+            return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['obszar_id']] = $r['SubcatsSums'];
@@ -359,7 +361,8 @@ class CategoryManager {
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            throw new EmptyList();
+            //throw new EmptyList();
+            return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['tematyka']] = $r['SubsubcatsSums'];
@@ -377,7 +380,8 @@ class CategoryManager {
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            throw new EmptyList();
+            //throw new EmptyList();
+            return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['kategoria_id']] = $r['ServsSums'];
@@ -391,7 +395,8 @@ class CategoryManager {
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            throw new EmptyList();
+            //throw new EmptyList();
+            return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['obszar_id']] = $r['SubservsSums'];
@@ -406,7 +411,8 @@ class CategoryManager {
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            throw new EmptyList();
+            //throw new EmptyList();
+            return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['tematyka']] = $r['SubsubservsSums'];

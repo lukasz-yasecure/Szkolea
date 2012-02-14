@@ -1,14 +1,1 @@
-
-
-
-
-
-    </div><!-- container_t -->
-
-<!-- <div id="container_r"></div> container_r -->
-
-</div><!-- container -->
-
-</body>
-
-</html>
+    </div><!-- container_t --><!-- <div id="container_r"></div> container_r --></div><!-- container --><?php echo file_get_contents('view/html/foot.html'); ?></body></html>

@@ -103,6 +103,7 @@ class TemplateManager
         $mt->setMain($content);
         $mt->setBFEC($bfec);
         $mt->setSkrypty($skrypty);
+        $mt->setFooter(file_get_contents('view/html/foot.html'));
         return $mt;
     }
 

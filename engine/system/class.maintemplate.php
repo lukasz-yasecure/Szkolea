@@ -8,7 +8,7 @@
 class MainTemplate
 {
     private $content;
-    private $search = array('{%main%}', '{%bfec%}', '{%skrypty%}');
+    private $search = array('{%main%}', '{%bfec%}', '{%skrypty%}', '{%foot%}');
     private $replace = array();
 
     /**
@@ -45,6 +45,11 @@ class MainTemplate
     public function setSkrypty($skrypty)
     {
         $this->replace[2] = $skrypty;
+    }
+    
+    public function setFooter($footer)
+    {
+        $this->replace[3] = $footer;
     }
 
     /**

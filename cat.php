@@ -96,7 +96,7 @@ try {
     } else {
         $what = 'servs';
 
-
+        
         //zliczamy wszystko w 3 krokach
         $ServsSums = $cm->getServsSums($dbc);
         $SubservsSums = $cm->getSubservsSums($dbc);
