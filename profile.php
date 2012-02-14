@@ -139,26 +139,36 @@ try
                     }
             }
             else if($_GET['w'] == 'dane')
-            {                
-            if(!isset($_POST['profile_edit_form']))
-                {
-                    $gu = $um->getUser($dbc, $u->getId_user()); // get user
-                    $t = new Template('view/html/profile_k_dane_edycja.html'); 
-                    $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u);
-                    $r = $pft->getContent();
+            {                          
+                /*
+                 * KLIENT - EDYCJA DANYCH
+                 */ 
+                try 
+                {             
+                    if(!isset($_POST['profile_edit_form']))
+                    {
+                        $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
+                        $t = new Template('view/html/profile_k_dane_edycja.html'); // szablon profilu użytkownika
+                        $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u); // szablon z formularzem
+                        $r = $pft->getContent();
+                    }
+                    else if(isset($_POST['profile_edit_form']))
+                    {
+                        $ud = new UserData();
+                        $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
+                        $t = new Template('view/html/profile_k_dane_edycja.html'); // szablon profilu użytkownika
+                        $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u); // szablon z formularzem
+                        $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
+                        $um->updateProfileData($dbc,$rfd,$u); // edycja danych w bazie
+                        header('Location:'.$_SERVER['REQUEST_URI']); // przeładowanie strony, kasujemy stary $_POST
+                        $r = $pft->getContent();
+                    }
                 }
-                else if(isset($_POST['profile_edit_form']))
+                catch(ErrorsInprofileEditForm $e)
                 {
-                    $ud = new UserData();
-                    $gu = $um->getUser($dbc, $u->getId_user()); // get user
-                    $t = new Template('view/html/profile_k_dane_edycja.html'); 
-                    $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u);
-                    $rfd = $ud->getProfileEditFormData(); // dane z ProfileEditForm
-                    $um->updateProfileData($dbc,$rfd,$u);
-                    header('Location:'.$_SERVER['REQUEST_URI']);
-                    $r = $pft->getContent();
+                    BFEC::add('', true, 'profile.php?w=dane');
                 }
-            }
+            } // koniec
             else $t = new Template(Pathes::getPathTemplateProfileK());
         }
         else $t = new Template(Pathes::getPathTemplateProfileK());
@@ -241,7 +251,36 @@ try
                 if(isset($_GET['a']))
                 {
                     if($_GET['a'] == 0) $t = new Template('view/html/profile_u_dane_wiz.html');
-                    else if($_GET['a'] == 1) $t = new Template('view/html/profile_u_dane_edycja.html');
+                    
+                    else if($_GET['a'] == 1) {
+                        /*
+                         * DOSTAWCA - EDYCJA DANYCH
+                         */
+                        try {
+                            if(!isset($_POST['profile_edit_form']))
+                            {
+                                $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
+                                $t = new Template('view/html/profile_u_dane_edycja.html'); // szablon profilu użytkownika
+                                $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u); // szablon z formularzem
+                                $r = $pft->getContent();
+                            }
+                            else if(isset($_POST['profile_edit_form']))
+                            {
+                                $ud = new UserData();
+                                $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
+                                $t = new Template('view/html/profile_u_dane_edycja.html'); // szablon profilu użytkownika
+                                $pft = $tm->getProfileEditFormTemplate($sys,$gu,$u); // szablon z formularzem
+                                $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
+                                $um->updateProfileData($dbc,$rfd,$u); // edycja danych w bazie
+                                header('Location:'.$_SERVER['REQUEST_URI']); // przeładowanie strony, kasujemy stary $_POST
+                                $r = $pft->getContent();
+                            }
+                        }
+                        catch(ErrorsInprofileEditForm $e)
+                        {
+                            BFEC::add('', true, 'profile.php?w=dane&a=1');
+                        }
+                    }
                     else if($_GET['a'] == 2) $t = new Template('view/html/profile_u_dane_oceny.html');
                     else $t = new Template('view/html/profile_u_dane_wiz.html');
                 }
@@ -274,12 +313,9 @@ try
 
     $t->addSearchReplace('here', $r);
     $t->addSearchReplace('name', $u->getEmail());
+    $t->addSearchReplace('action_url', $_SERVER['REQUEST_URI']); // dodaje action w formie edycji danych profilu
     $mt = $tm->getMainTemplate($sys, $t->getContent(), BFEC::showAll(), file_get_contents('temp/profile.html'));
     echo $mt->getContent();
-}
-catch(ErrorsInprofileEditForm $e) // UserData
-{
-    BFEC::add('', true, 'profile.php?w=dane');
 }
 catch(Exception $e)
 {
