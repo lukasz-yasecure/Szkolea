@@ -52,6 +52,8 @@ try
             }
         }
     }
+    
+    $dodatkowe_js = ''; // dla admina dochodza dodatkowe JS wiec wprowadzilem taka zmienna zeby mozna bylo dolaczyc tylko gdy sa potrzebne te pliki JS
 
     if($u->isKlient())
     {
@@ -310,11 +312,50 @@ try
         }
         else $t = new Template(Pathes::getPathTemplateProfileU());
     }
+    else if($u->isAdmin())
+    {
+        if((isset($_GET['w']) && $_GET['w'] == 'comms' && !isset($_GET['a'])) || (isset($_GET['w']) && $_GET['w'] == 'comms' && isset($_GET['a']) && $_GET['a'] == '0'))
+        {
+            $t = new Template('view/html/admin_comms.html');
+            $r = 'dupa';
+        }
+        else if(isset($_GET['w']) && $_GET['w'] == 'kategorie' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a'])))
+        {
+            $t = new Template('view/html/admin_kategorie_edycja.html');
+            
+            $cm = new CategoryManager();
+            $c = $cm->getCategories($dbc, null);
+            $o = '<option value="id">cat</option>';
+            $ret = '';
+            
+            while($cc = $c->getK())
+            {
+                $ret.= str_replace(array('id', 'cat'), array($cc['1'], $cc['0']), $o);
+            }
+            
+            $t->addSearchReplace('cats', $ret);
+            $t->addSearchReplace('subcats', '');
+            $t->addSearchReplace('subsubcats', '');
+            $t->addSearchReplace('moduls', '');
+            
+            $dodatkowe_js = file_get_contents('temp/admin.html');
+        }
+        else if(isset($_GET['w']) && $_GET['w'] == 'uzytkownicy' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a'])))
+        {
+            $t = new Template('view/html/admin_uzytkownicy_lista.html');
+            $r = 'XXX2';
+        }
+        else
+        {
+            $t = new Template('view/html/admin_profile_main.html');
+            $r = '';
+        }
+    }
 
     $t->addSearchReplace('here', $r);
     $t->addSearchReplace('name', $u->getEmail());
     $t->addSearchReplace('action_url', $_SERVER['REQUEST_URI']); // dodaje action w formie edycji danych profilu
-    $mt = $tm->getMainTemplate($sys, $t->getContent(), BFEC::showAll(), file_get_contents('temp/profile.html'));
+    $mt = $tm->getMainTemplate($sys, $t->getContent(), BFEC::showAll(), file_get_contents('temp/profile.html').$dodatkowe_js);
     echo $mt->getContent();
 }
 catch(Exception $e)
