@@ -570,6 +570,13 @@ class Query {
         $sql = 'SELECT tematyka, COUNT( services.tematyka ) AS SubsubservsSums FROM services GROUP BY tematyka';
         return $sql;
     }
+  
+        public static function CommList4Admin() {
+        $sql = 'SELECT C.id_comm AS id_zlec, U.os_name AS imie, U.os_surname AS nazwisko, U.id_user AS id_usera, COUNT(CG.id_user) AS ilosc_dop, U2.os_name AS imie_dop, U2.os_surname AS nazwisko_dop, U2.id_user AS id_dop
+FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN commisions_group CG ON CG.id_comm = C.id_comm INNER JOIN users_324 U2 ON U2.id_user= CG.id_user GROUP BY CG.id_comm, CG.id_user';
+        return $sql;
+    }
+    
 
 }
 
