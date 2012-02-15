@@ -45,7 +45,7 @@ function process(par)
   // kontynuuje jedynie jeśli obiekt xmlHttp nie jest zajęty
   if (xmlHttp.readyState == 4 || xmlHttp.readyState == 0)
   {
-    xmlHttp.open("GET", "admin.php?get="+par, false);
+    xmlHttp.open("GET", "ajax.php?get="+par, false);
     xmlHttp.onreadystatechange = handleServerResponse;
     xmlHttp.send(null);
   }
