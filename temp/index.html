@@ -6,3 +6,24 @@
 
 <script type="text/javascript" src="js/calendar.js"></script>
 <link type="text/css" href="css/calendar.css" rel="stylesheet" />	
+<script type="text/javascript">
+$(function(){
+
+    // Datepicker
+    $('#exampleXIa').datepicker({
+            inline: true
+    })
+
+    //hover states on the static widgets
+    $('#dialog_link, ul#icons li').hover(
+            function() { $(this).addClass('ui-state-hover'); }, 
+            function() { $(this).removeClass('ui-state-hover'); }
+    );
+        
+    // Datepicker
+    $('#exampleXIb').datepicker({
+            inline: true
+    })
+
+});
+</script> 

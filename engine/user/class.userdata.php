@@ -1249,10 +1249,10 @@ class UserData
             }
         }
 
-        if(isset($_GET['date_a']) && ($dateA = Valid::date2timestamp($_GET['date_a'])) !== false) RFD::add('CO', 'date_a', $_GET['date_a']);
+        if(isset($_GET['date_a']) && Valid::add_comm_date($_GET['date_a']) !== false) RFD::add('CO', 'date_a', $_GET['date_a']);
         else BFEC::add(BFEC::$e['UD']['date']);
 
-        if(isset($_GET['date_b']) && ($dateB = Valid::date2timestamp($_GET['date_b'])) !== false) RFD::add('CO', 'date_b', $_GET['date_b']);
+        if(isset($_GET['date_b']) && Valid::add_comm_date($_GET['date_b']) !== false) RFD::add('CO', 'date_b', $_GET['date_b']);
         else BFEC::add(BFEC::$e['UD']['date']);
 
         if(BFEC::isError()) throw new SomeErrors();
