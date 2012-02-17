@@ -623,6 +623,7 @@ class TemplateManager
      */
     public function getCatalog($what, DBC $dbc, CategoryManager $catm, CommisionManager $cm, ServiceManager $sm)
     {
+        $path_main = ($what == 'comms') ? Pathes::getPathTemplateCatalogMainComms() : Pathes::getPathTemplateCatalogMainServs();
         $path_k = Pathes::getPathTemplateCatalogKategoria();
         $path_o = Pathes::getPathTemplateCatalogObszar();
         $path_t = Pathes::getPathTemplateCatalogTematyka();
@@ -633,6 +634,8 @@ class TemplateManager
             throw new NoTemplateFile($path_o.' plik nie istnieje!');
         if(!file_exists($path_t))
             throw new NoTemplateFile($path_t.' plik nie istnieje!');
+        if(!file_exists($path_main))
+            throw new NoTemplateFile($path_main.' plik nie istnieje!');
         
 
         //zaczytywanie wszystkich kategorii obszarow i tematyk do obiektu Categories
@@ -696,7 +699,7 @@ class TemplateManager
         }
         $t1 = str_replace('{%cat.html%}', $t2, $t1);
         
-        return $t1;
+        return str_replace('{%catalog%}', $t1, file_get_contents($path_main));
     }
 }
 

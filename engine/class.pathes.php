@@ -33,6 +33,8 @@ class Pathes
     public static $template_catalog_kategoria = 'cat.html';
     public static $template_catalog_obszar = 'cat_oit.html';
     public static $template_catalog_tematyka = 'cat_t.html';
+    public static $template_catalog_main_comms = 'cat_comms.html';
+    public static $template_catalog_main_servs = 'cat_servs.html';
 
     public static $script_path = '';
     public static $script_index = 'index.php';
@@ -224,6 +226,16 @@ class Pathes
     public static function getPathTemplateCatalogTematyka()
     {
         return Pathes::$template_path.Pathes::$template_catalog_tematyka;
+    }
+    
+    public static function getPathTemplateCatalogMainComms()
+    {
+        return Pathes::$template_path.Pathes::$template_catalog_main_comms;
+    }
+    
+    public static function getPathTemplateCatalogMainServs()
+    {
+        return Pathes::$template_path.Pathes::$template_catalog_main_servs;
     }
 }
 
