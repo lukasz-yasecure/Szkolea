@@ -109,32 +109,31 @@ class Query {
         return str_replace('\'\'', 'NULL', $sql);
     }
 
-    public static function updateProfileData(ProfileEditFormData $pefd, $u) 
-    {
+    public static function updateProfileData(ProfileEditFormData $pefd, $u) {
         $sql = 'UPDATE `szkolea`.`users_324` SET 
-                    `os_name` = \''.$pefd->getOs_name().'\',
-                    `os_surname` = \''.$pefd->getOs_surname().'\',
-                    `os_street` =  \''.$pefd->getOs_street().'\',
-                    `os_house_number` = \''.$pefd->getOs_house_number().'\',
-                    `os_postcode` = \''.$pefd->getOs_postcode().'\',
-                    `os_city` =  \''.$pefd->getOs_city().'\',
-                    `os_woj` = \''.$pefd->getOs_woj().'\',
-                    `os_phone` = \''.$pefd->getOs_phone().'\',
-                    `f_name` =  \''.$pefd->getF_name().'\',
-                    `f_surname` = \''.$pefd->getF_surname().'\',
-                    `f_position` = \''.$pefd->getF_position().'\',
-                    `f_company` = \''.$pefd->getF_company().'\',
-                    `f_street` =  \''.$pefd->getF_street().'\',
-                    `f_house_number` = \''.$pefd->getF_house_number().'\',
-                    `f_postcode` = \''.$pefd->getF_postcode().'\',
-                    `f_city` = \''.$pefd->getF_city().'\',
-                    `f_woj` = \''.$pefd->getF_woj().'\',
-                    `f_regon` = \''.$pefd->getF_regon().'\',
-                    `f_nip` = \''.$pefd->getF_nip().'\',
-                    `f_krs` = \''.$pefd->getF_krs().'\',
-                    `f_phone` = \''.$pefd->getF_phone().'\'
-                    WHERE `users_324`.`id_user` = '.$u->getId_user();
-                    return str_replace('\'\'', 'NULL', $sql);
+                    `os_name` = \'' . $pefd->getOs_name() . '\',
+                    `os_surname` = \'' . $pefd->getOs_surname() . '\',
+                    `os_street` =  \'' . $pefd->getOs_street() . '\',
+                    `os_house_number` = \'' . $pefd->getOs_house_number() . '\',
+                    `os_postcode` = \'' . $pefd->getOs_postcode() . '\',
+                    `os_city` =  \'' . $pefd->getOs_city() . '\',
+                    `os_woj` = \'' . $pefd->getOs_woj() . '\',
+                    `os_phone` = \'' . $pefd->getOs_phone() . '\',
+                    `f_name` =  \'' . $pefd->getF_name() . '\',
+                    `f_surname` = \'' . $pefd->getF_surname() . '\',
+                    `f_position` = \'' . $pefd->getF_position() . '\',
+                    `f_company` = \'' . $pefd->getF_company() . '\',
+                    `f_street` =  \'' . $pefd->getF_street() . '\',
+                    `f_house_number` = \'' . $pefd->getF_house_number() . '\',
+                    `f_postcode` = \'' . $pefd->getF_postcode() . '\',
+                    `f_city` = \'' . $pefd->getF_city() . '\',
+                    `f_woj` = \'' . $pefd->getF_woj() . '\',
+                    `f_regon` = \'' . $pefd->getF_regon() . '\',
+                    `f_nip` = \'' . $pefd->getF_nip() . '\',
+                    `f_krs` = \'' . $pefd->getF_krs() . '\',
+                    `f_phone` = \'' . $pefd->getF_phone() . '\'
+                    WHERE `users_324`.`id_user` = ' . $u->getId_user();
+        return str_replace('\'\'', 'NULL', $sql);
     }
 
     public static function saveNewCommisionInDB(Commision $c) {
@@ -570,12 +569,23 @@ class Query {
         $sql = 'SELECT tematyka, COUNT( services.tematyka ) AS SubsubservsSums FROM services GROUP BY tematyka';
         return $sql;
     }
-  
-        public static function CommList4Admin() {
+
+    public static function CommListForAdmin() {
         $sql = 'SELECT C.id_comm AS id_zlec, U.os_name AS imie, U.os_surname AS nazwisko, U.id_user AS id_usera, COUNT(CG.id_user) AS ilosc_dop, U2.os_name AS imie_dop, U2.os_surname AS nazwisko_dop, U2.id_user AS id_dop
 FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN commisions_group CG ON CG.id_comm = C.id_comm INNER JOIN users_324 U2 ON U2.id_user= CG.id_user GROUP BY CG.id_comm, CG.id_user';
         return $sql;
     }
+    
+        public static function deleteComm($from, $id_comm) {
+        $sql = 'DELETE FROM '. $from . ' WHERE ' . $from . '.id_comm = ' . $id_comm ;
+        return $sql;
+    }
+    
+            public static function setUserBanned($id_user) {
+        $sql = 'UPDATE users_324 SET status = 2 WHERE users_324.id_user =' . $id_user;
+        return $sql;
+    }
+    
     
 
 }

@@ -58,6 +58,9 @@ class PrivilegesManager
             case 'observe':
                 $this->setPrivilegesForObserve();
                 break;
+            case 'fun_adm':
+                $this->setPrivilegesForAdmin();
+                break;
             default:
                 throw new NoDefinitionForAction('Brak przywilejow dla tej akcji!', 0);
         }
@@ -89,6 +92,11 @@ class PrivilegesManager
     private function setPrivilegesForObserve()
     {
         $this->p = new Privileges(1, 0, 1);
+    }
+    
+    private function setPrivilegesForAdmin()
+    {
+        $this->p = new Privileges(1, 3, 1);
     }
 
     private function allAllowed()

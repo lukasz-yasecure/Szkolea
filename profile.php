@@ -279,36 +279,15 @@ try {
             $t = new Template(Pathes::getPathTemplateProfileU());
     }
     else if ($u->isAdmin()) {
+        
+        
         if ((isset($_GET['w']) && $_GET['w'] == 'comms' && !isset($_GET['a'])) || (isset($_GET['w']) && $_GET['w'] == 'comms' && isset($_GET['a']) && $_GET['a'] == '0')) {
+        
             $t = new Template('view/html/admin_comms.html');
 
-
-            $sql = Query::CommList4Admin();
-            $result = $dbc->query($sql);
-
-
-            if (!$result)
-                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-            if ($result->num_rows <= 0)
-            //throw new EmptyList();
-                $r = '';
-            else
-            {
-                $CommList = array();
-                $w = '';
-
-                $temp = 0;
-                while ($r = $result->fetch_assoc()) {
-                    if ($temp != $r['id_zlec']) {
-                        $w.= '<br> <a href="comm.php?id=' . $r['id_zlec'] . '">' . 'Zlecenie nr: ' . $r['id_zlec'] . '</a> dodane przez: <a href="profile.php?w=uzytkownicy#' . $r['id_usera'] . '">' . $r['imie'] . ' ' . $r['nazwisko'] . ' (ID: '.$r['id_usera'].') </a> [ usuń zlecenie ]';
-                        $w.= '<li> ' . $r['ilosc_dop'] . ' osoba (osoby) dopisane przez <a href="profile.php?w=uzytkownicy#' . $r['id_dop'] . '">' . $r['imie_dop'] . ' ' . $r['nazwisko_dop'] . ' (ID: '.$r['id_dop'].')</a></li>';
-                        $temp = $r['id_zlec'];
-                    } else {
-                        $w.= '<li>' . $r['ilosc_dop'] . ' osoba (osoby) dopisane przez <a href="xxx?u=' . $r['id_dop'] . '">' . $r['imie_dop'] . ' ' . $r['nazwisko_dop'] . ' (ID: '.$r['id_dop'].')</a></li>';
-                    }
-                }
-                $r = $w;
-            }
+            //wyświetlenie listy zleceń dla admina
+            $r = $tm->getCommsListForAdmin(new DBC($sys));
+            
         } else if (isset($_GET['w']) && $_GET['w'] == 'kategorie' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a']))) {
             $t = new Template('view/html/admin_kategorie_edycja.html');
 
