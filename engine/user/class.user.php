@@ -66,6 +66,12 @@ class User
         if($this->kind == 'A') return true;
         else return false;
     }
+    
+    public function isBanned()
+    {
+        if($this->status == '2') return true;
+        else return false;
+    }
 
     public function isActivated()
     {

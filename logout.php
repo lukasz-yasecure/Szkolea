@@ -32,6 +32,7 @@ try
     $u = $um->getUserFromSession($sm);
     $u->setLoggedStatus(false);
     $um->storeUserInSession($sm, $u);
+    $sm->logoutUser();
     BFEC::addm(BFEC::$m['UM']['wylogowany'], $sys->getScriptIndexPath());
 }
 catch(BasicModuleDoesNotExist $e) // System

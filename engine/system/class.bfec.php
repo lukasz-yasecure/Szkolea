@@ -69,7 +69,8 @@ class BFEC
         'UM' => array(
             'InvalidUserValidation' => 'Nie pamiętasz hasła? <a href="remind.php">Poproś o nowe</a>.<br/>Nie masz konta? <a href="register.php">Rejestracja jest za darmo</a>!',
             'nieaktywowany' => 'Aktywuj swoje konto, aby mieć pełny dostęp do usług w Szkolea.pl! Aby to zrobić kliknij w link podany w mailu otrzymanym po rejestracji.<br/><a href="activation.php?resend">Nie otrzymałem maila</a>.',
-            'serv_niezalogowany' => 'Aby zobaczyć dane kontaktowe usługodawcy, musisz się <a href="log.php">zalogować</a>!'
+            'serv_niezalogowany' => 'Aby zobaczyć dane kontaktowe usługodawcy, musisz się <a href="log.php">zalogować</a>!',
+            'zbanowany' => 'Twoje konto zostało zablokowane. Skontaktuj się z administratorem w celu wyjaśnienia.'
         ),
         'contact' => 'Musisz podać treść wiadomości!'
     );

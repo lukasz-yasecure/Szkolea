@@ -41,6 +41,11 @@ if(isset($_POST['logging']))
         $lfd = $ud->getLoginFormData();
         $um->verifyUser($dbc, $lfd);
         $u = $um->getUserByEmail($dbc, $lfd->getEmail());
+        if($u->isBanned()) // uzytkownik zbanowany - czyscimy formularz i przenosimy z bledem na glowna
+        {
+            RFD::clear('logForm');
+            BFEC::add(BFEC::$e['UM']['zbanowany'], true, Pathes::getScriptIndexPath());
+        }
         $u->setLoggedStatus(true);
         $um->storeUserInSession($sm, $u);
         if(!$u->isActivated()) BFEC::add(BFEC::$e['UM']['nieaktywowany']);

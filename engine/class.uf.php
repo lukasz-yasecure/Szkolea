@@ -5,6 +5,19 @@
  */
 class UF
 {
+    /**
+     * dodaje do dlugosci szkolenia "dni" np. dostaje 1 zwraca "1 dzien" dostaje 10 zwraca "10 dni"
+     * @param type $l
+     * @return string 
+     */
+    public static function longWithDays($l)
+    {
+        if(intval($l) <= 0) return '0 dni';
+        
+        if($l == '1') return '1 dzień';
+        else return $l.' dni';
+    }
+    
     public static function date2timestamp($d)
     {
         if(is_null($d)) return null;

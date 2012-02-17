@@ -46,7 +46,7 @@ class CommTemplate
 
     public function setLong($l)
     {
-        $this->replace[2] = $l;
+        $this->replace[2] = UF::longWithDays($l);
     }
 
     public function setDays($e)
