@@ -30,6 +30,9 @@ class Pathes
     public static $template_profile_k = 'profile_k.html';
     public static $template_profile_u = 'profile_u.html';
     public static $template_profile_edit_form = 'profile_edit_form.html';
+    public static $template_catalog_kategoria = 'cat.html';
+    public static $template_catalog_obszar = 'cat_oit.html';
+    public static $template_catalog_tematyka = 'cat_t.html';
 
     public static $script_path = '';
     public static $script_index = 'index.php';
@@ -208,7 +211,20 @@ class Pathes
         return Pathes::$template_path.Pathes::$template_profile_edit_form;
     }
 
-
+    public static function getPathTemplateCatalogKategoria()
+    {
+        return Pathes::$template_path.Pathes::$template_catalog_kategoria;
+    }
+    
+    public static function getPathTemplateCatalogObszar()
+    {
+        return Pathes::$template_path.Pathes::$template_catalog_obszar;
+    }
+    
+    public static function getPathTemplateCatalogTematyka()
+    {
+        return Pathes::$template_path.Pathes::$template_catalog_tematyka;
+    }
 }
 
 ?>

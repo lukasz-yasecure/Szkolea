@@ -135,6 +135,14 @@ class CategoryManager {
         }
     }
 
+    /**
+     * zwraca tablice wszystkich kategorii obszarow i tematyk
+     * 
+     * @param DBC $dbc
+     * @return Categories
+     * @throws DBQueryException
+     * @throws EmptyList 
+     */
     public function getCategoriesForCatalogs(DBC $dbc) {
 
         $c = new Categories();
@@ -322,105 +330,6 @@ class CategoryManager {
 
         return $r;
     }
-
-    public function getCatsSums(DBC $dbc) {
-
-        $sql = Query::CatsSums();
-        $result = $dbc->query($sql);
-        if (!$result)
-            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-        if ($result->num_rows <= 0)
-            //throw new EmptyList();
-            return array();
-        $Sums = array();
-        while ($r = $result->fetch_assoc()) {
-            $Sums[$r['kategoria_id']] = $r['CatsSums'];
-        }
-        return $Sums;
-    }
-
-    public function getSubcatsSums(DBC $dbc) {
-                $sql = Query::SubcatsSums();
-        $result = $dbc->query($sql);
-        if (!$result)
-            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-        if ($result->num_rows <= 0)
-            //throw new EmptyList();
-            return array();
-        $Sums = array();
-        while ($r = $result->fetch_assoc()) {
-            $Sums[$r['obszar_id']] = $r['SubcatsSums'];
-        }
-        return $Sums;
-        
-    }
-
-    public function getSubsubcatsSums(DBC $dbc) {
-                $sql = Query::SubsubcatsSums();
-        $result = $dbc->query($sql);
-        if (!$result)
-            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-        if ($result->num_rows <= 0)
-            //throw new EmptyList();
-            return array();
-        $Sums = array();
-        while ($r = $result->fetch_assoc()) {
-            $Sums[$r['tematyka']] = $r['SubsubcatsSums'];
-        }
-        return $Sums;
-        
-    }
-    
-
-          
-        public function getServsSums(DBC $dbc) {
-
-        $sql = Query::ServsSums();
-        $result = $dbc->query($sql);
-        if (!$result)
-            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-        if ($result->num_rows <= 0)
-            //throw new EmptyList();
-            return array();
-        $Sums = array();
-        while ($r = $result->fetch_assoc()) {
-            $Sums[$r['kategoria_id']] = $r['ServsSums'];
-        }
-        return $Sums;
-    }
-
-    public function getSubservsSums(DBC $dbc) {
-                $sql = Query::SubservsSums();
-        $result = $dbc->query($sql);
-        if (!$result)
-            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-        if ($result->num_rows <= 0)
-            //throw new EmptyList();
-            return array();
-        $Sums = array();
-        while ($r = $result->fetch_assoc()) {
-            $Sums[$r['obszar_id']] = $r['SubservsSums'];
-        }
-        return $Sums;
-        
-    }
-
-    public function getSubsubservsSums(DBC $dbc) {
-                $sql = Query::SubsubservsSums();
-        $result = $dbc->query($sql);
-        if (!$result)
-            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-        if ($result->num_rows <= 0)
-            //throw new EmptyList();
-            return array();
-        $Sums = array();
-        while ($r = $result->fetch_assoc()) {
-            $Sums[$r['tematyka']] = $r['SubsubservsSums'];
-        }
-        return $Sums;
-        
-    }
-
 }
 
 ?>

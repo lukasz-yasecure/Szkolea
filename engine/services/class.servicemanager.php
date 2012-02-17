@@ -114,6 +114,73 @@ class ServiceManager
         $s->setKotm($row['kotm']);
         return $s;
     }
+    
+    /**
+     * zwraca liczbe uslug w poszczegolnych kategoriach
+     * 
+     * @param DBC $dbc
+     * @return type
+     * @throws DBQueryException 
+     */
+    public function getServsSums(DBC $dbc) {
+
+        $sql = Query::ServsSums();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            //throw new EmptyList();
+            return array();
+        $Sums = array();
+        while ($r = $result->fetch_assoc()) {
+            $Sums[$r['kategoria_id']] = $r['ServsSums'];
+        }
+        return $Sums;
+    }
+
+    /**
+     * zwraca liczbe uslug w poszczegolnych obszarach
+     * @param DBC $dbc
+     * @return type
+     * @throws DBQueryException 
+     */
+    public function getSubservsSums(DBC $dbc) {
+                $sql = Query::SubservsSums();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            //throw new EmptyList();
+            return array();
+        $Sums = array();
+        while ($r = $result->fetch_assoc()) {
+            $Sums[$r['obszar_id']] = $r['SubservsSums'];
+        }
+        return $Sums;
+        
+    }
+
+    /**
+     *zwraca liczbe uslug w poszczegolnych tematykach
+     * @param DBC $dbc
+     * @return type
+     * @throws DBQueryException 
+     */
+    public function getSubsubservsSums(DBC $dbc) {
+                $sql = Query::SubsubservsSums();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            //throw new EmptyList();
+            return array();
+        $Sums = array();
+        while ($r = $result->fetch_assoc()) {
+            $Sums[$r['tematyka']] = $r['SubsubservsSums'];
+        }
+        return $Sums;
+        
+    }
 }
 
 ?>

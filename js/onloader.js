@@ -9,3 +9,8 @@ function addLoadEvent(func) {
     }
   }
 }
+
+function nie_dziala()
+{
+    alert('Ta funkcja zostanie niedługo uruchomiona! Prosimy o cierpliwość.');
+}

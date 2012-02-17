@@ -615,6 +615,89 @@ class TemplateManager
         $st->setName($s->getName());
         return $st;
     }
+    
+    /**
+     * Tworzenie szablonu katalogu zlecen z uzupelnionymi danymi
+     * 
+     * @throws NoTemplateFile 
+     */
+    public function getCatalog($what, DBC $dbc, CategoryManager $catm, CommisionManager $cm, ServiceManager $sm)
+    {
+        $path_k = Pathes::getPathTemplateCatalogKategoria();
+        $path_o = Pathes::getPathTemplateCatalogObszar();
+        $path_t = Pathes::getPathTemplateCatalogTematyka();
+        
+        if(!file_exists($path_k))
+            throw new NoTemplateFile($path_k.' plik nie istnieje!');
+        if(!file_exists($path_o))
+            throw new NoTemplateFile($path_o.' plik nie istnieje!');
+        if(!file_exists($path_t))
+            throw new NoTemplateFile($path_t.' plik nie istnieje!');
+        
+
+        //zaczytywanie wszystkich kategorii obszarow i tematyk do obiektu Categories
+        $c = $catm->getCategoriesForCatalogs($dbc);
+        
+        $CatsSums = 0;
+        $SubcatsSums = 0;
+        $SubsubcatsSums = 0;
+
+        //zliczamy wszystko w 3 krokach
+        if($what == 'comms')
+        {
+            $CatsSums = $cm->getCatsSums($dbc);
+            $SubcatsSums = $cm->getSubcatsSums($dbc);
+            $SubsubcatsSums = $cm->getSubsubcatsSums($dbc);
+        }
+        else if($what == 'servs')
+        {
+            //zliczamy wszystko w 3 krokach
+            $CatsSums = $sm->getServsSums($dbc);
+            $SubcatsSums = $sm->getSubservsSums($dbc);
+            $SubsubcatsSums = $sm->getSubsubservsSums($dbc);
+        }
+        
+        $tempK = file_get_contents($path_k);
+        $tempO = file_get_contents($path_o);
+        $tempT = file_get_contents($path_t);
+        
+        $t1 = '';
+        //wyświetlamy wszystko za pośrednictwem szablonów
+        while ($k = $c->getK()) {
+
+            $t1 .= str_replace(array('{%what%}', '{%id%}', '{%kategoria%}', '{%ile%}'), array($what, $k[1], $k[0], empty($CatsSums[$k[1]]) ? 0 : $CatsSums[$k[1]]), $tempK);
+
+            $t2 = '';
+            //przydzielanie obszarów do kategorii
+            while (($o = $c->getO())) {
+                if ((strpos($o[1], $k[1] . '_')) === 0) {
+
+                    $t2 .= str_replace(array('{%what%}', '{%id%}', '{%obszar%}', '{%ile%}'), array($what, $o[1], $o[0], empty($SubcatsSums[$o[1]]) ? 0 : $SubcatsSums[$o[1]]), $tempO);
+
+
+                    $t3 = '';
+                    //przydzielanie tematyk do obszarów
+                    while (($t = $c->getT())) {
+                        if ((strpos($t[1], $o[1] . '_')) === 0) {
+
+
+                            $t3 .= str_replace(array('{%what%}', '{%id%}', '{%tematyka%}', '{%ile%}'), array($what, $t[1], $t[0], empty($SubsubcatsSums[$t[1]]) ? 0 : $SubsubcatsSums[$t[1]]), $tempT);
+                        }
+                    }
+                    $t2 = str_replace('{%cat_t.html%}', $t3, $t2);
+                }
+                $c->resetNrT(); //reset wartości
+            }
+            $t1 = str_replace('{%cat_oit.html%}', $t2, $t1);
+
+
+
+            $c->resetNrO(); //reset wartości
+        }
+        $t1 = str_replace('{%cat.html%}', $t2, $t1);
+        
+        return $t1;
+    }
 }
 
 ?>

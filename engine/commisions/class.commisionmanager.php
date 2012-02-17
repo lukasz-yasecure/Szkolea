@@ -170,6 +170,76 @@ class CommisionManager
         if(!$res) throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         return $this->getCommisionFromRow($res->fetch_assoc());
     }
+    
+    /**
+     *
+     * metoda zwraca sume zlecen dla wszystkich kategorii w formie tablicy (kazda kategoria i suma zlecen w niej) 
+     *
+     * @param DBC $dbc
+     * @return type
+     * @throws DBQueryException 
+     */
+    public function getCatsSums(DBC $dbc) {
+
+        $sql = Query::CatsSums();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            //throw new EmptyList();
+            return array();
+        $Sums = array();
+        while ($r = $result->fetch_assoc()) {
+            $Sums[$r['kategoria_id']] = $r['CatsSums'];
+        }
+        return $Sums;
+    }
+
+    /**
+     * metoda zwraca sume zlecen w poszczegolnych obszarach
+     * 
+     * @param DBC $dbc
+     * @return type
+     * @throws DBQueryException 
+     */
+    public function getSubcatsSums(DBC $dbc) {
+                $sql = Query::SubcatsSums();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            //throw new EmptyList();
+            return array();
+        $Sums = array();
+        while ($r = $result->fetch_assoc()) {
+            $Sums[$r['obszar_id']] = $r['SubcatsSums'];
+        }
+        return $Sums;
+        
+    }
+
+    /**
+     * metoda zwraca sume zlecen w poszczegolnych tematykach
+     * 
+     * @param DBC $dbc
+     * @return type
+     * @throws DBQueryException 
+     */
+    public function getSubsubcatsSums(DBC $dbc) {
+                $sql = Query::SubsubcatsSums();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            //throw new EmptyList();
+            return array();
+        $Sums = array();
+        while ($r = $result->fetch_assoc()) {
+            $Sums[$r['tematyka']] = $r['SubsubcatsSums'];
+        }
+        return $Sums;
+        
+    }
 }
 
 ?>

@@ -97,9 +97,4 @@ function showProgram(id)
     }
 }
 
-function nie_dziala()
-{
-    alert('Opcja chwilowo niedostępna, spróbuj później!');
-}
-
 addLoadEvent(init);
