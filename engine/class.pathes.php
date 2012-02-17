@@ -2,7 +2,7 @@
 
 class Pathes {
 
-    public static $base_url = 'http://localhost/szkolea/';
+    public static $base_url = '';
     public static $template_path = 'view/html/';
     public static $template_main = 'main.html';
     public static $template_activation_mail = 'activation_mail.html';

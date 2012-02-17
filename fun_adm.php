@@ -74,7 +74,7 @@ try {
         $sql = Query::setUserBanned($id_user);
         $dbc->query($sql);
         if ($dbc->affected_rows >= 1) {
-            BFEC::addm('Użytkownik zbanowany', true, 'profile.php?w=user');
+            BFEC::addm('Użytkownik zbanowany', 'profile.php?w=user');
             $mailer = new Mailer;
 
             $mailer->sendMail($um->getUser($dbc, $id_user)->getEmail(), 'szkolea@szkolea.pl', 'Zostałeś zablokowany w serwisie Szkolea.pl', file_get_contents('view/html/mail_user_ban.html'));
