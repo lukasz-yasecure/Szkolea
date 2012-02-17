@@ -510,6 +510,10 @@ class Query {
         return 'INSERT INTO `observe_servs_kot` (`id_user`, `id_obs`) VALUES (\'' . $uid . '\', \'' . $id . '\')';
     }
 
+    public static function getObserveCommUsers($id) {
+        $sql = 'SELECT * FROM observe_comms WHERE `id_obs`='.$id;
+        return $sql;    
+    }
     public static function getOfferAdd(Offer $o) {
         $sql = "INSERT INTO `commisions_ofe` (
                     `id_ofe` ,
