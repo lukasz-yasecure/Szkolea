@@ -11,7 +11,7 @@ class ResultsListTemplate
     private $content;
     private $comms = false;
     private $servs = false;
-    private $search_c = array('{%bgcolor1%}', '{%bgcolor2%}', '{%ikona%}', '{%kategoria%}', '{%tematyka%}', '{%id%}', '{%gdzie%}', '{%zapisanych%}', '{%cena_min%}', '{%cena_max%}', '{%pozostalo%}', '{%moduly%}');
+    private $search_c = array('{%bgcolor1%}', '{%bgcolor2%}', '{%ikona%}', '{%kategoria%}', '{%tematyka%}', '{%id%}', '{%gdzie%}', '{%zapisanych%}', '{%cena_min%}', '{%cena_max%}', '{%pozostalo%}', '{%moduly%}', '{%show_offers%}');
     private $search_s = array('{%bgcolor1%}', '{%bgcolor2%}', '{%ikona%}', '{%kategoria%}', '{%nazwa%}', '{%id%}', '{%gdzie%}', '{%cena%}', '{%pozostalo%}', '{%moduly%}', '{%program%}');
     private $replace = array();
 
@@ -24,10 +24,10 @@ class ResultsListTemplate
         $this->content = $content;
     }
 
-    public function addComm($b1, $b2, $ico, $kat, $tem, $id, $gdzie, $zapis, $c_min, $c_max, $pozo, $moduly)
+    public function addComm($b1, $b2, $ico, $kat, $tem, $id, $gdzie, $zapis, $c_min, $c_max, $pozo, $moduly, $show_offers)
     {
         $this->comms = true;
-        $this->replace[] = array($b1, $b2, $ico, $kat, $tem, $id, $gdzie, $zapis, $c_min, $c_max, $pozo, $moduly);
+        $this->replace[] = array($b1, $b2, $ico, $kat, $tem, $id, $gdzie, $zapis, $c_min, $c_max, $pozo, $moduly, $show_offers);
     }
 
     public function addServ($b1, $b2, $ico, $kat, $nazwa, $id, $gdzie, $cena, $pozo, $moduly, $pro)

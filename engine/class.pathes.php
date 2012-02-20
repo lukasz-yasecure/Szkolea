@@ -30,6 +30,7 @@ class Pathes
     public static $template_profile_k = 'profile_k.html';
     public static $template_profile_u = 'profile_u.html';
     public static $template_profile_edit_form = 'profile_edit_form.html';
+    public static $template_profile_offers = 'profile_offers.html';
     public static $template_catalog_kategoria = 'cat.html';
     public static $template_catalog_obszar = 'cat_oit.html';
     public static $template_catalog_tematyka = 'cat_t.html';
@@ -211,6 +212,11 @@ class Pathes
     public static function getPathTemplateProfileEditForm()
     {
         return Pathes::$template_path.Pathes::$template_profile_edit_form;
+    }
+
+    public static function getPathTemplateProfileOffers()
+    {
+        return Pathes::$template_path.Pathes::$template_profile_offers;
     }
 
     public static function getPathTemplateCatalogKategoria()

@@ -21,7 +21,8 @@ class CommTemplate
     '{%kategoria_name%}',
     '{%obszar_name%}',
     '{%tematyka_name%}',
-    '{%moduly_names%}');
+    '{%moduly_names%}',
+    '{%show_offers%}');
     private $replace = array();
 
     /**
@@ -101,7 +102,12 @@ class CommTemplate
     {
         $this->replace[12] = $e;
     }
-
+    
+    public function setShow_offers($e)
+    {
+        $this->replace[13] = $e;
+    }
+    
     /**
      *
      * @return string

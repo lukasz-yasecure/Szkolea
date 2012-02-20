@@ -122,6 +122,42 @@ try {
                         $r.= '<tr><td' . $c1 . '>' . $a[0] . '</td><td' . $c2 . '>' . $a[1] . '</td><td' . $c3 . '>' . $a[2] . '</td><td><button id="kasuj" name="id" value="' . $x['id_obs'] . '">Kasuj</button></td></tr>';
                     }
                 }
+            } else if ($_GET['w'] == 'offers') {
+                /*
+                 * KLIENT - OFERTY
+                 */
+                try {
+                    $t = new Template(Pathes::getPathTemplateProfileOffers());
+                    $res = $dbc->query(Query::getOfferForComm($_GET['id']));
+                    if(isset($_GET['ofe']) AND isset($_GET['accept']))
+                    {
+                        if($_GET['accept'] == 'no')
+                        {
+                            $dbc->query(Query::getOfferAcceptNo($_GET['ofe']));
+                            // wysyłamy powiadomienie
+                            header('Location: profile.php?w=offers&id='.$_GET['id']);                           
+                        }
+                        if($_GET['accept'] == 'yes')
+                        {
+                            $dbc->query(Query::getOfferAcceptYes($_GET['ofe']));
+                            $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'],$_GET['ofe']));
+                            while ($x = $res->fetch_assoc()) {
+                                $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
+                                // wysyłamy powiadomienie
+                            }
+                            header('Location: profile.php?w=offers&id='.$_GET['id']);                           
+                        }
+                    } else {
+                        while ($x = $res->fetch_assoc()) {
+                            $r .= '<li>oferta #'.$x['id_ofe'].'</li>';
+                            $r .= '<a href="profile.php?w=offers&id='.$_GET['id'].'&ofe='.$x['id_ofe'].'&accept=no"> rezygnacja</a>';
+                            $r .= '<a href="profile.php?w=offers&id='.$_GET['id'].'&ofe='.$x['id_ofe'].'&accept=yes"> akceptacja</a>';
+                        }
+                    }
+                } catch (ErrorsInprofileEditForm $e) { // to zmienić
+                    BFEC::add('', true, 'profile.php?w=offers');
+                }
+
             } else if ($_GET['w'] == 'dane') {
                 /*
                  * KLIENT - EDYCJA DANYCH
@@ -145,7 +181,7 @@ try {
                 } catch (ErrorsInprofileEditForm $e) {
                     BFEC::add('', true, 'profile.php?w=dane');
                 }
-            } // koniec
+            }
             else
                 $t = new Template(Pathes::getPathTemplateProfileK());
         }
