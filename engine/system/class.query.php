@@ -110,7 +110,7 @@ class Query {
     }
 
     public static function updateProfileData(ProfileEditFormData $pefd, $u) {
-        $sql = 'UPDATE `szkolea`.`users_324` SET 
+        $sql = 'UPDATE `users_324` SET 
                     `os_name` = \'' . $pefd->getOs_name() . '\',
                     `os_surname` = \'' . $pefd->getOs_surname() . '\',
                     `os_street` =  \'' . $pefd->getOs_street() . '\',
@@ -497,6 +497,11 @@ class Query {
         return $sql;
     }
 
+    public static function getOfferForComm($id) {
+        $sql = 'SELECT * FROM `commisions_ofe` WHERE `id_comm`= ' . $id . ' AND `status`!= 3';
+        return $sql;
+    }
+
     public static function getObserveAddForComm($uid, $id) {
         return 'INSERT INTO `observe_comms` (`id_user`, `id_obs`) VALUES (\'' . $uid . '\', \'' . $id . '\')';
     }
@@ -510,9 +515,10 @@ class Query {
     }
 
     public static function getObserveCommUsers($id) {
-        $sql = 'SELECT * FROM observe_comms WHERE `id_obs`='.$id;
-        return $sql;    
+        $sql = 'SELECT * FROM observe_comms WHERE `id_obs`=' . $id;
+        return $sql;
     }
+
     public static function getOfferAdd(Offer $o) {
         $sql = "INSERT INTO `commisions_ofe` (
                     `id_ofe` ,
@@ -542,6 +548,18 @@ class Query {
                 )";
 
         return str_replace("'NULL'", 'NULL', $sql);
+    }
+
+    public static function getOfferAcceptNo($ofe) {
+        return 'UPDATE `commisions_ofe` SET `status`=3 WHERE `id_ofe` = ' . $ofe;
+    }
+
+    public static function getOfferAcceptYes($ofe) {
+        return 'UPDATE `commisions_ofe` SET `status` = 2 WHERE `id_ofe` = ' . $ofe; // wybrana oferta
+    }
+
+    public static function getOfferAcceptYesAfter($id, $ofe) {
+        return 'SELECT * FROM `commisions_ofe` WHERE `id_comm` = ' . $id . ' AND `status` != 3 AND `id_ofe` != ' . $ofe; // po akceptacji oferty inne oferty są odrzucane: pobieramy 'inne oferty' 
     }
 
     public static function CatsSums() {
@@ -579,18 +597,16 @@ class Query {
 FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN commisions_group CG ON CG.id_comm = C.id_comm INNER JOIN users_324 U2 ON U2.id_user= CG.id_user GROUP BY CG.id_comm, CG.id_user';
         return $sql;
     }
-    
-        public static function deleteComm($from, $id_comm) {
-        $sql = 'DELETE FROM '. $from . ' WHERE ' . $from . '.id_comm = ' . $id_comm ;
+
+    public static function deleteComm($from, $id_comm) {
+        $sql = 'DELETE FROM ' . $from . ' WHERE ' . $from . '.id_comm = ' . $id_comm;
         return $sql;
     }
-    
-            public static function setUserBanned($id_user) {
+
+    public static function setUserBanned($id_user) {
         $sql = 'UPDATE users_324 SET status = 2 WHERE users_324.id_user =' . $id_user;
         return $sql;
     }
-    
-    
 
 }
 

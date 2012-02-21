@@ -50,6 +50,7 @@ try
         $bar = $tm->getUserbarTemplate($sys, $u->getEmail());
     $c = $cm->getListOfAllKOTM($dbc, 'searchForm'); // wczytujemy wszystkie kategorie na potrzeby selectow w searchform
     $st = $tm->getSearchTemplate($sys, $c, $bar->getContent()); // szablon wyszukiwarki
+    //$it = $tm->getIndexTemplate($sys, $st->getContent(), $lmt->getContent(), '');
     $it = $tm->getIndexTemplate($sys, $st->getContent(), $lmt->getContent(), $rt->getContent()); // szablon strony glownej
     $mt = $tm->getMainTemplate($sys, $it->getContent(), BFEC::showAll(), $skrypty);
     RFD::clear('searchForm');

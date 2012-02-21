@@ -48,8 +48,8 @@ class STD
     {
         // jest jedna proba, pozniej trzeba czyscic dane logowana w FF
         // ctrl+shift+del -> aktywne zalogowania
-        $login = 'test';
-        $pass = 'gusto';
+        $login = 'szkolea';
+        $pass = 'testy';
 
         if(!isset($_SERVER['PHP_AUTH_USER']))
         {

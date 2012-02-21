@@ -34,7 +34,7 @@ if(!isset($_POST['add_serv']))
         $sm = new SessionManager();
         
         // blokada do uruchomienia platnosci
-        BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
+        //BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
         
         $um = new UserManager();
         $u = $um->getUserFromSession($sm);
@@ -109,7 +109,7 @@ else
         $sm = new SessionManager();
         
         // blokada do uruchomienia platnosci
-        BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
+        //BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
         
         $dbc = new DBC($sys);
         $um = new UserManager();
