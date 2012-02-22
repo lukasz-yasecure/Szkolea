@@ -33,8 +33,8 @@ class Pathes {
     public static $template_catalog_kategoria = 'cat.html';
     public static $template_catalog_obszar = 'cat_oit.html';
     public static $template_catalog_tematyka = 'cat_t.html';
-    public static $template_comm_list = 'comm_list.html';
-    public static $template_comm_list_added = 'comm_list_added.html';
+    public static $template_comm_list = 'admin_comm_list.html';
+    public static $template_comm_list_added = 'admin_comm_list_dopisani.html';
     public static $template_catalog_main_comms = 'cat_comms.html';
     public static $template_catalog_main_servs = 'cat_servs.html';
 
