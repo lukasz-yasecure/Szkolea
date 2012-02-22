@@ -396,8 +396,6 @@ class UserData
             $rfd->setF_nip($_POST['f_nip']);
         }
 
-        RFD::clear('regForm');
-
         return $rfd;
     }
 

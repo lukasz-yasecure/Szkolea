@@ -85,7 +85,8 @@ else if(isset($_POST['register']))
         $pm->checkPrivileges($u);
         $ud = new UserData(); // operacje na danych od usera
         $rfd = $ud->getRegisterFormData(); // dane z register_form
-        $um->checkIfEmailAvailable($dbc, $rfd->getEmail());
+        $um->checkIfEmailAvailable($dbc, $rfd->getEmail()); // sprawdzamy czy email dostepny
+        RFD::clear('regForm'); // po udanej weryfikacji czyscimy RFD
         $um->storeNewUserInDB($dbc, $rfd);
         BFEC::addm('rejestracja przebiegla pomyslnie');
 
