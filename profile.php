@@ -128,33 +128,23 @@ try {
                  */
                 try {
                     $t = new Template(Pathes::getPathTemplateProfileOffers());
-                    $res = $dbc->query(Query::getOfferForComm($_GET['id']));
-                    if(isset($_GET['ofe']) AND isset($_GET['accept']))
+                    $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobieramy oferty wg. id zlecenia
+                    if(isset($_GET['ofe'])) // wybór oferty przez klienta
                     {
-                        if($_GET['accept'] == 'no')
-                        {
-                            $dbc->query(Query::getOfferAcceptNo($_GET['ofe']));
-                            // wysyłamy powiadomienie
-                            header('Location: profile.php?w=offers&id='.$_GET['id']);                           
-                        }
-                        if($_GET['accept'] == 'yes')
-                        {
-                            $dbc->query(Query::getOfferAcceptYes($_GET['ofe']));
-                            $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'],$_GET['ofe']));
-                            while ($x = $res->fetch_assoc()) {
-                                $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
-                                // wysyłamy powiadomienie
+                        $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
+                        $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'],$_GET['ofe'])); // zamiana statusu na 3 z wyjatkiem wybranej oferty
+                        while ($x = $res->fetch_assoc()) {
+                            $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
+                            // wysyłamy powiadomienia rezygnacji z oferty
                             }
-                            header('Location: profile.php?w=offers&id='.$_GET['id']);                           
-                        }
+                            header('Location: profile.php?w=offers&id='.$_GET['id']);
                     } else {
                         while ($x = $res->fetch_assoc()) {
                             $r .= '<li>oferta #'.$x['id_ofe'].'</li>';
-                            $r .= '<a href="profile.php?w=offers&id='.$_GET['id'].'&ofe='.$x['id_ofe'].'&accept=no"> rezygnacja</a>';
-                            $r .= '<a href="profile.php?w=offers&id='.$_GET['id'].'&ofe='.$x['id_ofe'].'&accept=yes"> akceptacja</a>';
+                            $r .= '<a href="profile.php?w=offers&id='.$_GET['id'].'&ofe='.$x['id_ofe'].'"> akceptacja</a>';
                         }
                     }
-                } catch (ErrorsInprofileEditForm $e) { // to zmienić
+                } catch (ErrorsInprofileOffers $e) {
                     BFEC::add('', true, 'profile.php?w=offers');
                 }
 
