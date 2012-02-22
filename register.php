@@ -42,34 +42,9 @@ if(!isset($_POST['register']))
         RFD::clear('regForm');
         echo $mt->getContent();
     }
-    catch(BasicModuleDoesNotExist $e) // System
+    catch(Exception $e)
     {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(ModuleDoesNotExist $e) // System
-    {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(NoDefinitionForAction $e) // System
-    {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(NoDefinitionForAction $e) // PrivilegesManager
-    {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(UserIsLogged $e)
-    {
-        BFEC::add('nie mozesz byc zalogowany!', true, 'index.php');
-    }
-    catch(NoTemplateFile $e) // TemplateManager
-    {
-        Log::NoTemplateFile($e);
-        $sys->getFatalError();
+        $em = new EXCManager($e);
     }
 }
 else if(isset($_POST['register']))
@@ -88,7 +63,7 @@ else if(isset($_POST['register']))
         $um->checkIfEmailAvailable($dbc, $rfd->getEmail()); // sprawdzamy czy email dostepny
         RFD::clear('regForm'); // po udanej weryfikacji czyscimy RFD
         $um->storeNewUserInDB($dbc, $rfd);
-        BFEC::addm('rejestracja przebiegla pomyslnie');
+        BFEC::addm(MSG::registerComplete());
 
         $sys = new System('activation_send', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
         $u = $um->getUserByEmail($dbc, $rfd->getEmail());
@@ -101,79 +76,11 @@ else if(isset($_POST['register']))
         $m->sendActivationMail($sys, $amail);
         $km->storeActivationKey($dbc, $u);
 
-        BFEC::addm('kliknij w link aktywujacy na maili zeby aktywowac konto', 'index.php');
+        BFEC::addm(MSG::activationMailSend(), Pathes::getScriptIndexPath());
     }
-    catch(BasicModuleDoesNotExist $e) // System
+    catch(Exception $e)
     {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(ModuleDoesNotExist $e) // System
-    {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(NoDefinitionForAction $e) // System
-    {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(DBConnectException $e) // DBC
-    {
-        Log::DBConnect($e);
-        $sys->getFatalError();
-    }
-    catch(DBCharsetException $e) // DBC
-    {
-        Log::DBCharset($e);
-        $sys->getFatalError();
-    }
-    catch(NoDefinitionForAction $e) // PrivilegesManager
-    {
-        Log::System($e);
-        $sys->getFatalError();
-    }
-    catch(UserIsLogged $e) // PrivilegesManager
-    {
-        BFEC::add('nie mozesz byc zalogowany!', true, 'index.php');
-    }
-    catch(ErrorsInRegisterForm $e) // UserData
-    {
-        BFEC::add('', true, 'register.php');
-    }
-    catch(EmailIsNotAvailable $e)
-    {
-        BFEC::add('Podany adres e-mail jest zajety!', true, 'register.php');
-    }
-    catch(DBQueryException $e) // UserManager, KeyManager
-    {
-        Log::DBQuery($e);
-        $sys->getFatalError();
-    }
-    catch(UMNoUser $e) // UserManager
-    {
-        Log::NoUser($e);
-        $sys->getFatalError();
-    }
-    catch(UMTooManyUsers $e) // UserManager
-    {
-        Log::TooManyUsers($e);
-        $sys->getFatalError();
-    }
-    catch(NoTemplateFile $e) // TemplateManager
-    {
-        Log::NoTemplateFile($e);
-        $sys->getFatalError();
-    }
-    catch(NoPreparedActivationKeys $e) // KeyManager
-    {
-        Log::NoPreparedActivationKeys($e);
-        $sys->getFatalError();
-    }
-    catch(MailDidNotSend $e) // Mailer
-    {
-        Log::MailDidNotSend($e);
-        BFEC::add('nie udalo sie wyslac maila aktywujacego, trzeba sie zalogowac pozniej i wyslac jeszcze raz', true, 'index.php');
+        $em = new EXCManager($e, 'register');
     }
 }
 

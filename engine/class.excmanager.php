@@ -2,7 +2,7 @@
 
 class EXCManager {
 
-    private $fatal = 'Fatal error.';
+    private $fatal = 'Serwisz Szkolea.pl jest obecnie poddawany pracom konserwacyjnym! Nie potrwa to długo, więc prosimy o odrobinę cierpliwości. Przepraszamy za kłopot i zapraszamy później!';
 
     public function __construct(Exception $e, $s = null) {
         $eName = get_class($e);
@@ -10,7 +10,8 @@ class EXCManager {
         switch ($eName) {
             case 'MailDidNotSend':
                 Log::MailDidNotSend($e);
-                BFEC::add('Nie udało się wysłać maila! Spróbuj ponownie później.', true, Pathes::getScriptIndexPath());
+                if($s == 'register') BFEC::add(MSG::activationMailFail(), true, Pathes::getScriptIndexPath());
+                else BFEC::add(MSG::sendMailFail(), true, Pathes::getScriptIndexPath());
                 break;
             case 'ModuleDoesNotExist':
             case 'BasicModuleDoesNotExist':
@@ -21,6 +22,10 @@ class EXCManager {
 
             case 'UserIsNotLogged':
                 BFEC::add(BFEC::$e['PM']['UserIsNotLogged'], true, Pathes::getScriptLoginPath());
+                break;
+            
+            case 'UserIsLogged':
+                BFEC::add(BFEC::$e['PM']['UserIsLogged'], true, Pathes::getScriptIndexPath());
                 break;
 
             case 'UserIsNotDostawca':
@@ -48,6 +53,14 @@ class EXCManager {
 
             case 'ErrorsInAddServForm':
                 BFEC::add('', true, Pathes::getScriptAddServPath());
+                break;
+            
+            case 'ErrorsInRegisterForm':
+                BFEC::add('', true, Pathes::getScriptRegisterPath());
+                break;
+            
+            case 'EmailIsNotAvailable':
+                BFEC::add(MSG::registerErrorEmailIsNotAvailable(), true, Pathes::getScriptRegisterPath());
                 break;
 
             case 'DBConnectException':
@@ -77,9 +90,24 @@ class EXCManager {
             case 'SomeErrors':
                 BFEC::add('', true, SessionManager::getBackURL_Static());
                 break;
+            
+            case 'UMNoUser':
+                Log::NoUser($e);
+                $this->fatal();
+                break;
+            
+            case 'UMTooManyUsers':
+                Log::TooManyUsers($e);
+                $this->fatal();
+                break;
+            
+            case 'NoPreparedActivationKeys':
+                Log::NoPreparedActivationKeys($e);
+                $this->fatal();
+                break;
 
             default:
-                exit('zdefiniuj ten blad: ' . $eName);
+                exit($eName);
                 break;
         }
     }

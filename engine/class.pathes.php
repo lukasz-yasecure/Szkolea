@@ -46,6 +46,7 @@ class Pathes {
     public static $script_add_comm = 'addcomm.php';
     public static $script_add_serv = 'addserv.php';
     public static $script_commision = 'comm.php';
+    public static $script_register = 'register.php';
     public static $script_service = 'serv.php';
 
     public static function getTemplateActivationMailPath() {
@@ -90,6 +91,10 @@ class Pathes {
 
     public static function getScriptLoginPath() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_login;
+    }
+    
+    public static function getScriptRegisterPath() {
+        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_register;
     }
 
     public static function getScriptAddCommPath() {

@@ -119,7 +119,7 @@ class System
 
 
     private $class_path = 'engine/';
-    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/');
+    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/', 'data/');
     private $class_basic = array('class.log.php', 'class.uf.php', 'class.excmanager.php', 'classes.exceptions.php', 'class.pathes.php', 'class.sc.php');
     private $class_std = 'class.std.php';
 
