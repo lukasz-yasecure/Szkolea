@@ -36,6 +36,7 @@ class Commision
     private $moduly; // idy
     private $oferty; // liczba ofert
     private $show_offers; // link 'pokaż oferty'
+    private $count_offers; // liczba ofert
 
     public function getOferty() {
         return $this->oferty;
@@ -267,6 +268,14 @@ class Commision
 
     public function setShow_offers($show_offers) {
         $this->show_offers = $show_offers;
+    }
+
+    public function getCount_offers() {
+        return $this->count_offers;
+    }
+
+    public function setCount_offers($count_offers) {
+        $this->count_offers = $count_offers;
     }
 
 }

@@ -55,6 +55,7 @@ class CommisionManager
         $c->setTematyka_name($row['tematyka_name']);
         $c->setTematyka($row['tematyka']);
         $c->setModuly_names($row['moduly_names']);
+        if(isset($row['count_offers'])) $c->setCount_offers($row['count_offers']);
         return $c;
     }
 
