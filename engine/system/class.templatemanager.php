@@ -444,8 +444,7 @@ class TemplateManager
             while(!is_null($c = $r->getComm()))
             {
                 $show_offers = "";
-                // Sprawdzane, czy są oferty. Jeśli są - wyświetlany link 'pokaż oferty' 
-                if($c->getCount_offers() > 0) $show_offers = '<li><a href="profile.php?w=offers&id='.$c->getId_comm().'">pokaż oferty</a></li>'; 
+                if(time() > $c->getDate_end()) $show_offers = '<li><a href="profile.php?w=offers&id='.$c->getId_comm().'">pokaż oferty</a></li>'; 
                 $rlt->addComm($colors[$i%4], $colors[(++$i)%4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names(),$show_offers);
             }
         }
