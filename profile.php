@@ -53,10 +53,11 @@ try {
 
 //w przypadku adresu typu profile.php?w=pakiety&action=kup_pakiet&pakiet=X dodawany jest dostawcy odpowiedni pakiet (X) od 2 do 5, w przeciwny wypadku wyjątek
     if ($u->isDostawca() && isset($_GET['action']) && $_GET['action'] == 'kup_pakiet' && isset($_GET['pakiet'])) {
-        $pm = new PackageManager($dbc, $u->getId_user());
-        if (Valid::isNatural($_GET['pakiet']) && $_GET['pakiet'] <= 5 && $_GET['pakiet'] > 1) {
+        $pm = new PackageManager();
+        if (Valid::isNatural($_GET['pakiet']) && $_GET['pakiet'] <= 5 && $_GET['pakiet'] > 1) {     //sprawdzenie czy liczba oraz z czy z zakresu 2-5
             $pakiet = $pm->pobierzPakiet($dbc, $_GET['pakiet']);
             $pm->dodajPakietUzytkownikowi($dbc, $u->getId_user(), $pakiet);
+            BFEC::addm(MSG::profileAddPackagesSuccess(), Pathes::$script_profile_packages);   // komunikat o pomyślnym dodaniu pakietu i przekierowanie na aktywne profile
         }else
             throw new NieprawidloweIdPakietu;
     }

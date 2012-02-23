@@ -10,7 +10,7 @@ class PackageManager {
     private $baner;
     private $mailing;
 
-    public function __construct(DBC $dbc, $id_user) {
+    public function pobierzAktywnePakiety(DBC $dbc, $id_user) {
 
 
 
@@ -47,9 +47,7 @@ class PackageManager {
 
         $sql = Query::setPackageForUser($id_user, $pakiet);
         $dbc->query($sql);
-        if ($dbc->affected_rows >= 1)
-            BFEC::addm('Dodano pomyślnie pakiet.', Pathes::$script_profile_packages);
-        else
+        if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
             throw new NieDodanoPakietu;
     }
 
