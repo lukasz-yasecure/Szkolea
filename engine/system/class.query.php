@@ -22,6 +22,7 @@
  *  2011-11-08  dodalem nowe metody do zapisywania zlecenia w bazie
  */
 class Query {
+   // echo 'test';
 
     public static function escapeUnderscore($sql) {
         return str_replace('_', '\\_', $sql);
