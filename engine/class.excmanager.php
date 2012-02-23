@@ -10,8 +10,10 @@ class EXCManager {
         switch ($eName) {
             case 'MailDidNotSend':
                 Log::MailDidNotSend($e);
-                if($s == 'register') BFEC::add(MSG::activationMailFail(), true, Pathes::getScriptIndexPath());
-                else BFEC::add(MSG::sendMailFail(), true, Pathes::getScriptIndexPath());
+                if ($s == 'register')
+                    BFEC::add(MSG::activationMailFail(), true, Pathes::getScriptIndexPath());
+                else
+                    BFEC::add(MSG::sendMailFail(), true, Pathes::getScriptIndexPath());
                 break;
             case 'ModuleDoesNotExist':
             case 'BasicModuleDoesNotExist':
@@ -23,7 +25,7 @@ class EXCManager {
             case 'UserIsNotLogged':
                 BFEC::add(BFEC::$e['PM']['UserIsNotLogged'], true, Pathes::getScriptLoginPath());
                 break;
-            
+
             case 'UserIsLogged':
                 BFEC::add(BFEC::$e['PM']['UserIsLogged'], true, Pathes::getScriptIndexPath());
                 break;
@@ -54,11 +56,11 @@ class EXCManager {
             case 'ErrorsInAddServForm':
                 BFEC::add('', true, Pathes::getScriptAddServPath());
                 break;
-            
+
             case 'ErrorsInRegisterForm':
                 BFEC::add('', true, Pathes::getScriptRegisterPath());
                 break;
-            
+
             case 'EmailIsNotAvailable':
                 BFEC::add(MSG::registerErrorEmailIsNotAvailable(), true, Pathes::getScriptRegisterPath());
                 break;
@@ -90,20 +92,32 @@ class EXCManager {
             case 'SomeErrors':
                 BFEC::add('', true, SessionManager::getBackURL_Static());
                 break;
-            
+
             case 'UMNoUser':
                 Log::NoUser($e);
                 $this->fatal();
                 break;
-            
+
             case 'UMTooManyUsers':
                 Log::TooManyUsers($e);
                 $this->fatal();
                 break;
-            
+
             case 'NoPreparedActivationKeys':
                 Log::NoPreparedActivationKeys($e);
                 $this->fatal();
+                break;
+
+            case 'NieprawidloweIdPakietu':
+                BFEC::add(MSG::profilePackageIdError(), true, Pathes::getScriptProfilePackageBuyingPath());
+                break;
+
+            case 'NieDodanoPakietu':
+                BFEC::add(MSG::profilePackageAddError(), true, Pathes::getScriptProfilePackagesPath());
+                break;
+
+            case 'BrakAktywnychPakietow':
+                BFEC::add(MSG::profileNoPackages(), true, Pathes::getScriptProfilePath());
                 break;
 
             default:

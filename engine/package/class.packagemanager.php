@@ -10,7 +10,6 @@ class PackageManager {
     private $baner;
     private $mailing;
 
-
     public function __construct(DBC $dbc, $id_user) {
 
 
@@ -48,6 +47,10 @@ class PackageManager {
 
         $sql = Query::setPackageForUser($id_user, $pakiet);
         $dbc->query($sql);
+        if ($dbc->affected_rows >= 1)
+            BFEC::addm('Dodano pomyślnie pakiet.', Pathes::$script_profile_packages);
+        else
+            throw new NieDodanoPakietu;
     }
 
     public function pobierzPakiet(DBC $dbc, $id_pakietu) {

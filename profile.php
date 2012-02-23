@@ -29,6 +29,7 @@ try {
     $tm = new TemplateManager();
     $dbc = new DBC($sys);
 
+
     $r = '';
     $cm = new CategoryManager();
 
@@ -47,6 +48,17 @@ try {
                 BFEC::addm('Usunięto z obserwowanych!', SessionManager::getBackURL_Static());
             }
         }
+    }
+
+
+//w przypadku adresu typu profile.php?w=pakiety&action=kup_pakiet&pakiet=X dodawany jest dostawcy odpowiedni pakiet (X) od 2 do 5, w przeciwny wypadku wyjątek
+    if ($u->isDostawca() && isset($_GET['action']) && $_GET['action'] == 'kup_pakiet' && isset($_GET['pakiet'])) {
+        $pm = new PackageManager($dbc, $u->getId_user());
+        if (Valid::isNatural($_GET['pakiet']) && $_GET['pakiet'] <= 5 && $_GET['pakiet'] > 1) {
+            $pakiet = $pm->pobierzPakiet($dbc, $_GET['pakiet']);
+            $pm->dodajPakietUzytkownikowi($dbc, $u->getId_user(), $pakiet);
+        }else
+            throw new NieprawidloweIdPakietu;
     }
 
     $dodatkowe_js = ''; // dla admina dochodza dodatkowe JS wiec wprowadzilem taka zmienna zeby mozna bylo dolaczyc tylko gdy sa potrzebne te pliki JS
@@ -129,25 +141,23 @@ try {
                 try {
                     $t = new Template(Pathes::getPathTemplateProfileOffers());
                     $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobieramy oferty wg. id zlecenia
-                    if(isset($_GET['ofe'])) // wybór oferty przez klienta
-                    {
+                    if (isset($_GET['ofe'])) { // wybór oferty przez klienta
                         $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
-                        $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'],$_GET['ofe'])); // zamiana statusu na 3 z wyjatkiem wybranej oferty
-                            while ($x = $res->fetch_assoc()) {
-                                $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
-                            // wysyłamy powiadomienia rezygnacji z oferty
-                            }
-                            header('Location: profile.php?w=offers&id='.$_GET['id']);                           
+                        $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // zamiana statusu na 3 z wyjatkiem wybranej oferty
+                        while ($x = $res->fetch_assoc()) {
+                            $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
+// wysyłamy powiadomienia rezygnacji z oferty
+                        }
+                        header('Location: profile.php?w=offers&id=' . $_GET['id']);
                     } else {
                         while ($x = $res->fetch_assoc()) {
-                            $r .= '<li>oferta #'.$x['id_ofe'].'</li>';
-                            $r .= '<a href="profile.php?w=offers&id='.$_GET['id'].'&ofe='.$x['id_ofe'].'"> akceptacja</a>';
+                            $r .= '<li>oferta #' . $x['id_ofe'] . '</li>';
+                            $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
                         }
                     }
                 } catch (ErrorsInprofileOffers $e) {
                     BFEC::add('', true, 'profile.php?w=offers');
                 }
-
             } else if ($_GET['w'] == 'dane') {
                 /*
                  * KLIENT - EDYCJA DANYCH
@@ -278,15 +288,32 @@ try {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
                         $t = new Template('view/html/profile_u_pakiety_akt.html');
-                    else if ($_GET['a'] == 1)
-                        $t = new Template('view/html/profile_u_pakiety_kup.html');
+                    else if ($_GET['a'] == 1) {
+                        $t = new Template('view/html/profile_dostawca_kup.html');
+
+                        //dodawanie listy pakietow do zakładki PAKIETY w profilu DOSTAWCY
+
+                        $temp_lista = new Template('view/html/profile_dostawca_lista_pakietow.html');
+
+                        $temp = '';
+
+                        //generowanie listy pakietów od 2 do 5 dla DOSTAWCY
+                        for ($i = 2; $i <= 5; $i++) {
+
+                            $temp_lista->clearSearchReplace();
+                            $temp_lista->addSearchReplace('id', $i);
+
+                            $temp.=$temp_lista->getContent();
+                        }
+
+                        $t->addSearchReplace('here', $temp);
+                    }
                     else
                         $t = new Template('view/html/profile_u_pakiety_akt.html');
                 }
                 else
                     $t = new Template('view/html/profile_u_pakiety_akt.html');
-            }
-            else if ($_GET['w'] == 'faktury') {
+            } else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
                         $t = new Template('view/html/profile_u_faktury_op.html');
@@ -305,15 +332,14 @@ try {
             $t = new Template(Pathes::getPathTemplateProfileU());
     }
     else if ($u->isAdmin()) {
-        
-        
+
+
         if ((isset($_GET['w']) && $_GET['w'] == 'comms' && !isset($_GET['a'])) || (isset($_GET['w']) && $_GET['w'] == 'comms' && isset($_GET['a']) && $_GET['a'] == '0')) {
-        
+
             $t = new Template('view/html/admin_comms.html');
 
-            //wyświetlenie listy zleceń dla admina
+//wyświetlenie listy zleceń dla admina
             $r = $tm->getCommsListForAdmin(new DBC($sys));
-            
         } else if (isset($_GET['w']) && $_GET['w'] == 'kategorie' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a']))) {
             $t = new Template('view/html/admin_kategorie_edycja.html');
 
@@ -340,7 +366,7 @@ try {
             if (!$result)
                 throw new DBQueryException($dbc->error, $sql, $dbc->errno);
             if ($result->num_rows <= 0)
-            //throw new EmptyList();
+//throw new EmptyList();
                 $r = '';
             else {
                 $user = file_get_contents('view/html/admin_uzytkownicy_lista_1_user.html');
