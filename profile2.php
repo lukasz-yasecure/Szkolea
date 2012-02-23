@@ -133,11 +133,11 @@ try {
                     {
                         $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
                         $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'],$_GET['ofe'])); // zamiana statusu na 3 z wyjatkiem wybranej oferty
-                            while ($x = $res->fetch_assoc()) {
-                                $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
+                        while ($x = $res->fetch_assoc()) {
+                            $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
                             // wysyłamy powiadomienia rezygnacji z oferty
                             }
-                            header('Location: profile.php?w=offers&id='.$_GET['id']);                           
+                            header('Location: profile.php?w=offers&id='.$_GET['id']);
                     } else {
                         while ($x = $res->fetch_assoc()) {
                             $r .= '<li>oferta #'.$x['id_ofe'].'</li>';

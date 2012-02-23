@@ -23,7 +23,6 @@
  */
 class Query {
 
-
     public static function escapeUnderscore($sql) {
         return str_replace('_', '\\_', $sql);
     }
@@ -552,7 +551,7 @@ class Query {
     }
 
     public static function getOfferAcceptNo($ofe) {
-        return 'UPDATE `commisions_ofe` SET `status`=3 WHERE `id_ofe` = ' . $ofe;
+        return 'UPDATE `commisions_ofe` SET `status`=3 WHERE `id_ofe` = ' . $ofe; // rezygnacja z oferty
     }
 
     public static function getOfferAcceptYes($ofe) {
@@ -560,7 +559,7 @@ class Query {
     }
 
     public static function getOfferAcceptYesAfter($id, $ofe) {
-        return 'SELECT * FROM `commisions_ofe` WHERE `id_comm` = ' . $id . ' AND `status` != 3 AND `id_ofe` != ' . $ofe; // po akceptacji oferty inne oferty są odrzucane: pobieramy 'inne oferty' 
+        return 'SELECT * FROM `commisions_ofe` WHERE `id_comm` = ' . $id . ' AND `id_ofe` != ' . $ofe; // wyświetlamy wszystkie oferty zlecenia z wyjątkiem wybranej oferty 
     }
 
     public static function CatsSums() {
