@@ -298,4 +298,19 @@ class BladPobieraniaPakietu extends Exception {
 
 }
 
+class NieprawidloweIdPakietu extends Exception {
+
+    public function __construct() {
+        parent::__construct('', 0);
+    }
+
+}
+
+class NieDodanoPakietu extends Exception {
+
+    public function __construct() {
+        parent::__construct('', 0);
+    }
+
+}
 ?>
