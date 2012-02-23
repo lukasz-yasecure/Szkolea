@@ -113,7 +113,10 @@ class EXCManager {
                 break;
 
             case 'NieDodanoPakietu':
-                BFEC::add(MSG::profilePackageAddError(), true, Pathes::getScriptProfilePackagesPath());
+                if($s == 'register')
+                    BFEC::add(MSG::profilePackageAddErrorInRegister(), true, Pathes::getScriptIndexPath());
+                else
+                    BFEC::add(MSG::profilePackageAddError(), true, Pathes::getScriptProfilePackagesPath());
                 break;
 
             case 'BrakAktywnychPakietow':

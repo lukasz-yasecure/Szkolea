@@ -619,6 +619,7 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     }
 
     public static function setPackageForUser($id_user, $pakiet) {
+        //wstawienie nulli za puste pola
         if(!(Valid::isNatural($pakiet['uslugi']))) $pakiet['uslugi']='NULL';
         if(!(Valid::isNatural($pakiet['oferty']))) $pakiet['oferty']='NULL';
         

@@ -4,32 +4,27 @@ $sysFile = 'engine/class.system.php';
 $logFile = 'engine/class.log.php';
 $logDir = 'logs/';
 
-if(file_exists($sysFile) && file_exists($logFile))
-{
+if (file_exists($sysFile) && file_exists($logFile)) {
     require_once($sysFile);
     require_once($logFile);
-}
-else
-{
+} else {
     date_default_timezone_set('Europe/Warsaw');
-    file_put_contents($logDir.date('Ymd').'_system_exc.log', date('Y-m-d H:i:s').' SYSTEM/LOG NIEDOSTEPNY!'.PHP_EOL, FILE_APPEND);
+    file_put_contents($logDir . date('Ymd') . '_system_exc.log', date('Y-m-d H:i:s') . ' SYSTEM/LOG NIEDOSTEPNY!' . PHP_EOL, FILE_APPEND);
     exit('Strona niedostepna! Prosze sprobowac pozniej oraz skontaktowac sie z administratorem: admin@szkolea.pl !');
 }
 
-/***********************[ action = register_form ]***********************************************************************
+/* * *********************[ action = register_form ]***********************************************************************
  *
  * 2011-09-22
  *
- ***********************[ action = register_check & activation_send ]****************************************************
+ * **********************[ action = register_check & activation_send ]****************************************************
  *
  * 2011-09-22
  *
- **********************************************]***********************************************************************/
+ * *********************************************]********************************************************************** */
 
-if(!isset($_POST['register']))
-{
-    try
-    {
+if (!isset($_POST['register'])) {
+    try {
         $sys = new System('register_form', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
         $sm = new SessionManager();
         $um = new UserManager();
@@ -41,20 +36,16 @@ if(!isset($_POST['register']))
         $mt = $tm->getMainTemplate($sys, $rft->getContent(), BFEC::showAll());
         RFD::clear('regForm');
         echo $mt->getContent();
-    }
-    catch(Exception $e)
-    {
+    } catch (Exception $e) {
         $em = new EXCManager($e);
     }
-}
-else if(isset($_POST['register']))
-{
-    try
-    {
+} else if (isset($_POST['register'])) {
+    try {
         $sys = new System('register_check', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
         $dbc = new DBC($sys); // obiekt laczacy sie z baza
         $sm = new SessionManager();
         $um = new UserManager();
+        $pmgr = new PackageManager();
         $u = $um->getUserFromSession($sm);
         $pm = new PrivilegesManager($sys); // nowy manager przywilejow
         $pm->checkPrivileges($u);
@@ -63,7 +54,6 @@ else if(isset($_POST['register']))
         $um->checkIfEmailAvailable($dbc, $rfd->getEmail()); // sprawdzamy czy email dostepny
         RFD::clear('regForm'); // po udanej weryfikacji czyscimy RFD
         $um->storeNewUserInDB($dbc, $rfd);
-        BFEC::addm(MSG::registerComplete());
 
         $sys = new System('activation_send', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
         $u = $um->getUserByEmail($dbc, $rfd->getEmail());
@@ -76,12 +66,16 @@ else if(isset($_POST['register']))
         $m->sendActivationMail($sys, $amail);
         $km->storeActivationKey($dbc, $u);
 
+        //jeśli użytkownik jest dostawcą dostaje automatycznie pierwszy pakiet podstawowy. jeśli wysypie się wysyłanie maila lub przyznawanie podstawowego pakietu wyjątek o złoszeniu się do admina
+        if ($u->isDostawca()) {
+            $pakiet = $pmgr->pobierzPakiet($dbc, 1);
+            $pmgr->dodajPakietUzytkownikowi($dbc, $u->getId_user(), $pakiet);
+        }
+        
+        BFEC::addm(MSG::registerComplete());
         BFEC::addm(MSG::activationMailSend(), Pathes::getScriptIndexPath());
-    }
-    catch(Exception $e)
-    {
+    } catch (Exception $e) {
         $em = new EXCManager($e, 'register');
     }
 }
-
 ?>
