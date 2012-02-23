@@ -48,6 +48,9 @@ class Pathes {
     public static $script_commision = 'comm.php';
     public static $script_register = 'register.php';
     public static $script_service = 'serv.php';
+    public static $script_profile = 'profile.php';
+    public static $script_profile_packages_buying = 'profile.php?w=pakiety&a=1';
+    public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -122,7 +125,22 @@ class Pathes {
     public static function getScriptIndexPath() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_index;
     }
-
+    
+    public static function  getScriptProfilePath()
+    {
+           return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile;
+    }
+    
+     public static function  getScriptProfilePackageBuyingPath()
+    {
+           return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages_buying;
+    }
+    
+         public static function  getScriptProfilePackagesPath()
+    {
+           return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
+    }
+    
     public static function getCommGroupJoinFormTemplatePath() {
         return Pathes::$template_path . Pathes::$template_comm_group_join_form;
     }

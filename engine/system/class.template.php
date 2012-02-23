@@ -21,6 +21,11 @@ class Template
     {
         return str_replace($this->search, $this->replace, $this->content);
     }
+    
+    public function clearSearchReplace(){
+        unset($this->search);
+         unset($this->replace);
+    }
 }
 
 ?>
