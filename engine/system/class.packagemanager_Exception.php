@@ -56,4 +56,12 @@ class NieMoznaWlaczycMailingu extends Exception {
 
 }
 
+class BladPobieraniaPakietu extends Exception {
+
+    public function __construct() {
+        parent::__construct('', 0);
+    }
+
+}
+
 ?>
