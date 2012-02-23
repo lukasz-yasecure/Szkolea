@@ -101,7 +101,7 @@ try {
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
-                    $r = $rm->getResults($dbc, $s, 'SELECT * FROM `commisions` WHERE id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
+                    $r = $rm->getResults($dbc, $s, 'SELECT c.*,o.count_offers FROM `commisions` c LEFT JOIN (SELECT `id_comm`,COUNT(*) count_offers FROM `commisions_ofe` GROUP BY `id_comm`) as o ON (o.id_comm = c.id_comm) WHERE c.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
                     $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'moje'); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'moje'); // szablon wynikow
                     $r = $rt->getContent();
