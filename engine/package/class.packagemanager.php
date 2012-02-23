@@ -10,7 +10,6 @@ class PackageManager {
     private $baner;
     private $mailing;
 
-//CHECKi
 
     public function __construct(DBC $dbc, $id_user) {
 
@@ -26,7 +25,7 @@ class PackageManager {
         else {
 
             while ($set = $r->fetch_assoc()) {
-                STD::pre($set);
+
 
                 $this->uslugi += $set['uslugi'];
                 $this->oferty += $set['oferty'];
@@ -43,6 +42,27 @@ class PackageManager {
                     $this->mailing = $set['mailing'];
             }
         }
+    }
+
+    public function dodajPakietUzytkownikowi(DBC $dbc, $id_user, $pakiet) {
+
+        $sql = Query::setPackageForUser($id_user, $pakiet);
+        $dbc->query($sql);
+    }
+
+    public function pobierzPakiet(DBC $dbc, $id_pakietu) {
+
+        $sql = Query::getPackage($id_pakietu);
+
+        $r = $dbc->query($sql);
+
+        $result = $r->fetch_array();
+
+        if (!$r)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($r->num_rows <= 0)
+            throw new BladPobieraniaPakietu;
+        return $result;
     }
 
     public function czyMoznaDodacUslugi() {
@@ -77,12 +97,6 @@ class PackageManager {
     public function czyMoznaWlaczycMailing() {
         if ($this->mailing <= 0)
             throw new NieMoznaWlaczycMailingu;
-    }
-    
-    
-    public function dodajPakiet($id_user, $id_pakietu){
-        
-        
     }
 
 }
