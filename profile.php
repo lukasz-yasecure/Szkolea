@@ -287,49 +287,54 @@ try {
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {
-                    if (isset($_GET['a']) && $_GET['a'] == 0) {
-                        $t = new Template('view/html/profile_dostawca_aktywne_pakiety.html');
+                if (isset($_GET['a']) && $_GET['a'] == 0) {
+                    $t = new Template('view/html/profile_dostawca_aktywne_pakiety.html');
 
-                        $pm = new PackageManager();
-                        $pakiet = $pm->pobierzAktywnePakiety($dbc, $u->getId_user());
+                    $pm = new PackageManager();
+                    $pakiet = $pm->pobierzAktywnePakiety($dbc, $u->getId_user());
 
-                        $temp_lista = new Template('view/html/profile_dostawca_lista_aktywnych_pakietow.html');
+                    $temp_lista = new Template('view/html/profile_dostawca_lista_aktywnych_pakietow.html');
 
-                        $temp = '';
+                    $temp = '';
 
-                        //generowanie listy aktywnych pakietów dla DOSTAWCY
-                        foreach ($pakiet as $temporary) {  //każdy pakiet (po kolei jako temporary) dodawany do szablonu
+                    //generowanie listy aktywnych pakietów dla DOSTAWCY
+                    foreach ($pakiet as $temporary) {  //każdy pakiet (po kolei jako temporary) dodawany do szablonu
+                        $temp_lista->clearSearchReplace();
+                        $temp_lista->addSearchReplace('id', $temporary['id_pakietu']);
+                        $temp_lista->addSearchReplace('date_begin', date("d-m-Y H:i", $temporary['date_begin']));
 
-                            $temp_lista->clearSearchReplace();
-                            $temp_lista->addSearchReplace('id', $temporary['id_pakietu']);
-                            $temp_lista->addSearchReplace('date_begin', date("d-m-Y H:i", $temporary['date_begin']));
+                        
+                        //w przypadku pierwszewgo pakietu zamiast daty końcowej wyświetlamy napis o jej braku - pakiet podstawowy jest dożywotni
+                        if ($temporary['id_pakietu'] == 1)
+                            $temp_lista->addSearchReplace('date_end', 'bez daty końcowej');
+                        else
                             $temp_lista->addSearchReplace('date_end', date("d-m-Y H:i", $temporary['date_end']));
 
-                            $temp.=$temp_lista->getContent();  //dołączenie do całości
-                        }
-                        $t->addSearchReplace('here', $temp);
-                        
-                        //KUP PAKIET
-                    } else if ((isset($_GET['a']) && $_GET['a'] == 1) || !isset($_GET['a'])) {
-                        $t = new Template('view/html/profile_dostawca_kup.html');
-
-                        //dodawanie listy pakietow do zakładki PAKIETY w profilu DOSTAWCY
-
-                        $temp_lista = new Template('view/html/profile_dostawca_lista_pakietow.html');
-
-                        $temp = '';
-
-                        //generowanie listy pakietów od 2 do 5 dla DOSTAWCY
-                        for ($i = 2; $i <= 5; $i++) {
-
-                            $temp_lista->clearSearchReplace();
-                            $temp_lista->addSearchReplace('id', $i);
-
-                            $temp.=$temp_lista->getContent();
-                        }
-
-                        $t->addSearchReplace('here', $temp);
+                        $temp.=$temp_lista->getContent();  //dołączenie do całości
                     }
+                    $t->addSearchReplace('here', $temp);
+
+                    //KUP PAKIET
+                } else if ((isset($_GET['a']) && $_GET['a'] == 1) || !isset($_GET['a'])) {
+                    $t = new Template('view/html/profile_dostawca_kup.html');
+
+                    //dodawanie listy pakietow do zakładki PAKIETY w profilu DOSTAWCY
+
+                    $temp_lista = new Template('view/html/profile_dostawca_lista_pakietow.html');
+
+                    $temp = '';
+
+                    //generowanie listy pakietów od 2 do 5 dla DOSTAWCY
+                    for ($i = 2; $i <= 5; $i++) {
+
+                        $temp_lista->clearSearchReplace();
+                        $temp_lista->addSearchReplace('id', $i);
+
+                        $temp.=$temp_lista->getContent();
+                    }
+
+                    $t->addSearchReplace('here', $temp);
+                }
             } else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
