@@ -100,6 +100,7 @@ if (isset($_GET['join'])) {
         $u = $um->getUserFromSession($sm);
         $pm = new PrivilegesManager($sys);
         $pm->checkPrivileges($u);
+
         $dbc = new DBC($sys);
 
         //sprawdzenie po formularzu czy dostawca może dodawać oferty = ma wystarczającą ilość ofert
@@ -109,6 +110,9 @@ if (isset($_GET['join'])) {
 
         //usuwamy jedna ofertę użytkownikowi
         $pkgm->usunOferteUzytkownikowi($dbc, $u->getId_user());
+        
+        $m = new Mailer();
+        $c = $sm->getCommision();
 
         $ud = new UserData();
         $o = $ud->getCommOffer();
@@ -136,8 +140,6 @@ if (isset($_GET['join'])) {
         /*
          * WYSYŁANIE MAILI
          */
-        $m = new Mailer();
-        $c = $sm->getCommision();
 
         // założyciel zlecenia
         $cu = $um->getUser($dbc, $c->getId_user()); // pobieranie danych założyciela zlecenia ([c]ommition [u]ser)
