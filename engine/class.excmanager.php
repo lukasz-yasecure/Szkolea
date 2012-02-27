@@ -122,6 +122,14 @@ class EXCManager {
             case 'BrakAktywnychPakietow':
                 BFEC::add(MSG::profileNoPackages(), true, Pathes::getScriptProfilePath());
                 break;
+            
+            case 'NieMoznaDodawacUslug':
+                BFEC::add(MSG::profileNoServicesAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
+                break;
+            
+                        case 'NieMoznaDodawacOfert':
+                BFEC::add(MSG::profileNoOffersAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
+                break;
 
             default:
                 exit($eName);

@@ -41,6 +41,15 @@ class MSG {
         public static function profileAddPackagesSuccess() {
         return 'Dodano pomyślnie pakiet.';
     }
+    
+        public static function profileNoServicesAllow() {
+        return 'Nie masz aktywnych pakietów pozwalających na dodawanie usług.';
+    }
+    
+        public static function profileNoOffersAllow() {
+        return 'Nie masz aktywnych pakietów pozwalających na dodawanie ofert.';
+    }
+    
 
     
     

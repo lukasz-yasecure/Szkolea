@@ -303,7 +303,7 @@ try {
                         $temp_lista->addSearchReplace('id', $temporary['id_pakietu']);
                         $temp_lista->addSearchReplace('date_begin', date("d-m-Y H:i", $temporary['date_begin']));
 
-                        
+
                         //w przypadku pierwszewgo pakietu zamiast daty końcowej wyświetlamy napis o jej braku - pakiet podstawowy jest dożywotni
                         if ($temporary['id_pakietu'] == 1)
                             $temp_lista->addSearchReplace('date_end', 'bez daty końcowej');
