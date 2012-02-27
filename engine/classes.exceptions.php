@@ -202,13 +202,6 @@ class ErrorsInProfileEditForm extends Exception
   }
 }
 
-class ErrorsInProfileOffers extends Exception
-{
-  public function __construct($error){
-    parent::__construct($error, 0);
-  }
-}
-
 class ErrorsInAddCommForm extends Exception
 {
   public function __construct(){
