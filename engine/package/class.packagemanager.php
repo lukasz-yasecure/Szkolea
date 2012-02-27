@@ -23,9 +23,8 @@ class PackageManager {
 
             while ($set = $r->fetch_assoc()) {
 
-
-                $this->uslugi += $set['uslugi'];
-                $this->oferty += $set['oferty'];
+                $this->uslugi += is_null($set['uslugi']) ? 1 : $set['uslugi'];
+                $this->oferty += is_null($set['oferty']) ? 1 : $set['oferty'];
 
                 if ($this->wizyt_znaki < $set['wizyt_znaki'])
                     $this->wizyt_znaki = $set['wizyt_znaki'];
@@ -125,6 +124,9 @@ class PackageManager {
             if ($pakiet[$i]['uslugi'] > 0) {
                 $sql = Query::decreaseServicesForUser($id_user, $pakiet[$i]['id_pakietu']);    //zmniejszamy ilosc uslug odpowiedniemy pakietowi uzytkownika
                 $dbc->query($sql);
+                break;
+            } else if(is_null($pakiet[$i]['uslugi'])) {
+                break;
             }
         }
     }
@@ -138,6 +140,9 @@ class PackageManager {
             if ($pakiet[$i]['oferty'] > 0) {
                 $sql = Query::decreaseCommsForUser($id_user, $pakiet[$i]['id_pakietu']);    //zmniejszamy ilosc ofert odpowiedniemy pakietowi uzytkownika
                 $dbc->query($sql);
+                break;
+            } else if(is_null($pakiet[$i]['oferty'])) {
+                break;
             }
         }
     }
