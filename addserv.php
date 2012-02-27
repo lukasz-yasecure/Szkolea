@@ -32,14 +32,14 @@ if(!isset($_POST['add_serv']))
     {
         $sys = new System('add_serv', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
         $sm = new SessionManager();
-        
-        // blokada do uruchomienia platnosci
-        //BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
-        
         $um = new UserManager();
         $u = $um->getUserFromSession($sm);
         $pm = new PrivilegesManager($sys);
         $p = $pm->checkPrivileges($u);
+        
+        // blokada do uruchomienia platnosci
+        //if($u->getId_user() != '87') BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
+        
         $tm = new TemplateManager();
         $cm = new CategoryManager();
         $dbc = new DBC($sys);
@@ -107,15 +107,15 @@ else
     {
         $sys = new System('add_serv_check', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
         $sm = new SessionManager();
-        
-        // blokada do uruchomienia platnosci
-        //BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
-        
         $dbc = new DBC($sys);
         $um = new UserManager();
         $u = $um->getUserFromSession($sm);
         $pm = new PrivilegesManager($sys);
         $p = $pm->checkPrivileges($u);
+        
+        // blokada do uruchomienia platnosci
+        //if($u->getId_user() != '87') BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
+        
         $ud = new UserData();
         $sm = new ServiceManager();
         $s = $ud->getService();

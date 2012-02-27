@@ -287,9 +287,8 @@ try {
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {
-                if (isset($_GET['a'])) {
-                    if ($_GET['a'] == 0) {
-                        $t = new Template('view/html/profile_u_pakiety_akt.html');
+                    if (isset($_GET['a']) && $_GET['a'] == 0) {
+                        $t = new Template('view/html/profile_dostawca_aktywne_pakiety.html');
 
                         $pm = new PackageManager();
                         $pakiet = $pm->pobierzAktywnePakiety($dbc, $u->getId_user());
@@ -311,7 +310,7 @@ try {
                         $t->addSearchReplace('here', $temp);
                         
                         //KUP PAKIET
-                    } else if ($_GET['a'] == 1) {
+                    } else if ((isset($_GET['a']) && $_GET['a'] == 1) || !isset($_GET['a'])) {
                         $t = new Template('view/html/profile_dostawca_kup.html');
 
                         //dodawanie listy pakietow do zakładki PAKIETY w profilu DOSTAWCY
@@ -331,11 +330,6 @@ try {
 
                         $t->addSearchReplace('here', $temp);
                     }
-                    else
-                        $t = new Template('view/html/profile_u_pakiety_akt.html');
-                }
-                else
-                    $t = new Template('view/html/profile_u_pakiety_akt.html');
             } else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
