@@ -550,16 +550,20 @@ class Query {
         return str_replace("'NULL'", 'NULL', $sql);
     }
 
+    public static function getOfferAccept($ofe) {
+        return 'SELECT * FROM `commisions_ofe` WHERE `id_ofe` = ' . $ofe; // pobierane dane wybranej oferty
+    }
+
     public static function getOfferAcceptNo($ofe) {
-        return 'UPDATE `commisions_ofe` SET `status`=3 WHERE `id_ofe` = ' . $ofe; // rezygnacja z oferty
+        return 'UPDATE `commisions_ofe` SET `status`=3 WHERE `id_ofe` = ' . $ofe; // odnowienie danych odrzuconych ofert
     }
 
     public static function getOfferAcceptYes($ofe) {
-        return 'UPDATE `commisions_ofe` SET `status` = 2 WHERE `id_ofe` = ' . $ofe; // wybrana oferta
+        return 'UPDATE `commisions_ofe` SET `status` = 2 WHERE `id_ofe` = ' . $ofe; // odnowienie danych wybranej oferty
     }
 
     public static function getOfferAcceptYesAfter($id, $ofe) {
-        return 'SELECT * FROM `commisions_ofe` WHERE `id_comm` = ' . $id . ' AND `id_ofe` != ' . $ofe; // wyświetlamy wszystkie oferty zlecenia z wyjątkiem wybranej oferty 
+        return 'SELECT * FROM `commisions_ofe` WHERE `id_comm` = ' . $id . ' AND `id_ofe` != ' . $ofe; // wyświetlane wszystkie oferty z wyjątkiem wybranej 
     }
 
     public static function CatsSums() {

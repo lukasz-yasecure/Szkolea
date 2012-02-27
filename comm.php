@@ -108,6 +108,9 @@ else if(isset($_GET['offer_check']))
         $u = $um->getUserFromSession($sm);
         $pm = new PrivilegesManager($sys);
         $pm->checkPrivileges($u);
+        
+        $m = new Mailer();
+        $c = $sm->getCommision();
 
         $ud = new UserData();
         $o = $ud->getCommOffer();
@@ -132,8 +135,6 @@ else if(isset($_GET['offer_check']))
         /* 
          * WYSYŁANIE MAILI
          */
-        $m = new Mailer();
-        $c = $sm->getCommision();
 
         // założyciel zlecenia
         $cu = $um->getUser($dbc,$c->getId_user()); // pobieranie danych założyciela zlecenia ([c]ommition [u]ser)

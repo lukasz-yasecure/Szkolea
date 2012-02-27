@@ -139,26 +139,32 @@ try {
                 /*
                  * KLIENT - OFERTY
                  */
-                try {
-                    $t = new Template(Pathes::getPathTemplateProfileOffers());
-                    $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobieramy oferty wg. id zlecenia
-                    if (isset($_GET['ofe'])) { // wybór oferty przez klienta
-                        $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
-                        $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // zamiana statusu na 3 z wyjatkiem wybranej oferty
-                        while ($x = $res->fetch_assoc()) {
-                            $dbc->query(Query::getOfferAcceptNo($x['id_ofe']));
-// wysyłamy powiadomienia rezygnacji z oferty
-                        }
-                        header('Location: profile.php?w=offers&id=' . $_GET['id']);
-                    } else {
-                        while ($x = $res->fetch_assoc()) {
-                            $r .= '<li>oferta #' . $x['id_ofe'] . '</li>';
-                            $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
-                        }
+                $um = new UserManager();
+                $m = new Mailer();
+                $t = new Template(Pathes::getPathTemplateProfileOffers());
+                $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobieramy oferty wg. id zlecenia
+                if (isset($_GET['ofe'])) { // wybór oferty przez klienta
+                    $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
+                    // wysyłamy powiadomienie właścicielowi wybranej oferty
+                    $gu = $dbc->query(Query::getOfferAccept($_GET['ofe'])); // pobierane dane wybranej oferty
+                    $wu = $um->getUser($dbc,$gu->fetch_object()->id_user); // pobierane dane właściciela wybranej oferty 
+                    $m->sendMail($wu->getEmail(),'noreply@szkolea.pl','Powiadomienie: wybrana oferta','Treść: Twoja oferta została wybrana');
+                    
+                    $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
+                    while ($x = $res->fetch_assoc()) {
+                        $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
+                        // wysyłamy powiadomienie właścicielowi odrzuconej oferty
+                        $ou = $um->getUser($dbc,$x['id_user']); // pobierane dane właściciela odrzuconej oferty
+                        $m->sendMail($ou->getEmail(),'noreply@szkolea.pl','Powiadomienie: odrzucona oferta','Treść: Twoja oferta została odrzucona');
                     }
-                } catch (ErrorsInprofileOffers $e) {
-                    BFEC::add('', true, 'profile.php?w=offers');
+                    header('Location: profile.php?w=offers&id=' . $_GET['id']);
+                } else {
+                    while ($x = $res->fetch_assoc()) {
+                        $r .= '<li>oferta #' . $x['id_ofe'] . '</li>';
+                        $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
+                    }
                 }
+
             } else if ($_GET['w'] == 'dane') {
                 /*
                  * KLIENT - EDYCJA DANYCH
