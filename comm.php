@@ -107,11 +107,14 @@ if (isset($_GET['join'])) {
         $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
         $pkgm->czyMoznaDodacOferty();
 
+        //usuwamy jedna ofertę użytkownikowi
+        $pkgm->usunOferteUzytkownikowi($dbc, $u->getId_user());
 
         $ud = new UserData();
         $o = $ud->getCommOffer();
         $o->setId_user($u->getId_user());
         $o->setDate_add(time());
+
 
         $sql = Query::getOfferAdd($o);
         $dbc = new DBC($sys);

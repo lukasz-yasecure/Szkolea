@@ -620,15 +620,26 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
 
     public static function setPackageForUser($id_user, $pakiet) {
         //wstawienie nulli za puste pola
-        if(!(Valid::isNatural($pakiet['uslugi']))) $pakiet['uslugi']='NULL';
-        if(!(Valid::isNatural($pakiet['oferty']))) $pakiet['oferty']='NULL';
-        
+        if (!(Valid::isNatural($pakiet['uslugi'])))
+            $pakiet['uslugi'] = 'NULL';
+        if (!(Valid::isNatural($pakiet['oferty'])))
+            $pakiet['oferty'] = 'NULL';
 
-        $sql = 'INSERT INTO `szkolea`.`users_packages` (`id_user`, `id_pakietu`, `uslugi`, `oferty`, `date_begin`, `date_end`, `id_faktury`, `id_proforma`) VALUES (' . $id_user . ', ' . $pakiet['id_pakietu'] . ', ' . $pakiet['uslugi'] . ', ' . $pakiet['oferty'] . ', '. time() . ', ' .  ( time() + $pakiet['waznosc']*86400 ) . ', 66, 66)';
+
+        $sql = 'INSERT INTO `szkolea`.`users_packages` (`id_user`, `id_pakietu`, `uslugi`, `oferty`, `date_begin`, `date_end`, `id_faktury`, `id_proforma`) VALUES (' . $id_user . ', ' . $pakiet['id_pakietu'] . ', ' . $pakiet['uslugi'] . ', ' . $pakiet['oferty'] . ', ' . time() . ', ' . ( time() + $pakiet['waznosc'] * 86400 ) . ', 66, 66)';
         return $sql;
     }
-    
-    
+
+    public static function decreaseServicesForUser($id_user, $id_pakietu) {
+        $sql = 'UPDATE users_packages SET uslugi = (uslugi-1) WHERE users_packages.id_user =' . $id_user . ' AND users_packages.id_pakietu =' . $id_pakietu;
+        return $sql;
+    }
+
+    public static function decreaseCommsForUser($id_user, $id_pakietu) {
+        $sql = 'UPDATE users_packages SET oferty = (oferty-1) WHERE users_packages.id_user =' . $id_user . ' AND users_packages.id_pakietu =' . $id_pakietu;
+        return $sql;
+    }
+
 }
 
 ?>

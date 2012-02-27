@@ -84,7 +84,7 @@ class PackageManager {
 
     public function czyMoznaDodacUslugi() {
         if ($this->uslugi <= 0)
-       throw new NieMoznaDodawacUslug;
+            throw new NieMoznaDodawacUslug;
     }
 
     public function czyMoznaDodacOferty() {
@@ -114,6 +114,32 @@ class PackageManager {
     public function czyMoznaWlaczycMailing() {
         if ($this->mailing <= 0)
             throw new NieMoznaWlaczycMailingu;
+    }
+
+    public function usunUslugeUzytkownikowi(DBC $dbc, $id_user) {
+        $pakiet = $this->pobierzAktywnePakiety($dbc, $id_user);
+
+        //szukamy na pobranej liście aktywnych pakietów pierwszego , który ma dostępne usługi - kolejność wg. ważności pakietów gwarantuje nam (SQL: ORDER BY date_end)
+        for ($i = 0; $i < sizeof($pakiet); $i++) {
+
+            if ($pakiet[$i]['uslugi'] > 0) {
+                $sql = Query::decreaseServicesForUser($id_user, $pakiet[$i]['id_pakietu']);    //zmniejszamy ilosc uslug odpowiedniemy pakietowi uzytkownika
+                $dbc->query($sql);
+            }
+        }
+    }
+
+    //szukamy na pobranej liście aktywnych pakietów pierwszego , który ma dostępnę oferty - kolejność wg. ważności pakietów gwarantuje nam (SQL: ORDER BY date_end)
+    public function usunOferteUzytkownikowi(DBC $dbc, $id_user) {
+        $pakiet = $this->pobierzAktywnePakiety($dbc, $id_user);
+
+        for ($i = 0; $i < sizeof($pakiet); $i++) {
+
+            if ($pakiet[$i]['oferty'] > 0) {
+                $sql = Query::decreaseCommsForUser($id_user, $pakiet[$i]['id_pakietu']);    //zmniejszamy ilosc ofert odpowiedniemy pakietowi uzytkownika
+                $dbc->query($sql);
+            }
+        }
     }
 
 }

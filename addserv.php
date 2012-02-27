@@ -33,7 +33,7 @@ if (!isset($_POST['add_serv'])) {
         $p = $pm->checkPrivileges($u);
         $dbc = new DBC($sys);
 
-                //sprawdzenie przed formularzem czy dostawca może dodawać usługi = ma wystarczającą ilość usług
+        //sprawdzenie przed formularzem czy dostawca może dodawać usługi = ma wystarczającą ilość usług
         $pkgm = new PackageManager();
         $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
         $pkgm->czyMoznaDodacUslugi();
@@ -78,8 +78,11 @@ if (!isset($_POST['add_serv'])) {
         $pkgm = new PackageManager();
         $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
         $pkgm->czyMoznaDodacUslugi();
-        
-        
+
+        //usuwamy jedna usługę użytkownikowi
+        $pkgm->usunUslugeUzytkownikowi($dbc, $u->getId_user());
+
+
         $s = $sm->saveServiceInDB($dbc, $s);
         BFEC::addm(BFEC::$m['add_serv'], $sys->getScriptServicePath($s->getId_serv()));
     } catch (Exception $e) {
