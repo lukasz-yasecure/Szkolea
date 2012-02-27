@@ -285,11 +285,33 @@ try {
                 else
                     $t = new Template('view/html/profile_u_dane_wiz.html');
             }
+            //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {
                 if (isset($_GET['a'])) {
-                    if ($_GET['a'] == 0)
+                    if ($_GET['a'] == 0) {
                         $t = new Template('view/html/profile_u_pakiety_akt.html');
-                    else if ($_GET['a'] == 1) {
+
+                        $pm = new PackageManager();
+                        $pakiet = $pm->pobierzAktywnePakiety($dbc, $u->getId_user());
+
+                        $temp_lista = new Template('view/html/profile_dostawca_lista_aktywnych_pakietow.html');
+
+                        $temp = '';
+
+                        //generowanie listy aktywnych pakietów dla DOSTAWCY
+                        foreach ($pakiet as $temporary) {  //każdy pakiet (po kolei jako temporary) dodawany do szablonu
+
+                            $temp_lista->clearSearchReplace();
+                            $temp_lista->addSearchReplace('id', $temporary['id_pakietu']);
+                            $temp_lista->addSearchReplace('date_begin', date("d-m-Y H:i", $temporary['date_begin']));
+                            $temp_lista->addSearchReplace('date_end', date("d-m-Y H:i", $temporary['date_end']));
+
+                            $temp.=$temp_lista->getContent();  //dołączenie do całości
+                        }
+                        $t->addSearchReplace('here', $temp);
+                        
+                        //KUP PAKIET
+                    } else if ($_GET['a'] == 1) {
                         $t = new Template('view/html/profile_dostawca_kup.html');
 
                         //dodawanie listy pakietow do zakładki PAKIETY w profilu DOSTAWCY

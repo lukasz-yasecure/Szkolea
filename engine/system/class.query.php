@@ -609,7 +609,7 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     }
 
     public static function getActivePackagesForUser($id_user) {
-        $sql = 'SELECT users_packages.* , packages.nazwa, packages.cena_brutto, packages.wizyt_znaki, packages.wizyt_www, packages.wizyt_logo, packages.wizyt_wyrozn, packages.baner, packages.uslugi_wyrozn, packages.mailing, packages.waznosc FROM users_packages LEFT JOIN packages ON users_packages.id_pakietu = packages.id_pakietu WHERE id_user =' . $id_user . ' AND date_end < NOW() ORDER BY date_begin';
+        $sql = 'SELECT users_packages.* , packages.nazwa, packages.cena_brutto, packages.wizyt_znaki, packages.wizyt_www, packages.wizyt_logo, packages.wizyt_wyrozn, packages.baner, packages.uslugi_wyrozn, packages.mailing, packages.waznosc FROM users_packages LEFT JOIN packages ON users_packages.id_pakietu = packages.id_pakietu WHERE id_user =' . $id_user . ' AND date_end < NOW() ORDER BY date_end';
         return $sql;
     }
 
@@ -623,10 +623,12 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         if(!(Valid::isNatural($pakiet['uslugi']))) $pakiet['uslugi']='NULL';
         if(!(Valid::isNatural($pakiet['oferty']))) $pakiet['oferty']='NULL';
         
-        $sql = 'INSERT INTO `szkolea`.`users_packages` (`id_user`, `id_pakietu`, `uslugi`, `oferty`, `date_begin`, `date_end`, `id_faktury`, `id_proforma`) VALUES (' . $id_user . ', ' . $pakiet['id_pakietu'] . ', ' . $pakiet['uslugi'] . ', ' . $pakiet['oferty'] . ', 1329734801, 1348138001, 66, 66)';
+
+        $sql = 'INSERT INTO `szkolea`.`users_packages` (`id_user`, `id_pakietu`, `uslugi`, `oferty`, `date_begin`, `date_end`, `id_faktury`, `id_proforma`) VALUES (' . $id_user . ', ' . $pakiet['id_pakietu'] . ', ' . $pakiet['uslugi'] . ', ' . $pakiet['oferty'] . ', '. time() . ', ' .  ( time() + $pakiet['waznosc']*86400 ) . ', 66, 66)';
         return $sql;
     }
-
+    
+    
 }
 
 ?>
