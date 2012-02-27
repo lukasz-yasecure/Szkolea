@@ -10,9 +10,7 @@ class PackageManager {
     private $baner;
     private $mailing;
 
-    public function pobierzAktywnePakiety(DBC $dbc, $id_user) {
-
-
+    public function pobierzInformacjePakietow(DBC $dbc, $id_user) {
 
         $sql = Query::getActivePackagesForUser($id_user);
 
@@ -40,6 +38,24 @@ class PackageManager {
                 if ($this->mailing < $set['mailing'])
                     $this->mailing = $set['mailing'];
             }
+        }
+    }
+
+    public function pobierzAktywnePakiety(DBC $dbc, $id_user) {
+
+        $sql = Query::getActivePackagesForUser($id_user);
+
+        $r = $dbc->query($sql);
+        if (!$r)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($r->num_rows <= 0)
+            throw new BrakAktywnychPakietow;
+        else {
+
+            while ($set = $r->fetch_assoc()) {
+                $result[] = $set;   //wrzucamy wszystkie pobrane pakiety do tablicy każdy jako oddzielny wiersz
+            }
+            return $result;
         }
     }
 
