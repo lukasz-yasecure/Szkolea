@@ -43,7 +43,7 @@ class Query {
     }
 
     public static function getUpdatePassword($pass, $id) {
-        $sql = 'UPDATE `szkolea`.`users_324` SET `pass` = \'' . $pass . '\' WHERE `users_324`.`id_user` = ' . $id;
+        $sql = 'UPDATE `users_324` SET `pass` = \'' . $pass . '\' WHERE `users_324`.`id_user` = ' . $id;
         return $sql;
     }
 
@@ -137,7 +137,7 @@ class Query {
     }
 
     public static function saveNewCommisionInDB(Commision $c) {
-        $sql = 'INSERT INTO `szkolea`.`commisions` (
+        $sql = 'INSERT INTO `commisions` (
                 `id_comm` ,
                 `id_user` ,
                 `date_add` ,
@@ -196,7 +196,7 @@ class Query {
     }
 
     public static function saveModulsForCommision(Commision $c) {
-        $sql = 'INSERT INTO `szkolea`.`comm_moduls` (
+        $sql = 'INSERT INTO `comm_moduls` (
             `id_comm` ,
             `id_mod`
             )
@@ -214,7 +214,7 @@ class Query {
     }
 
     public static function saveParticipantsForCommision(Commision $c) {
-        $sql = 'INSERT INTO `szkolea`.`commisions_group` (
+        $sql = 'INSERT INTO `commisions_group` (
             `id_comm` ,
             `id_user` ,
             `date_add`
@@ -233,7 +233,7 @@ class Query {
     }
 
     public static function saveNewServiceInDB(Service $s) {
-        $sql = 'INSERT INTO `szkolea`.`services` (
+        $sql = 'INSERT INTO `services` (
                 `id_serv` ,
                 `id_user` ,
                 `date_add` ,
@@ -289,7 +289,7 @@ class Query {
     }
 
     public static function saveModulsForService(Service $s) {
-        $sql = 'INSERT INTO `szkolea`.`serv_moduls` (
+        $sql = 'INSERT INTO `serv_moduls` (
             `id_serv` ,
             `id_mod`
             )
@@ -312,17 +312,17 @@ class Query {
     }
 
     public static function activateUser($user_id) {
-        $sql = 'UPDATE `szkolea`.`users_324` SET `status` = \'1\' WHERE `users_324`.`id_user` = ' . $user_id;
+        $sql = 'UPDATE `users_324` SET `status` = \'1\' WHERE `users_324`.`id_user` = ' . $user_id;
         return $sql;
     }
 
     public static function deleteUser($user_id) {
-        $sql = 'DELETE FROM `szkolea`.`users_324` WHERE `users_324`.`id_user` = ' . $user_id;
+        $sql = 'DELETE FROM `users_324` WHERE `users_324`.`id_user` = ' . $user_id;
         return $sql;
     }
 
     public static function deleteKeyForUser($user_id) {
-        $sql = 'DELETE FROM `szkolea`.`users_activ` WHERE `users_activ`.`id_user` = ' . $user_id;
+        $sql = 'DELETE FROM `users_activ` WHERE `users_activ`.`id_user` = ' . $user_id;
         return $sql;
     }
 
@@ -624,7 +624,7 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         if(!(Valid::isNatural($pakiet['oferty']))) $pakiet['oferty']='NULL';
         
 
-        $sql = 'INSERT INTO `szkolea`.`users_packages` (`id_user`, `id_pakietu`, `uslugi`, `oferty`, `date_begin`, `date_end`, `id_faktury`, `id_proforma`) VALUES (' . $id_user . ', ' . $pakiet['id_pakietu'] . ', ' . $pakiet['uslugi'] . ', ' . $pakiet['oferty'] . ', '. time() . ', ' .  ( time() + $pakiet['waznosc']*86400 ) . ', 66, 66)';
+        $sql = 'INSERT INTO `users_packages` (`id_user`, `id_pakietu`, `uslugi`, `oferty`, `date_begin`, `date_end`, `id_faktury`, `id_proforma`) VALUES (' . $id_user . ', ' . $pakiet['id_pakietu'] . ', ' . $pakiet['uslugi'] . ', ' . $pakiet['oferty'] . ', '. time() . ', ' .  ( time() + $pakiet['waznosc']*86400 ) . ', 66, 66)';
         return $sql;
     }
     

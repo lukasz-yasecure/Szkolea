@@ -832,7 +832,7 @@ class UserData
 
         // trzeba zwiekszych part_count przy Comm
         // trzeba dopisac zapisanych w tabeli
-        $sql1 = 'UPDATE `szkolea`.`commisions` SET `parts_count` = \''.($parts_count+$c->getParts_count()).'\' WHERE `commisions`.`id_comm` ='.$c->getId_comm();
+        $sql1 = 'UPDATE `commisions` SET `parts_count` = \''.($parts_count+$c->getParts_count()).'\' WHERE `commisions`.`id_comm` ='.$c->getId_comm();
         $sql2 = 'INSERT INTO `commisions_group` (`id_comm`, `id_user`, `date_add`) VALUES ';
 
         $z = $parts_count;

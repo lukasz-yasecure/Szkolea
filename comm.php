@@ -44,7 +44,7 @@ if(isset($_GET['join']))
             $dbc = new DBC($sys);
             $sql1 = 'INSERT INTO `commisions_group` (`id_comm`, `id_user`, `date_add`) VALUES (\''.$d.'\', \''.$u->getId_user().'\', \''.time().'\')';
             $dbc->query($sql1);
-            $sql2 = 'UPDATE `szkolea`.`commisions` SET `parts_count` = \''.($c->getParts_count()+1).'\' WHERE `commisions`.`id_comm` =\''.$d.'\'';
+            $sql2 = 'UPDATE `commisions` SET `parts_count` = \''.($c->getParts_count()+1).'\' WHERE `commisions`.`id_comm` =\''.$d.'\'';
             $dbc->query($sql2);
 
             BFEC::addm('Zostałeś dopisany do zlecenia!', SessionManager::getBackURL_Static());

@@ -410,7 +410,7 @@ class CommControl
         $date_add = time();
         $date_end = $date_add + $this->cmm['expire']*24*3600;
 
-        $sql = "INSERT INTO `szkolea`.`commisions` (
+        $sql = "INSERT INTO `commisions` (
             `id_comm` ,
             `id_user` ,
             `date_add` ,
