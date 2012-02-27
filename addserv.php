@@ -31,13 +31,18 @@ if (!isset($_POST['add_serv'])) {
         $u = $um->getUserFromSession($sm);
         $pm = new PrivilegesManager($sys);
         $p = $pm->checkPrivileges($u);
+        $dbc = new DBC($sys);
+
+                //sprawdzenie przed formularzem czy dostawca może dodawać usługi = ma wystarczającą ilość usług
+        $pkgm = new PackageManager();
+        $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
+        $pkgm->czyMoznaDodacUslugi();
 
         // blokada do uruchomienia platnosci
         //if($u->getId_user() != '87') BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
 
         $tm = new TemplateManager();
         $cm = new CategoryManager();
-        $dbc = new DBC($sys);
         $c = $cm->getListOfAllKOTM($dbc, 'addServForm');
         $asft = $tm->getAddServFormTemplate($sys, $c);
 
@@ -68,6 +73,13 @@ if (!isset($_POST['add_serv'])) {
         $s = $ud->getService();
         $s->setId_user($u->getId_user());
         $s = $sm->completeData($s, $dbc, new CategoryManager());
+
+        //sprawdzenie po formularzu czy dostawca może dodawać usługi = ma wystarczającą ilość usług
+        $pkgm = new PackageManager();
+        $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
+        $pkgm->czyMoznaDodacUslugi();
+        
+        
         $s = $sm->saveServiceInDB($dbc, $s);
         BFEC::addm(BFEC::$m['add_serv'], $sys->getScriptServicePath($s->getId_serv()));
     } catch (Exception $e) {

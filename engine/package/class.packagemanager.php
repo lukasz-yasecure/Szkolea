@@ -84,7 +84,7 @@ class PackageManager {
 
     public function czyMoznaDodacUslugi() {
         if ($this->uslugi <= 0)
-            throw new NieMoznaDodawacUslug;
+       throw new NieMoznaDodawacUslug;
     }
 
     public function czyMoznaDodacOferty() {
