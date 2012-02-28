@@ -4,6 +4,7 @@ class Pathes {
 
     public static $base_url = '';
     public static $template_path = 'view/html/';
+    public static $template_mail_path = 'view/mails/';
     public static $template_main = 'main.html';
     public static $template_activation_mail = 'activation_mail.html';
     public static $template_remind_mail = 'remind_mail.html';
@@ -37,6 +38,8 @@ class Pathes {
     public static $template_comm_list_added = 'admin_comm_list_dopisani.html';
     public static $template_catalog_main_comms = 'cat_comms.html';
     public static $template_catalog_main_servs = 'cat_servs.html';
+    
+    public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
 
     public static $script_path = '';
     public static $script_index = 'index.php';
@@ -241,6 +244,9 @@ class Pathes {
         return Pathes::$template_path . Pathes::$template_catalog_main_servs;
     }
 
+    public static function getPathTemplateMailInfoWybranaOfertaWlasciciel() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_wybrana_oferta_wlasciciel;
+    }
 }
 
 ?>

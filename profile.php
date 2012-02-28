@@ -147,8 +147,7 @@ try {
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
                     // wysyłamy powiadomienie właścicielowi wybranej oferty
                     $gu = $dbc->query(Query::getOfferAccept($_GET['ofe'])); // pobierane dane wybranej oferty
-                    $wu = $um->getUser($dbc,$gu->fetch_object()->id_user); // pobierane dane właściciela wybranej oferty 
-                    $m->sendMail($wu->getEmail(),'noreply@szkolea.pl','Powiadomienie: wybrana oferta','Treść: Twoja oferta została wybrana');
+                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc,$gu->fetch_object()->id_user));
                     
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
                     while ($x = $res->fetch_assoc()) {

@@ -58,6 +58,12 @@ class Mailer
         if(!@mail($do, $temat, $tresc, $naglowki))
                 throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: '.$do);
     }
+    
+    public function infoWybranaOfertaWlasciciel(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoWybranaOfertaWlasciciel());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta została wybrana', $tm->getContent());
+    }
 }
 
 ?>

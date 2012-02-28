@@ -8,6 +8,9 @@ class Template
 
     public function __construct($path)
     {
+        if(!file_exists($path))
+            throw new NoTemplateFile($path.' plik nie istnieje!');
+        
         $this->content = file_get_contents($path);
     }
 
