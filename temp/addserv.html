@@ -10,23 +10,37 @@
 <script type="text/javascript" src="js/calendar.js"></script>
 <link type="text/css" href="css/calendar.css" rel="stylesheet" />
 <script type="text/javascript">
-$(function(){
+    $(function(){
 
         // Datepicker
         $('#exampleXIa').datepicker({
-                inline: true
+            inline: true
         })
 
         //hover states on the static widgets
         $('#dialog_link, ul#icons li').hover(
-                function() { $(this).addClass('ui-state-hover'); }, 
-                function() { $(this).removeClass('ui-state-hover'); }
-        );
+        function() { $(this).addClass('ui-state-hover'); }, 
+        function() { $(this).removeClass('ui-state-hover'); }
+    );
             
         // Datepicker
         $('#exampleXIb').datepicker({
-                inline: true
+            inline: true
         })
 
-});
+    });
+</script> 
+
+<script type="text/javascript">
+    // ogranicznik liczby znaków
+    function SignLimit(tab,max)
+    {
+        var oSpan = document.getElementById( 'counter' );
+        oSpan.innerHTML = ( tab.value.length );
+        if ( tab.value.length = max )
+        {
+            input = tab.value.substring(0,max);
+            tab.value = input;
+        }
+    }
 </script>  

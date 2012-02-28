@@ -39,7 +39,7 @@ if (!isset($_POST['add_serv'])) {
         $pkgm->czyMoznaDodacUslugi();
 
         // blokada do uruchomienia platnosci
-        //if($u->getId_user() != '87') BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
+        //if($u->getId_user() != '87' && $u->getId_user() != '88') BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
 
         $tm = new TemplateManager();
         $cm = new CategoryManager();
@@ -66,7 +66,7 @@ if (!isset($_POST['add_serv'])) {
         $p = $pm->checkPrivileges($u);
 
         // blokada do uruchomienia platnosci
-        //if($u->getId_user() != '87') BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
+        //if($u->getId_user() != '87' && $u->getId_user() != '88') BFEC::add('Dodawanie usług będzie dostępne, gdy zintegrujemy Szkolea.pl z płatnościami online! Prosimy o cierpliwość.', true, 'index.php');
 
         $ud = new UserData();
         $sm = new ServiceManager();

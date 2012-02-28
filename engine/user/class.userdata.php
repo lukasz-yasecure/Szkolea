@@ -1106,7 +1106,11 @@ class UserData
         }
 
         if(!isset($_POST['program']) || empty($_POST['program']) || !Valid::text($_POST['program'])) $p = false;
-        else RFD::add('addServForm', 'program', $_POST['program']);
+        else {
+            if(mb_strlen($_POST['program'], 'utf-8') > 1500) BFEC::add(MSG::addServProgramZaDlugi());
+            
+            RFD::add('addServForm', 'program', $_POST['program']);
+        }
 
         if(!$m && !$p) BFEC::add(BFEC::$e['UD']['brak_programu']);
 
@@ -1139,11 +1143,13 @@ class UserData
         if(!isset($_POST['phone']) || empty($_POST['phone']) || !Valid::phone($_POST['phone'])) BFEC::add(BFEC::$e['UD']['phone']);
         else RFD::add('addServForm', 'phone', $_POST['phone']);
 
-        if(!isset($_POST['contact']) || empty($_POST['contact']) || !Valid::contact($_POST['contact'])) BFEC::add(BFEC::$e['UD']['contact']);
-        else RFD::add('addServForm', 'contact', $_POST['contact']);
+        // pole "osoba kontaktowa" bylo obowiazkowe, ale juz nie jest !
+        //if(!isset($_POST['contact']) || empty($_POST['contact']) || !Valid::contact($_POST['contact'])) BFEC::add(BFEC::$e['UD']['contact']);
+        //else RFD::add('addServForm', 'contact', $_POST['contact']);
+        if(isset($_POST['contact']) && !empty($_POST['contact']) && Valid::contact($_POST['contact'])) RFD::add('addServForm', 'contact', $_POST['contact']);
 
         /**
-         * wszystko ZAJEBISCIE teraz uzueplnic obiekt i wrzucic do bazy! :)
+         * wszystko OK teraz uzueplnic obiekt i wrzucic do bazy! :)
          */
 
         /*
@@ -1159,19 +1165,19 @@ class UserData
         $s->setCat($_POST['cat']);
         $s->setSubcat($_POST['subcat']);
         $s->setSubsubcat($_POST['subsubcat']);
-        if(isset($_POST['moduly'])) $s->setModuly($_POST['moduly']);
-        if(isset($_POST['program'])) $s->setProgram($_POST['program']);
-        if(isset($_POST['date_uzg'])) $s->setDate_uzg(true);
-        if(isset($_POST['date_a'])) $s->setDate_a($_POST['date_a']);
-        if(isset($_POST['date_b'])) $s->setDate_b($_POST['date_b']);
+        if(!is_null(RFD::get('addServForm', 'moduly'))) $s->setModuly(RFD::get('addServForm', 'moduly'));
+        if(!is_null(RFD::get('addServForm', 'program'))) $s->setProgram(RFD::get('addServForm', 'program'));
+        if(!is_null(RFD::get('addServForm', 'date_uzg'))) $s->setDate_uzg(RFD::get('addServForm', 'date_uzg'));
+        if(!is_null(RFD::get('addServForm', 'date_a'))) $s->setDate_a(RFD::get('addServForm', 'date_a'));
+        if(!is_null(RFD::get('addServForm', 'date_b'))) $s->setDate_b(RFD::get('addServForm', 'date_b'));
         $s->setPlace($_POST['place']);
-        if(isset($_POST['woj'])) $s->setWoj($_POST['woj']);
+        if(!is_null(RFD::get('addServForm', 'woj'))) $s->setWoj(RFD::get('addServForm', 'woj'));
         $s->setCena($_POST['cena']);
         $s->setCena_($_POST['cena_']);
         $s->setMail($_POST['mail']);
         $s->setPhone($_POST['phone']);
-        $s->setContact($_POST['contact']);
-        if(isset($_POST['desc'])) $s->setDesc($_POST['desc']);
+        if(!is_null(RFD::get('addServForm', 'contact'))) $s->setContact(RFD::get('addServForm', 'contact'));
+        if(!is_null(RFD::get('addServForm', 'desc'))) $s->setDesc(RFD::get('addServForm', 'desc'));
         $s->setDate_add(time());
         $s->setDate_end(time()+(24*3600*10)); // to pewnie do zmiany, ustawilem na stale 10 dni
         RFD::clear('addServForm');

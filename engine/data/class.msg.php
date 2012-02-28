@@ -29,7 +29,7 @@ class MSG {
     public static function profilePackageAddError() {
         return 'Nie dodano pakietu. Spróbuj ponownie.';
     }
-    
+
     public static function profilePackageAddErrorInRegister() {
         return 'Konto zostało zarejestrowane, ale wystąpiły błedy. Skontaktuj się z administratorem!';
     }
@@ -38,21 +38,21 @@ class MSG {
         return 'Nie masz aktywnych pakietów. Skontaktuj się z administratorem.';
     }
 
-        public static function profileAddPackagesSuccess() {
+    public static function profileAddPackagesSuccess() {
         return 'Dodano pomyślnie pakiet.';
     }
-    
-        public static function profileNoServicesAllow() {
+
+    public static function profileNoServicesAllow() {
         return 'Nie masz aktywnych pakietów pozwalających na dodawanie usług.';
     }
-    
-        public static function profileNoOffersAllow() {
+
+    public static function profileNoOffersAllow() {
         return 'Nie masz aktywnych pakietów pozwalających na dodawanie ofert.';
     }
-    
 
-    
-    
+    public static function addServProgramZaDlugi() {
+        return 'Program może mieć co najwyżej 1500 znaków!';
+    }
 }
 
 ?>
