@@ -64,6 +64,12 @@ class Mailer
         $tm = new Template(Pathes::getPathTemplateMailInfoWybranaOfertaWlasciciel());
         $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta została wybrana', $tm->getContent());
     }
+    
+    public function infoOdrzuconaOfertaWlasciciel(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaWlasciciel());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta została wybrana', $tm->getContent());
+    }
 }
 
 ?>

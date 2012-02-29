@@ -40,6 +40,7 @@ class Pathes {
     public static $template_catalog_main_servs = 'cat_servs.html';
     
     public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
+    public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
 
     public static $script_path = '';
     public static $script_index = 'index.php';
@@ -246,6 +247,10 @@ class Pathes {
 
     public static function getPathTemplateMailInfoWybranaOfertaWlasciciel() {
         return Pathes::$template_mail_path . Pathes::$mail_info_wybrana_oferta_wlasciciel;
+    }
+    
+    public static function getPathTemplateMailInfoOdrzuconaOfertaWlasciciel() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_odrzucona_oferta_wlasciciel;
     }
 }
 
