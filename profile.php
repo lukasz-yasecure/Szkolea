@@ -153,8 +153,7 @@ try {
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         // wysyłamy powiadomienie właścicielowi odrzuconej oferty
-                        $ou = $um->getUser($dbc,$x['id_user']); // pobierane dane właściciela odrzuconej oferty
-                        $m->sendMail($ou->getEmail(),'noreply@szkolea.pl','Powiadomienie: odrzucona oferta','Treść: Twoja oferta została odrzucona');
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
                     }
                     header('Location: profile.php?w=offers&id=' . $_GET['id']);
                 } else {
