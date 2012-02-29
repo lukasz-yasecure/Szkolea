@@ -130,7 +130,7 @@ if (isset($_GET['join'])) {
         if (!$res)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         $res = $res->fetch_assoc();
-        if ($res['ile'] == 1) {
+        if ($res['ile'] == 1 AND time() < ($c->getDate_end() - 3600 * 48 )) {
             $sql = 'UPDATE `commisions` SET `date_end` = \'' . (time() + 3600 * 48) . '\' WHERE `commisions`.`id_comm` =' . $o->getId_comm();
             $res = $dbc->query($sql);
             if (!$res)
@@ -142,15 +142,11 @@ if (isset($_GET['join'])) {
          */
 
         // założyciel zlecenia
-        $cu = $um->getUser($dbc, $c->getId_user()); // pobieranie danych założyciela zlecenia ([c]ommition [u]ser)
-        $m->sendMail($cu->getEmail(), 'noreply@szkolea.pl', 'Nowa oferta', 'Treść: otrzymałeś ofertę');
-        // $m->sendMail('d.volosevic@gmail.com', 'noreply@szkolea.pl', 'Nowa oferta','Treść: otrzymałeś ofertę'); do testów
+        $m->infoNowaOfertaWlascicielZlecenia($um->getUser($dbc, $c->getId_user()));
         // obserwujący zlecenie
         $lo = $dbc->query(Query::getObserveCommUsers($c->getId_comm())); // pobieranie listy obserwujących zlecenie
         while ($x = $lo->fetch_assoc()) {
-            $ou = $um->getUser($dbc, $x['id_user']); // pobieranie danych obserwujących zlecenie ([o]bserve [u]ser)
-            $m->sendMail($ou->getEmail(), 'noreply@szkolea.pl', 'Uwaga! Nowa oferta', 'Treść wiadomości');
-            // $m->sendMail('d.volosevic@gmail.com', 'noreply@szkolea.pl', 'Nowa oferta',$ou->getEmail()); do testów
+            $m->infoNowaOfertaObserwujacyZlecenie($um->getUser($dbc, $x['id_user']));
         }
         BFEC::addm('Właśnie złożyłeś ofertę!', Pathes::getScriptCommisionPath($o->getId_comm()));
     } catch (Exception $e) { // System
