@@ -1105,9 +1105,13 @@ class UserData
             else $m = false;
         }
 
-        if(!isset($_POST['program']) || empty($_POST['program']) || !Valid::text($_POST['program'])) $p = false;
+        if(!isset($_POST['program']) || empty($_POST['program'])) $p = false;
         else {
-            if(mb_strlen($_POST['program'], 'utf-8') > 1500) BFEC::add(MSG::addServProgramZaDlugi());
+            //if(!Valid::text($_POST['program'])) BFEC::add(MSG::addServProgramNiedozwoloneZnaki());
+            
+            $_POST['program'] = Valid::antyHTML($_POST['program']);
+            
+            if(mb_strlen($_POST['program'], 'UTF-8') > 5000) BFEC::add(MSG::addServProgramZaDlugi());
             
             RFD::add('addServForm', 'program', $_POST['program']);
         }

@@ -147,7 +147,7 @@ class System
     {
         date_default_timezone_set('Europe/Warsaw');
         ini_set('display_errors', 1);
-        header('content-Type: text/html; charset=utf8');
+        header('content-Type: text/html; charset=UTF-8');
 
         $this->base_url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']).'/';
 
