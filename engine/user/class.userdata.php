@@ -1139,7 +1139,11 @@ class UserData
         if(!isset($_POST['cena_']) || empty($_POST['cena_']) || !Valid::add_serv_cena_($_POST['cena_'])) BFEC::add(BFEC::$e['UD']['cena_']);
         else RFD::add('addServForm', 'cena_', $_POST['cena_']);
 
-        if(isset($_POST['desc']) && !empty($_POST['desc']) && Valid::text($_POST['desc'])) RFD::add('addServForm', 'desc', $_POST['desc']);
+        if(isset($_POST['desc']) && !empty($_POST['desc'])) {
+            $_POST['desc'] = Valid::antyHTML($_POST['desc']);
+            
+            RFD::add('addServForm', 'desc', $_POST['desc']);
+        }
 
         if(!isset($_POST['mail']) || empty($_POST['mail']) || !Valid::email($_POST['mail'])) BFEC::add(BFEC::$e['UD']['NoValidEmail']);
         else RFD::add('addServForm', 'mail', $_POST['mail']);

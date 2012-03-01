@@ -459,7 +459,8 @@ class Valid {
     }
 
     static function antyHTML($s) {
-        return htmlspecialchars($s);
+        $s = htmlspecialchars($s);
+        return $s;
     }
 
 }
