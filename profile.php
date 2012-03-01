@@ -159,7 +159,7 @@ try {
                 } else {
                     while ($x = $res->fetch_assoc()) {
                         $r .= '<li>oferta #' . $x['id_ofe'] . '</li>';
-                        $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
+                        if($x['status'] === '1') $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
                     }
                 }
 
