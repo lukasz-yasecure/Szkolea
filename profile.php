@@ -156,13 +156,13 @@ try {
                         $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
                     header('Location: profile.php?w=offers&id=' . $_GET['id']);
-                } elseif(isset($_GET['resign'])) {
-                    
-                        while ($x = $res->fetch_assoc()) {
+                } elseif (isset($_GET['resign'])) {
+
+                    while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         // wysyłamy powiadomienie właścicielowi odrzuconej oferty
-                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
-                        }
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
+                    }
                     header('Location: profile.php?w=comms&a=2');
                 } else {
                     // lista ofert
@@ -171,11 +171,14 @@ try {
                     $rc = "0"; // row count
                     while ($x = $res->fetch_assoc()) {
                         $rc++;
-                        if($rc = '1') $is_aviable = $x['status']; // sprawdza status pierwszej oferty
+                        if ($rc = '1')
+                            $is_aviable = $x['status']; // sprawdza status pierwszej oferty
                         $r .= '<li>oferta #' . $x['id_ofe'] . '</li>';
-                        if($x['status'] === '1') $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
+                        if ($x['status'] === '1')
+                            $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
                     }
-                    if($is_aviable === '1') $resign_all = "<p class=\"resign_all\"><a href=\"profile.php?w=offers&id=".$_GET['id']."&resign=all\">Odrzuć wszystko</a></p>";
+                    if ($is_aviable === '1')
+                        $resign_all = "<p class=\"resign_all\"><a href=\"profile.php?w=offers&id=" . $_GET['id'] . "&resign=all\">Odrzuć wszystko</a></p>";
                     $t->addSearchReplace('resign_all', $resign_all);
                 }
             } else if ($_GET['w'] == 'dane') {
@@ -279,36 +282,107 @@ try {
                         $pkgm = new PackageManager();
                         $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
 
-                        $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());
+                        $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());     //podmieniamy w szablonie ilość znaków wizytówki na pobraną z bazy dla odpowiedniego użytkownika
 
-                        if (!$pkgm->czyMoznaDodacWWW()) {
-                            $t_wiz->addSearchReplace('www', '<input id="www" name="www" size="50"  type="text" /> ');
+
+                        if ($pkgm->czyMoznaDodacWWW()) {    // sprawdzamy czy użytkownik może dodawać www i blokujemu mu tą opcje lub nie
+                            $t_wiz->addSearchReplace('www_disabled', '');
                         } else {
-                            $t_wiz->addSearchReplace('www', '<input disabled id="www" name="www" size="50"  type="text" /> ');
+                            $t_wiz->addSearchReplace('www_disabled', 'disabled="disabled"');
                         }
-                        if (!$pkgm->czyMoznaDodacLogo()) {
-                            $t_wiz->addSearchReplace('logo', '<input type="file" name="photoimg" id="photoimg" />');
+                        if ($pkgm->czyMoznaDodacLogo()) {   // sprawdzamy czy użytkownik może dodawać logo i blokujemu mu tą opcje lub nie
+                            $t_wiz->addSearchReplace('logo_disabled', '');
                         } else {
-                            $t_wiz->addSearchReplace('logo', '<input disabled type="file" name="photoimg" id="photoimg" />');
+                            $t_wiz->addSearchReplace('logo_disabled', 'disabled="disabled"');
                         }
 
+                        //pobieramy informacje o wizytowce w bazie, gdyz musimy wiedziec czy generowac nowy rekord odnosnie wizytówki czy updateować istniejący już
+                        if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user())) {
+                            $pkgm->pobierzWizytowke($dbc, $u->getId_user());
+
+
+                            //pobieramy opis z bazy, lub w przypadku jego braku ładujemy z RFD
+                            if (strlen($pkgm->pobierzOpis()) > 0) {
+                                $t_wiz->addSearchReplace('RFD_opis', $pkgm->pobierzOpis());
+                            } else {
+                                $t_wiz->addSearchReplace('RFD_opis', RFD::get('edycja_wizytowki', 'opis'));
+                            }
+
+                            //pobieramy URL z bazy, lub w przypadku jego braku ładujemy z RFD
+                            if (strlen($pkgm->pobierzURL()) > 0) {
+                                $t_wiz->addSearchReplace('RFD_www', $pkgm->pobierzURL());
+                            } else {
+                                $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
+                            }
+                        } else {    //gdy nie ma wizytówki w bazie ładujemy dane od razu z RFD
+                            $t_wiz->addSearchReplace('RFD_opis', $pkgm->pobierzOpis());
+                            $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
+                        }
+
+                        //gdy użytkownik ma już logo wyświetlamu mu je z przyciskiem USUŃ
+                        if (strlen($pkgm->pobierzLogoLink()) > 0 && !is_null($pkgm->pobierzLogoLink())) {
+                            $t_wiz->addSearchReplace('logo', 'loga/' . $pkgm->pobierzLogoLink());
+                            $t_wiz_usun = new Template('view/html/wizytowka_usun_logo.html');
+                            $t_wiz->addSearchReplace('usun', $t_wiz_usun->getContent());
+
+                            //jeśli użytkownik nie ma jeszcze loga łądujemu mu obrazek domyślny bez przycisku USUŃ
+                        } else {
+                            $t_wiz->addSearchReplace('logo', 'loga/default.png');
+                            $t_wiz->addSearchReplace('usun', '');
+                        }
+
+                        //usuwanie loga z przycisku USUŃ
+                        if (isset($_GET['usun_logo']) && $_GET['usun_logo'] == 1) {
+
+                            unlink('loga/' . $pkgm->pobierzLogoLink());
+                            $sql = Query::setLogoForUser($u->getId_user(), '');
+                            $dbc->query($sql);
+
+                            BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po usunięciu na odświeżony formularz wizytówki
+                        }
 
                         $t->addSearchReplace('here', $t_wiz->getContent());
 
-
+                        //reakcja na zapisanie formularza
                         if ((isset($_POST['submit']))) {
-                            if ($pkgm->pobierzWizytowke($dbc, $u->getId_user()) == FALSE) {
 
-                                $sql = Query::setNewCardForUser($u->getId_user(), $_POST['opis'], $_POST['www'], 'NULL');
+                            $_POST['opis'] = Valid::antyHTML($_POST['opis']);
+                            $_POST['opis'] = nl2br($_POST['opis']);
+
+                            $_POST['www'] = Valid::antyHTML($_POST['www']);
+
+                            //sprawdzenie poprawności adresu WWW
+                            if (Valid::isValidURL($_POST['www'])) {
+                                RFD::add('edycja_wizytowki', 'www', $_POST['www']);
+                            } else {
+                                BFEC::add(MSG::profileBlednyAdresWWW());
+                            }
+
+                            //sprawdzenie długości wizytówki czy zgodna z dozwoloną
+                            if (strlen($_POST['opis']) < $pkgm->iIleZnakowWizytowka()) {
+                                RFD::add('edycja_wizytowki', 'opis', $_POST['opis']);
+                            }else
+                                BFEC::add(MSG::profileOpisZaDlugi());
+
+
+                            //zapisywanie poprawnych danych w bazie
+                            if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user()) == FALSE && !is_null(RFD::get('edycja_wizytowki', 'opis')) && !is_null(RFD::get('edycja_wizytowki', 'www'))) {
+                                //w przypadku gdy nowa pozycja w bazie
+                                $sql = Query::setNewCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'), 'NULL');
                                 $dbc->query($sql);
+                                RFD::clear('edycja_wizytowki');
                                 if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
                                     throw new NieZaktualizowanoWizytowki;
-                            }else {
-                                $sql = Query::setCardForUser($u->getId_user(), $_POST['opis'], $_POST['www']);
+                            }else if (!is_null(RFD::get('edycja_wizytowki', 'opis')) && !is_null(RFD::get('edycja_wizytowki', 'www'))) {
+                                //w przypadku gdy rekord odnośnie wizytówki już istnieje
+                                $sql = Query::setCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'));
                                 $dbc->query($sql);
+                                RFD::clear('edycja_wizytowki');
                                 if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
                                     throw new NieZaktualizowanoWizytowki;
                             }
+
+                            BFEC::isError();
                         }
                     } else if ($_GET['a'] == 1) {
                         /*

@@ -463,6 +463,16 @@ class Valid {
         return $s;
     }
 
+    //walodowanie adresu URL - wymagany adres typu: "domena.pl" (conajmniej jedna pojedyncza kropka w URL) , dozwolone znaczki występujące w URLach, polskie litery, :port
+    static function isValidURL($url) {
+        $url = mb_strtolower($url, 'UTF-8');
+
+        if (preg_match('|^([a-ząęćżźńłóś0-9-]+[.]{1})+([a-ząęćżźńłóś0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url))
+            return true;
+        else
+            return false;
+    }
+
 }
 
 ?>

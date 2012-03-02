@@ -9,6 +9,9 @@ class PackageManager {
     private $wizyt_www;
     private $baner;
     private $mailing;
+    private $wizyt_opis;
+    private $wizyt_url;
+    private $logo_link;
 
     public function pobierzInformacjePakietow(DBC $dbc, $id_user) {
 
@@ -99,14 +102,14 @@ class PackageManager {
         if ($this->wizyt_logo <= 0)
             return false;
         else
-            true;
+            return true;
     }
 
     public function czyMoznaDodacWWW() {
         if ($this->wizyt_www <= 0)
             return false;
         else
-            true;
+            return true;
     }
 
     public function czyMoznaDodacBaner() {
@@ -151,8 +154,7 @@ class PackageManager {
         }
     }
 
-    
-        public function pobierzWizytowke(DBC $dbc, $id_user) {
+    public function sprawdzWizytowke(DBC $dbc, $id_user) {  //sprawdza czy wizytkówka istnieje już w bazie
 
         $sql = Query::getCardForUser($id_user);
 
@@ -160,10 +162,37 @@ class PackageManager {
         $result = $r->fetch_array();
 
         if (!$r || $r->num_rows <= 0)
-        return FALSE;
-        else return $result;
-        
+            return FALSE;
+        else
+            return $result;
     }
+
+    public function pobierzWizytowke(DBC $dbc, $id_user) {  //pobieramy dane do wizytówki
+
+        $sql = Query::getCardForUser($id_user);
+
+        $r = $dbc->query($sql);
+
+        while ($set = $r->fetch_assoc()) {
+
+            $this->wizyt_opis = $set['opis'];
+            $this->wizyt_url = $set['www'];
+            $this->logo_link = $set['logo'];
+        }
+    }
+
+    public function pobierzOpis() {
+        return $this->wizyt_opis;
+    }
+
+    public function pobierzURL() {
+        return $this->wizyt_url;
+    }
+
+    public function pobierzLogoLink() {
+        return $this->logo_link;
+    }
+
 }
 
 ?>

@@ -15,7 +15,8 @@ if (file_exists($sysFile) && file_exists($logFile)) {
 
 /* * *********************[ action = XXX ]****************************************************************************
  *
- * 2011-1x-xx
+ * 2012-03-02
+ * obsługa uploadera loga dla wizytówki
  *
  * ********************************************************************************************************************* */
 
@@ -35,10 +36,10 @@ try {
     $path = "loga/";
 
 
-    $valid_formats = array("jpg", "jpeg", "png", "gif", "JPG", "JPEG", "PNG", "GIF");
+    $valid_formats = array("jpg", "jpeg", "png", "gif", "JPG", "JPEG", "PNG", "GIF");   //dozwolone formaty
     if (isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST") {
-        $name = $_FILES['photoimg']['name'];
-        $size = $_FILES['photoimg']['size'];
+        $name = $_FILES['photoimg']['name'];    //nazwa pliku
+        $size = $_FILES['photoimg']['size'];    //rozmiar pliku
 
 
         if (strlen($name)) {
@@ -49,23 +50,28 @@ try {
                     $tmp = $_FILES['photoimg']['tmp_name'];
                     if (move_uploaded_file($tmp, $path . $actual_image_name)) {
 
-
-                        if ($pkgm->pobierzWizytowke($dbc, $u->getId_user()) == FALSE) {
-                        
-                            $sql = Query::setNewCardForUser($id_user, 'NULL', 'NULL', $logo);
+                        //dodawanie do bazy
+                        if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user()) == FALSE) { //jeśli wizytówka jest nową pozycją w bazie
+                            $pkgm->pobierzWizytowke($dbc, $u->getId_user());
+                            //usunięcie starego logo
+                            if (strlen($pkgm->pobierzLogoLink()) > 0 && !is_null($pkgm->pobierzLogoLink()))
+                                unlink('loga/' . $pkgm->pobierzLogoLink());
+                            $sql = Query::setNewCardForUser($u->getId_user(), 'NULL', 'NULL', $actual_image_name);
                             $dbc->query($sql);
                             if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
-                                throw new NieZaktualizowanoWizytowki;
-                            
-                        }else
-                        {                           
+                                echo 'Nie dodano logo!';
+                        }else {     //jeśli wizytówka już istnieje w bazie
+                            $pkgm->pobierzWizytowke($dbc, $u->getId_user());
+                            //usunięcie starego logo
+                            if (strlen($pkgm->pobierzLogoLink()) > 0 && !is_null($pkgm->pobierzLogoLink()))
+                                unlink('loga/' . $pkgm->pobierzLogoLink());
                             $sql = Query::setLogoForUser($u->getId_user(), $actual_image_name);
                             $dbc->query($sql);
                             if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
-                                throw new NieZaktualizowanoWizytowki;
+                                echo 'Nie dodano logo!';
                         }
 
-                        echo "<img src='loga/" . $actual_image_name . "'  class='preview' border=2>";
+                        echo "<img src='loga/" . $actual_image_name . "'  class='preview' border=2>";   //wyświetlenie loga po dodaniu
                     }
                     else
                         echo "Niepowodzenie";

@@ -113,7 +113,7 @@ class EXCManager {
                 break;
 
             case 'NieDodanoPakietu':
-                if($s == 'register')
+                if ($s == 'register')
                     BFEC::add(MSG::profilePackageAddErrorInRegister(), true, Pathes::getScriptIndexPath());
                 else
                     BFEC::add(MSG::profilePackageAddError(), true, Pathes::getScriptProfilePackagesPath());
@@ -122,16 +122,16 @@ class EXCManager {
             case 'BrakAktywnychPakietow':
                 BFEC::add(MSG::profileNoPackages(), true, Pathes::getScriptProfilePath());
                 break;
-            
+
             case 'NieMoznaDodawacUslug':
                 BFEC::add(MSG::profileNoServicesAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
                 break;
-            
-                        case 'NieMoznaDodawacOfert':
+
+            case 'NieMoznaDodawacOfert':
                 BFEC::add(MSG::profileNoOffersAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
                 break;
-            
-              case 'NieZaktualizowanoWizytowki':
+
+            case 'NieZaktualizowanoWizytowki':
                 BFEC::add(MSG::profileNoCardUpdate(), true, Pathes::getScriptProfileCard());
                 break;
 

@@ -62,6 +62,14 @@ class MSG {
     public static function addServProgramNiedozwoloneZnaki() {
         return 'Program, który podałeś, zawiera niedozwolone znaki!';
     }
+    
+        public static function profileBlednyAdresWWW() {
+        return 'Błędny adres strony internetowej!';
+    }
+    
+            public static function profileOpisZaDlugi() {
+        return 'Opis jest zbyt długi!';
+    }
 
 }
 
