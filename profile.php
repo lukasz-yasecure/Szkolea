@@ -143,7 +143,7 @@ try {
                 $m = new Mailer();
                 $t = new Template(Pathes::getPathTemplateProfileZleceniaMoje());
                 $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobierane oferty wg. id zlecenia (tylko statu 1 lub 2)
-                $get_obs = $dbc->query(Query::getObserveCommUsers($_GET['id'])); // pobierana lista obserwujących zlecenie
+                $get_group = $dbc->query(Query::getGroupCommUsers($_GET['id'])); // pobierana lista dodanych do zlecenia
                 if (isset($_GET['ofe'])) { // wybór oferty przez klienta
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
                     // wysyłane powiadomienie właścicielowi wybranej oferty
@@ -156,9 +156,10 @@ try {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
                     }
-                    // wysyłane informacje o wybranej ofercie obserwującym zlecenie
-                    while ($x = $get_obs->fetch_assoc()) {
-                        $m->infoWybranaOfertaObserwujacyZlecenie($um->getUser($dbc,$x['id_user']));
+
+                    // wysyłane informacje o wybranej ofercie dodanym do zlecenia osobom
+                    while ($x = $get_group->fetch_assoc()) {
+                        $m->infoWybranaOfertaDodaneDoZlecenia($um->getUser($dbc,$x['id_user']));
                     }
                     BFEC::addm(MSG::profileOfferChosen(), Pathes::getScriptProfileZleceniaMoje());
                 } elseif(isset($_GET['resign'])) {
@@ -167,9 +168,9 @@ try {
                     // wysyłamy powiadomienie właścicielowi odrzuconej oferty
                         $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
                     }
-                    // wysyłane informacje o odrzuconej ofercie obserwującym zlecenie
-                    while ($x = $get_obs->fetch_assoc()) {
-                        $m->infoOdrzuconaOfertaObserwujacyZlecenie($um->getUser($dbc,$x['id_user']));
+                    // wysyłane informacje o odrzuconej ofercie dodanym do zlecenia osobom
+                    while ($x = $get_group->fetch_assoc()) {
+                        $m->infoOdrzuconaOfertaDodaneDoZlecenia($um->getUser($dbc,$x['id_user']));
                     }
                     BFEC::addm(MSG::profileNoOfferChosen(), Pathes::getScriptProfileZleceniaMoje());
                 } else {
