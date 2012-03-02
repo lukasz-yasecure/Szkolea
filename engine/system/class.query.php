@@ -519,6 +519,11 @@ class Query {
         return $sql;
     }
 
+    public static function getGroupCommUsers($id) {
+        $sql = 'SELECT * FROM commisions_group WHERE `id_comm`=' . $id;
+        return $sql;
+    }
+
     public static function getOfferAdd(Offer $o) {
         $sql = "INSERT INTO `commisions_ofe` (
                     `id_ofe` ,
