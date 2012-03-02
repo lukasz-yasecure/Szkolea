@@ -57,6 +57,14 @@ class MSG {
     public static function addServProgramNiedozwoloneZnaki() {
         return 'Program, który podałeś, zawiera niedozwolone znaki!';
     }
+    
+    public static function profileOfferChosen() {
+        return 'Oferta została wybrana! Powiadomimy o Twoim wyborze zapisane osoby oraz właściciela wybranej oferty.';
+    }
+    
+    public static function profileNoOfferChosen() {
+        return 'Zrezygnowałeś z wyboru oferty!';
+    }
 }
 
 ?>

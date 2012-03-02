@@ -141,44 +141,72 @@ try {
                  */
                 $um = new UserManager();
                 $m = new Mailer();
-                $t = new Template(Pathes::getPathTemplateProfileOffers());
+                $t = new Template(Pathes::getPathTemplateProfileZleceniaMoje());
                 $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobieramy oferty wg. id zlecenia
                 if (isset($_GET['ofe'])) { // wybór oferty przez klienta
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
                     // wysyłamy powiadomienie właścicielowi wybranej oferty
                     $gu = $dbc->query(Query::getOfferAccept($_GET['ofe'])); // pobierane dane wybranej oferty
-                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc,$gu->fetch_object()->id_user));
-                    
+                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc, $gu->fetch_object()->id_user));
+
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         // wysyłamy powiadomienie właścicielowi odrzuconej oferty
-                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
-                    header('Location: profile.php?w=offers&id=' . $_GET['id']);
-                } elseif(isset($_GET['resign'])) {
-                    
-                        while ($x = $res->fetch_assoc()) {
+                    BFEC::addm(MSG::profileOfferChosen(), Pathes::getScriptProfileZleceniaMoje());
+                } elseif (isset($_GET['resign'])) {
+
+                    while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         // wysyłamy powiadomienie właścicielowi odrzuconej oferty
-                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
-                        }
-                    header('Location: profile.php?w=comms&a=2');
-                } else {
-                    // lista ofert
-                    $resign_all = "";
-                    $is_aviable = "";
-                    $rc = "0"; // row count
-                    while ($x = $res->fetch_assoc()) {
-                        $rc++;
-                        if($rc = '1') $is_aviable = $x['status']; // sprawdza status pierwszej oferty
-                        $r .= '<li>oferta #' . $x['id_ofe'] . '</li>';
-                        if($x['status'] === '1') $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
-                    if($is_aviable === '1') $resign_all = "<p class=\"resign_all\"><a href=\"profile.php?w=offers&id=".$_GET['id']."&resign=all\">Odrzuć wszystko</a></p>";
-                    $t->addSearchReplace('resign_all', $resign_all);
-                }
+                    BFEC::addm(MSG::profileNoOfferChosen(), Pathes::getScriptProfileZleceniaMoje());
+                } else {
+                    /*
+                     * KLIENT - LISTA OFERT
+                     */
+                    $temp_lo = new Template(Pathes::getPathTemplateProfileOffers());
+                    $rezygnacja = '';
+                    $oferty = '';
 
+                    $o1 = $res->fetch_assoc();
+                    // oferta nr 1 ma status 1 czyli generujemy liste ofert z przyciskiem do akceptacji
+                    if ($o1['status'] === '1') { 
+                        $temp_r = new Template(Pathes::getPathTemplateProfileOffersRezygnacja());
+                        $temp_r->addSearchReplace('id', $_GET['id']);
+                        $rezygnacja = $temp_r->getContent();
+                        $temp_1o = new Template(Pathes::getPathTemplateProfileOffers1OfferToChoose());
+                        $temp_1o->addSearchReplace('id_ofe', $o1['id_ofe']);
+                        $temp_1o->addSearchReplace('id_zl', $_GET['id']);
+                        $oferty.= $temp_1o->getContent();
+                        $temp_1o->clearSearchReplace();
+
+                        while ($x = $res->fetch_assoc()) {
+                            $temp_1o->addSearchReplace('id_ofe', $x['id_ofe']);
+                            $temp_1o->addSearchReplace('id_zl', $_GET['id']);
+                            $oferty.= $temp_1o->getContent();
+                            $temp_1o->clearSearchReplace();
+                        }
+                    // oferta nr 1 ma status inny niz 1 czyli byl juz wybor oferty wiec nie wyswietlamy przycisku do akceptacji
+                    } else { 
+                        $temp_1o = new Template(Pathes::getPathTemplateProfileOffers1Offer());
+                        $temp_1o->addSearchReplace('id_ofe', $o1['id_ofe']);
+                        $oferty.= $temp_1o->getContent();
+                        $temp_1o->clearSearchReplace();
+
+                        while ($x = $res->fetch_assoc()) {
+                            $temp_1o->addSearchReplace('id_ofe', $x['id_ofe']);
+                            $oferty.= $temp_1o->getContent();
+                            $temp_1o->clearSearchReplace();
+                        }
+                    }
+
+                    $temp_lo->addSearchReplace('oferty', $oferty);
+                    $r = $rezygnacja.$temp_lo->getContent();
+                }
             } else if ($_GET['w'] == 'dane') {
                 /*
                  * KLIENT - EDYCJA DANYCH

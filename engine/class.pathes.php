@@ -30,7 +30,11 @@ class Pathes {
     public static $template_profile_k = 'profile_k.html';
     public static $template_profile_u = 'profile_u.html';
     public static $template_profile_edit_form = 'profile_edit_form.html';
-    public static $template_profile_offers = 'profile_offers.html';
+    public static $template_profile_offers = 'profile_klient_lista_ofert.html';
+    public static $template_profile_offers_1_offer = 'profile_klient_lista_ofert_1_oferta.html';
+    public static $template_profile_offers_1_offer_to_choose = 'profile_klient_lista_ofert_1_oferta_do_wyboru.html';
+    public static $template_profile_offers_rezygnacja = 'profile_klient_lista_ofert_rezygnacja_z_wyboru.html';
+    public static $template_profile_zlecenia_moje = 'profile_klient_zlecenia_moje.html';
     public static $template_catalog_kategoria = 'cat.html';
     public static $template_catalog_obszar = 'cat_oit.html';
     public static $template_catalog_tematyka = 'cat_t.html';
@@ -38,12 +42,10 @@ class Pathes {
     public static $template_comm_list_added = 'admin_comm_list_dopisani.html';
     public static $template_catalog_main_comms = 'cat_comms.html';
     public static $template_catalog_main_servs = 'cat_servs.html';
-    
     public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
     public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
     public static $mail_info_nowa_oferta_wlasciciel_zlecenia = 'info_nowa_oferta_wlasciciel_zlecenia.html';
     public static $mail_info_nowa_oferta_obserwujacy_zlecenie = 'info_nowa_oferta_obserwujacy_zlecenie.html';
-
     public static $script_path = '';
     public static $script_index = 'index.php';
     public static $script_activation = 'activation.php';
@@ -57,6 +59,7 @@ class Pathes {
     public static $script_profile = 'profile.php';
     public static $script_profile_packages_buying = 'profile.php?w=pakiety&a=1';
     public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
+     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -101,7 +104,7 @@ class Pathes {
     public static function getScriptLoginPath() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_login;
     }
-    
+
     public static function getScriptRegisterPath() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_register;
     }
@@ -131,22 +134,23 @@ class Pathes {
     public static function getScriptIndexPath() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_index;
     }
-    
-    public static function  getScriptProfilePath()
-    {
-           return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile;
+
+    public static function getScriptProfilePath() {
+        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile;
+    }
+
+    public static function getScriptProfilePackageBuyingPath() {
+        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages_buying;
+    }
+
+    public static function getScriptProfilePackagesPath() {
+        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
     }
     
-     public static function  getScriptProfilePackageBuyingPath()
-    {
-           return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages_buying;
+    public static function getScriptProfileZleceniaMoje() {
+        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
     }
-    
-         public static function  getScriptProfilePackagesPath()
-    {
-           return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
-    }
-    
+
     public static function getCommGroupJoinFormTemplatePath() {
         return Pathes::$template_path . Pathes::$template_comm_group_join_form;
     }
@@ -218,6 +222,22 @@ class Pathes {
     public static function getPathTemplateProfileOffers() {
         return Pathes::$template_path . Pathes::$template_profile_offers;
     }
+    
+    public static function getPathTemplateProfileOffers1Offer() {
+        return Pathes::$template_path . Pathes::$template_profile_offers_1_offer;
+    }
+    
+    public static function getPathTemplateProfileOffers1OfferToChoose() {
+        return Pathes::$template_path . Pathes::$template_profile_offers_1_offer_to_choose;
+    }
+    
+    public static function getPathTemplateProfileOffersRezygnacja() {
+        return Pathes::$template_path . Pathes::$template_profile_offers_rezygnacja;
+    }
+    
+    public static function getPathTemplateProfileZleceniaMoje() {
+        return Pathes::$template_path . Pathes::$template_profile_zlecenia_moje;
+    }
 
     public static function getPathTemplateCatalogKategoria() {
         return Pathes::$template_path . Pathes::$template_catalog_kategoria;
@@ -250,18 +270,19 @@ class Pathes {
     public static function getPathTemplateMailInfoWybranaOfertaWlasciciel() {
         return Pathes::$template_mail_path . Pathes::$mail_info_wybrana_oferta_wlasciciel;
     }
-    
+
     public static function getPathTemplateMailInfoOdrzuconaOfertaWlasciciel() {
         return Pathes::$template_mail_path . Pathes::$mail_info_odrzucona_oferta_wlasciciel;
     }
-    
+
     public static function getPathTemplateMailInfoNowaOfertaWlascicielZlecenia() {
         return Pathes::$template_mail_path . Pathes::$mail_info_nowa_oferta_wlasciciel_zlecenia;
     }
-    
+
     public static function getPathTemplateMailInfoNowaOfertaObserwujacyZlecenie() {
         return Pathes::$template_mail_path . Pathes::$mail_info_nowa_oferta_obserwujacy_zlecenie;
     }
+
 }
 
 ?>
