@@ -1105,9 +1105,13 @@ class UserData
             else $m = false;
         }
 
-        if(!isset($_POST['program']) || empty($_POST['program']) || !Valid::text($_POST['program'])) $p = false;
+        if(!isset($_POST['program']) || empty($_POST['program'])) $p = false;
         else {
-            if(mb_strlen($_POST['program'], 'utf-8') > 1500) BFEC::add(MSG::addServProgramZaDlugi());
+            //if(!Valid::text($_POST['program'])) BFEC::add(MSG::addServProgramNiedozwoloneZnaki());
+            
+            $_POST['program'] = Valid::antyHTML($_POST['program']);
+            
+            if(mb_strlen($_POST['program'], 'UTF-8') > 5000) BFEC::add(MSG::addServProgramZaDlugi());
             
             RFD::add('addServForm', 'program', $_POST['program']);
         }
@@ -1135,7 +1139,11 @@ class UserData
         if(!isset($_POST['cena_']) || empty($_POST['cena_']) || !Valid::add_serv_cena_($_POST['cena_'])) BFEC::add(BFEC::$e['UD']['cena_']);
         else RFD::add('addServForm', 'cena_', $_POST['cena_']);
 
-        if(isset($_POST['desc']) && !empty($_POST['desc']) && Valid::text($_POST['desc'])) RFD::add('addServForm', 'desc', $_POST['desc']);
+        if(isset($_POST['desc']) && !empty($_POST['desc'])) {
+            $_POST['desc'] = Valid::antyHTML($_POST['desc']);
+            
+            RFD::add('addServForm', 'desc', $_POST['desc']);
+        }
 
         if(!isset($_POST['mail']) || empty($_POST['mail']) || !Valid::email($_POST['mail'])) BFEC::add(BFEC::$e['UD']['NoValidEmail']);
         else RFD::add('addServForm', 'mail', $_POST['mail']);

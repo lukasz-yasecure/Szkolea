@@ -6,7 +6,7 @@ ob_start(); // flush w View::getHTMLFoot
 
 ini_set('display_errors', 1);
 
-header('content-Type: text/html; charset=utf8');
+header('content-Type: text/html; charset=UTF-8');
 
 define('INSIDE', 'OK');
 define('TIMEFORACT', 1);
