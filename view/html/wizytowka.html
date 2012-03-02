@@ -1,0 +1,25 @@
+<form method="post">
+
+    <p>
+        <label for="opis">Treść wizytówki:</label>
+        <textarea name="opis" cols="30" rows="10" class="area" onkeyup="SignLimit(this,{%ilosc_znakow%});"></textarea><br/>
+        <span>Wpisano <span id="counter">0</span> znaków.</span>
+    </p>
+    <p>
+        <label for="www">Adres strony internetowej:&nbsp;&nbsp;&nbsp; <small>http://</small></label>
+        {%www%}
+    </p>
+    <p>
+        <input type="reset" value="Wyczyść"/>
+        <input class="submit"  name="submit" type="submit" value="Zapisz"/>
+    </p>
+
+</form>
+<form id="imageform" method="post" enctype="multipart/form-data" action='image_uploader.php'>
+    Dodaj logo: {%logo%}
+</form>
+<div id='preview'>
+</div>
+
+
+

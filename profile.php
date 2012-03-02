@@ -147,13 +147,13 @@ try {
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
                     // wysyłamy powiadomienie właścicielowi wybranej oferty
                     $gu = $dbc->query(Query::getOfferAccept($_GET['ofe'])); // pobierane dane wybranej oferty
-                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc,$gu->fetch_object()->id_user));
-                    
+                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc, $gu->fetch_object()->id_user));
+
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         // wysyłamy powiadomienie właścicielowi odrzuconej oferty
-                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
                     header('Location: profile.php?w=offers&id=' . $_GET['id']);
                 } else {
@@ -162,7 +162,6 @@ try {
                         $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
                     }
                 }
-
             } else if ($_GET['w'] == 'dane') {
                 /*
                  * KLIENT - EDYCJA DANYCH
@@ -254,11 +253,48 @@ try {
                     }
                 }
             } else if ($_GET['w'] == 'dane') {
-                if (isset($_GET['a'])) {
-                    if ($_GET['a'] == 0)
-                        $t = new Template('view/html/profile_u_dane_wiz.html');
 
-                    else if ($_GET['a'] == 1) {
+                //DOSTAWCA - EDYCJA WIZYTÓWKI
+                if (isset($_GET['a'])) {
+                    if ($_GET['a'] == 0) {
+                        $t = new Template('view/html/profile_dostawca_wizytowka.html');
+                        $t_wiz = new Template('view/html/wizytowka.html');
+
+                        $pkgm = new PackageManager();
+                        $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
+
+                        $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());
+
+                        if (!$pkgm->czyMoznaDodacWWW()) {
+                            $t_wiz->addSearchReplace('www', '<input id="www" name="www" size="50"  type="text" /> ');
+                        } else {
+                            $t_wiz->addSearchReplace('www', '<input disabled id="www" name="www" size="50"  type="text" /> ');
+                        }
+                        if (!$pkgm->czyMoznaDodacLogo()) {
+                            $t_wiz->addSearchReplace('logo', '<input type="file" name="photoimg" id="photoimg" />');
+                        } else {
+                            $t_wiz->addSearchReplace('logo', '<input disabled type="file" name="photoimg" id="photoimg" />');
+                        }
+
+
+                        $t->addSearchReplace('here', $t_wiz->getContent());
+
+
+                        if ((isset($_POST['submit']))) {
+                            if ($pkgm->pobierzWizytowke($dbc, $u->getId_user()) == FALSE) {
+
+                                $sql = Query::setNewCardForUser($u->getId_user(), $_POST['opis'], $_POST['www'], 'NULL');
+                                $dbc->query($sql);
+                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                    throw new NieZaktualizowanoWizytowki;
+                            }else {
+                                $sql = Query::setCardForUser($u->getId_user(), $_POST['opis'], $_POST['www']);
+                                $dbc->query($sql);
+                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                    throw new NieZaktualizowanoWizytowki;
+                            }
+                        }
+                    } else if ($_GET['a'] == 1) {
                         /*
                          * DOSTAWCA - EDYCJA DANYCH
                          */
@@ -284,10 +320,10 @@ try {
                     } else if ($_GET['a'] == 2)
                         $t = new Template('view/html/profile_u_dane_oceny.html');
                     else
-                        $t = new Template('view/html/profile_u_dane_wiz.html');
+                        $t = new Template('view/html/profile_dostawca_wizytowka.html');
                 }
                 else
-                    $t = new Template('view/html/profile_u_dane_wiz.html');
+                    $t = new Template('view/html/profile_dostawca_wizytowka.html');
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {

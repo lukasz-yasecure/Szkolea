@@ -1,0 +1,60 @@
+<div id="main">
+    <div class="lineAccount"></div><!-- lineAccount -->
+    <div class="myAccount">
+        <div class="menuAccount">
+            <div class="accountButtonW"><a href="?w=servs">USŁUGI</a></div><!-- accountButtonB -->
+            <div class="accountButtonW"><a href="?w=comms">ZLECENIA</a></div><!-- accountButtonW -->
+            <div class="accountButtonB"><a href="?w=dane">MOJE DANE</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=faktury">FAKTURY</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=pakiety">PAKIETY</a></div><!-- accountButtonW -->
+            <div class="buttonInfo">Witaj, {%name%} | <a href="logout.php">wyloguj</a></div><!-- buttonInfo -->
+        </div><!-- menuAccount -->
+        <div class="accountStrip"></div><!-- accountStrip -->
+    </div><!-- myAccount -->
+    <div class="menuAccountD">
+        <div class="accountButtonD"><a href="?w=dane&a=0">wizytówka</a></div><!-- accountButtonD -->
+        <div class="accountButtonDb"><a href="?w=dane&a=1">edycja</a></div><!-- accountButtonD -->
+        <div class="accountButtonDb"><a href="?w=dane&a=2">oceny</a></div><!-- accountButtonD -->
+    </div><!-- menuAccountD -->
+    <div class="accountMain">
+        <div class="accountTitle">
+        Tutaj możesz edytować swoją wizytówkę.
+        </div><!-- accountTitle -->
+        <br clear="all" />
+        <div class="accountLine"></div><!-- accountLine -->
+        {%here%}
+    </div><!-- accountMain -->
+</div><!-- main -->
+
+
+
+<script type="text/javascript">
+    // ogranicznik liczby znaków
+    function SignLimit(tab,max)
+    {
+        var oSpan = document.getElementById( 'counter' );
+        oSpan.innerHTML = ( tab.value.length );
+        if ( tab.value.length = max )
+        {
+            input = tab.value.substring(0,max);
+            tab.value = input;
+        }
+    }
+</script>  
+
+<script type="text/javascript" src="js/jquery.form.js"></script>
+
+<script type="text/javascript">
+ $(document).ready(function() 
+ { 
+ $('#photoimg').live('change', function() 
+ { 
+ $("#preview").html('');
+ $("#preview").html('<img src="img/loader.gif" alt="Uploading...."/>');
+ $("#imageform").ajaxForm(
+ {
+ target: '#preview'
+ }).submit();
+ });
+ }); 
+</script>

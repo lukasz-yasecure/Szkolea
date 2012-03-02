@@ -57,6 +57,7 @@ class Pathes {
     public static $script_profile = 'profile.php';
     public static $script_profile_packages_buying = 'profile.php?w=pakiety&a=1';
     public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
+    public static $script_profile_card = 'profile.php?w=dane&a=0';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -261,6 +262,10 @@ class Pathes {
     
     public static function getPathTemplateMailInfoNowaOfertaObserwujacyZlecenie() {
         return Pathes::$template_mail_path . Pathes::$mail_info_nowa_oferta_obserwujacy_zlecenie;
+    }
+    
+        public static function getScriptProfileCard() {
+        return Pathes::$base_url . Pathes::$script_profile_card;
     }
 }
 

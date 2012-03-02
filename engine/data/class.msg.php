@@ -53,6 +53,12 @@ class MSG {
     public static function addServProgramZaDlugi() {
         return 'Program może mieć co najwyżej 1500 znaków!';
     }
+    
+    public static function profileNoCardUpdate() {
+        return 'Nie udało się zaktualizować wizytówki!';
+    }
+    
+    
 }
 
 ?>

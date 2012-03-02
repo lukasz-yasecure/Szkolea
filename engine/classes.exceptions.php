@@ -251,22 +251,6 @@ class NieMoznaDodawacUslug extends Exception {
 
 }
 
-class NieMoznaDodacLogo extends Exception {
-
-    public function __construct() {
-        parent::__construct('', 0);
-    }
-
-}
-
-class NieMoznaDodacWWW extends Exception {
-
-    public function __construct() {
-        parent::__construct('', 0);
-    }
-
-}
-
 class NieMoznaDodacBanera extends Exception {
 
     public function __construct() {
@@ -300,6 +284,15 @@ class NieprawidloweIdPakietu extends Exception {
 }
 
 class NieDodanoPakietu extends Exception {
+
+    public function __construct() {
+        parent::__construct('', 0);
+    }
+
+}
+
+
+class NieZaktualizowanoWizytowki extends Exception {
 
     public function __construct() {
         parent::__construct('', 0);

@@ -2,7 +2,7 @@
 
 class EXCManager {
 
-    private $fatal = 'Serwisz Szkolea.pl jest obecnie poddawany pracom konserwacyjnym! Nie potrwa to długo, więc prosimy o odrobinę cierpliwości. Przepraszamy za kłopot i zapraszamy później!';
+    private $fatal = 'Serwis Szkolea.pl jest obecnie poddawany pracom konserwacyjnym! Nie potrwa to długo, więc prosimy o odrobinę cierpliwości. Przepraszamy za kłopot i zapraszamy później!';
 
     public function __construct(Exception $e, $s = null) {
         $eName = get_class($e);
@@ -129,6 +129,10 @@ class EXCManager {
             
                         case 'NieMoznaDodawacOfert':
                 BFEC::add(MSG::profileNoOffersAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
+                break;
+            
+              case 'NieZaktualizowanoWizytowki':
+                BFEC::add(MSG::profileNoCardUpdate(), true, Pathes::getScriptProfileCard());
                 break;
 
             default:

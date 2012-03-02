@@ -45,6 +45,7 @@ class PrivilegesManager
             case 'add_serv_check':
             case 'comm_offer':
             case 'comm_offer_check':
+            case 'image_uploader':    
                 $this->setPrivilegesForAddServ();
                 break;
             case 'comm':
