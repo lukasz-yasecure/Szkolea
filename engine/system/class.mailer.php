@@ -82,6 +82,18 @@ class Mailer
         $tm = new Template(Pathes::getPathTemplateMailInfoNowaOfertaObserwujacyZlecenie());
         $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Otrzymałeś nową ofertę', $tm->getContent());
     }
+    
+    public function infoWybranaOfertaObserwujacyZlecenie(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoWybranaOfertaObserwujacyZlecenie());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia które obserwujesz została wybrana', $tm->getContent());
+    }
+
+    public function infoOdrzuconaOfertaObserwujacyZlecenie(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaObserwujacyZlecenie());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia które obserwujesz została odrzucona', $tm->getContent());
+    }
 }
 
 ?>
