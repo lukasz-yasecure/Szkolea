@@ -46,6 +46,9 @@ class Pathes {
     public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
     public static $mail_info_nowa_oferta_wlasciciel_zlecenia = 'info_nowa_oferta_wlasciciel_zlecenia.html';
     public static $mail_info_nowa_oferta_obserwujacy_zlecenie = 'info_nowa_oferta_obserwujacy_zlecenie.html';
+    public static $mail_info_wybrana_oferta_wlasciciel_zlecenia = 'info_wybrana_oferta_wlasciciel_zlecenia.html';
+    public static $mail_info_odrzucona_oferta_obserwujacy_zlecenie = 'info_odrzucona_oferta_obserwujacy_zlecenie.html';
+
     public static $script_path = '';
     public static $script_index = 'index.php';
     public static $script_activation = 'activation.php';
@@ -283,6 +286,13 @@ class Pathes {
         return Pathes::$template_mail_path . Pathes::$mail_info_nowa_oferta_obserwujacy_zlecenie;
     }
 
+    public static function getPathTemplateMailInfoWybranaOfertaObserwujacyZlecenie() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_wybrana_oferta_obserwujacy_zlecenie;
+    }
+
+    public static function getPathTemplateMailInfoOdrzuconaOfertaObserwujacyZlecenie() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_odrzucona_oferta_obserwujacy_zlecenie;
+    }
 }
 
 ?>
