@@ -97,7 +97,7 @@ try {
                     /*
                      * KLIENT - MOJE
                      */
-                    $t = new Template('view/html/profile_k_zl_moje.html');
+                    $t = new Template(Pathes::getPathTemplateProfileZleceniaMoje());
                     $ud = new UserData();
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
@@ -142,7 +142,7 @@ try {
                 $um = new UserManager();
                 $m = new Mailer();
                 $t = new Template(Pathes::getPathTemplateProfileZleceniaMoje());
-                $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobierane oferty wg. id zlecenia
+                $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobierane oferty wg. id zlecenia (tylko statu 1 lub 2)
                 $get_obs = $dbc->query(Query::getObserveCommUsers($_GET['id'])); // pobierana lista obserwujących zlecenie
                 if (isset($_GET['ofe'])) { // wybór oferty przez klienta
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
@@ -179,34 +179,35 @@ try {
                     $temp_lo = new Template(Pathes::getPathTemplateProfileOffers());
                     $rezygnacja = '';
                     $oferty = '';
+                    $tm = new TemplateManager();
 
                     $o1 = $res->fetch_assoc();
                     // oferta nr 1 ma status 1 czyli generujemy liste ofert z przyciskiem do akceptacji
-                    if ($o1['status'] === '1') { 
+                    if ($o1['status'] === '1' && $res->num_rows > 0) { 
                         $temp_r = new Template(Pathes::getPathTemplateProfileOffersRezygnacja());
                         $temp_r->addSearchReplace('id', $_GET['id']);
                         $rezygnacja = $temp_r->getContent();
                         $temp_1o = new Template(Pathes::getPathTemplateProfileOffers1OfferToChoose());
-                        $temp_1o->addSearchReplace('id_ofe', $o1['id_ofe']);
+                        $temp_1o = $tm->getOfferTemplate($temp_1o, $o1);
                         $temp_1o->addSearchReplace('id_zl', $_GET['id']);
                         $oferty.= $temp_1o->getContent();
                         $temp_1o->clearSearchReplace();
 
                         while ($x = $res->fetch_assoc()) {
-                            $temp_1o->addSearchReplace('id_ofe', $x['id_ofe']);
+                            $temp_1o = $tm->getOfferTemplate($temp_1o, $x);
                             $temp_1o->addSearchReplace('id_zl', $_GET['id']);
                             $oferty.= $temp_1o->getContent();
                             $temp_1o->clearSearchReplace();
                         }
                     // oferta nr 1 ma status inny niz 1 czyli byl juz wybor oferty wiec nie wyswietlamy przycisku do akceptacji
-                    } else { 
+                    } else if($res->num_rows > 0) { 
                         $temp_1o = new Template(Pathes::getPathTemplateProfileOffers1Offer());
-                        $temp_1o->addSearchReplace('id_ofe', $o1['id_ofe']);
+                        $temp_1o = $tm->getOfferTemplate($temp_1o, $o1);
                         $oferty.= $temp_1o->getContent();
                         $temp_1o->clearSearchReplace();
 
                         while ($x = $res->fetch_assoc()) {
-                            $temp_1o->addSearchReplace('id_ofe', $x['id_ofe']);
+                            $temp_1o = $tm->getOfferTemplate($temp_1o, $x);
                             $oferty.= $temp_1o->getContent();
                             $temp_1o->clearSearchReplace();
                         }
