@@ -156,11 +156,27 @@ try {
                         $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
                     }
                     header('Location: profile.php?w=offers&id=' . $_GET['id']);
+                } elseif(isset($_GET['resign'])) {
+                    
+                        while ($x = $res->fetch_assoc()) {
+                        $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
+                        // wysyłamy powiadomienie właścicielowi odrzuconej oferty
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
+                        }
+                    header('Location: profile.php?w=comms&a=2');
                 } else {
+                    // lista ofert
+                    $resign_all = "";
+                    $is_aviable = "";
+                    $rc = "0"; // row count
                     while ($x = $res->fetch_assoc()) {
+                        $rc++;
+                        if($rc = '1') $is_aviable = $x['status']; // sprawdza status pierwszej oferty
                         $r .= '<li>oferta #' . $x['id_ofe'] . '</li>';
                         if($x['status'] === '1') $r .= '<a href="profile.php?w=offers&id=' . $_GET['id'] . '&ofe=' . $x['id_ofe'] . '"> akceptacja</a>';
                     }
+                    if($is_aviable === '1') $resign_all = "<p class=\"resign_all\"><a href=\"profile.php?w=offers&id=".$_GET['id']."&resign=all\">Odrzuć wszystko</a></p>";
+                    $t->addSearchReplace('resign_all', $resign_all);
                 }
 
             } else if ($_GET['w'] == 'dane') {
