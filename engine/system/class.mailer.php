@@ -68,19 +68,19 @@ class Mailer
     public function infoOdrzuconaOfertaWlasciciel(User $adresat)
     {
         $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaWlasciciel());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta została wybrana', $tm->getContent());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta została odrzucona', $tm->getContent());
     }
 
     public function infoNowaOfertaWlascicielZlecenia(User $adresat)
     {
         $tm = new Template(Pathes::getPathTemplateMailInfoNowaOfertaWlascicielZlecenia());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Otrzymałeś nową ofertę', $tm->getContent());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Nowa oferta w Twoim zleceniu', $tm->getContent());
     }
 
     public function infoNowaOfertaObserwujacyZlecenie(User $adresat)
     {
         $tm = new Template(Pathes::getPathTemplateMailInfoNowaOfertaObserwujacyZlecenie());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Otrzymałeś nową ofertę', $tm->getContent());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Nowa oferta w zleceniu, które obserwujesz', $tm->getContent());
     }
     
     public function infoWybranaOfertaObserwujacyZlecenie(User $adresat)
