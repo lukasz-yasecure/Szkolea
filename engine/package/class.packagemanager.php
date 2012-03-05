@@ -164,7 +164,7 @@ class PackageManager {
         if (!$r || $r->num_rows <= 0)
             return FALSE;
         else
-            return $result;
+            return TRUE;
     }
 
     public function pobierzWizytowke(DBC $dbc, $id_user) {  //pobieramy dane do wizytówki
