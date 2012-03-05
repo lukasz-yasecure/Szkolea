@@ -9,6 +9,9 @@ class PackageManager {
     private $wizyt_www;
     private $baner;
     private $mailing;
+    private $wizyt_opis;
+    private $wizyt_url;
+    private $logo_link;
 
     public function pobierzInformacjePakietow(DBC $dbc, $id_user) {
 
@@ -97,12 +100,16 @@ class PackageManager {
 
     public function czyMoznaDodacLogo() {
         if ($this->wizyt_logo <= 0)
-            throw new NieMoznaDodacLogo;
+            return false;
+        else
+            return true;
     }
 
     public function czyMoznaDodacWWW() {
         if ($this->wizyt_www <= 0)
-            throw new NieMoznaDodacWWW;
+            return false;
+        else
+            return true;
     }
 
     public function czyMoznaDodacBaner() {
@@ -125,7 +132,7 @@ class PackageManager {
                 $sql = Query::decreaseServicesForUser($id_user, $pakiet[$i]['id_pakietu']);    //zmniejszamy ilosc uslug odpowiedniemy pakietowi uzytkownika
                 $dbc->query($sql);
                 break;
-            } else if(is_null($pakiet[$i]['uslugi'])) {
+            } else if (is_null($pakiet[$i]['uslugi'])) {
                 break;
             }
         }
@@ -141,10 +148,49 @@ class PackageManager {
                 $sql = Query::decreaseCommsForUser($id_user, $pakiet[$i]['id_pakietu']);    //zmniejszamy ilosc ofert odpowiedniemy pakietowi uzytkownika
                 $dbc->query($sql);
                 break;
-            } else if(is_null($pakiet[$i]['oferty'])) {
+            } else if (is_null($pakiet[$i]['oferty'])) {
                 break;
             }
         }
+    }
+
+    public function sprawdzWizytowke(DBC $dbc, $id_user) {  //sprawdza czy wizytkówka istnieje już w bazie
+
+        $sql = Query::getCardForUser($id_user);
+
+        $r = $dbc->query($sql);
+        $result = $r->fetch_array();
+
+        if (!$r || $r->num_rows <= 0)
+            return FALSE;
+        else
+            return $result;
+    }
+
+    public function pobierzWizytowke(DBC $dbc, $id_user) {  //pobieramy dane do wizytówki
+
+        $sql = Query::getCardForUser($id_user);
+
+        $r = $dbc->query($sql);
+
+        while ($set = $r->fetch_assoc()) {
+
+            $this->wizyt_opis = $set['opis'];
+            $this->wizyt_url = $set['www'];
+            $this->logo_link = $set['logo'];
+        }
+    }
+
+    public function pobierzOpis() {
+        return $this->wizyt_opis;
+    }
+
+    public function pobierzURL() {
+        return $this->wizyt_url;
+    }
+
+    public function pobierzLogoLink() {
+        return $this->logo_link;
     }
 
 }

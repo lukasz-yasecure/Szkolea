@@ -53,18 +53,31 @@ class MSG {
     public static function addServProgramZaDlugi() {
         return 'Program może mieć co najwyżej 1500 znaków!';
     }
-    
+
+    public static function profileNoCardUpdate() {
+        return 'Nie udało się zaktualizować wizytówki!';
+    }
+
     public static function addServProgramNiedozwoloneZnaki() {
         return 'Program, który podałeś, zawiera niedozwolone znaki!';
     }
-    
+
     public static function profileOfferChosen() {
         return 'Oferta została wybrana! Powiadomimy o Twoim wyborze zapisane osoby oraz właściciela wybranej oferty.';
     }
-    
+
     public static function profileNoOfferChosen() {
         return 'Zrezygnowałeś z wyboru oferty!';
     }
+
+    public static function profileBlednyAdresWWW() {
+        return 'Błędny adres strony internetowej!';
+    }
+
+    public static function profileOpisZaDlugi() {
+        return 'Opis jest zbyt długi!';
+    }
+
 }
 
 ?>

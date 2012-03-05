@@ -90,7 +90,8 @@ class System
         'jtd' => '',
         'cat' => '',
         'contact' => '',
-        'fun_adm' => ''
+        'fun_adm' => '',
+        'image_uploader' => ''
     );
 
     private $template_path = 'view/html/';

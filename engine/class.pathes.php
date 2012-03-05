@@ -48,7 +48,6 @@ class Pathes {
     public static $mail_info_nowa_oferta_obserwujacy_zlecenie = 'info_nowa_oferta_obserwujacy_zlecenie.html';
     public static $mail_info_wybrana_oferta_wlasciciel_zlecenia = 'info_wybrana_oferta_wlasciciel_zlecenia.html';
     public static $mail_info_odrzucona_oferta_obserwujacy_zlecenie = 'info_odrzucona_oferta_obserwujacy_zlecenie.html';
-
     public static $script_path = '';
     public static $script_index = 'index.php';
     public static $script_activation = 'activation.php';
@@ -62,7 +61,8 @@ class Pathes {
     public static $script_profile = 'profile.php';
     public static $script_profile_packages_buying = 'profile.php?w=pakiety&a=1';
     public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
-     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
+    public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
+    public static $script_profile_card = 'profile.php?w=dane&a=0';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -149,7 +149,7 @@ class Pathes {
     public static function getScriptProfilePackagesPath() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
     }
-    
+
     public static function getScriptProfileZleceniaMoje() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
     }
@@ -225,19 +225,19 @@ class Pathes {
     public static function getPathTemplateProfileOffers() {
         return Pathes::$template_path . Pathes::$template_profile_offers;
     }
-    
+
     public static function getPathTemplateProfileOffers1Offer() {
         return Pathes::$template_path . Pathes::$template_profile_offers_1_offer;
     }
-    
+
     public static function getPathTemplateProfileOffers1OfferToChoose() {
         return Pathes::$template_path . Pathes::$template_profile_offers_1_offer_to_choose;
     }
-    
+
     public static function getPathTemplateProfileOffersRezygnacja() {
         return Pathes::$template_path . Pathes::$template_profile_offers_rezygnacja;
     }
-    
+
     public static function getPathTemplateProfileZleceniaMoje() {
         return Pathes::$template_path . Pathes::$template_profile_zlecenia_moje;
     }
@@ -292,6 +292,10 @@ class Pathes {
 
     public static function getPathTemplateMailInfoOdrzuconaOfertaObserwujacyZlecenie() {
         return Pathes::$template_mail_path . Pathes::$mail_info_odrzucona_oferta_obserwujacy_zlecenie;
+    }
+
+    public static function getScriptProfileCard() {
+        return Pathes::$base_url . Pathes::$script_profile_card;
     }
 }
 

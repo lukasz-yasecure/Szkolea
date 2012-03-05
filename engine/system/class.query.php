@@ -644,6 +644,30 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
+    public static function setCardForUser($id_user, $opis, $www) {
+
+        $sql = 'UPDATE users_wizyts SET opis ="' . $opis . '", www ="' . $www . '" WHERE users_wizyts.id_user =' . $id_user;
+        return $sql;
+    }
+
+    public static function setNewCardForUser($id_user, $opis, $www, $logo) {
+
+        $sql = 'INSERT INTO users_wizyts (`id_user`, `opis`, `www`, `logo`) VALUES ("' . $id_user . '", "' . $opis . '", "' . $www . '", "' . $logo . '")';
+        return $sql;
+    }
+
+    public static function setLogoForUser($id_user, $logo) {
+
+        $sql = 'UPDATE users_wizyts SET logo ="' . $logo . '" WHERE users_wizyts.id_user =' . $id_user;
+        return $sql;
+    }
+
+    public static function getCardForUser($id_user) {
+
+        $sql = 'SELECT * FROM users_wizyts WHERE id_user =' . $id_user;
+        return $sql;
+    }
+
 }
 
 ?>

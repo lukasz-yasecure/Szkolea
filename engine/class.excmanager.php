@@ -2,7 +2,7 @@
 
 class EXCManager {
 
-    private $fatal = 'Serwisz Szkolea.pl jest obecnie poddawany pracom konserwacyjnym! Nie potrwa to długo, więc prosimy o odrobinę cierpliwości. Przepraszamy za kłopot i zapraszamy później!';
+    private $fatal = 'Serwis Szkolea.pl jest obecnie poddawany pracom konserwacyjnym! Nie potrwa to długo, więc prosimy o odrobinę cierpliwości. Przepraszamy za kłopot i zapraszamy później!';
 
     public function __construct(Exception $e, $s = null) {
         $eName = get_class($e);
@@ -113,7 +113,7 @@ class EXCManager {
                 break;
 
             case 'NieDodanoPakietu':
-                if($s == 'register')
+                if ($s == 'register')
                     BFEC::add(MSG::profilePackageAddErrorInRegister(), true, Pathes::getScriptIndexPath());
                 else
                     BFEC::add(MSG::profilePackageAddError(), true, Pathes::getScriptProfilePackagesPath());
@@ -122,13 +122,17 @@ class EXCManager {
             case 'BrakAktywnychPakietow':
                 BFEC::add(MSG::profileNoPackages(), true, Pathes::getScriptProfilePath());
                 break;
-            
+
             case 'NieMoznaDodawacUslug':
                 BFEC::add(MSG::profileNoServicesAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
                 break;
-            
-                        case 'NieMoznaDodawacOfert':
+
+            case 'NieMoznaDodawacOfert':
                 BFEC::add(MSG::profileNoOffersAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
+                break;
+
+            case 'NieZaktualizowanoWizytowki':
+                BFEC::add(MSG::profileNoCardUpdate(), true, Pathes::getScriptProfileCard());
                 break;
 
             default:

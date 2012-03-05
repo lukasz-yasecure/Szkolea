@@ -148,28 +148,28 @@ try {
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
                     // wysyłane powiadomienie właścicielowi wybranej oferty
                     $gu = $dbc->query(Query::getOfferAccept($_GET['ofe'])); // pobierane dane wybranej oferty
-                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc,$gu->fetch_object()->id_user));
-                    
+                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc, $gu->fetch_object()->id_user));
+
                     // wysyłane powiadomienia właścicielom odrzuconych ofert
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
-                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
                     // wysyłane informacje o wybranej ofercie obserwującym zlecenie
                     while ($x = $get_obs->fetch_assoc()) {
-                        $m->infoWybranaOfertaObserwujacyZlecenie($um->getUser($dbc,$x['id_user']));
+                        $m->infoWybranaOfertaObserwujacyZlecenie($um->getUser($dbc, $x['id_user']));
                     }
                     BFEC::addm(MSG::profileOfferChosen(), Pathes::getScriptProfileZleceniaMoje());
-                } elseif(isset($_GET['resign'])) {
+                } elseif (isset($_GET['resign'])) {
                     while ($x = $res->fetch_assoc()) {
-                    $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
-                    // wysyłamy powiadomienie właścicielowi odrzuconej oferty
-                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc,$x['id_user']));
+                        $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
+                        // wysyłamy powiadomienie właścicielowi odrzuconej oferty
+                        $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
                     // wysyłane informacje o odrzuconej ofercie obserwującym zlecenie
                     while ($x = $get_obs->fetch_assoc()) {
-                        $m->infoOdrzuconaOfertaObserwujacyZlecenie($um->getUser($dbc,$x['id_user']));
+                        $m->infoOdrzuconaOfertaObserwujacyZlecenie($um->getUser($dbc, $x['id_user']));
                     }
                     BFEC::addm(MSG::profileNoOfferChosen(), Pathes::getScriptProfileZleceniaMoje());
                 } else {
@@ -183,7 +183,7 @@ try {
 
                     $o1 = $res->fetch_assoc();
                     // oferta nr 1 ma status 1 czyli generujemy liste ofert z przyciskiem do akceptacji
-                    if ($o1['status'] === '1' && $res->num_rows > 0) { 
+                    if ($o1['status'] === '1' && $res->num_rows > 0) {
                         $temp_r = new Template(Pathes::getPathTemplateProfileOffersRezygnacja());
                         $temp_r->addSearchReplace('id', $_GET['id']);
                         $rezygnacja = $temp_r->getContent();
@@ -199,8 +199,8 @@ try {
                             $oferty.= $temp_1o->getContent();
                             $temp_1o->clearSearchReplace();
                         }
-                    // oferta nr 1 ma status inny niz 1 czyli byl juz wybor oferty wiec nie wyswietlamy przycisku do akceptacji
-                    } else if($res->num_rows > 0) { 
+                        // oferta nr 1 ma status inny niz 1 czyli byl juz wybor oferty wiec nie wyswietlamy przycisku do akceptacji
+                    } else if ($res->num_rows > 0) {
                         $temp_1o = new Template(Pathes::getPathTemplateProfileOffers1Offer());
                         $temp_1o = $tm->getOfferTemplate($temp_1o, $o1);
                         $oferty.= $temp_1o->getContent();
@@ -214,7 +214,7 @@ try {
                     }
 
                     $temp_lo->addSearchReplace('oferty', $oferty);
-                    $r = $rezygnacja.$temp_lo->getContent();
+                    $r = $rezygnacja . $temp_lo->getContent();
                 }
             } else if ($_GET['w'] == 'dane') {
                 /*
@@ -307,11 +307,119 @@ try {
                     }
                 }
             } else if ($_GET['w'] == 'dane') {
-                if (isset($_GET['a'])) {
-                    if ($_GET['a'] == 0)
-                        $t = new Template('view/html/profile_u_dane_wiz.html');
 
-                    else if ($_GET['a'] == 1) {
+                //DOSTAWCA - EDYCJA WIZYTÓWKI
+                if (isset($_GET['a'])) {
+                    if ($_GET['a'] == 0) {
+                        $t = new Template('view/html/profile_dostawca_wizytowka.html');
+                        $t_wiz = new Template('view/html/wizytowka.html');
+
+                        $pkgm = new PackageManager();
+                        $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
+
+                        $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());     //podmieniamy w szablonie ilość znaków wizytówki na pobraną z bazy dla odpowiedniego użytkownika
+
+
+                        if ($pkgm->czyMoznaDodacWWW()) {    // sprawdzamy czy użytkownik może dodawać www i blokujemu mu tą opcje lub nie
+                            $t_wiz->addSearchReplace('www_disabled', '');
+                        } else {
+                            $t_wiz->addSearchReplace('www_disabled', 'disabled="disabled"');
+                        }
+                        if ($pkgm->czyMoznaDodacLogo()) {   // sprawdzamy czy użytkownik może dodawać logo i blokujemu mu tą opcje lub nie
+                            $t_wiz->addSearchReplace('logo_disabled', '');
+                        } else {
+                            $t_wiz->addSearchReplace('logo_disabled', 'disabled="disabled"');
+                        }
+
+                        //pobieramy informacje o wizytowce w bazie, gdyz musimy wiedziec czy generowac nowy rekord odnosnie wizytówki czy updateować istniejący już
+                        if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user())) {
+                            $pkgm->pobierzWizytowke($dbc, $u->getId_user());
+
+
+                            //pobieramy opis z bazy, lub w przypadku jego braku ładujemy z RFD
+                            if (strlen($pkgm->pobierzOpis()) > 0) {
+                                $t_wiz->addSearchReplace('RFD_opis', $pkgm->pobierzOpis());
+                            } else {
+                                $t_wiz->addSearchReplace('RFD_opis', RFD::get('edycja_wizytowki', 'opis'));
+                            }
+
+                            //pobieramy URL z bazy, lub w przypadku jego braku ładujemy z RFD
+                            if (strlen($pkgm->pobierzURL()) > 0) {
+                                $t_wiz->addSearchReplace('RFD_www', $pkgm->pobierzURL());
+                            } else {
+                                $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
+                            }
+                        } else {    //gdy nie ma wizytówki w bazie ładujemy dane od razu z RFD
+                            $t_wiz->addSearchReplace('RFD_opis', $pkgm->pobierzOpis());
+                            $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
+                        }
+
+                        //gdy użytkownik ma już logo wyświetlamu mu je z przyciskiem USUŃ
+                        if (strlen($pkgm->pobierzLogoLink()) > 0 && !is_null($pkgm->pobierzLogoLink())) {
+                            $t_wiz->addSearchReplace('logo', 'loga/' . $pkgm->pobierzLogoLink());
+                            $t_wiz_usun = new Template('view/html/wizytowka_usun_logo.html');
+                            $t_wiz->addSearchReplace('usun', $t_wiz_usun->getContent());
+
+                            //jeśli użytkownik nie ma jeszcze loga łądujemu mu obrazek domyślny bez przycisku USUŃ
+                        } else {
+                            $t_wiz->addSearchReplace('logo', 'loga/default.png');
+                            $t_wiz->addSearchReplace('usun', '');
+                        }
+
+                        //usuwanie loga z przycisku USUŃ
+                        if (isset($_GET['usun_logo']) && $_GET['usun_logo'] == 1) {
+
+                            unlink('loga/' . $pkgm->pobierzLogoLink());
+                            $sql = Query::setLogoForUser($u->getId_user(), '');
+                            $dbc->query($sql);
+
+                            BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po usunięciu na odświeżony formularz wizytówki
+                        }
+
+                        $t->addSearchReplace('here', $t_wiz->getContent());
+
+                        //reakcja na zapisanie formularza
+                        if ((isset($_POST['submit']))) {
+
+                            $_POST['opis'] = Valid::antyHTML($_POST['opis']);
+                            $_POST['opis'] = nl2br($_POST['opis']);
+
+                            $_POST['www'] = Valid::antyHTML($_POST['www']);
+
+                            //sprawdzenie poprawności adresu WWW
+                            if (Valid::isValidURL($_POST['www'])) {
+                                RFD::add('edycja_wizytowki', 'www', $_POST['www']);
+                            } else {
+                                BFEC::add(MSG::profileBlednyAdresWWW());
+                            }
+
+                            //sprawdzenie długości wizytówki czy zgodna z dozwoloną
+                            if (strlen($_POST['opis']) < $pkgm->iIleZnakowWizytowka()) {
+                                RFD::add('edycja_wizytowki', 'opis', $_POST['opis']);
+                            }else
+                                BFEC::add(MSG::profileOpisZaDlugi());
+
+
+                            //zapisywanie poprawnych danych w bazie
+                            if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user()) == FALSE && !is_null(RFD::get('edycja_wizytowki', 'opis')) && !is_null(RFD::get('edycja_wizytowki', 'www'))) {
+                                //w przypadku gdy nowa pozycja w bazie
+                                $sql = Query::setNewCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'), 'NULL');
+                                $dbc->query($sql);
+                                RFD::clear('edycja_wizytowki');
+                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                    throw new NieZaktualizowanoWizytowki;
+                            }else if (!is_null(RFD::get('edycja_wizytowki', 'opis')) && !is_null(RFD::get('edycja_wizytowki', 'www'))) {
+                                //w przypadku gdy rekord odnośnie wizytówki już istnieje
+                                $sql = Query::setCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'));
+                                $dbc->query($sql);
+                                RFD::clear('edycja_wizytowki');
+                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                    throw new NieZaktualizowanoWizytowki;
+                            }
+
+                            BFEC::isError();
+                        }
+                    } else if ($_GET['a'] == 1) {
                         /*
                          * DOSTAWCA - EDYCJA DANYCH
                          */
@@ -337,10 +445,10 @@ try {
                     } else if ($_GET['a'] == 2)
                         $t = new Template('view/html/profile_u_dane_oceny.html');
                     else
-                        $t = new Template('view/html/profile_u_dane_wiz.html');
+                        $t = new Template('view/html/profile_dostawca_wizytowka.html');
                 }
                 else
-                    $t = new Template('view/html/profile_u_dane_wiz.html');
+                    $t = new Template('view/html/profile_dostawca_wizytowka.html');
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {

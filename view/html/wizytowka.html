@@ -1,0 +1,27 @@
+<form name="edycja_wizytowki" method="post">
+
+    <p>
+        <label for="opis">Treść wizytówki:</label>
+        <textarea name="opis" cols="30" rows="10" class="area" onkeyup="SignLimit(this,{%ilosc_znakow%});">{%RFD_opis%}</textarea><br/>
+        <span>Wpisano <span id="counter">0</span> znaków.</span>
+    </p>
+    <p>
+        <label for="www">Adres strony internetowej:&nbsp;&nbsp;&nbsp; <small>http://</small></label>
+        <input {%www_disabled%} id="www" name="www" size="50"  type="text" value="{%RFD_www%}" />
+    </p>
+    <p>
+        <input type="reset" value="Wyczyść"/>
+        <input class="submit"  name="submit" type="submit" value="Zapisz"/>
+    </p>
+
+</form>
+<form id="imageform" method="post" enctype="multipart/form-data" action='image_uploader.php'>
+    Dodaj logo: <input {%logo_disabled%} type="file" name="photoimg" id="photoimg" />
+</form>
+<div id='preview'>
+    Twoje logo: <img src="{%logo%}" alt="logo" border="2">  
+    {%usun%}   
+</div>
+
+
+
