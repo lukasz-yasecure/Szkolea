@@ -84,6 +84,7 @@ class System
         'serv' => '',
         'profile' => '',
         'observe' => '',
+        'cron' => '',
         'comm_join' => '',
         'comm_offer' => '',
         'comm_offer_check' => '',
