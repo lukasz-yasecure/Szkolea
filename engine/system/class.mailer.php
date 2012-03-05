@@ -100,6 +100,13 @@ class Mailer
         $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieWlasciciel());
         $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta zakończona', $tm->getContent());
     }
+
+    public function infoZakonczoneZlecenieDodane(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieDodane());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta, do której jesteś dodany została zakończona', $tm->getContent());
+    }
+
 }
 
 ?>

@@ -38,6 +38,11 @@ try
         $dbc->query(Query::setCronFinished($x->id_comm)); // zaznaczane zakończone zlecenia
     // wysyłane powiadomienie właścicielowi zlecenia
     $m->infoZakonczoneZlecenieWlasciciel($um->getUser($dbc, $x->id_user));
+    // wysyłane powiadomienia dodanym do zlecenia
+    $get_group = $dbc->query(Query::getGroupCommUsers($x->id_comm)); // pobierana lista dodanych do zlecenia
+        while ($x = $get_group->fetch_object()) {
+            $m->infoZakonczoneZlecenieDodane($um->getUser($dbc, $x->id_user));
+        }
     }
 
 }
