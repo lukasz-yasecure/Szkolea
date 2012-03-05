@@ -46,32 +46,42 @@ try {
             list($txt, $ext) = explode(".", $name);
             if (in_array($ext, $valid_formats)) {
                 if ($size < (100 * 1024)) { //rozmiar pliku w KB = (ROZMIAR W BAJTACH)*1024
-                    $actual_image_name = $u->getId_user() . "." . $ext;
+                    $actual_image_name = $u->getId_user() . "_" . time() . "." . $ext;
                     $tmp = $_FILES['photoimg']['tmp_name'];
+
+
                     if (move_uploaded_file($tmp, $path . $actual_image_name)) {
 
-                        //dodawanie do bazy
-                        if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user()) == FALSE) { //jeśli wizytówka jest nową pozycją w bazie
-                            $pkgm->pobierzWizytowke($dbc, $u->getId_user());
-                            //usunięcie starego logo
-                            if (strlen($pkgm->pobierzLogoLink()) > 0 && !is_null($pkgm->pobierzLogoLink()))
-                                unlink('loga/' . $pkgm->pobierzLogoLink());
-                            $sql = Query::setNewCardForUser($u->getId_user(), 'NULL', 'NULL', $actual_image_name);
-                            $dbc->query($sql);
-                            if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
-                                echo 'Nie dodano logo!';
-                        }else {     //jeśli wizytówka już istnieje w bazie
-                            $pkgm->pobierzWizytowke($dbc, $u->getId_user());
-                            //usunięcie starego logo
-                            if (strlen($pkgm->pobierzLogoLink()) > 0 && !is_null($pkgm->pobierzLogoLink()))
-                                unlink('loga/' . $pkgm->pobierzLogoLink());
-                            $sql = Query::setLogoForUser($u->getId_user(), $actual_image_name);
-                            $dbc->query($sql);
-                            if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
-                                echo 'Nie dodano logo!';
-                        }
+                        $image_size = getimagesize('loga/' . $actual_image_name);
 
-                        echo "<img src='loga/" . $actual_image_name . "'  class='preview' border=2>";   //wyświetlenie loga po dodaniu
+                        if ($image_size[1] > 200 || $image_size[2] > 300) {
+                            unlink('loga/' . $actual_image_name);
+                            echo 'Logo jest za duże! Dozwolony rozmiar maksymalny to 300x200 px';
+                        } else {
+
+                            //dodawanie do bazy
+                            if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user()) == FALSE) { //jeśli wizytówka jest nową pozycją w bazie
+                                $pkgm->pobierzWizytowke($dbc, $u->getId_user());
+                                //usunięcie starego logo
+                                if (strlen($pkgm->pobierzLogoLink()) > 0 && !($pkgm->pobierzLogoLink() == 'NULL'))
+                                    unlink('loga/' . $pkgm->pobierzLogoLink());
+                                $sql = Query::setNewCardForUser($u->getId_user(), 'NULL', 'NULL', $actual_image_name);
+                                $dbc->query($sql);
+                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                    echo 'Nie dodano logo!';
+                            }else {     //jeśli wizytówka już istnieje w bazie
+                                $pkgm->pobierzWizytowke($dbc, $u->getId_user());
+                                //usunięcie starego logo
+                                if (strlen($pkgm->pobierzLogoLink()) > 0 && !($pkgm->pobierzLogoLink() == 'NULL'))
+                                    unlink('loga/' . $pkgm->pobierzLogoLink());
+                                $sql = Query::setLogoForUser($u->getId_user(), $actual_image_name);
+                                $dbc->query($sql);
+                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                    echo 'Nie dodano logo!';
+                            }
+
+                            echo "<img src='loga/" . $actual_image_name . "'  class='preview' border=2>";   //wyświetlenie loga po dodaniu
+                        }
                     }
                     else
                         echo "Niepowodzenie";
