@@ -29,13 +29,15 @@ try
     $um = new UserManager();
     $u = $um->getUserFromSession($sm);
     $tm = new TemplateManager();
+    $m = new Mailer();
     $dbc = new DBC($sys);
     
     
     $res = $dbc->query(Query::getCronComm()); // pobierana lista do zakończonych zleceń
     while($x = $res->fetch_object()) {
         $dbc->query(Query::setCronFinished($x->id_comm)); // zaznaczane zakończone zlecenia
-    // wysyłane powiadomienia ZZ
+    // wysyłane powiadomienie właścicielowi zlecenia
+    $m->infoZakonczoneZlecenieWlasciciel($um->getUser($dbc, $x->id_user));
     }
 
 }
