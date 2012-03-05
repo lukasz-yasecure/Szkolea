@@ -78,6 +78,9 @@ class MSG {
         return 'Opis jest zbyt długi!';
     }
 
+    public static function profileCardUpdate() {
+        return 'Twoja wizytówka została zaktualizowana!';
+    }
 }
 
 ?>
