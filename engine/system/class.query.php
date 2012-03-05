@@ -673,6 +673,13 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
+    public static function getCronComm() {
+        return 'SELECT * FROM commisions WHERE finished=0 AND date_end < ' .time();
+    }
+
+    public static function setCronFinished($id_comm) {
+        return 'UPDATE commisions SET finished=1 WHERE id_comm=' . $id_comm;
+    }
 }
 
 ?>
