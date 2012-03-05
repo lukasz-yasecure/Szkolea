@@ -362,12 +362,12 @@ try {
                                 $sql = Query::setCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'));
                                 $dbc->query($sql);
                                 RFD::clear('edycja_wizytowki');
-                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                if (strlen($dbc->error) > 0) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
                                     throw new NieZaktualizowanoWizytowki;
                             }
 
 
-                            BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po obsłużeniu formularza na odświeżony formularz wizytówki
+                            BFEC::addm(MSG::profileCardUpdate(), Pathes::getScriptProfileCard()); //przekierowanie po obsłużeniu formularza na odświeżony formularz wizytówki
                         }
                         else {
 
@@ -409,10 +409,11 @@ try {
                             }
 
                             //gdy użytkownik ma już logo wyświetlamu mu je z przyciskiem USUŃ
-                            if (strlen($pkgm->pobierzLogoLink()) > 0 && !is_null($pkgm->pobierzLogoLink())) {
+                            if (strlen($pkgm->pobierzLogoLink()) > 0 && !($pkgm->pobierzLogoLink() == 'NULL')) {
                                 $t_wiz->addSearchReplace('logo', 'loga/' . $pkgm->pobierzLogoLink());
                                 $t_wiz_usun = new Template('view/html/wizytowka_usun_logo.html');
                                 $t_wiz->addSearchReplace('usun', $t_wiz_usun->getContent());
+
 
                                 //jeśli użytkownik nie ma jeszcze loga łądujemu mu obrazek domyślny bez przycisku USUŃ
                             } else {
