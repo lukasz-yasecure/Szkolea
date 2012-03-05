@@ -83,16 +83,16 @@ class Mailer
         $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Nowa oferta w zleceniu, które obserwujesz', $tm->getContent());
     }
     
-    public function infoWybranaOfertaObserwujacyZlecenie(User $adresat)
+    public function infoWybranaOfertaDodaneDoZlecenia(User $adresat)
     {
-        $tm = new Template(Pathes::getPathTemplateMailInfoWybranaOfertaObserwujacyZlecenie());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia które obserwujesz została wybrana', $tm->getContent());
+        $tm = new Template(Pathes::getPathTemplateMailInfoWybranaOfertaDodaneDoZlecenia());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia do którego jesteś dodany została wybrana', $tm->getContent());
     }
 
-    public function infoOdrzuconaOfertaObserwujacyZlecenie(User $adresat)
+    public function infoOdrzuconaOfertaDodaneDoZlecenia(User $adresat)
     {
-        $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaObserwujacyZlecenie());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia które obserwujesz została odrzucona', $tm->getContent());
+        $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaDodaneDoZlecenia());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia do którego jesteś dodany została odrzucona', $tm->getContent());
     }
 }
 
