@@ -43,6 +43,7 @@ try {
             $r = $dbc->query($sql);
 
             while ($set = $r->fetch_assoc()) {
+                STD::pre($set);
                 if (strlen($set['nazwa']) > 0)
                     $t_lista->addSearchReplace('nazwa', $set['nazwa']);
                 if (strlen($set['logo']) > 0)
@@ -52,41 +53,39 @@ try {
                 if (strlen($set['opis']) > 0)
                     $t_lista->addSearchReplace('opis', $set['opis']);
             }
-                    $t->addSearchReplace('lista', $t_lista->getContent());
+            $t->addSearchReplace('lista', $t_lista->getContent());
         } elseif (strlen($_GET['ud']) > 0) {
 
             $sql = Query::getProfileNamesForCatalog($_GET['ud']);
             $r = $dbc->query($sql);
-            
-            if($dbc->affected_rows == 0)
-            {
-   $t->addSearchReplace('lista', '<h1>Brak dostawców na wskazaną literę.</h1>');
 
-            }else{
+            if ($dbc->affected_rows == 0) {
+                $t->addSearchReplace('lista', '<h1>Brak dostawców na wskazaną literę.</h1>');
+            } else {
 
-            while ($set = $r->fetch_assoc()) {
-                if (strlen($set['nazwa']) > 0 && !is_null($set['nazwa']))
-                    $t_lista->addSearchReplace('nazwa', $set['nazwa']);
-                else
-                    $t_lista->addSearchReplace('nazwa', 'brak nazwy');
+                while ($set = $r->fetch_assoc()) {
+                    if (strlen($set['nazwa']) > 0 && !is_null($set['nazwa']))
+                        $t_lista->addSearchReplace('nazwa', $set['nazwa']);
+                    else
+                        $t_lista->addSearchReplace('nazwa', 'brak nazwy');
 
-                if (strlen($set['logo']) > 0 && !is_null($set['logo']))
-                    $t_lista->addSearchReplace('logo', $set['logo']);
-                else
-                    $t_lista->addSearchReplace('logo', 'default.png');
+                    if (strlen($set['logo']) > 0 && !is_null($set['logo']))
+                        $t_lista->addSearchReplace('logo', $set['logo']);
+                    else
+                        $t_lista->addSearchReplace('logo', 'default.png');
 
-                if (strlen($set['www']) > 0 && !is_null($set['www']))
-                    $t_lista->addSearchReplace('www', $set['www']);
-                else
-                    $t_lista->addSearchReplace('www', '');
+                    if (strlen($set['www']) > 0 && !is_null($set['www']))
+                        $t_lista->addSearchReplace('www', $set['www']);
+                    else
+                        $t_lista->addSearchReplace('www', '');
 
-                if (strlen($set['opis']) > 0 && !is_null($set['opis']))
-                    $t_lista->addSearchReplace('opis', $set['opis']);
-                else
-                    $t_lista->addSearchReplace('opis', 'brak opisu');
+                    if (strlen($set['opis']) > 0 && !is_null($set['opis']))
+                        $t_lista->addSearchReplace('opis', $set['opis']);
+                    else
+                        $t_lista->addSearchReplace('opis', 'brak opisu');
+                }
+                $t->addSearchReplace('lista', $t_lista->getContent());
             }
-                    $t->addSearchReplace('lista', $t_lista->getContent());
-        }
         }
 
 
