@@ -674,12 +674,25 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     }
 
     public static function getCronComm() {
-        return 'SELECT * FROM commisions WHERE finished=0 AND date_end < ' .time();
+        return 'SELECT * FROM commisions WHERE finished=0 AND date_end < ' . time();
     }
 
     public static function setCronFinished($id_comm) {
         return 'UPDATE commisions SET finished=1 WHERE id_comm=' . $id_comm;
     }
+
+    public static function getProfileNamesForCatalog($fraza) {
+
+        $sql = 'SELECT users_324.id_user, (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) AS nazwa, users_wizyts.opis, users_wizyts.www, users_wizyts.logo FROM users_324 LEFT JOIN users_packages ON users_324.id_user=users_packages.id_user LEFT JOIN users_wizyts ON users_324.id_user=users_wizyts.id_user WHERE kind = "D" AND (f_company LIKE "' . $fraza . '%" OR os_surname LIKE "' . $fraza . '%") ORDER BY Nazwa';
+        return $sql;
+    }
+
+    public static function getProfilePremiumCardsForCatalog() {
+
+        $sql = 'SELECT users_324.id_user, (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) AS nazwa, users_wizyts.opis, users_wizyts.www, users_wizyts.logo FROM users_324 LEFT JOIN users_packages ON users_324.id_user=users_packages.id_user LEFT JOIN users_wizyts ON users_324.id_user=users_wizyts.id_user WHERE kind = "D" AND users_packages.date_end >' . time() . ' AND users_packages.id_pakietu=5 ORDER BY Nazwa';
+        return $sql;
+    }
+
 }
 
 ?>
