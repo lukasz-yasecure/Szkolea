@@ -52,6 +52,7 @@ class Pathes {
     public static $mail_info_odrzucona_oferta_dodane_do_zlecenia = 'info_odrzucona_oferta_dodane_do_zlecenia.html';
     public static $mail_info_zakonczone_zlecenie_wlasciciel = 'info_zakonczone_zlecenie_wlasciciel.html';
     public static $mail_info_zakonczone_zlecenie_dodane = 'info_zakonczone_zlecenie_dodane.html';
+    public static $mail_info_zakonczone_zlecenie_oferty = 'info_zakonczone_zlecenie_oferty.html';
 
     public static $script_path = '';
     public static $script_index = 'index.php';
@@ -309,6 +310,10 @@ class Pathes {
     
     public static function getPathTemplateMailInfoZakonczoneZlecenieDodane() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_dodane;
+    }
+    
+    public static function getPathTemplateMailInfoZakonczoneZlecenieOferty() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_oferty;
     }
 }
 
