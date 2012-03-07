@@ -107,6 +107,11 @@ class Mailer
         $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta, do której jesteś dodany została zakończona', $tm->getContent());
     }
 
+    public function infoZakonczoneZlecenieOferty(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieOferty());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta, do której dodałeś ofertę została zakończona', $tm->getContent());
+    }
 }
 
 ?>

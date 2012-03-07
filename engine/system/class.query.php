@@ -497,6 +497,11 @@ class Query {
         return $sql;
     }
 
+    public static function getOfferForCommAll($id_comm) {
+        $sql = 'SELECT * FROM `commisions_ofe` WHERE `id_comm`= ' . $id_comm;
+        return $sql;
+    }
+
     public static function getOfferForComm($id) {
         $sql = 'SELECT * FROM `commisions_ofe` WHERE `id_comm`= ' . $id . ' AND `status`!= 3';
         return $sql;
