@@ -41,9 +41,13 @@ try
     // wysyłane powiadomienia dodanym do zlecenia
     $get_group = $dbc->query(Query::getGroupCommUsers($x->id_comm)); // pobierana lista dodanych do zlecenia
         while ($x = $get_group->fetch_object()) {
-            // to jest ta zmiania
             $m->infoZakonczoneZlecenieDodane($um->getUser($dbc, $x->id_user));
         }
+    $get_ofe = $dbc->query(Query::getOfferForCommAll($x->id_comm)); // pobierana lista wszystkich dostawców, którzy dodali ofertę
+        while ($x = $get_ofe->fetch_object()) {
+            $m->infoZakonczoneZlecenieOferty($um->getUser($dbc, $x->id_user));
+        }
+
     }
 
 }
