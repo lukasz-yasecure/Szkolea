@@ -92,7 +92,12 @@ class System
         'cat' => '',
         'contact' => '',
         'fun_adm' => '',
-        'image_uploader' => ''
+        'image_uploader' => '',
+        'admin' => '',
+        'ajax' => '',
+        'cennik' => '',
+        'priv_rules' => '',
+        'rules' => ''
     );
 
     private $template_path = 'view/html/';
@@ -121,7 +126,7 @@ class System
 
 
     private $class_path = 'engine/';
-    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/', 'data/', 'package/');
+    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/', 'data/', 'package/', 'admin/');
     private $class_basic = array('class.log.php', 'class.uf.php', 'class.excmanager.php', 'classes.exceptions.php', 'class.pathes.php', 'class.sc.php');
     private $class_std = 'class.std.php';
 

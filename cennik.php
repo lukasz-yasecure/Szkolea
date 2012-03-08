@@ -1,11 +1,38 @@
 <?php
 
-require_once('config_old.php');
-require_once('view/top.php');
+$sysFile = 'engine/class.system.php';
+$logFile = 'engine/class.log.php';
+$logDir = 'logs/';
 
-$content = file_get_contents('view/html/cennik.html');
-echo $content;
+if (file_exists($sysFile) && file_exists($logFile)) {
+    require_once($sysFile);
+    require_once($logFile);
+} else {
+    date_default_timezone_set('Europe/Warsaw');
+    file_put_contents($logDir . date('Ymd') . '_system_exc.log', date('Y-m-d H:i:s') . ' SYSTEM/LOG NIEDOSTEPNY!' . PHP_EOL, FILE_APPEND);
+    exit('Strona niedostepna! Prosze sprobowac pozniej oraz skontaktowac sie z administratorem: admin@szkolea.pl !');
+}
 
-require_once('view/foot.php');
+/* * *********************[ action = XXX ]****************************************************************************
+ *
+ * 2011-1x-xx
+ *
+ * ********************************************************************************************************************* */
 
+try {
+    $sys = new System('cennik', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
+    $sm = new SessionManager();
+    $um = new UserManager();
+    $u = $um->getUserFromSession($sm);
+    $pm = new PrivilegesManager($sys);
+    $p = $pm->checkPrivileges($u);
+
+    $tm = new TemplateManager();
+    $skrypty = '';
+    $t = new Template(Pathes::getPathTemplateCennik());
+    $mt = $tm->getMainTemplate($sys, $t->getContent(), BFEC::showAll(), $skrypty);
+    echo $mt->getContent();
+} catch (Exception $e) {
+    $em = new EXCManager($e);
+}
 ?>

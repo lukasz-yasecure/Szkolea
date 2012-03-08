@@ -110,7 +110,7 @@ class Admin
 
         $this->db->query($sql);
 
-        echo $sql.' --- '.$this->db->error.'<br/>';
+        //echo $sql.' --- '.$this->db->error.'<br/>';
     }
 
     public function delDown($id, $l)
