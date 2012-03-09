@@ -686,15 +686,18 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return 'UPDATE commisions SET finished=1 WHERE id_comm=' . $id_comm;
     }
 
-    public static function getProfileNamesForCatalog($fraza) {
-
-        $sql = 'SELECT users_324.id_user, (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) AS nazwa, users_wizyts.opis, users_wizyts.www, users_wizyts.logo FROM users_324 LEFT JOIN users_packages ON users_324.id_user=users_packages.id_user LEFT JOIN users_wizyts ON users_324.id_user=users_wizyts.id_user WHERE kind = "D" AND (f_company LIKE "' . $fraza . '%" OR os_surname LIKE "' . $fraza . '%") ORDER BY Nazwa';
+    //zapytanie SQL pobierające z bazy dla każdego usługodawcy id użytkownika, nazwe jako firmę lub jeśli nie ma ja nazwisko, dane wizytówek oraz wartość 
+    //premium (jeśli brak aktywnego pakietu 5 to NULL, w przeciwnym przypadku 5). Każdy dostawca występuje tylko raz według wskazanej frazy początkowej 
+    //szukającej po nazwie - nazwisko lub firma (pusta -> wszystkie), na koniec wszystko posortowane po nazwach alfabetycznie
+    public static function getProfileCardsForCatalog($fraza) {
+        $sql = 'SELECT DISTINCT users_324.id_user, (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) AS nazwa, users_wizyts.opis, users_wizyts.www, users_wizyts.logo, 5pakiet.id_pakietu AS premium FROM users_324 LEFT JOIN (SELECT DISTINCT users_packages.id_user,users_packages.id_pakietu FROM users_packages WHERE users_packages.id_pakietu=5 AND users_packages.date_end >' . time() . ') AS 5pakiet ON users_324.id_user=5pakiet.id_user LEFT JOIN users_wizyts ON users_324.id_user=users_wizyts.id_user WHERE kind = "D" AND (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) LIKE "' . $fraza . '%" ORDER BY nazwa';
         return $sql;
     }
 
-    public static function getProfilePremiumCardsForCatalog() {
+    //to samo co wyżej, ale pobierany tylko użytkownicy z wizytówkami, którzy mają wyróżnienie na liście (aktywny pakiet 5)
+    public static function getProfilePremiumCardsForCatalog($fraza) {
 
-        $sql = 'SELECT users_324.id_user, (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) AS nazwa, users_wizyts.opis, users_wizyts.www, users_wizyts.logo FROM users_324 LEFT JOIN users_packages ON users_324.id_user=users_packages.id_user LEFT JOIN users_wizyts ON users_324.id_user=users_wizyts.id_user WHERE kind = "D" AND users_packages.date_end >' . time() . ' AND users_packages.id_pakietu=5 ORDER BY Nazwa';
+        $sql = 'SELECT DISTINCT users_324.id_user, (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) AS nazwa, users_wizyts.opis, users_wizyts.www, users_wizyts.logo FROM users_324 LEFT JOIN users_packages ON users_324.id_user=users_packages.id_user LEFT JOIN users_wizyts ON users_324.id_user=users_wizyts.id_user WHERE kind = "D" AND users_packages.date_end >' . time() . ' AND (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) LIKE "' . $fraza . '%" AND users_packages.id_pakietu=5 AND users_324.id_user ORDER BY nazwa';
         return $sql;
     }
 
