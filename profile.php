@@ -310,8 +310,7 @@ try {
             } else if ($_GET['w'] == 'dane') {
 
                 //DOSTAWCA - EDYCJA WIZYTÓWKI
-                if (isset($_GET['a'])) {
-                    if ($_GET['a'] == 0) {
+                    if ((isset($_GET['a']) && $_GET['a'] == 0) || !isset($_GET['a'])) {
 
                         $t = new Template('view/html/profile_dostawca_wizytowka.html');
                         $t_wiz = new Template('view/html/wizytowka.html');
@@ -437,7 +436,7 @@ try {
 
                             $t->addSearchReplace('here', $t_wiz->getContent());
                         }
-                    } else if ($_GET['a'] == 1) {
+                    } else if (isset($_GET['a']) && $_GET['a'] == 1) {
                         /*
                          * DOSTAWCA - EDYCJA DANYCH
                          */
@@ -460,13 +459,8 @@ try {
                         } catch (ErrorsInprofileEditForm $e) {
                             BFEC::add('', true, 'profile.php?w=dane&a=1');
                         }
-                    } else if ($_GET['a'] == 2)
+                    } else
                         $t = new Template('view/html/profile_u_dane_oceny.html');
-                    else
-                        $t = new Template('view/html/profile_dostawca_wizytowka.html');
-                }
-                else
-                    $t = new Template('view/html/profile_dostawca_wizytowka.html');
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {
