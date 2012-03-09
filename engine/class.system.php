@@ -155,6 +155,8 @@ class System
         date_default_timezone_set('Europe/Warsaw');
         ini_set('display_errors', 1);
         header('content-Type: text/html; charset=UTF-8');
+        
+        if($action == 'cron') $this->setServerGlobalForCron ();
 
         $this->base_url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']).'/';
 
@@ -166,6 +168,13 @@ class System
         }
 
         //UF::basicHttpAuth();
+    }
+    
+    public function setServerGlobalForCron()
+    {
+        $_SERVER['HTTP_HOST'] = 'szkolea.pl';
+        $_SERVER['SCRIPT_NAME'] = '/beta2012/index.php';
+        $_SERVER['REQUEST_URI'] = 'http://szkolea.pl/beta2012/index.php';
     }
 
     /**

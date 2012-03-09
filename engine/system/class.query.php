@@ -503,7 +503,7 @@ class Query {
     }
 
     public static function getOfferForComm($id) {
-        $sql = 'SELECT * FROM `commisions_ofe` WHERE `id_comm`= ' . $id . ' AND `status`!= 3';
+        $sql = 'SELECT * FROM `commisions_ofe` WHERE `id_comm`= ' . $id . ' AND `ofe_status`!= 3';
         return $sql;
     }
 
@@ -565,11 +565,11 @@ class Query {
     }
 
     public static function getOfferAcceptNo($ofe) {
-        return 'UPDATE `commisions_ofe` SET `status`=3 WHERE `id_ofe` = ' . $ofe; // odnowienie danych odrzuconych ofert
+        return 'UPDATE `commisions_ofe` SET `ofe_status`=3 WHERE `id_ofe` = ' . $ofe; // odnowienie danych odrzuconych ofert
     }
 
     public static function getOfferAcceptYes($ofe) {
-        return 'UPDATE `commisions_ofe` SET `status` = 2 WHERE `id_ofe` = ' . $ofe; // odnowienie danych wybranej oferty
+        return 'UPDATE `commisions_ofe` SET `ofe_status` = 2 WHERE `id_ofe` = ' . $ofe; // odnowienie danych wybranej oferty
     }
 
     public static function getOfferAcceptYesAfter($id, $ofe) {

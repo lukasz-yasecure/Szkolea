@@ -1,5 +1,7 @@
 <?php
 
+chdir('/usr/local/www/www.szkolea.pl/beta2012/');
+
 $sysFile = 'engine/class.system.php';
 $logFile = 'engine/class.log.php';
 $logDir = 'logs/';

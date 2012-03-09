@@ -184,7 +184,7 @@ try {
 
                     $o1 = $res->fetch_assoc();
                     // oferta nr 1 ma status 1 czyli generujemy liste ofert z przyciskiem do akceptacji
-                    if ($o1['status'] === '1' && $res->num_rows > 0) {
+                    if ($o1['ofe_status'] === '1' && $res->num_rows > 0) {
                         $temp_r = new Template(Pathes::getPathTemplateProfileOffersRezygnacja());
                         $temp_r->addSearchReplace('id', $_GET['id']);
                         $rezygnacja = $temp_r->getContent();
