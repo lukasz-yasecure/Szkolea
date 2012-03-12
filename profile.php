@@ -124,9 +124,9 @@ try {
                     $t = new Template(Pathes::getPathTemplateProfilePaticipateEnd());
                 else {
                     /*
-                     * DOSTAWCA - OBSERWOWANE KATEGORIE ZLECEN
+                     * KLIENT - OBSERWOWANE KATEGORIE ZLECEN
                      */
-                    $t = new Template(Pathes::getPathTemplateProfileObservedCommsCatsForDeveloper());
+                    $t = new Template(Pathes::getPathTemplateProfileObservedCommsCats());
                     $sql = 'SELECT * FROM observe_comms_kot WHERE id_user=\'' . $u->getId_user() . '\'';
                     $res = $dbc->query($sql);
                     while ($x = $res->fetch_assoc()) {
