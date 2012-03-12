@@ -700,10 +700,13 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         $sql = 'SELECT DISTINCT users_324.id_user, (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) AS nazwa, users_wizyts.opis, users_wizyts.www, users_wizyts.logo FROM users_324 LEFT JOIN users_packages ON users_324.id_user=users_packages.id_user LEFT JOIN users_wizyts ON users_324.id_user=users_wizyts.id_user WHERE kind = "D" AND users_packages.date_end >' . time() . ' AND (CASE WHEN f_company IS NULL THEN os_surname ELSE f_company END) LIKE "' . $fraza . '%" AND users_packages.id_pakietu=5 AND users_324.id_user ORDER BY nazwa';
         return $sql;
     }
-        //gdy $bool jest wartością TRUE zapytanie SQL pobiera wszystko o ofertach i dołącza (LEFT JOIN) dane użytkowników , którzy je dodali - w przeciwnym przypadku tylko oferty z danymi
-        public static function getProfileCommsOffers($bool) {
-        if($bool) $sql = 'SELECT `id_ofe`, `id_comm`, `date_add`, `cena`, `cenax`, `rozl`, `inne`, `ile_kaw`, `date_a`, `date_b`, `ofe_status`, users_324.* FROM commisions_ofe LEFT JOIN users_324 ON commisions_ofe.id_user = users_324.id_user';
-        else      $sql = 'SELECT * FROM commisions_ofe';
+
+    //gdy $owner jest wartością TRUE zapytanie SQL pobiera wszystko o ofertach i dołącza (LEFT JOIN) dane użytkowników , którzy je dodali - w przeciwnym przypadku tylko oferty z danymi
+    public static function getCommsOffersAndOwners($owner) {
+        if ($owner)
+            $sql = 'SELECT `id_ofe`, `id_comm`, `date_add`, `cena`, `cenax`, `rozl`, `inne`, `ile_kaw`, `date_a`, `date_b`, `ofe_status`, users_324.* FROM commisions_ofe LEFT JOIN users_324 ON commisions_ofe.id_user = users_324.id_user';
+        else
+            $sql = 'SELECT * FROM commisions_ofe';
         return $sql;
     }
 

@@ -7,10 +7,9 @@
  *              setLoggedStatus() +
  *              isDostawca isKlient isAdmin isActivated +
  */
-class User
-{
-    private $logged = false;
+class User {
 
+    private $logged = false;
     private $id_user = null;
     private $email = null;
     private $pass = null;
@@ -39,44 +38,47 @@ class User
     private $f_krs = null;
     private $f_phone = null;
 
-    public function isLogged()
-    {
+    public function isLogged() {
         return $this->logged;
     }
 
-    public function setLoggedStatus($log)
-    {
+    public function setLoggedStatus($log) {
         $this->logged = $log;
     }
 
-    public function isDostawca()
-    {
-        if($this->kind == 'D') return true;
-        else return false;
+    public function isDostawca() {
+        if ($this->kind == 'D')
+            return true;
+        else
+            return false;
     }
 
-    public function isKlient()
-    {
-        if($this->kind == 'K') return true;
-        else return false;
+    public function isKlient() {
+        if ($this->kind == 'K')
+            return true;
+        else
+            return false;
     }
 
-    public function isAdmin()
-    {
-        if($this->kind == 'A') return true;
-        else return false;
-    }
-    
-    public function isBanned()
-    {
-        if($this->status == '2') return true;
-        else return false;
+    public function isAdmin() {
+        if ($this->kind == 'A')
+            return true;
+        else
+            return false;
     }
 
-    public function isActivated()
-    {
-        if($this->status == '1') return true;
-        else return false;
+    public function isBanned() {
+        if ($this->status == '2')
+            return true;
+        else
+            return false;
+    }
+
+    public function isActivated() {
+        if ($this->status == '1')
+            return true;
+        else
+            return false;
     }
 
     public function getId_user() {
@@ -294,6 +296,23 @@ class User
     public function setF_phone($f_phone) {
         $this->f_phone = $f_phone;
     }
+
+    //funkcja zwracająca nazwę firmy lub w przypadku jej braku imię i nazwisko
+    public function getFullName() {
+        if (strlen($this->f_company) > 0)
+            return $this->f_company;
+        else
+            return $this->os_name . ' ' . $this->os_surname;
+    }
+
+    //funkcja sprawdzająca czy wszystkie wymagane dane firmy są uzupełnione
+    public function isSetCompanyData() {
+        if (strlen($this->f_name) > 0 && strlen($this->f_surname) > 0 && strlen($this->f_position) > 0 && strlen($this->f_company) > 0 && strlen($this->f_city) > 0 && strlen($this->f_house_number) > 0 && strlen($this->f_nip) > 0 && strlen($this->f_phone) > 0 && strlen($this->f_postcode) > 0 && strlen($this->f_street) > 0)
+            return TRUE;
+        else
+            return FALSE;
+    }
+
 }
 
 ?>

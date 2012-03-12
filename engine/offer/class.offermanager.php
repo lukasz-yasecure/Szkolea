@@ -44,20 +44,28 @@ class OfferManager {
         return $o;
     }
 
-    //funkcja pobiera z bazy za pomocą SQL wszystkie dane ofert z dołączonymi danymi użytkowników , którzy je dodali, a następnie tworzy tablicę obiektów z tymi danymi
+    //, a następnie tworzy 
+    /*     * funkcja pobiera z bazy za pomocą SQL wszystkie dane ofert z dołączonymi danymi użytkowników , którzy je dodali
+     *
+     * @param DBC $dbc
+     * @return tablica tablica obiektów typu Offer z danymi ofert i użytkówników je dodających 
+     */
     public function OfferToObjectTable(DBC $dbc) {
 
-        $sql = Query::getProfileCommsOffers(true); //pobranie ofert z użytkownikami
+        $sql = Query::getCommsOffersAndOwners(true); //pobranie ofert z użytkownikami
         $r = $dbc->query($sql);
+
         $oferty = array();
         $um = new UserManager();
-        $o = new Offer();
         $i = 0;
 
-        while ($r_ofe = $r->fetch_assoc()) {
-            $oferty[$i] = $this->getOfferFromRow($r_ofe);                    //każda pozycja w tablicy to obiekt z ofertą (pełne dane) 
-            $oferty[$i]->setWlasciciel($um->getUserFromRow($r_ofe));        //pole właściciel to obiekt User (wszystkie dane użytkownika)
-            $i++;
+
+        if ($r != FALSE) {
+            while ($r_ofe = $r->fetch_assoc()) {
+                $oferty[$i] = $this->getOfferFromRow($r_ofe);                    //każda pozycja w tablicy to obiekt z ofertą (pełne dane) 
+                $oferty[$i]->setWlasciciel($um->getUserFromRow($r_ofe));        //pole właściciel to obiekt User (wszystkie dane użytkownika)
+                $i++;
+            }
         }
 
         return $oferty;

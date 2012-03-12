@@ -676,6 +676,7 @@ class TemplateManager {
     /** Wyświetlanie listy zleceń dla panelu admina w postaci:
       Zlecenie (ID: X) dodane przez: XXX XXX (ID: X).
       -Dopisano osób: X przez: XXX XXX (ID: X)
+      -Ofera nr: XX dodana przez: XXX XXX (ID: X)
      *
      * @param DBC $dbc
      * @return type
@@ -713,29 +714,32 @@ class TemplateManager {
         if ($result->num_rows <= 0)
             $r = '';
         else {
-            $w = '';
-            $l = '';
-            $temp = 0;
-
+            $w = '';    //całość
+            $l = '';    //lista dodanych
+            $o = '';    //lista ofert
+            $temp = 0;  //zmienna pomocnicza dla while
             //pobieranie tablicy ofert z dołączonymi użytkownikami , którzy je zamieścili
             $om = new OfferManager();
             $oferty = $om->OfferToObjectTable($dbc);
 
-
             while ($r = $result->fetch_assoc()) {
-
-
                 //warunek na dodawanie tylko listy dodań od odpowiedniego zlecenia
                 if ($temp != $r['id_zlec']) {
 
                     //wrzucamy do szablonów odpowiednie dane o zleceniach   $w - wynik, $l - lista dodań
-                    $w = str_replace('{%dopisani%}', $l, $w); //dodajemy listę dodań do całości $w 
+                    $w = str_replace('{%dopisani%}', $l, $w); //dodajemy listę dodań $l do całości $w 
+                    $w = str_replace('{%oferty%}', $o, $w);   //dodajemy listę ofert $o do całości $w     
                     $l = ''; //czyścimy $l
+                    $o = ''; //czyścimy $o
 
                     $w.= str_replace(array('{%id_zlec%}', '{%id_dodajacy%}', '{%imie%}', '{%nazwisko%}'), array($r['id_zlec'], $r['id_usera'], $r['imie'], $r['nazwisko']), $temp_zlec);
                     $l.= str_replace(array('{%ilosc_dop%}', '{%id_dop%}', '{%imie_dop%}', '{%nazwisko_dop%}'), array($r['ilosc_dop'], $r['id_dop'], $r['imie_dop'], $r['nazwisko_dop']), $temp_dod);
 
-
+                    //pętla w której wybieramy oferty dla każdego zlecenia i dodajemy je do szablonu
+                    for ($i = 0; $i < count($oferty); $i++) {
+                        if ($oferty[$i]->getId_comm() == $r['id_zlec'])
+                            $o.= str_replace(array('{%id_oferty%}', '{%id_user%}', '{%imie_ofe%}', '{%nazwisko_ofe%}'), array($oferty[$i]->getId_ofe(), $oferty[$i]->getId_user(), $oferty[$i]->getWlasciciel()->getOs_name(), $oferty[$i]->getWlasciciel()->getOs_surname()), $temp_ofe);
+                    }
                     $temp = $r['id_zlec'];  //ustawiamy nr id zlecenia dla warunku na dodawanie tylko listy dodań od odpowiedniego zlecenia
                 } else { //dodawanie kolejnych pozycji do listy dodań wszystkich
                     $l.= str_replace(array('{%ilosc_dop%}', '{%id_dop%}', '{%imie_dop%}', '{%nazwisko_dop%}'), array($r['ilosc_dop'], $r['id_dop'], $r['imie_dop'], $r['nazwisko_dop']), $temp_dod);
@@ -743,6 +747,7 @@ class TemplateManager {
             }
 
             $w = str_replace('{%dopisani%}', $l, $w);
+            $w = str_replace('{%oferty%}', $o, $w);
             return str_replace('{%dopisani%}', '', $w); //kasujemy ostatnie niewykorzystane odwołanie do {%dopisani%} z szablonu
         }
     }
