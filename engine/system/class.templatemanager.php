@@ -687,6 +687,7 @@ class TemplateManager {
         //ustalamy szablony i sprawdzamy ich istnienie
         $path_CommsList = Pathes::getPathTemplateCommList();
         $path_CommsListAdded = Pathes::getPathTemplateCommListAdded();
+        $path_CommsListOffer = Pathes::getPathTemplateCommListOffer();
 
         if (!file_exists($path_CommsList))
             throw new NoTemplateFile($path_CommsList . ' plik nie istnieje!');
@@ -694,9 +695,14 @@ class TemplateManager {
         if (!file_exists($path_CommsList))
             throw new NoTemplateFile($path_CommsListAdded . ' plik nie istnieje!');
 
+        if (!file_exists($path_CommsListOffer))
+            throw new NoTemplateFile($path_CommsListOffer . ' plik nie istnieje!');
+
         //przypisujemy szablony do zmiennych
         $temp_zlec = file_get_contents($path_CommsList);
         $temp_dod = file_get_contents($path_CommsListAdded);
+        $temp_ofe = file_get_contents($path_CommsListOffer);
+
 
         //zapytanie SQL po niezbędny zestaw danych
         $sql = Query::CommListForAdmin();
@@ -705,21 +711,24 @@ class TemplateManager {
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-        //throw new EmptyList();
             $r = '';
         else {
-            $CommList = array();
             $w = '';
             $l = '';
-
             $temp = 0;
+
+            //pobieranie tablicy ofert z dołączonymi użytkownikami , którzy je zamieścili
+            $om = new OfferManager();
+            $oferty = $om->OfferToObjectTable($dbc);
+
+
             while ($r = $result->fetch_assoc()) {
 
 
                 //warunek na dodawanie tylko listy dodań od odpowiedniego zlecenia
                 if ($temp != $r['id_zlec']) {
-//wrzucamy do szablonów odpowiednie dane o zleceniach   $w - wynik, $l - lista dodań
 
+                    //wrzucamy do szablonów odpowiednie dane o zleceniach   $w - wynik, $l - lista dodań
                     $w = str_replace('{%dopisani%}', $l, $w); //dodajemy listę dodań do całości $w 
                     $l = ''; //czyścimy $l
 
@@ -727,22 +736,19 @@ class TemplateManager {
                     $l.= str_replace(array('{%ilosc_dop%}', '{%id_dop%}', '{%imie_dop%}', '{%nazwisko_dop%}'), array($r['ilosc_dop'], $r['id_dop'], $r['imie_dop'], $r['nazwisko_dop']), $temp_dod);
 
 
-
-
-
                     $temp = $r['id_zlec'];  //ustawiamy nr id zlecenia dla warunku na dodawanie tylko listy dodań od odpowiedniego zlecenia
                 } else { //dodawanie kolejnych pozycji do listy dodań wszystkich
                     $l.= str_replace(array('{%ilosc_dop%}', '{%id_dop%}', '{%imie_dop%}', '{%nazwisko_dop%}'), array($r['ilosc_dop'], $r['id_dop'], $r['imie_dop'], $r['nazwisko_dop']), $temp_dod);
                 }
             }
-            $w = str_replace('{%dopisani%}', $l, $w);
 
+            $w = str_replace('{%dopisani%}', $l, $w);
             return str_replace('{%dopisani%}', '', $w); //kasujemy ostatnie niewykorzystane odwołanie do {%dopisani%} z szablonu
         }
     }
 
     /**
-     *Uzupelnia oferte danymi $r - $r to wiersz z bazy z oferta
+     * Uzupelnia oferte danymi $r - $r to wiersz z bazy z oferta
      * @param Template $t
      * @param type $r
      * @return Template 
@@ -753,9 +759,9 @@ class TemplateManager {
         $t->addSearchReplace('cena', $r['cena']);
         $t->addSearchReplace('cenax', UF::cenax2name($r['cenax']));
         $t->addSearchReplace('rozl', UF::rozl2name($r['rozl']));
-        
+
         $a = UF::inne2arrayTakNie($r['inne']);
-        
+
         $t->addSearchReplace('sala', $a['sala']);
         $t->addSearchReplace('materialy', $a['materialy']);
         $t->addSearchReplace('lunch', $a['lunch']);

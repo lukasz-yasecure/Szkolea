@@ -70,7 +70,8 @@ try {
                 /*
                  * KLIENT - OBSERWOWANE KATEGORIE USLUG
                  */
-                $t = new Template('view/html/profile_k_u_obs_k.html');
+
+                $t = new Template(Pathes::getPathTemplateProfileObservedServCats());
                 $sql = 'SELECT * FROM observe_servs_kot WHERE id_user=\'' . $u->getId_user() . '\'';
                 $res = $dbc->query($sql);
                 while ($x = $res->fetch_assoc()) {
@@ -84,7 +85,7 @@ try {
                     /*
                      * KLIENT - OBSERWOWANE ZLECENIA
                      */
-                    $t = new Template('view/html/profile_k_zl_obs_zl.html');
+                    $t = new Template(Pathes::getPathTemplateProfileObservedComms());
                     $ud = new UserData();
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
@@ -110,7 +111,7 @@ try {
                     /*
                      * KLIENT - BIORE UDZIAL
                      */
-                    $t = new Template('view/html/profile_k_zl_udzial.html');
+                    $t = new Template(Pathes::getPathTemplateProfilePaticipate());
                     $ud = new UserData();
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
@@ -120,12 +121,12 @@ try {
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'biore'); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 4)
-                    $t = new Template('view/html/profile_k_zl_koniec.html');
+                    $t = new Template(Pathes::getPathTemplateProfilePaticipateEnd());
                 else {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE ZLECEN
                      */
-                    $t = new Template('view/html/profile_k_zl_obs_k.html');
+                    $t = new Template(Pathes::getPathTemplateProfileObservedCommsCatsForDeveloper());
                     $sql = 'SELECT * FROM observe_comms_kot WHERE id_user=\'' . $u->getId_user() . '\'';
                     $res = $dbc->query($sql);
                     while ($x = $res->fetch_assoc()) {
@@ -224,13 +225,13 @@ try {
                 try {
                     if (!isset($_POST['profile_edit_form'])) {
                         $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
-                        $t = new Template('view/html/profile_k_dane_edycja.html'); // szablon profilu użytkownika
+                        $t = new Template(Pathes::getPathTemplateProfileEdit()); // szablon profilu użytkownika
                         $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                         $r = $pft->getContent();
                     } else if (isset($_POST['profile_edit_form'])) {
                         $ud = new UserData();
                         $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
-                        $t = new Template('view/html/profile_k_dane_edycja.html'); // szablon profilu użytkownika
+                        $t = new Template(Pathes::getPathTemplateProfileEdit()); // szablon profilu użytkownika
                         $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                         $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
                         $um->updateProfileData($dbc, $rfd, $u); // edycja danych w bazie
@@ -251,12 +252,12 @@ try {
         if (isset($_GET['w'])) {
             if ($_GET['w'] == 'servs') {
                 if (isset($_GET['a']) && $_GET['a'] == 1)
-                    $t = new Template('view/html/profile_u_u_obs_moje.html');
+                    $t = new Template(Pathes::getPathTemplateProfileMyObserved());
                 else {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE USLUG
                      */
-                    $t = new Template('view/html/profile_u_u_obs_k.html');
+                    $t = new Template(Pathes::getPathTemplateProfileObservedServsCatsForDeveloper());
                     $sql = 'SELECT * FROM observe_servs_kot WHERE id_user=\'' . $u->getId_user() . '\'';
                     $res = $dbc->query($sql);
                     while ($x = $res->fetch_assoc()) {
@@ -271,7 +272,7 @@ try {
                     /*
                      * DOSTAWCA - OBSERWOWANE ZLECENIA
                      */
-                    $t = new Template('view/html/profile_u_zl_obs_zl.html');
+                    $t = new Template(Pathes::getPathTemplateProfileObservedCommsForDeveloper());
                     $ud = new UserData();
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
@@ -284,7 +285,7 @@ try {
                     /*
                      * DOSTAWCA - OFERTY
                      */
-                    $t = new Template('view/html/profile_u_zl_oferty.html');
+                    $t = new Template(Pathes::getPathTemplateProfileOffersForDeveloper());
                     $ud = new UserData();
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
@@ -297,7 +298,7 @@ try {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE ZLECEN
                      */
-                    $t = new Template('view/html/profile_u_zl_obs_k.html');
+                    $t = new Template(Pathes::getPathTemplateProfileObservedCommsCatsForDeveloper());
                     $sql = 'SELECT * FROM observe_comms_kot WHERE id_user=\'' . $u->getId_user() . '\'';
                     $res = $dbc->query($sql);
                     while ($x = $res->fetch_assoc()) {
@@ -312,8 +313,8 @@ try {
                 //DOSTAWCA - EDYCJA WIZYTÓWKI
                     if ((isset($_GET['a']) && $_GET['a'] == 0) || !isset($_GET['a'])) {
 
-                        $t = new Template('view/html/profile_dostawca_wizytowka.html');
-                        $t_wiz = new Template('view/html/wizytowka.html');
+                        $t = new Template(Pathes::getPathTemplateProfileCardForDeveloper());
+                        $t_wiz = new Template(Pathes::getPathTemplateProfileCard());
 
                         $pkgm = new PackageManager();
                         $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
@@ -410,7 +411,7 @@ try {
                             //gdy użytkownik ma już logo wyświetlamu mu je z przyciskiem USUŃ
                             if (strlen($pkgm->pobierzLogoLink()) > 0 && !($pkgm->pobierzLogoLink() == 'NULL')) {
                                 $t_wiz->addSearchReplace('logo', 'loga/' . $pkgm->pobierzLogoLink());
-                                $t_wiz_usun = new Template('view/html/wizytowka_usun_logo.html');
+                                $t_wiz_usun = new Template(Pathes::getPathTemplateProfileDeleteLogo());
                                 $t_wiz->addSearchReplace('usun', $t_wiz_usun->getContent());
 
 
@@ -443,13 +444,13 @@ try {
                         try {
                             if (!isset($_POST['profile_edit_form'])) {
                                 $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
-                                $t = new Template('view/html/profile_u_dane_edycja.html'); // szablon profilu użytkownika
+                                $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu użytkownika
                                 $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                                 $r = $pft->getContent();
                             } else if (isset($_POST['profile_edit_form'])) {
                                 $ud = new UserData();
                                 $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
-                                $t = new Template('view/html/profile_u_dane_edycja.html'); // szablon profilu użytkownika
+                                $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu użytkownika
                                 $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                                 $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
                                 $um->updateProfileData($dbc, $rfd, $u); // edycja danych w bazie
@@ -460,17 +461,17 @@ try {
                             BFEC::add('', true, 'profile.php?w=dane&a=1');
                         }
                     } else
-                        $t = new Template('view/html/profile_u_dane_oceny.html');
+                        $t = new Template(Pathes::getPathTemplateProfileRateData());
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {
                 if (isset($_GET['a']) && $_GET['a'] == 0) {
-                    $t = new Template('view/html/profile_dostawca_aktywne_pakiety.html');
+                    $t = new Template(Pathes::getPathTemplateProfileActivePackages());
 
                     $pm = new PackageManager();
                     $pakiet = $pm->pobierzAktywnePakiety($dbc, $u->getId_user());
 
-                    $temp_lista = new Template('view/html/profile_dostawca_lista_aktywnych_pakietow.html');
+                    $temp_lista = new Template(Pathes::getPathTemplateProfileActivePackagesList());
 
                     $temp = '';
 
@@ -493,11 +494,11 @@ try {
 
                     //KUP PAKIET
                 } else if ((isset($_GET['a']) && $_GET['a'] == 1) || !isset($_GET['a'])) {
-                    $t = new Template('view/html/profile_dostawca_kup.html');
+                    $t = new Template(Pathes::getPathTemplateProfileBuyPackage());
 
                     //dodawanie listy pakietow do zakładki PAKIETY w profilu DOSTAWCY
 
-                    $temp_lista = new Template('view/html/profile_dostawca_lista_pakietow.html');
+                    $temp_lista = new Template(Pathes::getPathTemplateProfilePackagesList());
 
                     $temp = '';
 
@@ -515,14 +516,14 @@ try {
             } else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
-                        $t = new Template('view/html/profile_u_faktury_op.html');
+                        $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
                     else if ($_GET['a'] == 1)
-                        $t = new Template('view/html/profile_u_faktury_dop.html');
+                        $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
                     else
-                        $t = new Template('view/html/profile_u_faktury_op.html');
+                        $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
                 }
                 else
-                    $t = new Template('view/html/profile_u_faktury_op.html');
+                    $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
             }
             else
                 $t = new Template(Pathes::getPathTemplateProfileU());
@@ -532,15 +533,13 @@ try {
     }
     else if ($u->isAdmin()) {
 
-
+        //wyświetlenie listy zleceń dla admina
         if ((isset($_GET['w']) && $_GET['w'] == 'comms' && !isset($_GET['a'])) || (isset($_GET['w']) && $_GET['w'] == 'comms' && isset($_GET['a']) && $_GET['a'] == '0')) {
 
-            $t = new Template('view/html/admin_comms.html');
-
-//wyświetlenie listy zleceń dla admina
+            $t = new Template(Pathes::getPathTemplateProfileCommsForAdmin());
             $r = $tm->getCommsListForAdmin(new DBC($sys));
         } else if (isset($_GET['w']) && $_GET['w'] == 'kategorie' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a']))) {
-            $t = new Template('view/html/admin_kategorie_edycja.html');
+            $t = new Template(Pathes::getPathTemplateProfileCatsEditForAdmin());
 
             $cm = new CategoryManager();
             $c = $cm->getCategories($dbc, null);
@@ -558,17 +557,17 @@ try {
 
             $dodatkowe_js = file_get_contents('temp/admin.html');
         } else if (isset($_GET['w']) && $_GET['w'] == 'uzytkownicy' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a']))) {
-            $t = new Template('view/html/admin_uzytkownicy_lista.html');
+            $t = new Template(Pathes::getPathTemplateProfileUsersListForAdmin());
 
             $sql = "SELECT * FROM `users_324`";
             $result = $dbc->query($sql);
             if (!$result)
                 throw new DBQueryException($dbc->error, $sql, $dbc->errno);
             if ($result->num_rows <= 0)
-//throw new EmptyList();
+            //throw new EmptyList();
                 $r = '';
             else {
-                $user = file_get_contents('view/html/admin_uzytkownicy_lista_1_user.html');
+                $user = file_get_contents(Pathes::getPathTemplateProfileUsersSublistForAdmin());
 
                 while ($row = $result->fetch_assoc()) {
                     $r.= str_replace(
@@ -576,7 +575,7 @@ try {
                 }
             }
         } else {
-            $t = new Template('view/html/admin_profile_main.html');
+            $t = new Template(Pathes::getPathTemplateProfileAdmin());
             $r = '';
         }
     }

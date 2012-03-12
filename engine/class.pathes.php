@@ -40,8 +40,36 @@ class Pathes {
     public static $template_catalog_tematyka = 'cat_t.html';
     public static $template_comm_list = 'admin_comm_list.html';
     public static $template_comm_list_added = 'admin_comm_list_dopisani.html';
+    public static $template_comm_list_offer = 'admin_comm_list_oferty.html';
     public static $template_catalog_main_comms = 'cat_comms.html';
     public static $template_catalog_main_servs = 'cat_servs.html';
+    public static $template_profile_obserwowane_kategorie_uslug = 'profile_k_u_obs_k.html';
+    public static $template_profile_obserwowane_zlecenia = 'profile_k_zl_obs_zl.html';
+    public static $template_profile_biore_udzial = 'profile_k_zl_udzial.html';
+    public static $template_profile_biore_udzial_koniec = 'profile_k_zl_koniec.html';
+    public static $template_profile_obserwowane_kategorie_zlecen = 'profile_k_zl_obs_k.html';
+    public static $template_profile_edycja_danych = 'profile_k_dane_edycja.html';
+    public static $template_profile_moje_obserwowane = 'profile_u_u_obs_moje.html';
+    public static $template_profile_obserwowane_kategorie_uslug_dostawcy = 'profile_u_u_obs_k.html';
+    public static $template_profile_obserwowane_zlecenia_dostawcy = 'profile_u_zl_obs_zl.html';
+    public static $template_profile_oferty_dostawca = 'profile_u_zl_oferty.html';
+    public static $template_profile_obserwowane_kategorie_zlecen_dostawca = 'profile_u_zl_obs_k.html';
+    public static $template_profile_wizytowka_dostawca = 'profile_dostawca_wizytowka.html';
+    public static $template_profile_wizytowka = 'wizytowka.html';
+    public static $template_profile_edycja_danych_dostawca = 'profile_u_dane_edycja.html';
+    public static $template_profile_dane_oceny = 'profile_u_dane_oceny.html';
+    public static $template_profile_aktywne_pakiety = 'profile_dostawca_aktywne_pakiety.html';
+    public static $template_profile_lista_aktywnych_pakietow = 'profile_dostawca_lista_aktywnych_pakietow.html';
+    public static $template_profile_kup_pakiet = 'profile_dostawca_kup.html';
+    public static $template_profile_lista_pakietow = 'profile_dostawca_lista_pakietow.html';
+    public static $template_profile_faktury_oplacone = 'profile_u_faktury_op.html';
+    public static $template_profile_faktury_nieoplacone = 'profile_u_faktury_dop.html';
+    public static $template_profile_admin_zlecenia = 'admin_comms.html';
+    public static $template_profile_admin_edycja_kategorii = 'admin_kategorie_edycja.html';
+    public static $template_profile_admin_lista_uzytkownikow = 'admin_uzytkownicy_lista.html';
+    public static $template_profile_admin = 'admin_profile_main.html';
+    public static $template_profile_wizytowka_usun_logo = 'wizytowka_usun_logo.html';
+    public static $template_profile_admin_podlista_uzytkownikow = 'admin_uzytkownicy_lista_1_user.html';
     public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
     public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
     public static $mail_info_nowa_oferta_wlasciciel_zlecenia = 'info_nowa_oferta_wlasciciel_zlecenia.html';
@@ -270,6 +298,9 @@ class Pathes {
     public static function getPathTemplateCommListAdded() {
         return Pathes::$template_path . Pathes::$template_comm_list_added;
     }
+        public static function getPathTemplateCommListOffer() {
+        return Pathes::$template_path . Pathes::$template_comm_list_offer;
+    }
 
     public static function getPathTemplateCatalogMainComms() {
         return Pathes::$template_path . Pathes::$template_catalog_main_comms;
@@ -277,6 +308,114 @@ class Pathes {
 
     public static function getPathTemplateCatalogMainServs() {
         return Pathes::$template_path . Pathes::$template_catalog_main_servs;
+    }
+
+    public static function getPathTemplateProfileObservedServCats() {
+        return Pathes::$template_path . Pathes::$template_profile_obserwowane_kategorie_uslug;
+    }
+
+    public static function getPathTemplateProfileObservedComms() {
+        return Pathes::$template_path . Pathes::$template_profile_obserwowane_zlecenia;
+    }
+
+    public static function getPathTemplateProfilePaticipate() {
+        return Pathes::$template_path . Pathes::$template_profile_biore_udzial;
+    }
+
+    public static function getPathTemplateProfilePaticipateEnd() {
+        return Pathes::$template_path . Pathes::$template_profile_biore_udzial_koniec;
+    }
+
+    public static function getPathTemplateProfileObservedCommsCats() {
+        return Pathes::$template_path . Pathes::$template_profile_obserwowane_kategorie_zlecen;
+    }
+
+    public static function getPathTemplateProfileEdit() {
+        return Pathes::$template_path . Pathes::$template_profile_edycja_danych;
+    }
+
+    public static function getPathTemplateProfileMyObserved() {
+        return Pathes::$template_path . Pathes::$template_profile_moje_obserwowane;
+    }
+
+    public static function getPathTemplateProfileObservedServsCatsForDeveloper() {
+        return Pathes::$template_path . Pathes::$template_profile_obserwowane_kategorie_uslug_dostawcy;
+    }
+
+    public static function getPathTemplateProfileObservedCommsForDeveloper() {
+        return Pathes::$template_path . Pathes::$template_profile_obserwowane_zlecenia_dostawcy;
+    }
+
+    public static function getPathTemplateProfileOffersForDeveloper() {
+        return Pathes::$template_path . Pathes::$template_profile_oferty_dostawca;
+    }
+
+    public static function getPathTemplateProfileObservedCommsCatsForDeveloper() {
+        return Pathes::$template_path . Pathes::$template_profile_obserwowane_kategorie_zlecen_dostawca;
+    }
+
+    public static function getPathTemplateProfileCardForDeveloper() {
+        return Pathes::$template_path . Pathes::$template_profile_wizytowka_dostawca;
+    }
+
+    public static function getPathTemplateProfileCard() {
+        return Pathes::$template_path . Pathes::$template_profile_wizytowka;
+    }
+
+    public static function getPathTemplateProfileEditForDeveloper() {
+        return Pathes::$template_path . Pathes::$template_profile_edycja_danych_dostawca;
+    }
+
+    public static function getPathTemplateProfileRateData() {
+        return Pathes::$template_path . Pathes::$template_profile_dane_oceny;
+    }
+
+    public static function getPathTemplateProfileActivePackages() {
+        return Pathes::$template_path . Pathes::$template_profile_aktywne_pakiety;
+    }
+
+    public static function getPathTemplateProfileActivePackagesList() {
+        return Pathes::$template_path . Pathes::$template_profile_lista_aktywnych_pakietow;
+    }
+
+    public static function getPathTemplateProfileBuyPackage() {
+        return Pathes::$template_path . Pathes::$template_profile_kup_pakiet;
+    }
+
+    public static function getPathTemplateProfilePackagesList() {
+        return Pathes::$template_path . Pathes::$template_profile_lista_pakietow;
+    }
+
+    public static function getPathTemplateProfilePaidInvoice() {
+        return Pathes::$template_path . Pathes::$template_profile_faktury_oplacone;
+    }
+
+    public static function getPathTemplateProfileUnpaidInvoice() {
+        return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone;
+    }
+
+    public static function getPathTemplateProfileCommsForAdmin() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_zlecenia;
+    }
+
+    public static function getPathTemplateProfileCatsEditForAdmin() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_edycja_kategorii;
+    }
+
+    public static function getPathTemplateProfileUsersListForAdmin() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_lista_uzytkownikow;
+    }
+
+    public static function getPathTemplateProfileAdmin() {
+        return Pathes::$template_path . Pathes::$template_profile_admin;
+    }
+
+    public static function getPathTemplateProfileDeleteLogo() {
+        return Pathes::$template_path . Pathes::$template_profile_wizytowka_usun_logo;
+    }
+
+    public static function getPathTemplateProfileUsersSublistForAdmin() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_podlista_uzytkownikow;
     }
 
     public static function getPathTemplateMailInfoWybranaOfertaWlasciciel() {
