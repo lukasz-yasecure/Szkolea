@@ -257,7 +257,7 @@ try {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE USLUG
                      */
-                    $t = new Template(Pathes::getPathTemplateProfileObservedServsCatsForDeveloper());
+                    $t = new Template(Pathes::getPathTemplateProfileObservedServsCats());
                     $sql = 'SELECT * FROM observe_servs_kot WHERE id_user=\'' . $u->getId_user() . '\'';
                     $res = $dbc->query($sql);
                     while ($x = $res->fetch_assoc()) {
@@ -311,157 +311,157 @@ try {
             } else if ($_GET['w'] == 'dane') {
 
                 //DOSTAWCA - EDYCJA WIZYTÓWKI
-                    if ((isset($_GET['a']) && $_GET['a'] == 0) || !isset($_GET['a'])) {
+                if ((isset($_GET['a']) && $_GET['a'] == 0) || !isset($_GET['a'])) {
 
-                        $t = new Template(Pathes::getPathTemplateProfileCardForDeveloper());
-                        $t_wiz = new Template(Pathes::getPathTemplateProfileCard());
+                    $t = new Template(Pathes::getPathTemplateProfileCardForDeveloper());
+                    $t_wiz = new Template(Pathes::getPathTemplateProfileCard());
 
-                        $pkgm = new PackageManager();
-                        $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
+                    $pkgm = new PackageManager();
+                    $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
 
-                        if ((isset($_POST['submit']))) {
+                    if ((isset($_POST['submit']))) {
 
-                            if (isset($_POST['opis']) && strlen($_POST['opis']) > 0) {
-                                $_POST['opis'] = Valid::antyHTML($_POST['opis']);
-                                $_POST['opis'] = nl2br($_POST['opis']);
+                        if (isset($_POST['opis']) && strlen($_POST['opis']) > 0) {
+                            $_POST['opis'] = Valid::antyHTML($_POST['opis']);
+                            $_POST['opis'] = nl2br($_POST['opis']);
 
-                                //sprawdzenie długości wizytówki czy zgodna z dozwoloną
-                                if (strlen($_POST['opis']) <= $pkgm->iIleZnakowWizytowka()) {
-                                    RFD::add('edycja_wizytowki', 'opis', $_POST['opis']);
-                                }else
-                                    BFEC::add(MSG::profileOpisZaDlugi());
-                            }else {
-                                $_POST['opis'] = '';
+                            //sprawdzenie długości wizytówki czy zgodna z dozwoloną
+                            if (strlen($_POST['opis']) <= $pkgm->iIleZnakowWizytowka()) {
                                 RFD::add('edycja_wizytowki', 'opis', $_POST['opis']);
-                            }
-
-                            if (isset($_POST['www']) && strlen($_POST['www']) > 0) {
-                                $_POST['www'] = Valid::antyHTML($_POST['www']);
-
-                                if (Valid::isValidURL($_POST['www'])) {
-                                    RFD::add('edycja_wizytowki', 'www', $_POST['www']);
-                                } else {
-                                    BFEC::add(MSG::profileBlednyAdresWWW());
-                                }
-                            } else {
-                                $_POST['www'] = '';
-                                RFD::add('edycja_wizytowki', 'www', $_POST['www']);
-                            }
-
-
-                            //zapisywanie poprawnych danych w bazie
-                            if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user()) == FALSE && !BFEC::isError()) {
-                                //w przypadku gdy nowa pozycja w bazie
-                                $sql = Query::setNewCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'), 'NULL');
-                                $dbc->query($sql);
-                                RFD::clear('edycja_wizytowki');
-                                if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
-                                    throw new NieZaktualizowanoWizytowki;
-                            }else if (!BFEC::isError()) {
-                                //w przypadku gdy rekord odnośnie wizytówki już istnieje
-                                $sql = Query::setCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'));
-                                $dbc->query($sql);
-                                RFD::clear('edycja_wizytowki');
-                                if (strlen($dbc->error) > 0) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
-                                    throw new NieZaktualizowanoWizytowki;
-                            }
-
-
-                            BFEC::addm(MSG::profileCardUpdate(), Pathes::getScriptProfileCard()); //przekierowanie po obsłużeniu formularza na odświeżony formularz wizytówki
+                            }else
+                                BFEC::add(MSG::profileOpisZaDlugi());
+                        }else {
+                            $_POST['opis'] = '';
+                            RFD::add('edycja_wizytowki', 'opis', $_POST['opis']);
                         }
-                        else {
 
-                            $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());     //podmieniamy w szablonie ilość znaków wizytówki na pobraną z bazy dla odpowiedniego użytkownika
+                        if (isset($_POST['www']) && strlen($_POST['www']) > 0) {
+                            $_POST['www'] = Valid::antyHTML($_POST['www']);
 
-
-                            if ($pkgm->czyMoznaDodacWWW()) {    // sprawdzamy czy użytkownik może dodawać www i blokujemu mu tą opcje lub nie
-                                $t_wiz->addSearchReplace('www_disabled', '');
+                            if (Valid::isValidURL($_POST['www'])) {
+                                RFD::add('edycja_wizytowki', 'www', $_POST['www']);
                             } else {
-                                $t_wiz->addSearchReplace('www_disabled', 'disabled="disabled"');
+                                BFEC::add(MSG::profileBlednyAdresWWW());
                             }
-                            if ($pkgm->czyMoznaDodacLogo()) {   // sprawdzamy czy użytkownik może dodawać logo i blokujemu mu tą opcje lub nie
-                                $t_wiz->addSearchReplace('logo_disabled', '');
+                        } else {
+                            $_POST['www'] = '';
+                            RFD::add('edycja_wizytowki', 'www', $_POST['www']);
+                        }
+
+
+                        //zapisywanie poprawnych danych w bazie
+                        if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user()) == FALSE && !BFEC::isError()) {
+                            //w przypadku gdy nowa pozycja w bazie
+                            $sql = Query::setNewCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'), 'NULL');
+                            $dbc->query($sql);
+                            RFD::clear('edycja_wizytowki');
+                            if ($dbc->affected_rows != 1) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                throw new NieZaktualizowanoWizytowki;
+                        }else if (!BFEC::isError()) {
+                            //w przypadku gdy rekord odnośnie wizytówki już istnieje
+                            $sql = Query::setCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'));
+                            $dbc->query($sql);
+                            RFD::clear('edycja_wizytowki');
+                            if (strlen($dbc->error) > 0) // obsługa błedu gdy ilość zmienionych wierszy inna niż 1
+                                throw new NieZaktualizowanoWizytowki;
+                        }
+
+
+                        BFEC::addm(MSG::profileCardUpdate(), Pathes::getScriptProfileCard()); //przekierowanie po obsłużeniu formularza na odświeżony formularz wizytówki
+                    }
+                    else {
+
+                        $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());     //podmieniamy w szablonie ilość znaków wizytówki na pobraną z bazy dla odpowiedniego użytkownika
+
+
+                        if ($pkgm->czyMoznaDodacWWW()) {    // sprawdzamy czy użytkownik może dodawać www i blokujemu mu tą opcje lub nie
+                            $t_wiz->addSearchReplace('www_disabled', '');
+                        } else {
+                            $t_wiz->addSearchReplace('www_disabled', 'disabled="disabled"');
+                        }
+                        if ($pkgm->czyMoznaDodacLogo()) {   // sprawdzamy czy użytkownik może dodawać logo i blokujemu mu tą opcje lub nie
+                            $t_wiz->addSearchReplace('logo_disabled', '');
+                        } else {
+                            $t_wiz->addSearchReplace('logo_disabled', 'disabled="disabled"');
+                        }
+
+                        //pobieramy informacje o wizytowce w bazie, gdyz musimy wiedziec czy generowac nowy rekord odnosnie wizytówki czy updateować istniejący już
+                        if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user())) {
+                            $pkgm->pobierzWizytowke($dbc, $u->getId_user());
+
+
+                            //pobieramy opis z bazy, lub w przypadku jego braku ładujemy z RFD
+                            if (strlen($pkgm->pobierzOpis()) > 0) {
+                                $t_wiz->addSearchReplace('RFD_opis', $pkgm->pobierzOpis());
                             } else {
-                                $t_wiz->addSearchReplace('logo_disabled', 'disabled="disabled"');
-                            }
-
-                            //pobieramy informacje o wizytowce w bazie, gdyz musimy wiedziec czy generowac nowy rekord odnosnie wizytówki czy updateować istniejący już
-                            if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user())) {
-                                $pkgm->pobierzWizytowke($dbc, $u->getId_user());
-
-
-                                //pobieramy opis z bazy, lub w przypadku jego braku ładujemy z RFD
-                                if (strlen($pkgm->pobierzOpis()) > 0) {
-                                    $t_wiz->addSearchReplace('RFD_opis', $pkgm->pobierzOpis());
-                                } else {
-                                    $t_wiz->addSearchReplace('RFD_opis', RFD::get('edycja_wizytowki', 'opis'));
-                                }
-
-                                //pobieramy URL z bazy, lub w przypadku jego braku ładujemy z RFD
-                                if (strlen($pkgm->pobierzURL()) > 0) {
-                                    $t_wiz->addSearchReplace('RFD_www', $pkgm->pobierzURL());
-                                } else {
-                                    $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
-                                }
-                            } else {    //gdy nie ma wizytówki w bazie ładujemy dane od razu z RFD
                                 $t_wiz->addSearchReplace('RFD_opis', RFD::get('edycja_wizytowki', 'opis'));
+                            }
+
+                            //pobieramy URL z bazy, lub w przypadku jego braku ładujemy z RFD
+                            if (strlen($pkgm->pobierzURL()) > 0) {
+                                $t_wiz->addSearchReplace('RFD_www', $pkgm->pobierzURL());
+                            } else {
                                 $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
                             }
-
-                            //gdy użytkownik ma już logo wyświetlamu mu je z przyciskiem USUŃ
-                            if (strlen($pkgm->pobierzLogoLink()) > 0 && !($pkgm->pobierzLogoLink() == 'NULL')) {
-                                $t_wiz->addSearchReplace('logo', 'loga/' . $pkgm->pobierzLogoLink());
-                                $t_wiz_usun = new Template(Pathes::getPathTemplateProfileDeleteLogo());
-                                $t_wiz->addSearchReplace('usun', $t_wiz_usun->getContent());
-
-
-                                //jeśli użytkownik nie ma jeszcze loga łądujemu mu obrazek domyślny bez przycisku USUŃ
-                            } else {
-                                $t_wiz->addSearchReplace('logo', 'loga/default.png');
-                                $t_wiz->addSearchReplace('usun', '');
-                            }
-
-
-                            //usuwanie loga z przycisku USUŃ
-                            if (isset($_GET['usun_logo']) && $_GET['usun_logo'] == 1) {
-
-                                unlink('loga/' . $pkgm->pobierzLogoLink());
-                                $sql = Query::setLogoForUser($u->getId_user(), '');
-                                $dbc->query($sql);
-
-                                BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po usunięciu na odświeżony formularz wizytówki
-                            }
-
-
-
-
-                            $t->addSearchReplace('here', $t_wiz->getContent());
+                        } else {    //gdy nie ma wizytówki w bazie ładujemy dane od razu z RFD
+                            $t_wiz->addSearchReplace('RFD_opis', RFD::get('edycja_wizytowki', 'opis'));
+                            $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
                         }
-                    } else if (isset($_GET['a']) && $_GET['a'] == 1) {
-                        /*
-                         * DOSTAWCA - EDYCJA DANYCH
-                         */
-                        try {
-                            if (!isset($_POST['profile_edit_form'])) {
-                                $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
-                                $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu użytkownika
-                                $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
-                                $r = $pft->getContent();
-                            } else if (isset($_POST['profile_edit_form'])) {
-                                $ud = new UserData();
-                                $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
-                                $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu użytkownika
-                                $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
-                                $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
-                                $um->updateProfileData($dbc, $rfd, $u); // edycja danych w bazie
-                                header('Location:' . $_SERVER['REQUEST_URI']); // przeładowanie strony, kasujemy stary $_POST
-                                $r = $pft->getContent();
-                            }
-                        } catch (ErrorsInprofileEditForm $e) {
-                            BFEC::add('', true, 'profile.php?w=dane&a=1');
+
+                        //gdy użytkownik ma już logo wyświetlamu mu je z przyciskiem USUŃ
+                        if (strlen($pkgm->pobierzLogoLink()) > 0 && !($pkgm->pobierzLogoLink() == 'NULL')) {
+                            $t_wiz->addSearchReplace('logo', 'loga/' . $pkgm->pobierzLogoLink());
+                            $t_wiz_usun = new Template(Pathes::getPathTemplateProfileDeleteLogo());
+                            $t_wiz->addSearchReplace('usun', $t_wiz_usun->getContent());
+
+
+                            //jeśli użytkownik nie ma jeszcze loga łądujemu mu obrazek domyślny bez przycisku USUŃ
+                        } else {
+                            $t_wiz->addSearchReplace('logo', 'loga/default.png');
+                            $t_wiz->addSearchReplace('usun', '');
                         }
-                    } else
-                        $t = new Template(Pathes::getPathTemplateProfileRateData());
+
+
+                        //usuwanie loga z przycisku USUŃ
+                        if (isset($_GET['usun_logo']) && $_GET['usun_logo'] == 1) {
+
+                            unlink('loga/' . $pkgm->pobierzLogoLink());
+                            $sql = Query::setLogoForUser($u->getId_user(), '');
+                            $dbc->query($sql);
+
+                            BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po usunięciu na odświeżony formularz wizytówki
+                        }
+
+
+
+
+                        $t->addSearchReplace('here', $t_wiz->getContent());
+                    }
+                } else if (isset($_GET['a']) && $_GET['a'] == 1) {
+                    /*
+                     * DOSTAWCA - EDYCJA DANYCH
+                     */
+                    try {
+                        if (!isset($_POST['profile_edit_form'])) {
+                            $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
+                            $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu użytkownika
+                            $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
+                            $r = $pft->getContent();
+                        } else if (isset($_POST['profile_edit_form'])) {
+                            $ud = new UserData();
+                            $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane użytkownika z bazy
+                            $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu użytkownika
+                            $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
+                            $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
+                            $um->updateProfileData($dbc, $rfd, $u); // edycja danych w bazie
+                            header('Location:' . $_SERVER['REQUEST_URI']); // przeładowanie strony, kasujemy stary $_POST
+                            $r = $pft->getContent();
+                        }
+                    } catch (ErrorsInprofileEditForm $e) {
+                        BFEC::add('', true, 'profile.php?w=dane&a=1');
+                    }
+                } else
+                    $t = new Template(Pathes::getPathTemplateProfileRateData());
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {
