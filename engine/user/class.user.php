@@ -302,7 +302,7 @@ class User {
         if (strlen($this->f_company) > 0)
             return $this->f_company;
         else
-            return $this->os_name . ' ' . $this->os_surname;
+            return $this->os_surname . ' ' . $this->os_name;
     }
 
     //funkcja sprawdzająca czy wszystkie wymagane dane firmy są uzupełnione
