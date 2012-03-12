@@ -84,6 +84,7 @@ class System
         'serv' => '',
         'profile' => '',
         'observe' => '',
+        'cron' => '',
         'comm_join' => '',
         'comm_offer' => '',
         'comm_offer_check' => '',
@@ -91,7 +92,12 @@ class System
         'cat' => '',
         'contact' => '',
         'fun_adm' => '',
-        'image_uploader' => ''
+        'image_uploader' => '',
+        'admin' => '',
+        'ajax' => '',
+        'cennik' => '',
+        'priv_rules' => '',
+        'rules' => ''
     );
 
     private $template_path = 'view/html/';
@@ -120,7 +126,7 @@ class System
 
 
     private $class_path = 'engine/';
-    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/', 'data/', 'package/');
+    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/', 'data/', 'package/', 'admin/');
     private $class_basic = array('class.log.php', 'class.uf.php', 'class.excmanager.php', 'classes.exceptions.php', 'class.pathes.php', 'class.sc.php');
     private $class_std = 'class.std.php';
 
@@ -149,6 +155,8 @@ class System
         date_default_timezone_set('Europe/Warsaw');
         ini_set('display_errors', 1);
         header('content-Type: text/html; charset=UTF-8');
+        
+        if($action == 'cron') $this->setServerGlobalForCron ();
 
         $this->base_url = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']).'/';
 
@@ -160,6 +168,13 @@ class System
         }
 
         //UF::basicHttpAuth();
+    }
+    
+    public function setServerGlobalForCron()
+    {
+        $_SERVER['HTTP_HOST'] = 'szkolea.pl';
+        $_SERVER['SCRIPT_NAME'] = '/beta2012/index.php';
+        $_SERVER['REQUEST_URI'] = 'http://szkolea.pl/beta2012/index.php';
     }
 
     /**

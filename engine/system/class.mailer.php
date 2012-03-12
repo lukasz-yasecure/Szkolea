@@ -94,6 +94,24 @@ class Mailer
         $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaDodaneDoZlecenia());
         $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia do którego jesteś dodany została odrzucona', $tm->getContent());
     }
+    
+    public function infoZakonczoneZlecenieWlasciciel(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieWlasciciel());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoje zlecenie właśnie się zakończyło', $tm->getContent());
+    }
+
+    public function infoZakonczoneZlecenieDodane(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieDodane());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Zlecenie, do którego się dopisałeś właśnie się zakończyło', $tm->getContent());
+    }
+
+    public function infoZakonczoneZlecenieOferty(User $adresat)
+    {
+        $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieOferty());
+        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Zlecenie, do którego dodałeś ofertę właśnie się zakończyło', $tm->getContent());
+    }
 }
 
 ?>

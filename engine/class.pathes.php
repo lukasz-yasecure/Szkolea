@@ -78,6 +78,13 @@ class Pathes {
     public static $mail_info_odrzucona_oferta_obserwujacy_zlecenie = 'info_odrzucona_oferta_obserwujacy_zlecenie.html';
     public static $mail_info_wybrana_oferta_dodane_do_zlecenia = 'info_wybrana_oferta_dodane_do_zlecenia.html';
     public static $mail_info_odrzucona_oferta_dodane_do_zlecenia = 'info_odrzucona_oferta_dodane_do_zlecenia.html';
+    public static $mail_info_zakonczone_zlecenie_wlasciciel = 'info_zakonczone_zlecenie_wlasciciel.html';
+    public static $mail_info_zakonczone_zlecenie_dodane = 'info_zakonczone_zlecenie_dodane.html';
+    public static $mail_info_zakonczone_zlecenie_oferty = 'info_zakonczone_zlecenie_oferty.html';
+    public static $cennik = 'cennik.html';
+    public static $priv_rules = 'priv_rules.html';
+    public static $rules = 'rules.html';
+
     public static $script_path = '';
     public static $script_index = 'index.php';
     public static $script_activation = 'activation.php';
@@ -439,6 +446,29 @@ class Pathes {
         return Pathes::$base_url . Pathes::$script_profile_card;
     }
 
+    public static function getPathTemplateMailInfoZakonczoneZlecenieWlasciciel() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_wlasciciel;
+    }
+    
+    public static function getPathTemplateMailInfoZakonczoneZlecenieDodane() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_dodane;
+    }
+    
+    public static function getPathTemplateMailInfoZakonczoneZlecenieOferty() {
+        return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_oferty;
+    }
+    
+    public static function getPathTemplateCennik() {
+        return Pathes::$template_path . Pathes::$cennik;
+    }
+    
+    public static function getPathTemplatePolitykaPrywatnosci() {
+        return Pathes::$template_path . Pathes::$priv_rules;
+    }
+    
+    public static function getPathTemplateRegulamin() {
+        return Pathes::$template_path . Pathes::$rules;
+    }
 }
 
 ?>

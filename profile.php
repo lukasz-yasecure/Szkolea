@@ -311,8 +311,7 @@ try {
             } else if ($_GET['w'] == 'dane') {
 
                 //DOSTAWCA - EDYCJA WIZYTÓWKI
-                if (isset($_GET['a'])) {
-                    if ($_GET['a'] == 0) {
+                    if ((isset($_GET['a']) && $_GET['a'] == 0) || !isset($_GET['a'])) {
 
                         $t = new Template(Pathes::getPathTemplateProfileCardForDeveloper());
                         $t_wiz = new Template(Pathes::getPathTemplateProfileCard());
@@ -438,7 +437,7 @@ try {
 
                             $t->addSearchReplace('here', $t_wiz->getContent());
                         }
-                    } else if ($_GET['a'] == 1) {
+                    } else if (isset($_GET['a']) && $_GET['a'] == 1) {
                         /*
                          * DOSTAWCA - EDYCJA DANYCH
                          */
@@ -461,13 +460,8 @@ try {
                         } catch (ErrorsInprofileEditForm $e) {
                             BFEC::add('', true, 'profile.php?w=dane&a=1');
                         }
-                    } else if ($_GET['a'] == 2)
+                    } else
                         $t = new Template(Pathes::getPathTemplateProfileRateData());
-                    else
-                        $t = new Template(Pathes::getPathTemplateProfileCardForDeveloper());
-                }
-                else
-                    $t = new Template(Pathes::getPathTemplateProfileCardForDeveloper());
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {

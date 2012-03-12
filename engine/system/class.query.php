@@ -497,6 +497,11 @@ class Query {
         return $sql;
     }
 
+    public static function getOfferForCommAll($id_comm) {
+        $sql = 'SELECT * FROM `commisions_ofe` WHERE `id_comm`= ' . $id_comm;
+        return $sql;
+    }
+
     public static function getOfferForComm($id) {
         $sql = 'SELECT * FROM `commisions_ofe` WHERE `id_comm`= ' . $id . ' AND `ofe_status`!= 3';
         return $sql;
@@ -671,6 +676,14 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
 
         $sql = 'SELECT * FROM users_wizyts WHERE id_user =' . $id_user;
         return $sql;
+    }
+
+    public static function getCronComm() {
+        return 'SELECT * FROM commisions WHERE finished=0 AND date_end < ' . time();
+    }
+
+    public static function setCronFinished($id_comm) {
+        return 'UPDATE commisions SET finished=1 WHERE id_comm=' . $id_comm;
     }
 
     //zapytanie SQL pobierające z bazy dla każdego usługodawcy id użytkownika, nazwe jako firmę lub jeśli nie ma ja nazwisko, dane wizytówek oraz wartość 

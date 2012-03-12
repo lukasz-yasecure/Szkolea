@@ -51,6 +51,10 @@ class PrivilegesManager
             case 'comm':
             case 'serv':
             case 'jtd':
+            case 'ajax':
+            case 'cennik':
+            case 'priv_rules':
+            case 'rules':
                 $this->allAllowed();
                 break;
             case 'profile':
@@ -60,6 +64,7 @@ class PrivilegesManager
                 $this->setPrivilegesForObserve();
                 break;
             case 'fun_adm':
+            case 'admin':
                 $this->setPrivilegesForAdmin();
                 break;
             default:
