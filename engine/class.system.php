@@ -97,6 +97,7 @@ class System
         'ajax' => '',
         'cennik' => '',
         'priv_rules' => '',
+        'pdf' => '',
         'rules' => ''
     );
 
