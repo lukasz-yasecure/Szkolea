@@ -689,6 +689,7 @@ class TemplateManager {
         $path_CommsList = Pathes::getPathTemplateCommList();
         $path_CommsListAdded = Pathes::getPathTemplateCommListAdded();
         $path_CommsListOffer = Pathes::getPathTemplateCommListOffer();
+        $path_CommsOfferStatus = Pathes::getPathTemplateCommListOfferStatus();
 
         if (!file_exists($path_CommsList))
             throw new NoTemplateFile($path_CommsList . ' plik nie istnieje!');
@@ -699,11 +700,18 @@ class TemplateManager {
         if (!file_exists($path_CommsListOffer))
             throw new NoTemplateFile($path_CommsListOffer . ' plik nie istnieje!');
 
+        if (!file_exists($path_CommsOfferStatus))
+            throw new NoTemplateFile($path_CommsOfferStatus . ' plik nie istnieje!');
+
         //przypisujemy szablony do zmiennych
         $temp_zlec = file_get_contents($path_CommsList);
         $temp_dod = file_get_contents($path_CommsListAdded);
         $temp_ofe = file_get_contents($path_CommsListOffer);
+        $temp_sts = file_get_contents($path_CommsOfferStatus);
 
+
+        $um = new UserManager();
+        $u = new User();
 
         //zapytanie SQL po niezbędny zestaw danych
         $sql = Query::CommListForAdmin();
@@ -717,37 +725,66 @@ class TemplateManager {
             $w = '';    //całość
             $l = '';    //lista dodanych
             $o = '';    //lista ofert
+            $s = '';    //status
             $temp = 0;  //zmienna pomocnicza dla while
             //pobieranie tablicy ofert z dołączonymi użytkownikami , którzy je zamieścili
             $om = new OfferManager();
-            $oferty = $om->OfferToObjectTable($dbc);
+            $oferty = $om->getOffersAndOwners($dbc);
 
             while ($r = $result->fetch_assoc()) {
+
+                $user = $um->getUserFromRow($r);
+
                 //warunek na dodawanie tylko listy dodań od odpowiedniego zlecenia
                 if ($temp != $r['id_zlec']) {
 
                     //wrzucamy do szablonów odpowiednie dane o zleceniach   $w - wynik, $l - lista dodań
                     $w = str_replace('{%dopisani%}', $l, $w); //dodajemy listę dodań $l do całości $w 
-                    $w = str_replace('{%oferty%}', $o, $w);   //dodajemy listę ofert $o do całości $w     
+                    $w = str_replace('{%oferty%}', $o, $w);   //dodajemy listę ofert $o do całości $w   
+                    $w = str_replace('{%status%}', $s, $w);   //dodajemy status $s do całości $w    
                     $l = ''; //czyścimy $l
                     $o = ''; //czyścimy $o
+                    $s = ''; //czyścimy $s
 
-                    $w.= str_replace(array('{%id_zlec%}', '{%id_dodajacy%}', '{%imie%}', '{%nazwisko%}'), array($r['id_zlec'], $r['id_usera'], $r['imie'], $r['nazwisko']), $temp_zlec);
+                    $w.= str_replace(array('{%id_zlec%}', '{%id_dodajacy%}', '{%nazwa%}'), array($r['id_zlec'], $r['id_user'], $user->getFullName()), $temp_zlec);
                     $l.= str_replace(array('{%ilosc_dop%}', '{%id_dop%}', '{%imie_dop%}', '{%nazwisko_dop%}'), array($r['ilosc_dop'], $r['id_dop'], $r['imie_dop'], $r['nazwisko_dop']), $temp_dod);
 
                     //pętla w której wybieramy oferty dla każdego zlecenia i dodajemy je do szablonu
                     for ($i = 0; $i < count($oferty); $i++) {
                         if ($oferty[$i]->getId_comm() == $r['id_zlec'])
-                            $o.= str_replace(array('{%id_oferty%}', '{%id_user%}', '{%imie_ofe%}', '{%nazwisko_ofe%}'), array($oferty[$i]->getId_ofe(), $oferty[$i]->getId_user(), $oferty[$i]->getWlasciciel()->getOs_name(), $oferty[$i]->getWlasciciel()->getOs_surname()), $temp_ofe);
+                            $o.= str_replace(array('{%id_oferty%}', '{%id_user%}', '{%nazwa%}'), array($oferty[$i]->getId_ofe(), $oferty[$i]->getId_user(), $oferty[$i]->getWlasciciel()->getFullName()), $temp_ofe);
                     }
+
+                    //wybranie odpowiedniego zestawu komunikatów dla wyświetlenia ich w tabelce podsumowującej status zlecenia
+                    if ($r['date_end'] > time()) { //trwające zlecenie
+                        $sts_aktywnosc = 'Trwa';
+                        $sts_oferty = '---';
+                        $sts_wybor = '---';
+                        $sts_oplaty = '---';
+                    } elseif ($om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']) != 'Oferta wybrana') { //zakończone zlecenie z niewybranymi ofertami
+                        $sts_aktywnosc = 'Zakończono';
+                        $sts_oferty = $om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']);
+                        $sts_wybor = '---';
+                        $sts_oplaty = '---';
+                    } else { //zakończone zlecenie z wybranymi ofertami
+                        $sts_aktywnosc = 'Zakończono';
+                        $sts_oferty = $om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']);
+                        $sts_wybor = $om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']);
+                        $sts_oplaty = $om->getStatusOffersPaymentForComm($oferty, $r['id_zlec']);
+                    }
+                    //wstawienie danych w szablon od podsumowania statusu zlecenia
+                    $s.= str_replace(array('{%aktywnosc%}', '{%oferty%}', '{%wybor%}', '{%oplata%}'), array($sts_aktywnosc, $sts_oferty, $sts_wybor, $sts_oplaty), $temp_sts);
+
+
                     $temp = $r['id_zlec'];  //ustawiamy nr id zlecenia dla warunku na dodawanie tylko listy dodań od odpowiedniego zlecenia
                 } else { //dodawanie kolejnych pozycji do listy dodań wszystkich
                     $l.= str_replace(array('{%ilosc_dop%}', '{%id_dop%}', '{%imie_dop%}', '{%nazwisko_dop%}'), array($r['ilosc_dop'], $r['id_dop'], $r['imie_dop'], $r['nazwisko_dop']), $temp_dod);
                 }
             }
-
+            //wstawianie do szablonów
             $w = str_replace('{%dopisani%}', $l, $w);
             $w = str_replace('{%oferty%}', $o, $w);
+            $w = str_replace('{%status%}', $s, $w);
             return str_replace('{%dopisani%}', '', $w); //kasujemy ostatnie niewykorzystane odwołanie do {%dopisani%} z szablonu
         }
     }

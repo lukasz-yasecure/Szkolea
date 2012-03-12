@@ -41,6 +41,7 @@ class Pathes {
     public static $template_comm_list = 'admin_comm_list.html';
     public static $template_comm_list_added = 'admin_comm_list_dopisani.html';
     public static $template_comm_list_offer = 'admin_comm_list_oferty.html';
+    public static $template_comm_list_offer_status = 'admin_comm_list_status.html';
     public static $template_catalog_main_comms = 'cat_comms.html';
     public static $template_catalog_main_servs = 'cat_servs.html';
     public static $template_profile_obserwowane_kategorie_uslug = 'profile_k_u_obs_k.html';
@@ -468,6 +469,10 @@ class Pathes {
 
     public static function getPathTemplateRegulamin() {
         return Pathes::$template_path . Pathes::$rules;
+    }
+    
+        public static function getPathTemplateCommListOfferStatus() {
+        return Pathes::$template_path . Pathes::$template_comm_list_offer_status;
     }
 
 }
