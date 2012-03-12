@@ -84,7 +84,6 @@ class Pathes {
     public static $cennik = 'cennik.html';
     public static $priv_rules = 'priv_rules.html';
     public static $rules = 'rules.html';
-
     public static $script_path = '';
     public static $script_index = 'index.php';
     public static $script_activation = 'activation.php';
@@ -298,7 +297,8 @@ class Pathes {
     public static function getPathTemplateCommListAdded() {
         return Pathes::$template_path . Pathes::$template_comm_list_added;
     }
-        public static function getPathTemplateCommListOffer() {
+
+    public static function getPathTemplateCommListOffer() {
         return Pathes::$template_path . Pathes::$template_comm_list_offer;
     }
 
@@ -338,7 +338,7 @@ class Pathes {
         return Pathes::$template_path . Pathes::$template_profile_moje_obserwowane;
     }
 
-    public static function getPathTemplateProfileObservedServsCatsForDeveloper() {
+    public static function getPathTemplateProfileObservedServsCats() {
         return Pathes::$template_path . Pathes::$template_profile_obserwowane_kategorie_uslug_dostawcy;
     }
 
@@ -449,26 +449,27 @@ class Pathes {
     public static function getPathTemplateMailInfoZakonczoneZlecenieWlasciciel() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_wlasciciel;
     }
-    
+
     public static function getPathTemplateMailInfoZakonczoneZlecenieDodane() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_dodane;
     }
-    
+
     public static function getPathTemplateMailInfoZakonczoneZlecenieOferty() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_oferty;
     }
-    
+
     public static function getPathTemplateCennik() {
         return Pathes::$template_path . Pathes::$cennik;
     }
-    
+
     public static function getPathTemplatePolitykaPrywatnosci() {
         return Pathes::$template_path . Pathes::$priv_rules;
     }
-    
+
     public static function getPathTemplateRegulamin() {
         return Pathes::$template_path . Pathes::$rules;
     }
+
 }
 
 ?>

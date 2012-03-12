@@ -327,12 +327,11 @@ class UserManager {
             throw new InvalidUserValidation();
     }
 
-    /*     * Z otrzymanego wiersza ustawia wszystkie parametry użytkownika i zwraca go jako obiekt
+    /**     * Z otrzymanego wiersza ustawia wszystkie parametry użytkownika i zwraca go jako obiekt
      *
-     * @param type $row
-     * @return User 
+     * @param type $row jeden wiersz z SQL
+     * @return User wszystkie parametry użytkownika
      */
-
     public function getUserFromRow($row) {
         $u = new User();
         $u->setId_user($row['id_user']);
