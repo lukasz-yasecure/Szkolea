@@ -97,7 +97,6 @@ class System
         'ajax' => '',
         'cennik' => '',
         'priv_rules' => '',
-        'pdf' => '',
         'rules' => ''
     );
 
@@ -238,6 +237,11 @@ class System
             return true;
         }
         else return $this->class_path.$this->class_std;
+    }
+
+    public function loadPdf()
+    {
+        require_once($this->class_path.'/pdf/class.pdf.php');
     }
 
     public function getBaseUrl()

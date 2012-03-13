@@ -252,6 +252,7 @@ try {
             if ($_GET['w'] == 'servs') {
                 if (isset($_GET['a']) && $_GET['a'] == 1)
                     $t = new Template('view/html/profile_u_u_obs_moje.html');
+                    
                 else {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE USLUG
@@ -516,8 +517,21 @@ try {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
                         $t = new Template('view/html/profile_u_faktury_op.html');
-                    else if ($_GET['a'] == 1)
+                    else if ($_GET['a'] == 1) { // fff
+                        $dop_list = $dbc->query(Query::GetFakturyDop($u->getId_user())); // pobierana lista faktur proforma
+                        while($dop_item = $dop_list->fetch_object()) {
+                            $temp_dop = new Template(Pathes::getPathTemplateFakturyDop());
+                            $temp_dop->addSearchReplace('id_faktura', $dop_item->id_faktura);
+                            $r = $temp_dop->getContent(); 
+                        }
+                        $dop = $tm->GetFakturyDopTemplate($sys,$dop_list);
                         $t = new Template('view/html/profile_u_faktury_dop.html');
+                            if (isset($_GET['f'])) {
+                                $sys->loadPdf();
+                                $pdf = new Pdf();
+                                $pdf->generate('proforma '.$_GET['f'], 'treść');
+                            }   
+                        }
                     else
                         $t = new Template('view/html/profile_u_faktury_op.html');
                 }

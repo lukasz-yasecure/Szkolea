@@ -6,6 +6,7 @@ class Pathes {
     public static $template_path = 'view/html/';
     public static $template_mail_path = 'view/mails/';
     public static $template_main = 'main.html';
+    public static $template_faktury_dop = 'faktury_dop.html';
     public static $template_activation_mail = 'activation_mail.html';
     public static $template_remind_mail = 'remind_mail.html';
     public static $template_remind_form = 'remind_form.html';
@@ -72,6 +73,10 @@ class Pathes {
     public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
     public static $script_profile_card = 'profile.php?w=dane&a=0';
+
+    public static function getPathTemplateFakturyDop() {
+        return Pathes::$template_path . Pathes::$template_faktury_dop;
+    }
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
