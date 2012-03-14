@@ -39,7 +39,7 @@ class OfferManager {
         $o->setIle_kaw($row['ile_kaw']);
         $o->setDate_a($row['date_a']);
         $o->setDate_b($row['date_b']);
-        $o->setStatus($row['status']);
+        $o->setStatus($row['ofe_status']);
 
         return $o;
     }
@@ -50,7 +50,7 @@ class OfferManager {
      * @param DBC $dbc
      * @return tablica tablica obiektów typu Offer z danymi ofert i użytkówników je dodających 
      */
-    public function OfferToObjectTable(DBC $dbc) {
+    public function getOffersAndOwners(DBC $dbc) {
 
         $sql = Query::getCommsOffersAndOwners(true); //pobranie ofert z użytkownikami
         $r = $dbc->query($sql);
@@ -67,8 +67,32 @@ class OfferManager {
                 $i++;
             }
         }
-
         return $oferty;
+    }
+
+    //funkcja sprawdzająca czy był wybór ofert dla danego zlecenia
+    public function getStatusOffersChoiceForComm($oferty, $id_comm) {
+        $flag = false; //flaga informująca czy były oferty , ale nie zostały wybrane, czy nie było ich wcale
+        for ($i = 0; $i < count($oferty); $i++) {
+            if ($oferty[$i]->getId_comm() == $id_comm) {
+                if ($oferty[$i]->getStatus() == 1) {
+                    return 'Czekamy na wybór oferty';
+                } elseif ($oferty[$i]->getStatus() == 2) {
+                    return 'Oferta wybrana';
+                }
+                $flag = true;
+            }
+        }
+        if ($flag == true)
+            return 'Oferta nie została wybrana';
+        else
+            return 'Nie było ofert';
+    }
+
+    //funkcja sprawdzająca czy opłacono oferty przez trenera
+    public function getStatusOffersPaymentForComm($oferty, $id_comm) {
+
+        return 'Trener jeszcze nie zapłacił';
     }
 
 }
