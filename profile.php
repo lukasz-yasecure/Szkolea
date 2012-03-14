@@ -520,13 +520,12 @@ try {
                     else if ($_GET['a'] == 1) {
                         $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
 
-                        $dop_list = $dbc->query(Query::GetFakturyDop($u->getId_user())); // pobierana lista faktur proforma
+                        $dop_list = $dbc->query(Query::getFakturyDop($u->getId_user())); // pobierana lista faktur proforma
                         while($dop_item = $dop_list->fetch_object()) {
                             $temp_dop = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
                             $temp_dop->addSearchReplace('id_faktura', $dop_item->id_faktura);
-                            $r = $temp_dop->getContent(); 
+                            $r .= $temp_dop->getContent(); 
                         }
-                        $dop = $tm->GetFakturyDopTemplate($sys,$dop_list);
                         $t->addSearchReplace('here', $r);
                             if (isset($_GET['f'])) {
                                 $sys->loadPdf();
