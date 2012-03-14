@@ -813,14 +813,6 @@ class TemplateManager {
         $t->addSearchReplace('date_b', UF::timestamp2date($r['date_a']));
         return $t;
     }
-
-    public function GetFakturyDopTemplate(System $sys,$dop_list) {
-        $t= 
-        print_r($dop_list->fetch_array()); 
-    }
-
-
-
 }
 
 ?>

@@ -710,14 +710,14 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
-    public static function GetFakturyDop($id_user)
+    public static function getFakturyDop($id_user)
     {
-        return 'SELECT * FROM `faktury` WHERE `id_user`=' .$id_user .' AND `numer_fpf` IS NULL'; // pobierane faktury proforma
+        return 'SELECT * FROM `faktury` WHERE `id_user`=' .$id_user .' AND `numer_fv` IS NULL'; // pobierane faktury proforma
     }
 
-    public static function GetFakturyOp($id_user)
+    public static function getFakturyOp($id_user)
     {
-        return 'SELECT * FROM `faktury` WHERE `id_user`=' .$id_user .' AND `numer_fpf` IS NOT NULL'; // pobierane faktury VAT
+        return 'SELECT * FROM `faktury` WHERE `id_user`=' .$id_user .' AND `numer_fv` IS NOT NULL'; // pobierane faktury VAT
     }
 }
 
