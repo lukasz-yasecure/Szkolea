@@ -63,8 +63,9 @@ class Pathes {
     public static $template_profile_lista_aktywnych_pakietow = 'profile_dostawca_lista_aktywnych_pakietow.html';
     public static $template_profile_kup_pakiet = 'profile_dostawca_kup.html';
     public static $template_profile_lista_pakietow = 'profile_dostawca_lista_pakietow.html';
-    public static $template_profile_faktury_oplacone = 'profile_u_faktury_op.html';
-    public static $template_profile_faktury_nieoplacone = 'profile_u_faktury_dop.html';
+    public static $template_profile_faktury_oplacone = 'profile_dostawca_faktury_op.html';
+    public static $template_profile_faktury_nieoplacone = 'profile_dostawca_faktury_dop.html';
+    public static $template_profile_faktury_nieoplacone_lista = 'profile_dostawca_faktury_dop_lista.html';
     public static $template_profile_admin_zlecenia = 'admin_comms.html';
     public static $template_profile_admin_edycja_kategorii = 'admin_kategorie_edycja.html';
     public static $template_profile_admin_lista_uzytkownikow = 'admin_uzytkownicy_lista.html';
@@ -393,6 +394,10 @@ class Pathes {
 
     public static function getPathTemplateProfileUnpaidInvoice() {
         return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone;
+    }
+    
+    public static function getPathTemplateProfileUnpaidInvoiceList() {
+        return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone_lista;
     }
 
     public static function getPathTemplateProfileCommsForAdmin() {

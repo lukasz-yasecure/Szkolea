@@ -3,7 +3,7 @@
 /**
  * klasa generuje pliki pdf
  */
-include('fpdf/fpdf.php');
+require_once('fpdf/fpdf.php');
 
 class Pdf extends FPDF
 {
@@ -12,6 +12,7 @@ class Pdf extends FPDF
     function Header()
     {
         // Arial bold 15
+        $this->AddFont('Arial','','arial.php');
         $this->SetFont('Arial','B',15);
         // Move to the right
         $this->Cell(80);
@@ -24,7 +25,9 @@ class Pdf extends FPDF
     function generate($type,$data)
     {
         $this->type = $type;
+        $data=iconv("utf-8", "iso-8859-2", $data);
         $this->AddPage();
+        $this->AddFont('Arial','','arial.php');
         $this->SetFont('Arial','',12);
         $this->MultiCell(0,5,$data);
         $this->Ln();
@@ -37,12 +40,10 @@ class Pdf extends FPDF
         // Position at 1.5 cm from bottom
         $this->SetY(-15);
         // Arial italic 8
+        $this->AddFont('Arial','','arial.php');
         $this->SetFont('Arial','I',8);
         // Page number
         $this->Cell(0,10,'Strona: '.$this->PageNo(),0,0,'C');
     }    
 }
-
-$pdf = new Pdf();
-$pdf->generate('VAT','text text text');
 ?>
