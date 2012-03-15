@@ -73,6 +73,15 @@ class Pathes {
     public static $template_profile_wizytowka_usun_logo = 'wizytowka_usun_logo.html';
     public static $template_profile_admin_podlista_uzytkownikow = 'admin_uzytkownicy_lista_1_user.html';
     public static $template_profile_admin_user_details = 'admin_uzytkownik_szczegoly.html';
+    public static $template_profile_admin_stats_oferty = 'admin_stat_oferty.html';
+    public static $template_profile_admin_stats_zlecenia = 'admin_stat_zlecenia.html';
+    public static $template_profile_admin_stats_uslugi = 'admin_stat_uslugi.html';
+    public static $template_profile_admin_stats_pakiety = 'admin_stat_pakiety.html';
+    public static $template_profile_admin_stats_oferty_lista = 'admin_stat_oferty_lista.html';
+    public static $template_profile_admin_stats_zlecenia_lista = 'admin_stat_zlecenia_lista.html';
+    public static $template_profile_admin_stats_uslugi_lista = 'admin_stat_uslugi_lista.html';
+    public static $template_profile_admin_stats_pakiety_lista = 'admin_stat_pakiety_lista.html';
+    public static $template_profile_offer_details = 'admin_oferta_szczegoly.html';
     public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
     public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
     public static $mail_info_nowa_oferta_wlasciciel_zlecenia = 'info_nowa_oferta_wlasciciel_zlecenia.html';
@@ -412,8 +421,8 @@ class Pathes {
     public static function getPathTemplateProfileUsersListForAdmin() {
         return Pathes::$template_path . Pathes::$template_profile_admin_lista_uzytkownikow;
     }
-    
-        public static function getPathTemplateProfileDetailsForAdmin() {
+
+    public static function getPathTemplateProfileDetailsForAdmin() {
         return Pathes::$template_path . Pathes::$template_profile_admin_user_details;
     }
 
@@ -483,6 +492,42 @@ class Pathes {
 
     public static function getPathTemplateCommListOfferStatus() {
         return Pathes::$template_path . Pathes::$template_comm_list_offer_status;
+    }
+
+    public static function getPathTemplateStatsOffers() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_oferty;
+    }
+    
+        public static function getPathTemplateStatsOffersList() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_oferty_lista;
+    }
+    
+        public static function getPathTemplateStatsComms() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_zlecenia;
+    }
+    
+            public static function getPathTemplateStatsCommsList() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_zlecenia_lista;
+    }
+    
+        public static function getPathTemplateStatsServs() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_uslugi;
+    }
+    
+            public static function getPathTemplateStatsServsList() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_uslugi_lista;
+    }
+    
+        public static function getPathTemplateStatsPackages() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_pakiety;
+    }
+    
+            public static function getPathTemplateStatsPackagesList() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_stats_pakiety_lista;
+    }
+
+            public static function getPathTemplateOfferDetails() {
+        return Pathes::$template_path . Pathes::$template_profile_offer_details;
     }
 
 }

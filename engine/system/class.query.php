@@ -730,6 +730,31 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return "UPDATE `log_users_login` SET `success` = '1' WHERE `log_users_login`.`id_log` = ".$id."";
     }
 
+    public static function getAllOffersDescDate() {
+        $sql = 'SELECT * FROM commisions_ofe LEFT JOIN users_324 ON commisions_ofe.id_user =  users_324.id_user ORDER BY date_add DESC';
+        return $sql;
+    }
+
+    public static function getOffer($id_ofe) {
+        $sql = 'SELECT * FROM commisions_ofe WHERE id_ofe=' . $id_ofe;
+        return $sql;
+    }
+
+    public static function getAllCommsDescDate() {
+        $sql = 'SELECT * FROM commisions LEFT JOIN users_324 ON commisions.id_user =  users_324.id_user ORDER BY date_add DESC';
+        return $sql;
+    }
+
+    public static function getAllServsDescDate() {
+        $sql = 'SELECT * FROM services LEFT JOIN users_324 ON services.id_user =  users_324.id_user ORDER BY date_add DESC';
+        return $sql;
+    }
+
+    public static function getAllPackagesDescDate() {
+        $sql = 'SELECT * FROM users_packages LEFT JOIN users_324 ON users_packages.id_user =  users_324.id_user LEFT JOIN packages ON users_packages.id_pakietu =  packages.id_pakietu ORDER BY date_begin DESC';
+        return $sql;
+    }
+
 }
 
 ?>
