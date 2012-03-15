@@ -276,12 +276,13 @@ try {
                 $t->addSearchReplace('lista', $content);
             }
         }
+        $content = $t->getContent();
     } else {
         $content = $tm->getCatalog('servs', new DBC($sys), new CategoryManager(), new CommisionManager(), new ServiceManager());
     }
 
     $skrypty = '';
-    $mt = $tm->getMainTemplate($sys, $t->getContent(), BFEC::showAll(), $skrypty);
+    $mt = $tm->getMainTemplate($sys, $content, BFEC::showAll(), $skrypty);
     echo $mt->getContent();
 } catch (Exception $e) {
     $em = new EXCManager($e);

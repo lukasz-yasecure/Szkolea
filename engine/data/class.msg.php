@@ -43,11 +43,11 @@ class MSG {
     }
 
     public static function profileNoServicesAllow() {
-        return 'Nie masz aktywnych pakietów pozwalających na dodawanie usług.';
+        return 'Nie masz aktywnych pakietów pozwalających na dodawanie usług. Aby dodać usługę <a href="'.Pathes::getScriptProfilePackageBuyingPath().'">kup jeden z pakietów</a>.';
     }
 
     public static function profileNoOffersAllow() {
-        return 'Nie masz aktywnych pakietów pozwalających na dodawanie ofert.';
+        return 'Nie masz aktywnych pakietów pozwalających na dodawanie ofert. Aby złożyć ofertę realizacji zlecenia <a href="'.Pathes::getScriptProfilePackageBuyingPath().'">kup jeden z pakietów</a>.';
     }
 
     public static function addServProgramZaDlugi() {
