@@ -521,18 +521,18 @@ try {
                         $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
 
                         $dop_list = $dbc->query(Query::getFakturyDop($u->getId_user())); // pobierana lista faktur proforma
-                        while($dop_item = $dop_list->fetch_object()) {
+                        while ($dop_item = $dop_list->fetch_object()) {
                             $temp_dop = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
                             $temp_dop->addSearchReplace('id_faktura', $dop_item->id_faktura);
-                            $r .= $temp_dop->getContent(); 
+                            $r .= $temp_dop->getContent();
                         }
                         $t->addSearchReplace('here', $r);
-                            if (isset($_GET['f'])) {
-                                $sys->loadPdf();
-                                $pdf = new Pdf();
-                                $pdf->generate('proforma '.$_GET['f'], 'treść');
-                            }   
+                        if (isset($_GET['f'])) {
+                            $sys->loadPdf();
+                            $pdf = new Pdf();
+                            $pdf->generate('proforma ' . $_GET['f'], 'treść');
                         }
+                    }
                     else
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
                 }
@@ -570,10 +570,11 @@ try {
             $t->addSearchReplace('moduls', '');
 
             $dodatkowe_js = file_get_contents('temp/admin.html');
+
+            //LISTA UŻYTKOWNIKÓW
         } else if (isset($_GET['w']) && $_GET['w'] == 'uzytkownicy' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a']))) {
             $t = new Template(Pathes::getPathTemplateProfileUsersListForAdmin());
-
-            $sql = "SELECT * FROM `users_324`";
+            $sql = Query::getAllUsers();
             $result = $dbc->query($sql);
             if (!$result)
                 throw new DBQueryException($dbc->error, $sql, $dbc->errno);
@@ -581,14 +582,63 @@ try {
             //throw new EmptyList();
                 $r = '';
             else {
-                $user = file_get_contents(Pathes::getPathTemplateProfileUsersSublistForAdmin());
+                $t_user = file_get_contents(Pathes::getPathTemplateProfileUsersSublistForAdmin());
 
                 while ($row = $result->fetch_assoc()) {
+                    $user = $um->getUserFromRow($row);  //użytkownicy kolejno przerabiani na obiekty
+                    //ustawienie rodzaju użytkownika względem symbolizującej litery
+                    if ($user->getKind() == 'A')
+                        $kind = 'admin';
+                    elseif ($user->getKind() == 'D')
+                        $kind = 'usługodawca';
+                    elseif ($user->getKind() == 'K')
+                        $kind = 'klient';
+
+                    //podmiana w szablonie
                     $r.= str_replace(
-                            array('{%id_user%}', '{%email%}', '{%kind%}', '{%os_name%}', '{%os_surname%}', '{%os_city%}', '{%f_name%}', '{%f_surname%}', '{%f_company%}'), array($row['id_user'], $row['email'], $row['kind'], $row['os_name'], $row['os_surname'], $row['os_city'], $row['f_name'], $row['f_surname'], $row['f_company']), $user);
+                            array('{%id_user%}', '{%nazwa%}', '{%kind%}'), array($user->getId_user(), $user->getFullName(), $kind), $t_user);
                 }
             }
-        } else {
+            //KONKRETNY UŻYTKOWNIK
+        }else if (isset($_GET['w']) && $_GET['w'] == 'uzytkownik' && ((isset($_GET['u'])))) {
+
+            $t = new Template(Pathes::getPathTemplateProfileUsersListForAdmin());
+
+            $sql = Query::getUser($_GET['u']);
+            $result = $dbc->query($sql);
+            if (!$result)
+                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+            if ($result->num_rows <= 0)
+                $r = '';
+            else {
+                $t_user = file_get_contents(Pathes::getPathTemplateProfileDetailsForAdmin());
+
+                while ($row = $result->fetch_assoc()) {
+
+                    $user = $um->getUserFromRow($row);  //zamiana danych użytkownika na obiekt
+                    //ustawienie rodzaju użytkownika względem symbolizującej litery
+                    if ($user->getKind() == 'A')
+                        $kind = 'admin';
+                    elseif ($user->getKind() == 'D')
+                        $kind = 'usługodawca';
+                    elseif ($user->getKind() == 'K')
+                        $kind = 'klient';
+
+                    //ustawienie statusu użytkownika względem symbolizującej liczby
+                    if ($user->getStatus() == 0)
+                        $status = 'nieaktywny';
+                    elseif ($user->getStatus() == 1)
+                        $status = 'aktywny';
+                    elseif ($user->getStatus() == 2)
+                        $status = 'zbanowany';
+
+                    //podmiana w szablonie
+                    $r.= str_replace(array('{%id_user%}', '{%nazwa%}', '{%kind%}', '{%data_rej%}', '{%status%}', '{%email%}', '{%os_name%}', '{%os_surname%}', '{%os_street%}', '{%os_house_number%}', '{%os_postcode%}', '{%os_city%}', '{%os_woj%}', '{%os_phone%}', '{%f_company%}', '{%f_name%}', '{%f_surname%}', '{%f_position%}', '{%f_street%}', '{%f_house_number%}', '{%f_postcode%}', '{%f_city%}', '{%f_woj%}', '{%f_phone%}', '{%f_regon%}', '{%f_nip%}', '{%f_krs%}'), array($user->getId_user(), $user->getFullName(), $kind, UF::timestamp2date($user->getDate_reg()), $status, $user->getEmail(), $user->getOs_name(), $user->getOs_surname(), $user->getOs_street(), $user->getOs_house_number(), $user->getOs_postcode(), $user->getOs_city(), UF::nr2wojName($user->getOs_woj()), $user->getOs_phone(), $user->getF_company(), $user->getF_name(), $user->getF_surname(), $user->getF_position(), $user->getF_street(), $user->getF_house_number(), $user->getF_postcode(), $user->getF_city(), UF::nr2wojName($user->getF_woj()), $user->getF_phone(), $user->getF_regon(), $user->getF_nip(), $user->getF_krs()), $t_user);
+                }
+            }
+        }
+
+        else {
             $t = new Template(Pathes::getPathTemplateProfileAdmin());
             $r = '';
         }
