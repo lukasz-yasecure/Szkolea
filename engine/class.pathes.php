@@ -72,6 +72,7 @@ class Pathes {
     public static $template_profile_admin = 'admin_profile_main.html';
     public static $template_profile_wizytowka_usun_logo = 'wizytowka_usun_logo.html';
     public static $template_profile_admin_podlista_uzytkownikow = 'admin_uzytkownicy_lista_1_user.html';
+    public static $template_profile_admin_user_details = 'admin_uzytkownik_szczegoly.html';
     public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
     public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
     public static $mail_info_nowa_oferta_wlasciciel_zlecenia = 'info_nowa_oferta_wlasciciel_zlecenia.html';
@@ -410,6 +411,10 @@ class Pathes {
 
     public static function getPathTemplateProfileUsersListForAdmin() {
         return Pathes::$template_path . Pathes::$template_profile_admin_lista_uzytkownikow;
+    }
+    
+        public static function getPathTemplateProfileDetailsForAdmin() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_user_details;
     }
 
     public static function getPathTemplateProfileAdmin() {
