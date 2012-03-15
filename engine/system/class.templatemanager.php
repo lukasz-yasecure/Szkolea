@@ -757,23 +757,20 @@ class TemplateManager {
 
                     //wybranie odpowiedniego zestawu komunikatów dla wyświetlenia ich w tabelce podsumowującej status zlecenia
                     if ($r['date_end'] > time()) { //trwające zlecenie
-                        $sts_aktywnosc = 'Trwa';
+                        $sts_aktywnosc = MSG::ongoing();
                         $sts_oferty = '---';
-                        $sts_wybor = '---';
                         $sts_oplaty = '---';
                     } elseif ($om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']) != 'Oferta wybrana') { //zakończone zlecenie z niewybranymi ofertami
-                        $sts_aktywnosc = 'Zakończono';
+                        $sts_aktywnosc = MSG::finished();
                         $sts_oferty = $om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']);
-                        $sts_wybor = '---';
                         $sts_oplaty = '---';
                     } else { //zakończone zlecenie z wybranymi ofertami
-                        $sts_aktywnosc = 'Zakończono';
+                        $sts_aktywnosc = MSG::finished();
                         $sts_oferty = $om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']);
-                        $sts_wybor = $om->getStatusOffersChoiceForComm($oferty, $r['id_zlec']);
                         $sts_oplaty = $om->getStatusOffersPaymentForComm($oferty, $r['id_zlec']);
                     }
                     //wstawienie danych w szablon od podsumowania statusu zlecenia
-                    $s.= str_replace(array('{%aktywnosc%}', '{%oferty%}', '{%wybor%}', '{%oplata%}'), array($sts_aktywnosc, $sts_oferty, $sts_wybor, $sts_oplaty), $temp_sts);
+                    $s.= str_replace(array('{%aktywnosc%}', '{%oferty%}', '{%oplata%}'), array($sts_aktywnosc, $sts_oferty, $sts_oplaty), $temp_sts);
 
 
                     $temp = $r['id_zlec'];  //ustawiamy nr id zlecenia dla warunku na dodawanie tylko listy dodań od odpowiedniego zlecenia

@@ -76,23 +76,24 @@ class OfferManager {
         for ($i = 0; $i < count($oferty); $i++) {
             if ($oferty[$i]->getId_comm() == $id_comm) {
                 if ($oferty[$i]->getStatus() == 1) {
-                    return 'Czekamy na wybór oferty';
+                    return MSG::waitingForChoice();
                 } elseif ($oferty[$i]->getStatus() == 2) {
-                    return 'Oferta wybrana';
+                    return MSG::offerChosen();
                 }
-                $flag = true;
+                $flag = true;   //flaga oznaczająca, że były oferty, ale nie została żadana wybrana
             }
         }
         if ($flag == true)
-            return 'Oferta nie została wybrana';
+            return MSG::offerUnchosen();    //przypadek gdy były oferty , ale nie została żadna wybrana
         else
-            return 'Nie było ofert';
+            return MSG::noOffer();                //przypadek gdy nie było ofert
     }
 
     //funkcja sprawdzająca czy opłacono oferty przez trenera
     public function getStatusOffersPaymentForComm($oferty, $id_comm) {
 
-        return 'Trener jeszcze nie zapłacił';
+        return 'Funkcja jeszcze nie działa!';
+        //return 'Trener jeszcze nie zapłacił';
     }
 
 }

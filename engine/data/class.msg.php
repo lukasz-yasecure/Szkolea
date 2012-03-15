@@ -81,6 +81,31 @@ class MSG {
     public static function profileCardUpdate() {
         return 'Twoja wizytówka została zaktualizowana!';
     }
+    
+        public static function ongoing() {
+        return 'Trwa';
+    }
+    
+            public static function finished() {
+        return 'Zakończono';
+    }
+    
+    
+    public static function waitingForChoice(){
+    return 'Czekamy na wybór oferty';
+    }
+    
+        public static function offerChosen(){
+    return 'Oferta wybrana';
+    }
+    
+            public static function offerUnchosen(){
+    return 'Oferta nie została wybrana';
+    }
+    
+                public static function noOffer(){
+    return 'Nie było ofert';
+    }
 }
 
 ?>
