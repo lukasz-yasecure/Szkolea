@@ -81,25 +81,28 @@ class UF {
     }
 
     public static function nr2wojName($nr) {
-        $wojs = array(
-            'dolnośląskie',
-            'kujawsko-pomorskie',
-            'lubelskie',
-            'lubuskie',
-            'łódzkie',
-            'małopolskie',
-            'mazowieckie',
-            'opolskie',
-            'podkarpackie',
-            'podlaskie',
-            'pomorskie',
-            'śląskie',
-            'świętokrzyskie',
-            'warmińsko-mazurskie',
-            'wielkopolskie',
-            'zachodniopomorskie');
+        if ($nr > 0 && $nr < 16) {
+            $wojs = array(
+                'dolnośląskie',
+                'kujawsko-pomorskie',
+                'lubelskie',
+                'lubuskie',
+                'łódzkie',
+                'małopolskie',
+                'mazowieckie',
+                'opolskie',
+                'podkarpackie',
+                'podlaskie',
+                'pomorskie',
+                'śląskie',
+                'świętokrzyskie',
+                'warmińsko-mazurskie',
+                'wielkopolskie',
+                'zachodniopomorskie');
 
-        return $wojs[$nr - 1];
+            return $wojs[$nr - 1];
+        }else
+            return '';
     }
 
     public static function cena_2name($c) {
@@ -134,52 +137,65 @@ class UF {
      * @return type 
      */
     public static function timestamp2date($t, $time = false) {
-        if($time) return date('Y-m-d H:i', $t);
-        else return date('Y-m-d', $t);
+        if ($time)
+            return date('Y-m-d H:i', $t);
+        else
+            return date('Y-m-d', $t);
     }
-    
+
     /**
      * przy ofertach i uslugach wystepuje taka opcja, w bazie zapisujemy ja 1 lub 2 lub 3 wiec trzeba to przetlumaczyc
      * @param type $c
      * @return string 
      */
     public static function cenax2name($c) {
-        if($c == '1') return 'Bez Vat';
-        if($c == '2') return 'Zwolnione z Vat';
-        if($c == '3') return 'Z Vat (23%)';
+        if ($c == '1')
+            return 'Bez Vat';
+        if ($c == '2')
+            return 'Zwolnione z Vat';
+        if ($c == '3')
+            return 'Z Vat (23%)';
     }
 
     /**
-     *sposob rozliczania - w bazie zapisujemy 1 2 3 wiec trzeba tlumaczyc
+     * sposob rozliczania - w bazie zapisujemy 1 2 3 wiec trzeba tlumaczyc
      * @param type $c
      * @return string 
      */
     public static function rozl2name($c) {
-        if($c == '1') return 'Rachunek';
-        if($c == '2') return 'Faktura Vat';
-        if($c == '3') return 'Rachunek do umowy o dzieło';
+        if ($c == '1')
+            return 'Rachunek';
+        if ($c == '2')
+            return 'Faktura Vat';
+        if ($c == '3')
+            return 'Rachunek do umowy o dzieło';
     }
-    
+
     /**
-     *przy ofercie zaznacza sie czy bedzie sala, materialy, lunch i przerwy kawowe, w bazie zapisujemy to w jednym polu w formacie 1;2;3;4 - to oznacza ze wszystko bedzie
+     * przy ofercie zaznacza sie czy bedzie sala, materialy, lunch i przerwy kawowe, w bazie zapisujemy to w jednym polu w formacie 1;2;3;4 - to oznacza ze wszystko bedzie
      * @param type $i
      * @return string 
      */
     public static function inne2arrayTakNie($i) {
         $t = explode(';', $i);
         $a = array('sala' => 'nie', 'materialy' => 'nie', 'lunch' => 'nie', 'kawa' => 'nie');
-        
-        if(is_array($t)) {
-            foreach($t as $v) {
-                if($v == '1') $a['sala'] = 'tak';
-                else if($v == '2') $a['materialy'] = 'tak';
-                else if($v == '3') $a['lunch'] = 'tak';
-                else if($v == '4') $a['kawa'] = 'tak';
+
+        if (is_array($t)) {
+            foreach ($t as $v) {
+                if ($v == '1')
+                    $a['sala'] = 'tak';
+                else if ($v == '2')
+                    $a['materialy'] = 'tak';
+                else if ($v == '3')
+                    $a['lunch'] = 'tak';
+                else if ($v == '4')
+                    $a['kawa'] = 'tak';
             }
         }
-        
+
         return $a;
     }
+
 }
 
 ?>

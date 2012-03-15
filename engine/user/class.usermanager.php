@@ -350,8 +350,8 @@ class UserManager {
         $u->setOs_phone(isset($row['os_phone']) ? ($row['os_phone']) : null);
         $u->setF_name(isset($row['f_name']) ? ($row['f_name']) : null);
         $u->setF_surname(isset($row['f_surname']) ? ($row['f_surname']) : null);
-        $u->setF_position(isset($row['f_position']) ?($row['f_position']) : null);
-        $u->setF_company(isset($row['f_company']) ?($row['f_company']) : null);
+        $u->setF_position(isset($row['f_position']) ? ($row['f_position']) : null);
+        $u->setF_company(isset($row['f_company']) ? ($row['f_company']) : null);
         $u->setF_street(isset($row['f_street']) ? ($row['f_street']) : null);
         $u->setF_house_number(isset($row['f_house_number']) ? ($row['f_house_number']) : null);
         $u->setF_postcode(isset($row['f_postcode']) ? ($row['f_postcode']) : null);
