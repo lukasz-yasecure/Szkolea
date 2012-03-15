@@ -5,6 +5,8 @@
             <div class="accountButtonW"><a href="?w=comms">ZLECENIA</a></div><!-- accountButtonW -->
             <div class="accountButtonB"><a href="?w=kategorie">KATEGORIE</a></div><!-- accountButtonW -->
             <div class="accountButtonW"><a href="?w=uzytkownicy">UŻYTKOWNICY</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=statystyki">STATYSTYKI</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=inne">INNE</a></div><!-- accountButtonW -->
             <div class="buttonInfo">Witaj, {%name%} | <a href="logout.php">wyloguj</a></div><!-- buttonInfo -->
         </div><!-- menuAccount -->
         <div class="accountStrip"></div><!-- accountStrip -->
@@ -14,105 +16,105 @@
     </div><!-- menuAccountD -->
     <div class="accountMain">
         <div class="accountTitle">
-        Edytuj kategorie, obszary, tematyki oraz moduły.
+            Edytuj kategorie, obszary, tematyki oraz moduły.
         </div><!-- accountTitle -->
         <br clear="all" />
         <div class="accountLine"></div><!-- accountLine -->
-        
-            <div class="tables">
-                <br/>
-                <table cellpadding="0" cellspacing="0">
-                    <tbody>
-                        <tr>
-                            <td>kategorie</td>
-                            <td>
+
+        <div class="tables">
+            <br/>
+            <table cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>kategorie</td>
+                        <td>
                             <select name="cat" class="select">
-                            <option></option>
-                            {%cats%}
+                                <option></option>
+                                {%cats%}
                             </select>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>obszary</td>
-                            <td>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>obszary</td>
+                        <td>
                             <select name="scat" id="scat" class="select">
-                            <option></option>
-                            {%subcats%}
+                                <option></option>
+                                {%subcats%}
                             </select>
-                            </td>
-                            <td><button id="addscat">Dodaj</button></td>
-                            <td><button id="editscat">Edytuj</button></td>
-                            <td><button id="delscat">Kasuj</button></td>
-                        </tr>
-                        <tr style="display: none">
-                            <td>obszary</td>
-                            <td>
-                                <form action="fun_adm.php" method="post">
+                        </td>
+                        <td><button id="addscat">Dodaj</button></td>
+                        <td><button id="editscat">Edytuj</button></td>
+                        <td><button id="delscat">Kasuj</button></td>
+                    </tr>
+                    <tr style="display: none">
+                        <td>obszary</td>
+                        <td>
+                            <form action="fun_adm.php" method="post">
                                 <input type="text" size="30" class="field" id="inpscat" />
-                            </td>
-                            <td>
-                                <button type="submit" name="id" value="" id="butscat">zapisz</button>
-                                </form>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>tematyki</td>
-                            <td>
+                        </td>
+                        <td>
+                            <button type="submit" name="id" value="" id="butscat">zapisz</button>
+                            </form>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>tematyki</td>
+                        <td>
                             <select name="sscat" id="sscat" class="select">
-                            <option></option>
-                            {%subsubcats%}
+                                <option></option>
+                                {%subsubcats%}
                             </select>
-                            </td>
-                            <td><button id="addsscat">Dodaj</button></td>
-                            <td><button id="editsscat">Edytuj</button></td>
-                            <td><button id="delsscat">Kasuj</button></td>
-                        </tr>
-                        <tr style="display: none">
-                            <td>tematyki</td>
-                            <td>
-                                <form action="fun_adm.php" method="post">
+                        </td>
+                        <td><button id="addsscat">Dodaj</button></td>
+                        <td><button id="editsscat">Edytuj</button></td>
+                        <td><button id="delsscat">Kasuj</button></td>
+                    </tr>
+                    <tr style="display: none">
+                        <td>tematyki</td>
+                        <td>
+                            <form action="fun_adm.php" method="post">
                                 <input type="text" size="30" class="field" id="inpsscat" />
-                            </td>
-                            <td>
-                                <button type="submit" name="id" value="" id="butsscat">zapisz</button>
-                                </form>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>moduły</td>
-                            <td>
+                        </td>
+                        <td>
+                            <button type="submit" name="id" value="" id="butsscat">zapisz</button>
+                            </form>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>moduły</td>
+                        <td>
                             <select name="moduls" id="moduls" class="select">
-                            <option></option>
-                            {%moduls%}
+                                <option></option>
+                                {%moduls%}
                             </select>
-                            </td>
-                            <td><button id="addmoduls">Dodaj</button></td>
-                            <td><button id="editmoduls">Edytuj</button></td>
-                            <td><button id="delmoduls">Kasuj</button></td>
-                        </tr>
-                        <tr style="display: none">
-                            <td>moduły</td>
-                            <td>
-                                <form action="fun_adm.php" method="post">
+                        </td>
+                        <td><button id="addmoduls">Dodaj</button></td>
+                        <td><button id="editmoduls">Edytuj</button></td>
+                        <td><button id="delmoduls">Kasuj</button></td>
+                    </tr>
+                    <tr style="display: none">
+                        <td>moduły</td>
+                        <td>
+                            <form action="fun_adm.php" method="post">
                                 <input type="text" size="30" class="field" id="inpmoduls" />
-                            </td>
-                            <td>
-                                <button type="submit" name="id" value="" id="butmoduls">zapisz</button>
-                                </form>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div><!-- viewCategory -->
-        
+                        </td>
+                        <td>
+                            <button type="submit" name="id" value="" id="butmoduls">zapisz</button>
+                            </form>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!-- viewCategory -->
+
     </div><!-- accountMain -->
 </div><!-- main -->

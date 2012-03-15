@@ -600,7 +600,7 @@ try {
                 }
             }
             //KONKRETNY UŻYTKOWNIK
-        }else if (isset($_GET['w']) && $_GET['w'] == 'uzytkownik' && ((isset($_GET['u'])))) {
+        }else if (isset($_GET['w']) && $_GET['w'] == 'uzytkownik' && isset($_GET['u']) && is_numeric($_GET['u'])) {
 
             $t = new Template(Pathes::getPathTemplateProfileUsersListForAdmin());
 
@@ -637,10 +637,111 @@ try {
                 }
             }
         }
+        //STATYSTYKI
+        //podstawową stroną jest strona ofertami
+        elseif ((isset($_GET['w']) && $_GET['w'] == 'statystyki' && !isset($_GET['a'])) || (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'oferty')) {
+            $t = new Template(Pathes::getPathTemplateStatsOffers());
 
-        else {
-            $t = new Template(Pathes::getPathTemplateProfileAdmin());
-            $r = '';
+            //jeśli mamy ustawiony parametr 'o' to przechodzimy na konkretną ofertę
+            if (isset($_GET['o']) && is_numeric($_GET['o'])) {
+                $om = new OfferManager();
+
+                $sql = Query::getOffer($_GET['o']); //wczytujemy odpowiednią ofertę z bazy
+                $result = $dbc->query($sql);
+
+                if (!$result)
+                    throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+                if ($result->num_rows <= 0)
+                    $r = '';
+                else {
+                    $temp = file_get_contents(Pathes::getPathTemplateOfferDetails());
+
+                    while ($row = $result->fetch_assoc()) {
+                        $offer[] = $om->getOfferFromRow($row);  //zamiana danych oferty na obiekt
+                        $inne = UF::inne2arrayTakNie($om->getOfferFromRow($row)->getInne()); //pomocnicza na INNE
+                        //podmiana w szablonie
+                        $r.= str_replace(array('{%id_ofe%}', '{%id_comm%}', '{%id_user%}', '{%date_add%}', '{%cena%}', '{%cenaX%}', '{%rozl%}', '{%date_a%}', '{%date_b%}', '{%ofe_status%}', '{%sala%}', '{%materialy%}', '{%lunch%}', '{%kawa%}', '{%ile_kaw%}'), array($om->getOfferFromRow($row)->getId_ofe(), $om->getOfferFromRow($row)->getId_comm(), $om->getOfferFromRow($row)->getId_user(), UF::timestamp2date($om->getOfferFromRow($row)->getDate_add(), true),
+                            $om->getOfferFromRow($row)->getCena(), UF::cenax2name($om->getOfferFromRow($row)->getCenax()), UF::rozl2name($om->getOfferFromRow($row)->getRozl()), UF::timestamp2date($om->getOfferFromRow($row)->getDate_a(), true), UF::timestamp2date($om->getOfferFromRow($row)->getDate_b(), true), $om->getStatusOffersChoiceForComm($offer, $om->getOfferFromRow($row)->getId_comm()), $inne['sala'], $inne['materialy'], $inne['lunch'], $inne['kawa'], ($om->getOfferFromRow($row)->getIle_kaw() ? $om->getOfferFromRow($row) : '0')), $temp);
+                    }
+                }
+            } else {    //w standardowym przypadku wyświetlamy listę ofert
+                //wczytujemy dane posortowane po dacie
+                $sql = Query::getAllOffersDescDate();
+                $result = $dbc->query($sql);
+                if (!$result)
+                    throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+                if ($result->num_rows <= 0)
+                    $r = '';
+                else {
+                    $temp = file_get_contents(Pathes::getPathTemplateStatsOffersList());
+
+                    while ($row = $result->fetch_assoc()) {
+                        $user = $um->getUserFromRow($row);  //zamiana danych użytkownika na obiekt
+                        //podmiana w szablonie
+                        $r.= str_replace(array('{%data%}', '{%id_ofe%}', '{%id_comm%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_add'], true), $row['id_ofe'], $row['id_comm'], $user->getFullName(), $user->getId_user()), $temp);
+                    }
+                }
+            }
+            //statystyki dla zleceń
+        } elseif (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'zlecenia') {
+            $t = new Template(Pathes::getPathTemplateStatsComms());
+
+            //wczytujemy dane posortowane po dacie
+            $sql = Query::getAllCommsDescDate();
+            $result = $dbc->query($sql);
+            if (!$result)
+                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+            if ($result->num_rows <= 0)
+                $r = '';
+            else {
+                $temp = file_get_contents(Pathes::getPathTemplateStatsCommsList());
+
+                while ($row = $result->fetch_assoc()) {
+                    $user = $um->getUserFromRow($row);  //zamiana danych użytkownika na obiekt
+                    //podmiana w szablonie
+                    $r.= str_replace(array('{%data%}', '{%id_comm%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_add'], true), $row['id_comm'], $user->getFullName(), $user->getId_user()), $temp);
+                }
+            }
+
+            //statystyki dla usług
+        } elseif (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'uslugi') {
+            $t = new Template(Pathes::getPathTemplateStatsServs());
+
+            //wczytujemy dane posortowane po dacie
+            $sql = Query::getAllServsDescDate();
+            $result = $dbc->query($sql);
+            if (!$result)
+                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+            if ($result->num_rows <= 0)
+                $r = '';
+            else {
+                $temp = file_get_contents(Pathes::getPathTemplateStatsServsList());
+
+                while ($row = $result->fetch_assoc()) {
+                    $user = $um->getUserFromRow($row);  //zamiana danych użytkownika na obiekt
+                    //podmiana w szablonie
+                    $r.= str_replace(array('{%data%}', '{%id_serv%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_add'], true), $row['id_serv'], $user->getFullName(), $user->getId_user()), $temp);
+                }
+            }
+        } else {    //statystyki dla pakietów
+            $t = new Template(Pathes::getPathTemplateStatsPackages());
+
+            //wczytujemy dane posortowane po dacie
+            $sql = Query::getAllPackagesDescDate();
+            $result = $dbc->query($sql);
+            if (!$result)
+                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+            if ($result->num_rows <= 0)
+                $r = '';
+            else {
+                $temp = file_get_contents(Pathes::getPathTemplateStatsPackagesList());
+
+                while ($row = $result->fetch_assoc()) {
+                    $user = $um->getUserFromRow($row);  //zamiana danych użytkownika na obiekt
+                    //podmiana w szablonie
+                    $r.= str_replace(array('{%data%}', '{%id_pakietu%}', '{%nazwa_pakietu%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_begin'], true), $row['id_pakietu'], $row['nazwa'], $user->getFullName(), $user->getId_user()), $temp);
+                }
+            }
         }
     }
 
