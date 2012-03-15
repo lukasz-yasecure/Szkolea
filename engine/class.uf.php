@@ -81,7 +81,7 @@ class UF {
     }
 
     public static function nr2wojName($nr) {
-        if ($nr > 0 && $nr < 16) {
+        if ($nr > 0 && $nr <= 16) {
             $wojs = array(
                 'dolnośląskie',
                 'kujawsko-pomorskie',
