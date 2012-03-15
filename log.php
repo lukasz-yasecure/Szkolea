@@ -39,7 +39,9 @@ if(isset($_POST['logging']))
         $p = $pm->checkPrivileges($u);
         $ud = new UserData();
         $lfd = $ud->getLoginFormData();
+        $log_id = BeLog::saveUserLogin($dbc, $lfd->getEmail()); // zapisuje logowanie do bazy - na razie z polecem success na 0 jesli logowanie sie powiedzie zmienimy na 1
         $um->verifyUser($dbc, $lfd);
+        BeLog::updateUserLoginToSuccess($dbc, $log_id); // logowanie sie powiodlo - ustawiamy na 1
         $u = $um->getUserByEmail($dbc, $lfd->getEmail());
         if($u->isBanned()) // uzytkownik zbanowany - czyscimy formularz i przenosimy z bledem na glowna
         {

@@ -721,6 +721,14 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     public static function getAllUsers() {
         return 'SELECT * FROM users_324';
     }
+    
+    public static function getSaveUserLogin($email) {
+        return "INSERT INTO `log_users_login` (`id_log`, `date_log`, `given_email`, `success`) VALUES (NULL, '".time()."', '".$email."', '0')";
+    }
+    
+    public static function updateUserLoginToSuccess($id) {
+        return "UPDATE `log_users_login` SET `success` = '1' WHERE `log_users_login`.`id_log` = ".$id."";
+    }
 
 }
 
