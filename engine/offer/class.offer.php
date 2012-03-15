@@ -112,11 +112,10 @@ class Offer {
         $this->status = $status;
     }
 
-    /*     * Właściciel jako obiek typu User dla oferty
+    /** Właściciel jako obiek typu User dla oferty
      *
      * @return User 
      */
-
     public function getWlasciciel() {
         return $this->wlasciciel;
     }
