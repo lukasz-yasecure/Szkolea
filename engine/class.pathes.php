@@ -395,7 +395,7 @@ class Pathes {
     public static function getPathTemplateProfileUnpaidInvoice() {
         return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone;
     }
-    
+
     public static function getPathTemplateProfileUnpaidInvoiceList() {
         return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone_lista;
     }
@@ -475,8 +475,8 @@ class Pathes {
     public static function getPathTemplateRegulamin() {
         return Pathes::$template_path . Pathes::$rules;
     }
-    
-        public static function getPathTemplateCommListOfferStatus() {
+
+    public static function getPathTemplateCommListOfferStatus() {
         return Pathes::$template_path . Pathes::$template_comm_list_offer_status;
     }
 

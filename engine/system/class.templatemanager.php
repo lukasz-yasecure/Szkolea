@@ -810,6 +810,7 @@ class TemplateManager {
         $t->addSearchReplace('date_b', UF::timestamp2date($r['date_a']));
         return $t;
     }
+
 }
 
 ?>
