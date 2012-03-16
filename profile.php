@@ -527,12 +527,15 @@ try {
                             $r .= $uil_t->getContent();
                         }
                         $t->addSearchReplace('here', $r);
-                        if (isset($_GET['f'])) {
+                        
+                        if(isset($_GET['f'])) {
+                            $fget = (int)$_GET['f'];
+                            $f = $dbc->query(Query::getDataProfileInvoice($fget))->fetch_object(); // pobierane dane faktury wg. id_faktura
+                        }
+                        if (isset($fget) AND !empty($fget) AND isset($f)) {
                             $sys->loadPdf();
                             $pdf = new Pdf();
-                            $f = $dbc->query(Query::getDataProfileInvoice($_GET['f']))->fetch_object();
-                            // print_r($f);
-                            $pdf->generate($sys,$u,$f,'fpf');
+                            $pdf->generate($u,$f,'fpf'); // generowanie pdf faktury pro forma (fpf)
                         }
                     }
                     else

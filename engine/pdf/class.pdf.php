@@ -22,7 +22,7 @@ class Pdf extends FPDF
         $this->Ln(20);
     }
 
-    function generate(System $sys,User $u,$f,$type)
+    function generate(User $u,$f,$type)
     {
         // Sprawdzany typ faktury
         if($type == 'fpf') {
