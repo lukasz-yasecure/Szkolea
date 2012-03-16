@@ -82,6 +82,8 @@ class Pathes {
     public static $template_profile_admin_stats_uslugi_lista = 'admin_stat_uslugi_lista.html';
     public static $template_profile_admin_stats_pakiety_lista = 'admin_stat_pakiety_lista.html';
     public static $template_profile_offer_details = 'admin_oferta_szczegoly.html';
+    public static $template_profile_newsletter = 'admin_inne_newsletter.html';
+    public static $template_profile_payment = 'admin_inne_platnosci.html';
     public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
     public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
     public static $mail_info_nowa_oferta_wlasciciel_zlecenia = 'info_nowa_oferta_wlasciciel_zlecenia.html';
@@ -528,6 +530,14 @@ class Pathes {
 
             public static function getPathTemplateOfferDetails() {
         return Pathes::$template_path . Pathes::$template_profile_offer_details;
+    }
+    
+                public static function getPathTemplateNewsletter() {
+        return Pathes::$template_path . Pathes::$template_profile_newsletter;
+    }
+    
+                    public static function getPathTemplatePayment() {
+        return Pathes::$template_path . Pathes::$template_profile_payment;
     }
 
 }

@@ -577,32 +577,32 @@ class Query {
     }
 
     public static function CatsSums() {
-        $sql = 'SELECT kategoria_id, COUNT( commisions.kategoria_id ) AS CatsSums FROM commisions WHERE date_end >='. time() .' GROUP BY kategoria_id';
+        $sql = 'SELECT kategoria_id, COUNT( commisions.kategoria_id ) AS CatsSums FROM commisions WHERE date_end >=' . time() . ' GROUP BY kategoria_id';
         return $sql;
     }
 
     public static function SubcatsSums() {
-        $sql = 'SELECT obszar_id, COUNT( commisions.obszar_id ) AS SubcatsSums FROM commisions WHERE date_end >='. time() .' GROUP BY obszar_id';
+        $sql = 'SELECT obszar_id, COUNT( commisions.obszar_id ) AS SubcatsSums FROM commisions WHERE date_end >=' . time() . ' GROUP BY obszar_id';
         return $sql;
     }
 
     public static function SubsubcatsSums() {
-        $sql = 'SELECT tematyka, COUNT( commisions.tematyka ) AS SubsubcatsSums FROM commisions WHERE date_end >='. time() .' GROUP BY tematyka';
+        $sql = 'SELECT tematyka, COUNT( commisions.tematyka ) AS SubsubcatsSums FROM commisions WHERE date_end >=' . time() . ' GROUP BY tematyka';
         return $sql;
     }
 
     public static function ServsSums() {
-        $sql = 'SELECT kategoria_id, COUNT( services.kategoria_id ) AS ServsSums FROM services WHERE date_end >='. time() .' GROUP BY kategoria_id';
+        $sql = 'SELECT kategoria_id, COUNT( services.kategoria_id ) AS ServsSums FROM services WHERE date_end >=' . time() . ' GROUP BY kategoria_id';
         return $sql;
     }
 
     public static function SubservsSums() {
-        $sql = 'SELECT obszar_id, COUNT( services.obszar_id ) AS SubservsSums FROM services WHERE date_end >='. time() .' GROUP BY obszar_id';
+        $sql = 'SELECT obszar_id, COUNT( services.obszar_id ) AS SubservsSums FROM services WHERE date_end >=' . time() . ' GROUP BY obszar_id';
         return $sql;
     }
 
     public static function SubsubservsSums() {
-        $sql = 'SELECT tematyka, COUNT( services.tematyka ) AS SubsubservsSums FROM services WHERE date_end >='. time() .' GROUP BY tematyka';
+        $sql = 'SELECT tematyka, COUNT( services.tematyka ) AS SubsubservsSums FROM services WHERE date_end >=' . time() . ' GROUP BY tematyka';
         return $sql;
     }
 
@@ -721,13 +721,13 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     public static function getAllUsers() {
         return 'SELECT * FROM users_324';
     }
-    
+
     public static function getSaveUserLogin($email) {
-        return "INSERT INTO `log_users_login` (`id_log`, `date_log`, `given_email`, `success`) VALUES (NULL, '".time()."', '".$email."', '0')";
+        return "INSERT INTO `log_users_login` (`id_log`, `date_log`, `given_email`, `success`) VALUES (NULL, '" . time() . "', '" . $email . "', '0')";
     }
-    
+
     public static function updateUserLoginToSuccess($id) {
-        return "UPDATE `log_users_login` SET `success` = '1' WHERE `log_users_login`.`id_log` = ".$id."";
+        return "UPDATE `log_users_login` SET `success` = '1' WHERE `log_users_login`.`id_log` = " . $id . "";
     }
 
     public static function getAllOffersDescDate() {
@@ -752,6 +752,16 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
 
     public static function getAllPackagesDescDate() {
         $sql = 'SELECT * FROM users_packages LEFT JOIN users_324 ON users_packages.id_user =  users_324.id_user LEFT JOIN packages ON users_packages.id_pakietu =  packages.id_pakietu ORDER BY date_begin DESC';
+        return $sql;
+    }
+
+    public static function getEmails($who = '') {
+        if ($who == 'klienci')
+            $sql = 'SELECT users_324.email FROM users_324 WHERE kind="K" OR kind="A"';
+        elseif ($who == 'uslugodawcy')
+            $sql = 'SELECT users_324.email FROM users_324 WHERE kind="D" OR kind="A"';
+        else
+            $sql = 'SELECT users_324.email FROM users_324';
         return $sql;
     }
 

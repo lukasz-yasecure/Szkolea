@@ -43,11 +43,11 @@ class MSG {
     }
 
     public static function profileNoServicesAllow() {
-        return 'Nie masz aktywnych pakietów pozwalających na dodawanie usług. Aby dodać usługę <a href="'.Pathes::getScriptProfilePackageBuyingPath().'">kup jeden z pakietów</a>.';
+        return 'Nie masz aktywnych pakietów pozwalających na dodawanie usług. Aby dodać usługę <a href="' . Pathes::getScriptProfilePackageBuyingPath() . '">kup jeden z pakietów</a>.';
     }
 
     public static function profileNoOffersAllow() {
-        return 'Nie masz aktywnych pakietów pozwalających na dodawanie ofert. Aby złożyć ofertę realizacji zlecenia <a href="'.Pathes::getScriptProfilePackageBuyingPath().'">kup jeden z pakietów</a>.';
+        return 'Nie masz aktywnych pakietów pozwalających na dodawanie ofert. Aby złożyć ofertę realizacji zlecenia <a href="' . Pathes::getScriptProfilePackageBuyingPath() . '">kup jeden z pakietów</a>.';
     }
 
     public static function addServProgramZaDlugi() {
@@ -104,6 +104,18 @@ class MSG {
 
     public static function noOffer() {
         return 'Nie było ofert';
+    }
+
+    public static function NoText() {
+        return 'Nie wprowadzono tekstu.';
+    }
+
+    public static function NoSubject() {
+        return 'Nie wprowadzono tematu.';
+    }
+    
+        public static function NoChoice() {
+        return 'Nie dokonano wyboru opcji.';
     }
 
 }

@@ -723,7 +723,8 @@ try {
                     $r.= str_replace(array('{%data%}', '{%id_serv%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_add'], true), $row['id_serv'], $user->getFullName(), $user->getId_user()), $temp);
                 }
             }
-        } else {    //statystyki dla pakietów
+            //statystyki dla pakietów
+        } elseif (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'pakiety') {
             $t = new Template(Pathes::getPathTemplateStatsPackages());
 
             //wczytujemy dane posortowane po dacie
@@ -742,6 +743,61 @@ try {
                     $r.= str_replace(array('{%data%}', '{%id_pakietu%}', '{%nazwa_pakietu%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_begin'], true), $row['id_pakietu'], $row['nazwa'], $user->getFullName(), $user->getId_user()), $temp);
                 }
             }
+        }
+        //INNE
+        //newsletter
+        elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && !isset($_GET['a']) || (isset($_GET['a']) && $_GET['a'] == 'newsletter')) {
+            $t = new Template(Pathes::getPathTemplateNewsletter());
+            $n = new Newsletter();
+
+            //reakcja na POST
+            if ((isset($_POST['submit']))) {
+                //walidacja tematu
+                if (isset($_POST['subject']) && strlen($_POST['subject']) > 0) {
+                    $_POST['subject'] = Valid::antyHTML($_POST['subject']);
+                    RFD::add('newsletter', 'subject', $_POST['subject']);
+                } else {
+                    RFD::add('newsletter', 'subject', $_POST['subject']);
+                    BFEC::add(MSG::NoSubject());
+                }
+                //walidacja treści
+                if (isset($_POST['content']) && strlen($_POST['content']) > 0) {
+                    $_POST['content'] = Valid::antyHTML($_POST['content']);
+                    $_POST['content'] = nl2br($_POST['content']);
+                    RFD::add('newsletter', 'content', $_POST['content']);
+                } else {
+                    RFD::add('newsletter', 'content', $_POST['content']);
+                    BFEC::add(MSG::NoText());
+                }
+                //walidacja wyboru docelowej grupy użytowników (radio)
+                if (!(isset($_POST['type']) && ($_POST['type'] == 'klienci' || $_POST['type'] == 'uslugodawcy' || $_POST['type'] == 'wszyscy'))) {
+                    BFEC::add(MSG::NoChoice());
+                }
+
+                //dane z RFD do szablonu
+                $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
+                $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
+                RFD::clear('newsletter');
+            } else {
+                //dane z RFD do szablonu
+                $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
+                $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
+                RFD::clear('newsletter');
+            }
+
+            if (!BFEC::isError()) {
+                $n->getNewsletterFromPost($_POST, $dbc);
+            }
+        }
+
+        //płatności  
+        elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && (isset($_GET['a']) && $_GET['a'] == 'platnosci')) {
+            $t = new Template(Pathes::getPathTemplatePayment());
+        }
+        //CZYSTY SZABLON - w przypadku, gdy opcje nie pasują do wszystkich powyższych wyświetla się domyśny szablon baz wybranej zakładki
+        else {
+            $t = new Template(Pathes::getPathTemplateProfileAdmin());
+            $r = '';
         }
     }
 
