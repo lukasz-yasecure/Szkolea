@@ -577,32 +577,32 @@ class Query {
     }
 
     public static function CatsSums() {
-        $sql = 'SELECT kategoria_id, COUNT( commisions.kategoria_id ) AS CatsSums FROM commisions GROUP BY kategoria_id';
+        $sql = 'SELECT kategoria_id, COUNT( commisions.kategoria_id ) AS CatsSums FROM commisions WHERE date_end >='. time() .' GROUP BY kategoria_id';
         return $sql;
     }
 
     public static function SubcatsSums() {
-        $sql = 'SELECT obszar_id, COUNT( commisions.obszar_id ) AS SubcatsSums FROM commisions GROUP BY obszar_id';
+        $sql = 'SELECT obszar_id, COUNT( commisions.obszar_id ) AS SubcatsSums FROM commisions WHERE date_end >='. time() .' GROUP BY obszar_id';
         return $sql;
     }
 
     public static function SubsubcatsSums() {
-        $sql = 'SELECT tematyka, COUNT( commisions.tematyka ) AS SubsubcatsSums FROM commisions GROUP BY tematyka';
+        $sql = 'SELECT tematyka, COUNT( commisions.tematyka ) AS SubsubcatsSums FROM commisions WHERE date_end >='. time() .' GROUP BY tematyka';
         return $sql;
     }
 
     public static function ServsSums() {
-        $sql = 'SELECT kategoria_id, COUNT( services.kategoria_id ) AS ServsSums FROM services GROUP BY kategoria_id';
+        $sql = 'SELECT kategoria_id, COUNT( services.kategoria_id ) AS ServsSums FROM services WHERE date_end >='. time() .' GROUP BY kategoria_id';
         return $sql;
     }
 
     public static function SubservsSums() {
-        $sql = 'SELECT obszar_id, COUNT( services.obszar_id ) AS SubservsSums FROM services GROUP BY obszar_id';
+        $sql = 'SELECT obszar_id, COUNT( services.obszar_id ) AS SubservsSums FROM services WHERE date_end >='. time() .' GROUP BY obszar_id';
         return $sql;
     }
 
     public static function SubsubservsSums() {
-        $sql = 'SELECT tematyka, COUNT( services.tematyka ) AS SubsubservsSums FROM services GROUP BY tematyka';
+        $sql = 'SELECT tematyka, COUNT( services.tematyka ) AS SubsubservsSums FROM services WHERE date_end >='. time() .' GROUP BY tematyka';
         return $sql;
     }
 
