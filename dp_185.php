@@ -16,9 +16,9 @@ else
     exit('Strona niedostepna! Prosze sprobowac pozniej oraz skontaktowac sie z administratorem: admin@szkolea.pl !');
 }
 
-/***********************[ action = XXX ]****************************************************************************
+/***********************[ action = dp_185 ]****************************************************************************
  *
- * 2011-1x-xx
+ * 2011-03-19 ogólny  
  *
  ***********************************************************************************************************************/
 
@@ -28,14 +28,27 @@ try
     $sm = new SessionManager();
     $um = new UserManager();
     $u = $um->getUserFromSession($sm);
-    $pm = new PrivilegesManager($sys);
-    $p = $pm->checkPrivileges($u);
     
-    $skrypty = file_get_contents('temp/jtd.html');
     
-    $tm = new TemplateManager();
-    $mt = $tm->getMainTemplate($sys, file_get_contents('view/html/jtd.html'), BFEC::showAll(), $skrypty);
-    echo $mt->getContent();
+    // Sprawdzany adres IP. Dozwolone tylko IP dotpay
+    $check=0;
+    $ip=$_SERVER['REMOTE_ADDR'];
+    if($ip=='195.150.9.37'){
+        $check=1;
+    }
+    if($check!=1){
+        echo "Wiadomość: Dostęp zabroniony!";
+        Log::DotPay('BAD IP: ' . $_SERVER['REMOTE_ADDR']);
+        exit;
+    }
+    if($_POST['t_status']==2 and $_POST['control']!=NULL){ // t_status: 1 - nowa, 2 - wykonana, 3 - odrzucona
+        $control=$_POST['control'];
+        if(is_numeric($control)==true){ // control = id faktury
+        Log::DotPay('PAYMENT ACCEPTED: id=' .$control);
+        echo 'OK'; // ma wyświetlić OK, po czym zaprzestaje nadawać potwierdzenia
+        }
+    }
+    
 }
 catch(Exception $e)
 {

@@ -97,7 +97,8 @@ class System
         'ajax' => '',
         'cennik' => '',
         'priv_rules' => '',
-        'rules' => ''
+        'rules' => '',
+        'dp_185' => ''
     );
 
     private $template_path = 'view/html/';
