@@ -520,17 +520,25 @@ try {
                     else if ($_GET['a'] == 1) {
                         $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
 
-                        $dop_list = $dbc->query(Query::getFakturyDop($u->getId_user())); // pobierana lista faktur proforma
-                        while ($dop_item = $dop_list->fetch_object()) {
-                            $temp_dop = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
-                            $temp_dop->addSearchReplace('id_faktura', $dop_item->id_faktura);
-                            $r .= $temp_dop->getContent();
+                        $unpaid_invoice_list = $dbc->query(Query::getDataProfileUnpaidInvoiceList($u->getId_user())); // pobierana lista faktur proforma
+                        while ($ui_item = $unpaid_invoice_list->fetch_object()) {
+                            $uil_t = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
+                            $uil_t->addSearchReplace('id_faktura', $ui_item->id_faktura);
+                            $uil_t->addSearchReplace('kwota', $ui_item->kwota_brutto);
+                            $uil_t->addSearchReplace('opis', 'Faktura pro forma: ' . $ui_item->numer_fpf);
+                            $uil_t->addSearchReplace('control', $ui_item->id_faktura);
+                            $r .= $uil_t->getContent();
                         }
                         $t->addSearchReplace('here', $r);
-                        if (isset($_GET['f'])) {
+                        
+                        if(isset($_GET['f'])) {
+                            $fget = (int)$_GET['f'];
+                            $f = $dbc->query(Query::getDataProfileInvoice($fget))->fetch_object(); // pobierane dane faktury wg. id_faktura
+                        }
+                        if (isset($fget) AND !empty($fget) AND isset($f)) {
                             $sys->loadPdf();
                             $pdf = new Pdf();
-                            $pdf->generate('proforma ' . $_GET['f'], 'treść');
+                            $pdf->generate($u,$f,'fpf'); // generowanie pdf faktury pro forma (fpf)
                         }
                     }
                     else
