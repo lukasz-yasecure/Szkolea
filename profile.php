@@ -524,6 +524,9 @@ try {
                         while ($ui_item = $unpaid_invoice_list->fetch_object()) {
                             $uil_t = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
                             $uil_t->addSearchReplace('id_faktura', $ui_item->id_faktura);
+                            $uil_t->addSearchReplace('kwota', $ui_item->kwota_brutto);
+                            $uil_t->addSearchReplace('opis', 'Faktura pro forma: ' . $ui_item->numer_fpf);
+                            $uil_t->addSearchReplace('control', $ui_item->id_faktura);
                             $r .= $uil_t->getContent();
                         }
                         $t->addSearchReplace('here', $r);
