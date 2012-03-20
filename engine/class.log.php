@@ -64,6 +64,10 @@ class Log {
         Log::putLogMessage('cron', $txt);
     }
 
+    public static function DotPay($txt) {
+        Log::putLogMessage('dotpay', $txt);
+    }
+
 }
 
 ?>
