@@ -36,7 +36,7 @@ try
     $get_amount = $dbc->query(Query::getDataProfileInvoice($_POST['control'])); // pobierane dane faktury
     if(isset($get_amount)) {
         $a = $get_amount->fetch_object();
-        $amount = $a->kwota_brutto; 
+        $amount = number_format($a->kwota_brutto, 2, '.', ''); 
     }
     foreach($_POST as $k => $v) {
         $post .= $k.'::'.$v.'&&';
