@@ -30,9 +30,6 @@ try
     $u = $um->getUserFromSession($sm);
     $dbc = new DBC($sys);
     
-    $dbc->query(Query::updateDotPay('4'));   
-    $test = $dbc->query(Query::testDotPay());
-    print_r($test->fetch_array());   
     if($_SERVER['REMOTE_ADDR'] == '195.150.9.37') { // check IP
             $salt = '9ETs0gaZNS1ATAJx';
             $md5 = md5($salt.':57265:'.$_POST['control'].':'.$_POST['t_id'].':'.$_POST['amount'].'::::::'.$_POST['t_status']);

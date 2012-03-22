@@ -764,14 +764,12 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     }
 
     public static function updateDotPay($id_faktura) {
-        return 'UPDATE faktury
-        WHERE id_faktura = '.$id_faktura.'  
-        SET data_fv = '.time().', 
-        numer_fv = 
-            (SELECT max(faktury.numer_fv) AS faktura)';
-    }
-    public static function testDotPay() {
-        return "SELECT max(id_faktura) FROM faktury";
+        return '
+        UPDATE faktury AS f, 
+            (SELECT max(numer_fv) AS max FROM faktury) AS m 
+        SET f.data_fv = '.time().', 
+        f.numer_fv = m.max+1 
+        WHERE id_faktura = '.$id_faktura.'';  
     }
 }
 
