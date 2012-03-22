@@ -810,6 +810,32 @@ class TemplateManager {
         $t->addSearchReplace('date_b', UF::timestamp2date($r['date_a']));
         return $t;
     }
+    
+    public function getTemplateProfileUnpaidInvoiceList($r) {
+        while ($x = $r->fetch_object()) {
+            $x_t = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
+            $x_t->addSearchReplace('id_faktura', $x->id_faktura);
+            return $x_t->getContent();
+        }
+    }
+ 
+    public function getTemplateProfilePaymentFormProwizja($r) {
+        $f = new Template(Pathes::getPathTemplateProfilePaymentFormProwizja());
+        $id_faktura = "";
+        $kwota_brutto = "";
+        $numer_fpf = "";
+        while($x = $r->fetch_object()) {
+            $id_faktura = $x->id_faktura;
+            $kwota_brutto = $x->kwota_brutto;
+            $opis = $x->id_faktura;
+        }
+        $f->addSearchReplace('id_faktura', $id_faktura);
+        $f->addSearchReplace('kwota', $kwota_brutto);
+        $f->addSearchReplace('opis', 'Faktura pro forma: ' . $numer_fpf);
+        $f->addSearchReplace('control', $id_faktura);
+        return $f->getContent(); 
+    }
+
 
 }
 

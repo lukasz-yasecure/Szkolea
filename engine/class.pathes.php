@@ -66,6 +66,10 @@ class Pathes {
     public static $template_profile_faktury_oplacone = 'profile_dostawca_faktury_op.html';
     public static $template_profile_faktury_nieoplacone = 'profile_dostawca_faktury_dop.html';
     public static $template_profile_faktury_nieoplacone_lista = 'profile_dostawca_faktury_dop_lista.html';
+    public static $template_profile_payment_prowizja = 'profile_dostawca_payment_prowizja.html';
+    public static $template_profile_payment_form_prowizja = 'profile_dostawca_payment_form_prowizja.html';
+    public static $template_profile_payment_pakiet = 'profile_dostawca_payment_pakiet.html';
+    public static $template_profile_payment_form_pakiet = 'profile_dostawca_payment_form_pakiet.html';
     public static $template_profile_admin_zlecenia = 'admin_comms.html';
     public static $template_profile_admin_edycja_kategorii = 'admin_kategorie_edycja.html';
     public static $template_profile_admin_lista_uzytkownikow = 'admin_uzytkownicy_lista.html';
@@ -410,6 +414,21 @@ class Pathes {
         return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone_lista;
     }
 
+    public static function getPathTemplateProfilePaymentProwizja() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_prowizja;
+    }
+
+    public static function getPathTemplateProfilePaymentFormProwizja() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_form_prowizja;
+    }
+
+    public static function getPathTemplateProfilePaymentPakiet() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_pakiet;
+    }
+    
+    public static function getPathTemplateProfilePaymentFormPakiet() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_form_pakiet;
+    }
     public static function getPathTemplateProfileCommsForAdmin() {
         return Pathes::$template_path . Pathes::$template_profile_admin_zlecenia;
     }
