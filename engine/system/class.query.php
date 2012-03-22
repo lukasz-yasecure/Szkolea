@@ -710,12 +710,16 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
-    public static function getFakturyDop($id_user) {
+    public static function getDataProfileUnpaidInvoiceList($id_user) {
         return 'SELECT * FROM `faktury` WHERE `id_user`=' . $id_user . ' AND `numer_fv` IS NULL'; // pobierane faktury proforma
     }
 
-    public static function getFakturyOp($id_user) {
+    public static function getDataProfilePaidInvoiceList($id_user) {
         return 'SELECT * FROM `faktury` WHERE `id_user`=' . $id_user . ' AND `numer_fv` IS NOT NULL'; // pobierane faktury VAT
+    }
+
+    public static function getDataProfileInvoice($id_faktura) {
+        return 'SELECT * FROM `faktury` WHERE `id_faktura`=' . $id_faktura; // pobierana faktura wg. id_fakrura
     }
 
     public static function getAllUsers() {
@@ -754,7 +758,19 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         $sql = 'SELECT * FROM users_packages LEFT JOIN users_324 ON users_packages.id_user =  users_324.id_user LEFT JOIN packages ON users_packages.id_pakietu =  packages.id_pakietu ORDER BY date_begin DESC';
         return $sql;
     }
+    
+    public static function logDotPay($type,$urlc,$info) {
+        return "INSERT INTO `log_dotpay` (`id_log_dotpay`, `date_log_dotpay`, `urlc_control`, `type_log_dotpay`, `info_log_dotpay`) VALUES (NULL, '".time()."', '".$urlc."', '".$type."', '".$info."')";
+    }
 
+    public static function updateDotPay($id_faktura) {
+        return '
+        UPDATE faktury AS f, 
+            (SELECT max(numer_fv) AS max FROM faktury) AS m 
+        SET f.data_fv = '.time().', 
+        f.numer_fv = m.max+1 
+        WHERE id_faktura = '.$id_faktura.'';  
+    }
 }
 
 ?>
