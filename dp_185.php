@@ -31,19 +31,21 @@ try
     $dbc = new DBC($sys);
     
     if($_SERVER['REMOTE_ADDR'] == '195.150.9.37') { // check IP
+            
             $salt = '9ETs0gaZNS1ATAJx';
-            $md5 = md5($salt.':57265:'.$_POST['control'].':'.$_POST['t_id'].':'.$_POST['amount'].'::::::'.$_POST['t_status']);
+            $post = 'Control: '.$_POST['control'].', opis: '.$_POST['description'].', email: '.$_POST['email'].', status: '.$_POST['t_status'].', id: '.$_POST['t_id'].', md5: '.$_POST['md5'];
+            $md5 = md5($salt.':57265:'.$_POST['control'].':'.$_POST['t_id'].':'.$_POST['amount'].':'.$_POST['email'].':::::'.$_POST['t_status']);
             if($md5 == $_POST['md5']) { // check MD5
                 if($_POST['t_status'] == '2') { // wykonana
-                    $dbc->query(Query::logDotPay('1',int($_POST['control']),''));   
-                    $dbc->query(Query::updateDotPay(int($_POST['control'])));   
+                    $dbc->query(Query::logDotPay('1',$_POST['control'],$post));   
+                    $dbc->query(Query::updateDotPay($_POST['control']));   
                     echo "OK";
                 } else { // 1 - nowa, 3 - odzrucona, 4, 5...
-                    $dbc->query(Query::logDotPay('2',int($_POST['control']),''));   
+                    $dbc->query(Query::logDotPay('2',$_POST['control']),$post);   
                     echo "OK";
                 }
             } else {
-                $dbc->query(Query::logDotPay('3',int($_POST['control']),''));   
+                $dbc->query(Query::logDotPay('3',$_POST['control'],$post));   
                 exit;
             }
     }
@@ -51,19 +53,6 @@ try
         $dbc->query(Query::logDotPay('4','',$_SERVER['REMOTE_ADDR'])); // vars: type, urlc, info   
         exit;
     }
-/*
-    if($check!=1){
-        echo "Wiadomość: Dostęp zabroniony!";
-        exit;
-    }
-    if($_POST['t_status']==2 and $_POST['control']!=NULL){ // t_status: 1 - nowa, 2 - wykonana, 3 - odrzucona
-        $control=$_POST['control'];
-        if(is_numeric($control)==true){ // control = id faktury
-        Log::DotPay('PAYMENT ACCEPTED: id=' .$control);
-        echo 'OK'; // ma wyświetlić OK, po czym zaprzestaje nadawać potwierdzenia
-        }
-    }
-*/    
 }
 catch(Exception $e)
 {
