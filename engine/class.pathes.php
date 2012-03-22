@@ -2,7 +2,6 @@
 
 class Pathes {
 
-    public static $base_url = '';
     public static $template_path = 'view/html/';
     public static $template_mail_path = 'view/mails/';
     public static $template_main = 'main.html';
@@ -149,61 +148,61 @@ class Pathes {
     }
 
     public static function getScriptActivationPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_activation;
+        return SC::$base_urlSC . Pathes::$script_path . Pathes::$script_activation;
     }
 
     public static function getScriptRemindPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_remind;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_remind;
     }
 
     public static function getScriptLoginPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_login;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_login;
     }
 
     public static function getScriptRegisterPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_register;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_register;
     }
 
     public static function getScriptAddCommPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_add_comm;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_add_comm;
     }
 
     public static function getScriptCommisionPath($id = null) {
         if (is_null($id))
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_commision;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_commision;
         else
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_commision . '?id=' . $id;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_commision . '?id=' . $id;
     }
 
     public static function getScriptServicePath($id = null) {
         if (is_null($id))
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_service;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_service;
         else
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_service . '?id=' . $id;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_service . '?id=' . $id;
     }
 
     public static function getScriptAddServPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_add_serv;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_add_serv;
     }
 
     public static function getScriptIndexPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_index;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_index;
     }
 
     public static function getScriptProfilePath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile;
     }
 
     public static function getScriptProfilePackageBuyingPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages_buying;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_packages_buying;
     }
 
     public static function getScriptProfilePackagesPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
     }
 
     public static function getScriptProfileZleceniaMoje() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
     }
 
     public static function getCommGroupJoinFormTemplatePath() {
@@ -425,10 +424,11 @@ class Pathes {
     public static function getPathTemplateProfilePaymentPakiet() {
         return Pathes::$template_path . Pathes::$template_profile_payment_pakiet;
     }
-    
+
     public static function getPathTemplateProfilePaymentFormPakiet() {
         return Pathes::$template_path . Pathes::$template_profile_payment_form_pakiet;
     }
+
     public static function getPathTemplateProfileCommsForAdmin() {
         return Pathes::$template_path . Pathes::$template_profile_admin_zlecenia;
     }
@@ -482,7 +482,7 @@ class Pathes {
     }
 
     public static function getScriptProfileCard() {
-        return Pathes::$base_url . Pathes::$script_profile_card;
+        return SC::$base_url . Pathes::$script_profile_card;
     }
 
     public static function getPathTemplateMailInfoZakonczoneZlecenieWlasciciel() {
@@ -516,36 +516,36 @@ class Pathes {
     public static function getPathTemplateStatsOffers() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_oferty;
     }
-    
-        public static function getPathTemplateStatsOffersList() {
+
+    public static function getPathTemplateStatsOffersList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_oferty_lista;
     }
-    
-        public static function getPathTemplateStatsComms() {
+
+    public static function getPathTemplateStatsComms() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_zlecenia;
     }
-    
-            public static function getPathTemplateStatsCommsList() {
+
+    public static function getPathTemplateStatsCommsList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_zlecenia_lista;
     }
-    
-        public static function getPathTemplateStatsServs() {
+
+    public static function getPathTemplateStatsServs() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_uslugi;
     }
-    
-            public static function getPathTemplateStatsServsList() {
+
+    public static function getPathTemplateStatsServsList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_uslugi_lista;
     }
-    
-        public static function getPathTemplateStatsPackages() {
+
+    public static function getPathTemplateStatsPackages() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_pakiety;
     }
-    
-            public static function getPathTemplateStatsPackagesList() {
+
+    public static function getPathTemplateStatsPackagesList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_pakiety_lista;
     }
 
-            public static function getPathTemplateOfferDetails() {
+    public static function getPathTemplateOfferDetails() {
         return Pathes::$template_path . Pathes::$template_profile_offer_details;
     }
 
