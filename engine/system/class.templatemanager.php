@@ -819,21 +819,46 @@ class TemplateManager {
         }
     }
  
-    public function getTemplateProfilePaymentFormProwizja($r) {
-        $f = new Template(Pathes::getPathTemplateProfilePaymentFormProwizja());
+    public function getTemplateProfilePaymentFormProwizja($fr,$ur) {
+        $ft = new Template(Pathes::getPathTemplateProfilePaymentFormProwizja()); // faktura template
+        
+        // faktura dane
         $id_faktura = "";
         $kwota_brutto = "";
         $numer_fpf = "";
-        while($x = $r->fetch_object()) {
-            $id_faktura = $x->id_faktura;
-            $kwota_brutto = $x->kwota_brutto;
-            $opis = $x->id_faktura;
-        }
-        $f->addSearchReplace('id_faktura', $id_faktura);
-        $f->addSearchReplace('kwota', $kwota_brutto);
-        $f->addSearchReplace('opis', 'Faktura pro forma: ' . $numer_fpf);
-        $f->addSearchReplace('control', $id_faktura);
-        return $f->getContent(); 
+        $fd = $fr->fetch_object(); // faktura dane z faktura result
+        $id_faktura = $fd->id_faktura;
+        $kwota_brutto = $fd->kwota_brutto;
+        $opis = $fd->id_faktura;
+        
+        // user dane
+        $imie = "";
+        $nazwisko = "";
+        $email = "";
+        $city = "";
+        $street = "";
+        $postcode = "";
+        $phone = "";
+        $imie = $ur->getOs_name();
+        $nazwisko = $ur->getOs_surname();
+        $email = $ur->getEmail();
+        $city = $ur->getOs_city();
+        $street = $ur->getOs_street();
+        $postcode = $ur->getOs_postcode();
+        $phone = $ur->getOs_phone();
+
+        $ft->addSearchReplace('id_faktura', $id_faktura);
+        $ft->addSearchReplace('kwota', $kwota_brutto);
+        $ft->addSearchReplace('opis', 'Faktura pro forma: ' . $numer_fpf);
+        $ft->addSearchReplace('control', $id_faktura);
+        $ft->addSearchReplace('imie', $imie);
+        $ft->addSearchReplace('nazwisko', $nazwisko);
+        $ft->addSearchReplace('email', $email);
+        $ft->addSearchReplace('city', $city);
+        $ft->addSearchReplace('street', $street);
+        $ft->addSearchReplace('postcode', $postcode);
+        $ft->addSearchReplace('phone', $phone);
+        return $ft->getContent(); 
     }
 
 
