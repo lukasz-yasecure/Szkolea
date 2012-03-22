@@ -56,7 +56,7 @@ try
                 }
             } else {
                 $dbc->query(Query::logDotPay('3',$_POST['control'],$post));   
-                exit;
+                echo "OK";
             }
     }
     else {
