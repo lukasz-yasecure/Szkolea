@@ -104,6 +104,7 @@ class Mailer {
 
     //rozsyłanie Newslettera do użytkowników zgodnie z wyborem opcji (klienci, usługodawcy, wszyscy). Mail idzie zawsze także do Adminów
     public function sendNewsletter($dbc, Newsletter $n) {
+        $sm = new ServiceManager();
 
         //szablony od maila
         $t_mail = new Template(Pathes::getPathTemplateMailNewsletter());
@@ -114,14 +115,16 @@ class Mailer {
         $t_mail->addSearchReplace('content', $n->getContent());
 
         //pobieramy wszystkie promowane usługi z ich nazwami
-        $promoted = $n->completePromotedServList($dbc);
-
+//        $promoted = $sm->completePromotedServs($dbc);
         $promoted_list = array();
+        $n->setPromotedServs($sm->completePromotedServs($dbc));
 
-        //do szablonu wrzcamy kolejno ID_SERV do linku i NAZWĘ do wyświetlenia
-        for ($i = 0; $i < count($promoted); $i++) {
-            $t_mail_list->addSearchReplace('id_serv', $promoted[$i]['id_serv']);
-            $t_mail_list->addSearchReplace('name_serv', $promoted[$i]['name']);
+        while (!is_null($promoted = $n->getService())) {
+
+            //do szablonu wrzcamy kolejno ID_SERV do linku i NAZWĘ do wyświetlenia
+
+            $t_mail_list->addSearchReplace('id_serv', $promoted['id_serv']);
+            $t_mail_list->addSearchReplace('name_serv', $promoted['name']);
 
             //dołączamy kolejne promowane usługi do całej listy
             $promoted_list .= $t_mail_list->getContent();
@@ -131,12 +134,10 @@ class Mailer {
         //wklejamy do szablonu listę promowanych
         $t_mail->addSearchReplace('promoted', $promoted_list);
 
-        //pobieramy adresy e-mail z grupy docelowej przez obiekt Newsletter
-        $receivers = $n->getReceivers();
 
         //rozsyłamy maile do wszystkich z grupy docelowej
-        for ($i = 0; $i < count($receivers); $i++) {
-            $this->sendMail($receivers[$i], 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
+        while (!is_null($receiver = $n->getReceiver())) {
+            //$this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
         }
     }
 

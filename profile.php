@@ -756,50 +756,23 @@ try {
         //newsletter
         elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && !isset($_GET['a']) || (isset($_GET['a']) && $_GET['a'] == 'newsletter')) {
             $t = new Template(Pathes::getPathTemplateNewsletter());
-            $n = new Newsletter();
             $ud = new UserData();
 
             //reakcja na POST
             if ((isset($_POST['submit']))) {
-                //walidacja tematu
-                if (isset($_POST['subject']) && strlen($_POST['subject']) > 0) {
-                    $_POST['subject'] = Valid::antyHTML($_POST['subject']);
-                    RFD::add('newsletter', 'subject', $_POST['subject']);
-                } else {
-                    RFD::add('newsletter', 'subject', $_POST['subject']);
-                    BFEC::add(MSG::NoSubject());
-                }
-                //walidacja treści
-                if (isset($_POST['content']) && strlen($_POST['content']) > 0) {
-                    $_POST['content'] = Valid::antyHTML($_POST['content']);
-                    $_POST['content'] = nl2br($_POST['content']);
-                    RFD::add('newsletter', 'content', $_POST['content']);
-                } else {
-                    RFD::add('newsletter', 'content', $_POST['content']);
-                    BFEC::add(MSG::NoText());
-                }
-                //walidacja wyboru docelowej grupy użytowników (radio)
-                if (!(isset($_POST['type']) && ($_POST['type'] == 'klienci' || $_POST['type'] == 'uslugodawcy' || $_POST['type'] == 'wszyscy'))) {
-                    BFEC::add(MSG::NoChoice());
-                }
 
+              $ud->getNewsletter($dbc);
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
-                //RFD::clear('newsletter');
+                RFD::clear('newsletter');
             } else {
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
-                //RFD::clear('newsletter');
+                RFD::clear('newsletter');
             }
 
-            //jeśli jest $_POST i nie wystąpiły błędy podczas walidacji rozsyłamy maile
-            if (!BFEC::isError() && !empty($_POST)) {
-                $mailer = new Mailer();
-                $mailer->sendNewsletter($dbc, $ud->getNewsletterFromPost($_POST, $dbc));
-            }
-            RFD::clear('newsletter');
         }
 
         //płatności  

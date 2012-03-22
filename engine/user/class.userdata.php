@@ -1357,37 +1357,49 @@ class UserData {
      * @return Newsletter wszystkie adresy e-mail z grupy docelowej
      */
 
-    public function getNewsletterFromPost($post, DBC $dbc) {
+    public function getNewsletter(DBC $dbc) {
+
+
         $n = new Newsletter();
 
-        //ustawiamy temat i treść
-        $n->setSubject(isset($post['subject']) ? $post['subject'] : null);
-        $n->setContent(isset($post['content']) ? $post['content'] : null);
+        //reakcja na POST
+        //walidacja tematu
+        if (isset($_POST['subject']) && !empty($_POST['subject'])) {
+            $n->setSubject(isset($_POST['subject']) ? Valid::antyHTML($_POST['subject']) : null);
+            RFD::add('newsletter', 'subject', $n->getSubject());
+        } else {
+            RFD::add('newsletter', 'subject', $_POST['subject']);
+            BFEC::add(MSG::NoSubject());
+        }
+        //walidacja treści
+        if (isset($_POST['content']) && !empty($_POST['content'])) {
+            $_POST['content'] = Valid::antyHTML($_POST['content']);
+            $n->setContent(isset($_POST['content']) ? nl2br($_POST['content']) : null);
+            RFD::add('newsletter', 'content', $n->getContent());
+        } else {
+            RFD::add('newsletter', 'content', $_POST['content']);
+            BFEC::add(MSG::NoText());
+        }
+        //walidacja wyboru docelowej grupy użytowników (radio)
+        if (!(isset($_POST['receivers']) && ($_POST['receivers'] == 'klienci' || $_POST['receivers'] == 'uslugodawcy' || $_POST['receivers'] == 'wszyscy'))) {
+            BFEC::add(MSG::NoChoice());
+        }
 
-        //type mówi nam o grupie docelowej , względem której pobierane są maile z bazy , a następnie do których nastąpi mailing
-        if (isset($post['type'])) {
-            $sql = Query::getEmails($post['type']);
-            $result = $dbc->query($sql);
-            if (!$result)
-                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-            if ($result->num_rows <= 0)
-                $n->setReceivers(array());
-            else {
-                $i = 0;
 
-                //tworzymi listę wszystkich adresów e-mail z grupy docelowej
-                while ($row = $result->fetch_assoc()) {
-                    $receivers[$i] = $row['email'];
-                    $i++;
-                }
-                $n->setReceivers($receivers);
-            }
-        }else
-            $n->setReceivers(array());
-
-        return $n;
+        //jeśli jest $_POST i nie wystąpiły błędy podczas walidacji rozsyłamy maile
+        if (!BFEC::isError() && !empty($_POST)) {
+            $n->completeMailsList($dbc);
+            $mailer = new Mailer();
+            $mailer->sendNewsletter($dbc, $n);
+        }
     }
 
+    
+        public function getReceiverMail($receivers) {
+            $i;
+            return $receivers[$i];
+        }
+    
 }
 
 ?>

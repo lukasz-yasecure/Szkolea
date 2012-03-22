@@ -172,6 +172,36 @@ class ServiceManager {
         }
         return $Sums;
     }
+    
+    
+        /*     * Funkcja pobierająca i tworząca tablicę promowanych usług z ich ID i NAZWĄ
+     *
+     * @param DBC $dbc
+     * @return Array() $promoted - tablica z numerami i nazwami usług
+     * @throws DBQueryException 
+     */
+
+    public function completePromotedServs(DBC $dbc) {
+
+        $promoted_servs = array();
+
+        $sql = Query::getPromotedServs();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            $promoted_servs = array();
+        else {
+            $i = 0;
+            //tworzymy tablicę z numerami i nazwami usług
+            while ($row = $result->fetch_assoc()) {
+                $promoted_servs[$i]['id_serv'] = $row['id_serv'];
+                $promoted_servs[$i]['name'] = $row['name'];
+                $i++;
+            }
+        }
+        return $promoted_servs;
+    }
 
 }
 
