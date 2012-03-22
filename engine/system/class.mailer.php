@@ -115,10 +115,11 @@ class Mailer {
         $t_mail->addSearchReplace('content', $n->getContent());
 
         //pobieramy wszystkie promowane usługi z ich nazwami
-//        $promoted = $sm->completePromotedServs($dbc);
         $promoted_list = array();
         $n->setPromotedServs($sm->completePromotedServs($dbc));
 
+        
+        //pobieramy kolejno usług z Newsletter
         while (!is_null($promoted = $n->getService())) {
 
             //do szablonu wrzcamy kolejno ID_SERV do linku i NAZWĘ do wyświetlenia
@@ -135,8 +136,9 @@ class Mailer {
         $t_mail->addSearchReplace('promoted', $promoted_list);
 
 
-        //rozsyłamy maile do wszystkich z grupy docelowej
+        //rozsyłamy maile do wszystkich z grupy docelowej pobierając po kolei odbiorców z Newsletter
         while (!is_null($receiver = $n->getReceiver())) {
+
             //$this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
         }
     }

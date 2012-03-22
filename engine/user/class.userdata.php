@@ -1351,33 +1351,29 @@ class UserData {
         return $o;
     }
 
-    /*     * Funkcja tworząca i uzupełniająca obiekt Newsletter tematem, treścią i mailami z grupy docelowej
+    /** Funkcja tworząca i uzupełniająca obiekt Newsletter tematem, treścią i mailami z grupy docelowej
      *
      * @param type $post $_POST z formularza
      * @return Newsletter wszystkie adresy e-mail z grupy docelowej
      */
-
     public function getNewsletter(DBC $dbc) {
-
+//reakcja na POST
 
         $n = new Newsletter();
 
-        //reakcja na POST
         //walidacja tematu
-        if (isset($_POST['subject']) && !empty($_POST['subject'])) {
-            $n->setSubject(isset($_POST['subject']) ? Valid::antyHTML($_POST['subject']) : null);
+        if (isset($_POST['subject']) && strlen($_POST['subject']) > 0) {
+            $n->setSubject(Valid::antyHTML($_POST['subject']));
             RFD::add('newsletter', 'subject', $n->getSubject());
         } else {
-            RFD::add('newsletter', 'subject', $_POST['subject']);
             BFEC::add(MSG::NoSubject());
         }
         //walidacja treści
-        if (isset($_POST['content']) && !empty($_POST['content'])) {
+        if (isset($_POST['content']) && strlen($_POST['content']) > 0) {
             $_POST['content'] = Valid::antyHTML($_POST['content']);
-            $n->setContent(isset($_POST['content']) ? nl2br($_POST['content']) : null);
+            $n->setContent(nl2br($_POST['content']));
             RFD::add('newsletter', 'content', $n->getContent());
         } else {
-            RFD::add('newsletter', 'content', $_POST['content']);
             BFEC::add(MSG::NoText());
         }
         //walidacja wyboru docelowej grupy użytowników (radio)
@@ -1385,21 +1381,16 @@ class UserData {
             BFEC::add(MSG::NoChoice());
         }
 
-
-        //jeśli jest $_POST i nie wystąpiły błędy podczas walidacji rozsyłamy maile
-        if (!BFEC::isError() && !empty($_POST)) {
+        //jeśli nie wystąpiły błędy podczas walidacji tworzymy listę odbiorców w Newsletterze
+        if (!BFEC::isError()) {
             $n->completeMailsList($dbc);
-            $mailer = new Mailer();
-            $mailer->sendNewsletter($dbc, $n);
-        }
+        }else
+        //przy błędach przekierowanie spowrotem na form z błędami
+            BFEC::redirect(Pathes::getScriptAdminNewsletter());
+
+        return $n;
     }
 
-    
-        public function getReceiverMail($receivers) {
-            $i;
-            return $receivers[$i];
-        }
-    
 }
 
 ?>

@@ -753,7 +753,7 @@ try {
             }
         }
         //INNE
-        //newsletter
+        //NEWSLETTER
         elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && !isset($_GET['a']) || (isset($_GET['a']) && $_GET['a'] == 'newsletter')) {
             $t = new Template(Pathes::getPathTemplateNewsletter());
             $ud = new UserData();
@@ -761,7 +761,10 @@ try {
             //reakcja na POST
             if ((isset($_POST['submit']))) {
 
-              $ud->getNewsletter($dbc);
+                //wysyłanie Newslettera
+                $mailer = new Mailer();
+                $mailer->sendNewsletter($dbc, $ud->getNewsletter($dbc));
+
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
@@ -772,7 +775,6 @@ try {
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
                 RFD::clear('newsletter');
             }
-
         }
 
         //płatności  

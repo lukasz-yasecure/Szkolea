@@ -6,7 +6,6 @@ class Newsletter {
     private $content = null;
     private $receivers = array();
     private $promoted_servs = array();
-    
     //iteratory
     private $receivers_mails_it = 0;
     private $promoted_servs_it = 0;
@@ -22,7 +21,8 @@ class Newsletter {
     public function getReceivers() {
         return $this->receivers;
     }
-        public function setPromotedServs($promoted) {
+
+    public function setPromotedServs($promoted) {
         $this->promoted_servs = $promoted;
     }
 
@@ -38,6 +38,7 @@ class Newsletter {
         $this->receivers = $receivers;
     }
 
+    //tworzenie listy odbiorców
     public function completeMailsList(DBC $dbc) {
 
         $receivers_mails = array();
@@ -64,6 +65,7 @@ class Newsletter {
         }
     }
 
+    //pobieranie pojedyńczego odbiorcy po kolei przy każdokrotnym użyciu funkcji (interator)
     public function getReceiver() {
 
         if ($this->receivers_mails_it == count($this->receivers))
@@ -72,8 +74,9 @@ class Newsletter {
             $this->receivers_mails_it++;
         return $this->receivers[$this->receivers_mails_it - 1];
     }
-    
-        public function getService() {
+
+    //pobieranie pojedyńczej usługi po kolei przy każdokrotnym użyciu funkcji (interator)
+    public function getService() {
 
         if ($this->promoted_servs_it == count($this->promoted_servs))
             return null;

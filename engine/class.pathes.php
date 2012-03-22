@@ -115,6 +115,7 @@ class Pathes {
     public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
     public static $script_profile_card = 'profile.php?w=dane&a=0';
+    public static $script_admin_newsletter = 'profile.php?w=inne&a=newsletter';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -204,6 +205,10 @@ class Pathes {
 
     public static function getScriptProfileZleceniaMoje() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
+    }
+    
+        public static function getScriptAdminNewsletter() {
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_admin_newsletter;
     }
 
     public static function getCommGroupJoinFormTemplatePath() {

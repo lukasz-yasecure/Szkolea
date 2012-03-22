@@ -172,15 +172,13 @@ class ServiceManager {
         }
         return $Sums;
     }
-    
-    
-        /*     * Funkcja pobierająca i tworząca tablicę promowanych usług z ich ID i NAZWĄ
+
+    /** Funkcja pobierająca i tworząca tablicę promowanych usług z ich ID i NAZWĄ
      *
      * @param DBC $dbc
-     * @return Array() $promoted - tablica z numerami i nazwami usług
+     * @return Array() $promoted_servs - tablica z numerami i nazwami usług
      * @throws DBQueryException 
      */
-
     public function completePromotedServs(DBC $dbc) {
 
         $promoted_servs = array();
