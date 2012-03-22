@@ -113,8 +113,8 @@ class MSG {
     public static function NoSubject() {
         return 'Nie wprowadzono tematu.';
     }
-    
-        public static function NoChoice() {
+
+    public static function NoChoice() {
         return 'Nie dokonano wyboru opcji.';
     }
 

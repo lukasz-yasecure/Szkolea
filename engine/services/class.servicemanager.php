@@ -1,7 +1,7 @@
 <?php
 
-class ServiceManager
-{
+class ServiceManager {
+
     /**
      * Przy dodawaniu uslugi przez usera trzeba uzupelnic troche dodatkowych danych
      * a niektore skonwertowac - taki ostatni etap przed wprowadzeniem do bazy
@@ -11,21 +11,17 @@ class ServiceManager
      * @param CategoryManager $cm
      * @return Service
      */
-    public function completeData(Service $s, DBC $dbc, CategoryManager $cm)
-    {
-        try
-        {
+    public function completeData(Service $s, DBC $dbc, CategoryManager $cm) {
+        try {
             $kategoria_name = $cm->getNameOfKategoria($dbc, $s->getCat());
             $obszar_name = $cm->getNameOfObszar($dbc, $s->getSubcat());
             $tematyka_name = $cm->getNameOfTematyka($dbc, $s->getSubsubcat());
             $moduly_names = '';
 
             $moduly = $s->getModuly();
-            if(is_array($moduly))
-            {
+            if (is_array($moduly)) {
                 $temp = array();
-                foreach($moduly as $m)
-                {
+                foreach ($moduly as $m) {
                     $temp[] = $cm->getNameOfModul($dbc, $m);
                 }
 
@@ -36,12 +32,10 @@ class ServiceManager
             $s->setObszar_name($obszar_name);
             $s->setTematyka_name($tematyka_name);
             $s->setModuly_names($moduly_names);
-            $s->setKotm($kategoria_name.', '.$obszar_name.', '.$tematyka_name.', '.$moduly_names);
+            $s->setKotm($kategoria_name . ', ' . $obszar_name . ', ' . $tematyka_name . ', ' . $moduly_names);
             $s->setDate_a(UF::date2timestamp($s->getDate_a()));
             $s->setDate_b(UF::date2timestamp($s->getDate_b()));
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             throw $e;
         }
 
@@ -55,18 +49,18 @@ class ServiceManager
      * @param Service $s
      * @return Service 
      */
-    public function saveServiceInDB(DBC $dbc, Service $s)
-    {
+    public function saveServiceInDB(DBC $dbc, Service $s) {
         $sql = Query::saveNewServiceInDB($s);
         $res = $dbc->query($sql);
-        if(!$res) throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if (!$res)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
 
         $s->setId_serv($dbc->insert_id);
-        if(!is_null($s->getModuly()))
-        {
+        if (!is_null($s->getModuly())) {
             $sql = Query::saveModulsForService($s);
             $res = $dbc->query($sql);
-            if(!$res) throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+            if (!$res)
+                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         }
 
         return $s;
@@ -79,16 +73,15 @@ class ServiceManager
      * @param int $id
      * @return Service
      */
-    public function getService(DBC $dbc, $id)
-    {
+    public function getService(DBC $dbc, $id) {
         $sql = Query::getService($id);
         $res = $dbc->query($sql);
-        if(!$res) throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if (!$res)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         return $this->getServiceFromRow($res->fetch_assoc());
     }
 
-    public function getServiceFromRow($row)
-    {
+    public function getServiceFromRow($row) {
         $s = new Service();
         $s->setId_serv($row['id_serv']);
         $s->setId_user($row['id_user']);
@@ -114,7 +107,7 @@ class ServiceManager
         $s->setKotm($row['kotm']);
         return $s;
     }
-    
+
     /**
      * zwraca liczbe uslug w poszczegolnych kategoriach
      * 
@@ -129,7 +122,7 @@ class ServiceManager
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            //throw new EmptyList();
+        //throw new EmptyList();
             return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
@@ -145,42 +138,41 @@ class ServiceManager
      * @throws DBQueryException 
      */
     public function getSubservsSums(DBC $dbc) {
-                $sql = Query::SubservsSums();
+        $sql = Query::SubservsSums();
         $result = $dbc->query($sql);
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            //throw new EmptyList();
+        //throw new EmptyList();
             return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['obszar_id']] = $r['SubservsSums'];
         }
         return $Sums;
-        
     }
 
     /**
-     *zwraca liczbe uslug w poszczegolnych tematykach
+     * zwraca liczbe uslug w poszczegolnych tematykach
      * @param DBC $dbc
      * @return type
      * @throws DBQueryException 
      */
     public function getSubsubservsSums(DBC $dbc) {
-                $sql = Query::SubsubservsSums();
+        $sql = Query::SubsubservsSums();
         $result = $dbc->query($sql);
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            //throw new EmptyList();
+        //throw new EmptyList();
             return array();
         $Sums = array();
         while ($r = $result->fetch_assoc()) {
             $Sums[$r['tematyka']] = $r['SubsubservsSums'];
         }
         return $Sums;
-        
     }
+
 }
 
 ?>

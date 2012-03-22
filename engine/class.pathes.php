@@ -95,6 +95,8 @@ class Pathes {
     public static $mail_info_zakonczone_zlecenie_wlasciciel = 'info_zakonczone_zlecenie_wlasciciel.html';
     public static $mail_info_zakonczone_zlecenie_dodane = 'info_zakonczone_zlecenie_dodane.html';
     public static $mail_info_zakonczone_zlecenie_oferty = 'info_zakonczone_zlecenie_oferty.html';
+    public static $mail_newsletter = 'admin_newsletter_mail.html';
+    public static $mail_newsletter_list = 'admin_newsletter_mail_list.html';
     public static $cennik = 'cennik.html';
     public static $priv_rules = 'priv_rules.html';
     public static $rules = 'rules.html';
@@ -480,6 +482,14 @@ class Pathes {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_oferty;
     }
 
+    public static function getPathTemplateMailNewsletter() {
+        return Pathes::$template_mail_path . Pathes::$mail_newsletter;
+    }
+
+    public static function getPathTemplateMailNewsletterList() {
+        return Pathes::$template_mail_path . Pathes::$mail_newsletter_list;
+    }
+
     public static function getPathTemplateCennik() {
         return Pathes::$template_path . Pathes::$cennik;
     }
@@ -499,44 +509,44 @@ class Pathes {
     public static function getPathTemplateStatsOffers() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_oferty;
     }
-    
-        public static function getPathTemplateStatsOffersList() {
+
+    public static function getPathTemplateStatsOffersList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_oferty_lista;
     }
-    
-        public static function getPathTemplateStatsComms() {
+
+    public static function getPathTemplateStatsComms() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_zlecenia;
     }
-    
-            public static function getPathTemplateStatsCommsList() {
+
+    public static function getPathTemplateStatsCommsList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_zlecenia_lista;
     }
-    
-        public static function getPathTemplateStatsServs() {
+
+    public static function getPathTemplateStatsServs() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_uslugi;
     }
-    
-            public static function getPathTemplateStatsServsList() {
+
+    public static function getPathTemplateStatsServsList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_uslugi_lista;
     }
-    
-        public static function getPathTemplateStatsPackages() {
+
+    public static function getPathTemplateStatsPackages() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_pakiety;
     }
-    
-            public static function getPathTemplateStatsPackagesList() {
+
+    public static function getPathTemplateStatsPackagesList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_pakiety_lista;
     }
 
-            public static function getPathTemplateOfferDetails() {
+    public static function getPathTemplateOfferDetails() {
         return Pathes::$template_path . Pathes::$template_profile_offer_details;
     }
-    
-                public static function getPathTemplateNewsletter() {
+
+    public static function getPathTemplateNewsletter() {
         return Pathes::$template_path . Pathes::$template_profile_newsletter;
     }
-    
-                    public static function getPathTemplatePayment() {
+
+    public static function getPathTemplatePayment() {
         return Pathes::$template_path . Pathes::$template_profile_payment;
     }
 

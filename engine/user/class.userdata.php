@@ -1351,6 +1351,43 @@ class UserData {
         return $o;
     }
 
+    /*     * Funkcja tworząca i uzupełniająca obiekt Newsletter tematem, treścią i mailami z grupy docelowej
+     *
+     * @param type $post $_POST z formularza
+     * @return Newsletter wszystkie adresy e-mail z grupy docelowej
+     */
+
+    public function getNewsletterFromPost($post, DBC $dbc) {
+        $n = new Newsletter();
+
+        //ustawiamy temat i treść
+        $n->setSubject(isset($post['subject']) ? $post['subject'] : null);
+        $n->setContent(isset($post['content']) ? $post['content'] : null);
+
+        //type mówi nam o grupie docelowej , względem której pobierane są maile z bazy , a następnie do których nastąpi mailing
+        if (isset($post['type'])) {
+            $sql = Query::getEmails($post['type']);
+            $result = $dbc->query($sql);
+            if (!$result)
+                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+            if ($result->num_rows <= 0)
+                $n->setReceivers(array());
+            else {
+                $i = 0;
+
+                //tworzymi listę wszystkich adresów e-mail z grupy docelowej
+                while ($row = $result->fetch_assoc()) {
+                    $receivers[$i] = $row['email'];
+                    $i++;
+                }
+                $n->setReceivers($receivers);
+            }
+        }else
+            $n->setReceivers(array());
+
+        return $n;
+    }
+
 }
 
 ?>

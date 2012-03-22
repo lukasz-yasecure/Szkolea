@@ -759,6 +759,7 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
+    //pobieranie zbioru adresów email według kryteriów lub dla wszystkich
     public static function getEmails($who = '') {
         if ($who == 'klienci')
             $sql = 'SELECT users_324.email FROM users_324 WHERE kind="K" OR kind="A"';
@@ -766,6 +767,13 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
             $sql = 'SELECT users_324.email FROM users_324 WHERE kind="D" OR kind="A"';
         else
             $sql = 'SELECT users_324.email FROM users_324';
+        return $sql;
+    }
+
+    //pobieramy promowane usługi i ich nazwami
+    public static function getPromotedServs() {
+        $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv';
+
         return $sql;
     }
 

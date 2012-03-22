@@ -530,15 +530,15 @@ try {
                             $r .= $uil_t->getContent();
                         }
                         $t->addSearchReplace('here', $r);
-                        
-                        if(isset($_GET['f'])) {
-                            $fget = (int)$_GET['f'];
+
+                        if (isset($_GET['f'])) {
+                            $fget = (int) $_GET['f'];
                             $f = $dbc->query(Query::getDataProfileInvoice($fget))->fetch_object(); // pobierane dane faktury wg. id_faktura
                         }
                         if (isset($fget) AND !empty($fget) AND isset($f)) {
                             $sys->loadPdf();
                             $pdf = new Pdf();
-                            $pdf->generate($u,$f,'fpf'); // generowanie pdf faktury pro forma (fpf)
+                            $pdf->generate($u, $f, 'fpf'); // generowanie pdf faktury pro forma (fpf)
                         }
                     }
                     else
@@ -757,6 +757,7 @@ try {
         elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && !isset($_GET['a']) || (isset($_GET['a']) && $_GET['a'] == 'newsletter')) {
             $t = new Template(Pathes::getPathTemplateNewsletter());
             $n = new Newsletter();
+            $ud = new UserData();
 
             //reakcja na POST
             if ((isset($_POST['submit']))) {
@@ -785,17 +786,20 @@ try {
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
-                RFD::clear('newsletter');
+                //RFD::clear('newsletter');
             } else {
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
-                RFD::clear('newsletter');
+                //RFD::clear('newsletter');
             }
 
-            if (!BFEC::isError()) {
-                $n->getNewsletterFromPost($_POST, $dbc);
+            //jeśli jest $_POST i nie wystąpiły błędy podczas walidacji rozsyłamy maile
+            if (!BFEC::isError() && !empty($_POST)) {
+                $mailer = new Mailer();
+                $mailer->sendNewsletter($dbc, $ud->getNewsletterFromPost($_POST, $dbc));
             }
+            RFD::clear('newsletter');
         }
 
         //płatności  
@@ -808,6 +812,7 @@ try {
             $r = '';
         }
     }
+
 
     $t->addSearchReplace('here', $r);
     $t->addSearchReplace('name', $u->getEmail());

@@ -1,10 +1,11 @@
 <?php
 
-class MailDidNotSend extends Exception
-{
-  public function __construct($error, $errno = 0){
-    parent::__construct($error, $errno);
-  }
+class MailDidNotSend extends Exception {
+
+    public function __construct($error, $errno = 0) {
+        parent::__construct($error, $errno);
+    }
+
 }
 
 /**
@@ -12,23 +13,22 @@ class MailDidNotSend extends Exception
  *
  *  2011-09-21  sendRemindMail() +
  */
-class Mailer
-{
+class Mailer {
+
     /**
      *
      * @param System $sys
      * @param ActivationMail $am
      * @throws MailDidNotSend jesli nie udalo sie wyslac maila
      */
-    public function sendActivationMail(System $sys, ActivationMail $am)
-    {
-        $naglowki = 'Reply-to: '.$sys->getMailSzkolea().PHP_EOL;
-        $naglowki.= 'From: '.$sys->getMailSzkolea().PHP_EOL;
-        $naglowki.= 'MIME-Version: 1.0'.PHP_EOL;
-        $naglowki.= 'Content-type: text/html; charset=UTF-8'.PHP_EOL;
+    public function sendActivationMail(System $sys, ActivationMail $am) {
+        $naglowki = 'Reply-to: ' . $sys->getMailSzkolea() . PHP_EOL;
+        $naglowki.= 'From: ' . $sys->getMailSzkolea() . PHP_EOL;
+        $naglowki.= 'MIME-Version: 1.0' . PHP_EOL;
+        $naglowki.= 'Content-type: text/html; charset=UTF-8' . PHP_EOL;
 
-        if(!@mail($am->getReceiver(), 'Aktywacja w serwisie szkolea.pl', $am->getContent(), $naglowki))
-                throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: '.$am->getReceiver());
+        if (!@mail($am->getReceiver(), 'Aktywacja w serwisie szkolea.pl', $am->getContent(), $naglowki))
+            throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: ' . $am->getReceiver());
     }
 
     /**
@@ -37,81 +37,109 @@ class Mailer
      * @param RemindMail $rm
      * @throws MailDidNotSend jesli nie udalo sie wyslac maila
      */
-    public function sendRemindMail(System $sys, RemindMail $rm)
-    {
-        $naglowki = 'Reply-to: '.$sys->getMailSzkolea().PHP_EOL;
-        $naglowki.= 'From: '.$sys->getMailSzkolea().PHP_EOL;
-        $naglowki.= 'MIME-Version: 1.0'.PHP_EOL;
-        $naglowki.= 'Content-type: text/html; charset=UTF-8'.PHP_EOL;
+    public function sendRemindMail(System $sys, RemindMail $rm) {
+        $naglowki = 'Reply-to: ' . $sys->getMailSzkolea() . PHP_EOL;
+        $naglowki.= 'From: ' . $sys->getMailSzkolea() . PHP_EOL;
+        $naglowki.= 'MIME-Version: 1.0' . PHP_EOL;
+        $naglowki.= 'Content-type: text/html; charset=UTF-8' . PHP_EOL;
 
-        if(!@mail($rm->getReceiver(), 'Nowe hasło do serwisu szkolea.pl', $rm->getContent(), $naglowki))
-                throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: '.$rm->getReceiver());
+        if (!@mail($rm->getReceiver(), 'Nowe hasło do serwisu szkolea.pl', $rm->getContent(), $naglowki))
+            throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: ' . $rm->getReceiver());
     }
-    
-    public function sendMail($do, $od, $temat, $tresc)
-    {
-        $naglowki = 'Reply-to: '.$od.PHP_EOL;
-        $naglowki.= 'From: '.$od.PHP_EOL;
-        $naglowki.= 'MIME-Version: 1.0'.PHP_EOL;
-        $naglowki.= 'Content-type: text/html; charset=UTF-8'.PHP_EOL;
 
-        if(!@mail($do, $temat, $tresc, $naglowki))
-                throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: '.$do);
+    public function sendMail($do, $od, $temat, $tresc) {
+        $naglowki = 'Reply-to: ' . $od . PHP_EOL;
+        $naglowki.= 'From: ' . $od . PHP_EOL;
+        $naglowki.= 'MIME-Version: 1.0' . PHP_EOL;
+        $naglowki.= 'Content-type: text/html; charset=UTF-8' . PHP_EOL;
+
+        if (!@mail($do, $temat, $tresc, $naglowki))
+            throw new MailDidNotSend('Wiadomosc nie zostala wyslana na adres: ' . $do);
     }
-    
-    public function infoWybranaOfertaWlasciciel(User $adresat)
-    {
+
+    public function infoWybranaOfertaWlasciciel(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoWybranaOfertaWlasciciel());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta została wybrana', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Twoja oferta została wybrana', $tm->getContent());
     }
-    
-    public function infoOdrzuconaOfertaWlasciciel(User $adresat)
-    {
+
+    public function infoOdrzuconaOfertaWlasciciel(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaWlasciciel());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoja oferta została odrzucona', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Twoja oferta została odrzucona', $tm->getContent());
     }
 
-    public function infoNowaOfertaWlascicielZlecenia(User $adresat)
-    {
+    public function infoNowaOfertaWlascicielZlecenia(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoNowaOfertaWlascicielZlecenia());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Nowa oferta w Twoim zleceniu', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Nowa oferta w Twoim zleceniu', $tm->getContent());
     }
 
-    public function infoNowaOfertaObserwujacyZlecenie(User $adresat)
-    {
+    public function infoNowaOfertaObserwujacyZlecenie(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoNowaOfertaObserwujacyZlecenie());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Nowa oferta w zleceniu, które obserwujesz', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Nowa oferta w zleceniu, które obserwujesz', $tm->getContent());
     }
-    
-    public function infoWybranaOfertaDodaneDoZlecenia(User $adresat)
-    {
+
+    public function infoWybranaOfertaDodaneDoZlecenia(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoWybranaOfertaDodaneDoZlecenia());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia do którego jesteś dodany została wybrana', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Oferta zlecenia do którego jesteś dodany została wybrana', $tm->getContent());
     }
 
-    public function infoOdrzuconaOfertaDodaneDoZlecenia(User $adresat)
-    {
+    public function infoOdrzuconaOfertaDodaneDoZlecenia(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoOdrzuconaOfertaDodaneDoZlecenia());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Oferta zlecenia do którego jesteś dodany została odrzucona', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Oferta zlecenia do którego jesteś dodany została odrzucona', $tm->getContent());
     }
-    
-    public function infoZakonczoneZlecenieWlasciciel(User $adresat)
-    {
+
+    public function infoZakonczoneZlecenieWlasciciel(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieWlasciciel());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Twoje zlecenie właśnie się zakończyło', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Twoje zlecenie właśnie się zakończyło', $tm->getContent());
     }
 
-    public function infoZakonczoneZlecenieDodane(User $adresat)
-    {
+    public function infoZakonczoneZlecenieDodane(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieDodane());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Zlecenie, do którego się dopisałeś właśnie się zakończyło', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Zlecenie, do którego się dopisałeś właśnie się zakończyło', $tm->getContent());
     }
 
-    public function infoZakonczoneZlecenieOferty(User $adresat)
-    {
+    public function infoZakonczoneZlecenieOferty(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoZakonczoneZlecenieOferty());
-        $this->sendMail($adresat->getEmail(),'noreply@szkolea.pl', 'Zlecenie, do którego dodałeś ofertę właśnie się zakończyło', $tm->getContent());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Zlecenie, do którego dodałeś ofertę właśnie się zakończyło', $tm->getContent());
     }
+
+    //rozsyłanie Newslettera do użytkowników zgodnie z wyborem opcji (klienci, usługodawcy, wszyscy). Mail idzie zawsze także do Adminów
+    public function sendNewsletter($dbc, Newsletter $n) {
+
+        //szablony od maila
+        $t_mail = new Template(Pathes::getPathTemplateMailNewsletter());
+        $t_mail_list = new Template(Pathes::getPathTemplateMailNewsletterList());
+
+        //wrzucamy do szablony od maila temat i treść
+        $t_mail->addSearchReplace('subject', $n->getSubject());
+        $t_mail->addSearchReplace('content', $n->getContent());
+
+        //pobieramy wszystkie promowane usługi z ich nazwami
+        $promoted = $n->completePromotedServList($dbc);
+
+        $promoted_list = array();
+
+        //do szablonu wrzcamy kolejno ID_SERV do linku i NAZWĘ do wyświetlenia
+        for ($i = 0; $i < count($promoted); $i++) {
+            $t_mail_list->addSearchReplace('id_serv', $promoted[$i]['id_serv']);
+            $t_mail_list->addSearchReplace('name_serv', $promoted[$i]['name']);
+
+            //dołączamy kolejne promowane usługi do całej listy
+            $promoted_list .= $t_mail_list->getContent();
+            $t_mail_list->clearSearchReplace();
+        }
+
+        //wklejamy do szablonu listę promowanych
+        $t_mail->addSearchReplace('promoted', $promoted_list);
+
+        //pobieramy adresy e-mail z grupy docelowej przez obiekt Newsletter
+        $receivers = $n->getReceivers();
+
+        //rozsyłamy maile do wszystkich z grupy docelowej
+        for ($i = 0; $i < count($receivers); $i++) {
+            $this->sendMail($receivers[$i], 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
+        }
+    }
+
 }
 
 ?>

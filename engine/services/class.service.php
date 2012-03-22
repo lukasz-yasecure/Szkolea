@@ -3,8 +3,8 @@
 /**
  *  2011-11-09  kontenet danych dla Usługi Service
  */
-class Service
-{
+class Service {
+
     // wszystkie pola z DB
     private $id_serv;
     private $id_user;
@@ -28,7 +28,6 @@ class Service
     private $tematyka_name;
     private $tematyka;
     private $moduly_names;
-
     // dodatkowe pola
     private $cat;
     private $subcat;
@@ -250,6 +249,7 @@ class Service
     public function setModuly_names($moduly_names) {
         $this->moduly_names = $moduly_names;
     }
+
 }
 
 ?>

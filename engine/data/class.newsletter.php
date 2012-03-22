@@ -30,41 +30,33 @@ class Newsletter {
         $this->receivers = $receivers;
     }
 
-    //TODO PRZENIEŚĆ DO USER DATA
-
-    /**
+    /*     * Funkcja pobierająca i tworząca tablicę promowanych usług z ich ID i NAZWĄ
      *
-     * @param type $post
-     * @return Newsletter 
+     * @param DBC $dbc
+     * @return Array() $promoted - tablica z numerami i nazwami usług
+     * @throws DBQueryException 
      */
-    public function getNewsletterFromPost($post, DBC $dbc) {
+
+    public function completePromotedServList(DBC $dbc) {
         $n = new Newsletter();
+        $promoted = array();
 
-
-        $this->subject = (isset($post['subject']) ? $post['subject'] : null );
-        $this->content = (isset($post['content']) ? $post['content'] : null );
-
-        if (isset($post['type'])) {
-
-            $sql = Query::getEmails($post['type']);
-            $result = $dbc->query($sql);
-            if (!$result)
-                throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-            if ($result->num_rows <= 0)
-                $n->setReceivers(array());
-            else {
-                $i = 0;
-                while ($row = $result->fetch_assoc()) {
-                    $this->receivers = $receivers[$i] = $row['email'];
-                    $i++;
-                }
+        $sql = Query::getPromotedServs();
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            $promoted = array();
+        else {
+            $i = 0;
+            //tworzymy tablicę z numerami i nazwami usług
+            while ($row = $result->fetch_assoc()) {
+                $promoted[$i]['id_serv'] = $row['id_serv'];
+                $promoted[$i]['name'] = $row['name'];
+                $i++;
             }
-        }else
-            $n->setReceivers(array());
-
-
-
-        return $n;
+        }
+        return $promoted;
     }
 
 }
