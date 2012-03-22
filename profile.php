@@ -520,8 +520,8 @@ try {
                     else if ($_GET['a'] == 1) {
                         if(isset($_GET['p'])) { // `p` jak payment
                             $t = new Template(Pathes::getPathTemplateProfilePaymentProwizja());
-                            $fd = $dbc->query(Query::getDataProfileInvoice($_GET['p'])); // pobierane dane faktury / form data
-                            $r = $tm->getTemplateProfilePaymentFormProwizja($fd); // form template
+                            $fr = $dbc->query(Query::getDataProfileInvoice($_GET['p'])); // pobierane dane faktury / form result
+                            $r = $tm->getTemplateProfilePaymentFormProwizja($fr,$u); // form template
                         } else if(isset($_GET['m']) AND $_GET['m'] == 'thankyou') {
                             $t = new Template(Pathes::getPathTemplateProfilePaymentThankYouProwizja());
                         } else {

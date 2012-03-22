@@ -31,13 +31,20 @@ try
     $dbc = new DBC($sys);
     
     $post = '';
+    $amount = '';
+    
+    $get_amount = $dbc->query(Query::getDataProfileInvoice($_POST['control'])); // pobierane dane faktury
+    if(isset($get_amount)) {
+        $a = $get_amount->fetch_object();
+        $amount = $a->kwota_brutto; 
+    }
     foreach($_POST as $k => $v) {
         $post .= $k.'::'.$v.'&&';
     }
     if($_SERVER['REMOTE_ADDR'] == '195.150.9.37') { // check IP
             
             $salt = '9ETs0gaZNS1ATAJx';
-            $md5 = md5($salt.':57265:'.$_POST['control'].':'.$_POST['t_id'].':'.$_POST['amount'].':'.$_POST['email'].':::::'.$_POST['t_status']);
+            $md5 = md5($salt.':57265:'.$_POST['control'].':'.$_POST['t_id'].':'.$amount.':'.$_POST['email'].':::::'.$_POST['t_status']);
             if($md5 == $_POST['md5']) { // check MD5
                 if($_POST['t_status'] == '2') { // wykonana
                     $dbc->query(Query::logDotPay('1',$_POST['control'],$post));   
