@@ -814,5 +814,7 @@ try {
     echo $mt->getContent();
 } catch (Exception $e) {
     $em = new EXCManager($e);
+
+    //komentarz testtowy  ą ę ć ź ż ń ó ł
 }
 ?>
