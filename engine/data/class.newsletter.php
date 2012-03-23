@@ -2,9 +2,9 @@
 
 class Newsletter {
 
-    private $subject = null;
-    private $content = null;
-    private $receivers = '';
+    private $subject;
+    private $content;
+    private $receivers;
     private $receivers_mails = array();
     private $promoted_servs = array();
     //iteratory
@@ -51,7 +51,7 @@ class Newsletter {
     public function completeMailsList(DBC $dbc) {
 
         //receivers mówi nam o grupie docelowej , względem której pobierane są maile z bazy , a następnie do których nastąpi mailing
-        if (isset($this->receivers)) {
+        if (!is_null($this->receivers)) {
             $sql = Query::getEmails($this->receivers);
             $result = $dbc->query($sql);
             if (!$result)
@@ -84,7 +84,7 @@ class Newsletter {
 
     /** pobieranie pojedyńczej usługi po kolei przy każdokrotnym użyciu funkcji (interator)
      *
-     * @return ($this->promoted_servs[$this->promoted_servs_it-1]) pojedyńcza usługa
+     * @return Service pojedyńcza usługa
      */
     public function getService() {
 
