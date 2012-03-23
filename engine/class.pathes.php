@@ -85,6 +85,8 @@ class Pathes {
     public static $template_profile_admin_stats_uslugi_lista = 'admin_stat_uslugi_lista.html';
     public static $template_profile_admin_stats_pakiety_lista = 'admin_stat_pakiety_lista.html';
     public static $template_profile_offer_details = 'admin_oferta_szczegoly.html';
+    public static $template_profile_newsletter = 'admin_newsletter.html';
+    public static $template_profile_payment = 'admin_inne_platnosci.html';
     public static $mail_info_wybrana_oferta_wlasciciel = 'info_wybrana_oferta_wlasciciel.html';
     public static $mail_info_odrzucona_oferta_wlasciciel = 'info_odrzucona_oferta_wlasciciel.html';
     public static $mail_info_nowa_oferta_wlasciciel_zlecenia = 'info_nowa_oferta_wlasciciel_zlecenia.html';
@@ -96,6 +98,8 @@ class Pathes {
     public static $mail_info_zakonczone_zlecenie_wlasciciel = 'info_zakonczone_zlecenie_wlasciciel.html';
     public static $mail_info_zakonczone_zlecenie_dodane = 'info_zakonczone_zlecenie_dodane.html';
     public static $mail_info_zakonczone_zlecenie_oferty = 'info_zakonczone_zlecenie_oferty.html';
+    public static $mail_newsletter = 'admin_newsletter_mail.html';
+    public static $mail_newsletter_list = 'admin_newsletter_mail_list.html';
     public static $cennik = 'cennik.html';
     public static $priv_rules = 'priv_rules.html';
     public static $rules = 'rules.html';
@@ -114,6 +118,7 @@ class Pathes {
     public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
     public static $script_profile_card = 'profile.php?w=dane&a=0';
+    public static $script_admin_newsletter = 'profile.php?w=inne&a=newsletter';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -203,6 +208,10 @@ class Pathes {
 
     public static function getScriptProfileZleceniaMoje() {
         return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
+    }
+
+    public static function getScriptAdminNewsletter() {
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_admin_newsletter;
     }
 
     public static function getCommGroupJoinFormTemplatePath() {
@@ -497,6 +506,14 @@ class Pathes {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_oferty;
     }
 
+    public static function getPathTemplateMailNewsletter() {
+        return Pathes::$template_mail_path . Pathes::$mail_newsletter;
+    }
+
+    public static function getPathTemplateMailNewsletterList() {
+        return Pathes::$template_mail_path . Pathes::$mail_newsletter_list;
+    }
+
     public static function getPathTemplateCennik() {
         return Pathes::$template_path . Pathes::$cennik;
     }
@@ -547,6 +564,14 @@ class Pathes {
 
     public static function getPathTemplateOfferDetails() {
         return Pathes::$template_path . Pathes::$template_profile_offer_details;
+    }
+
+    public static function getPathTemplateNewsletter() {
+        return Pathes::$template_path . Pathes::$template_profile_newsletter;
+    }
+
+    public static function getPathTemplatePayment() {
+        return Pathes::$template_path . Pathes::$template_profile_payment;
     }
 
 }

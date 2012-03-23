@@ -1,0 +1,48 @@
+<div id="main">
+    <div class="lineAccount"></div><!-- lineAccount -->
+    <div class="myAccount">
+        <div class="menuAccount">
+            <div class="accountButtonW"><a href="?w=comms">ZLECENIA</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=kategorie">KATEGORIE</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=uzytkownicy">UŻYTKOWNICY</a></div><!-- accountButtonW -->
+            <div class="accountButtonW"><a href="?w=statystyki">STATYSTYKI</a></div><!-- accountButtonW -->
+            <div class="accountButtonB"><a href="?w=inne">INNE</a></div><!-- accountButtonW -->
+            <div class="buttonInfo">Witaj, {%name%} | <a href="logout.php">wyloguj</a></div><!-- buttonInfo -->
+        </div><!-- menuAccount -->
+        <div class="accountStrip"></div><!-- accountStrip -->
+    </div><!-- myAccount -->
+    <div class="menuAccountD">
+        <div class="accountButtonD"><a href="?w=inne&a=newsletter">newsletter</a></div><!-- accountButtonD -->
+        <div class="accountButtonDb"><a href="?w=inne&a=platnosci">płatności</a></div><!-- accountButtonD -->
+    </div><!-- menuAccountD -->
+    <div class="accountMain">
+        <div class="accountTitle">
+            Newsletter
+        </div><!-- accountTitle -->
+        <br clear="all" />
+        <div class="accountLine"></div><!-- accountLine -->
+
+        <form name="newsletter" method="post">
+            <p>Grupa docelowa: <br/>
+                <input type="radio" name="receivers" value="klienci" {%RFD_radio_klienci%} />Klienci<br>
+                <input type="radio" name="receivers" value="uslugodawcy" {%RFD_radio_uslugodawcy%} />Usługodawcy<br>
+                <input type="radio" name="receivers" value="wszyscy" {%RFD_radio_wszyscy%} />Wszyscy<br>
+            </p>
+            <p>
+                <label for="subject">Temat: </label>
+                <input id="subject" name="subject" size="50" type="text" value="{%RFD_subject%}" />
+            </p>
+            <p>
+                <label for="content">Treść wiadomości: </label><br/>
+                <textarea name="content" cols="80" rows="15" class="area">{%RFD_content%}</textarea><br/>
+            </p>
+            <p>
+                <input type="reset" value="Wyczyść"/>
+                <input class="submit" name="submit" type="submit" value="WYŚLIJ"/>
+            </p>
+
+        </form>
+
+
+    </div><!-- accountMain -->
+</div><!-- main -->

@@ -1351,6 +1351,48 @@ class UserData {
         return $o;
     }
 
+    /** Funkcja tworząca i uzupełniająca obiekt Newsletter tematem, treścią i mailami z grupy docelowej
+     *
+     * @param type $post $_POST z formularza
+     * @return Newsletter wszystkie adresy e-mail z grupy docelowej
+     */
+    public function getNewsletter(DBC $dbc) {
+        $n = new Newsletter();
+
+        //walidacja tematu
+        if (isset($_POST['subject']) && strlen($_POST['subject']) > 0) {
+            $n->setSubject(Valid::antyHTML($_POST['subject']));
+            RFD::add('newsletter', 'subject', $n->getSubject());
+        } else {
+            BFEC::add(MSG::NoSubject());
+        }
+        //walidacja treści
+        if (isset($_POST['content']) && strlen($_POST['content']) > 0) {
+            $_POST['content'] = Valid::antyHTML($_POST['content']);
+            $n->setContent(nl2br($_POST['content']));
+            RFD::add('newsletter', 'content', $n->getContent());
+        } else {
+            BFEC::add(MSG::NoText());
+        }
+        //walidacja wyboru docelowej grupy użytowników (radio)
+        if (isset($_POST['receivers']) && ($_POST['receivers'] == 'klienci' || $_POST['receivers'] == 'uslugodawcy' || $_POST['receivers'] == 'wszyscy')) {
+            $n->setReceivers($_POST['receivers']);
+            RFD::add('newsletter', 'receivers', $_POST['receivers']);
+        } else {
+            BFEC::add(MSG::NoChoice());
+        }
+
+        //jeśli nie wystąpiły błędy podczas walidacji tworzymy listę odbiorców w Newsletterze
+        if (!BFEC::isError()) {
+            $n->completeMailsList($dbc);
+        }else
+        //przy błędach przekierowanie spowrotem na form z błędami
+            BFEC::redirect(Pathes::getScriptAdminNewsletter());
+
+        RFD::clear('newsletter');
+        return $n;
+    }
+
 }
 
 ?>
