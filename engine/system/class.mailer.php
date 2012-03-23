@@ -134,7 +134,6 @@ class Mailer {
 
         //rozsyłamy maile do wszystkich z grupy docelowej pobierając po kolei odbiorców z Newsletter
         while (!is_null($receiver = $n->getReceiver())) {
-            STD::pre($receiver);
             $this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
         }
     }

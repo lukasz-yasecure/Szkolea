@@ -78,7 +78,7 @@ class Newsletter {
     //pobieranie pojedyńczego odbiorcy po kolei przy każdokrotnym użyciu funkcji (interator)
     public function getReceiver() {
 
-        if ($this->receivers_mails_it == count($this->receivers)) {
+        if ($this->receivers_mails_it == count($this->receivers_mails)) {
             $this->receivers_mails_it = 0;
             return null;
         } else
