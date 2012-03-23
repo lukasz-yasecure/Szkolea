@@ -102,7 +102,7 @@ if (isset($_GET['join'])) {
         $pm->checkPrivileges($u);
 
         $dbc = new DBC($sys);
-
+        
         //sprawdzenie po formularzu czy dostawca może dodawać oferty = ma wystarczającą ilość ofert
         $pkgm = new PackageManager();
         $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());

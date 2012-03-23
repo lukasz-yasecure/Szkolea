@@ -1377,7 +1377,10 @@ class UserData {
             BFEC::add(MSG::NoText());
         }
         //walidacja wyboru docelowej grupy użytowników (radio)
-        if (!(isset($_POST['receivers']) && ($_POST['receivers'] == 'klienci' || $_POST['receivers'] == 'uslugodawcy' || $_POST['receivers'] == 'wszyscy'))) {
+        if (isset($_POST['receivers']) && ($_POST['receivers'] == 'klienci' || $_POST['receivers'] == 'uslugodawcy' || $_POST['receivers'] == 'wszyscy')) {
+            $n->setReceivers($_POST['receivers']);
+            RFD::add('newsletter', 'receivers', $_POST['receivers']);
+        } else {
             BFEC::add(MSG::NoChoice());
         }
 

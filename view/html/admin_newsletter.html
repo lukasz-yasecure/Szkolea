@@ -24,9 +24,9 @@
 
         <form name="newsletter" method="post">
             <p>Grupa docelowa: <br/>
-                <input type="radio" name="receivers" value="klienci" />Klienci<br>
-                <input type="radio" name="receivers" value="uslugodawcy" />Usługodawcy<br>
-                <input type="radio" name="receivers" value="wszyscy" checked="checked" />Wszyscy<br>
+                <input type="radio" name="receivers" value="klienci" {%RFD_radio_klienci%} />Klienci<br>
+                <input type="radio" name="receivers" value="uslugodawcy" {%RFD_radio_uslugodawcy%} />Usługodawcy<br>
+                <input type="radio" name="receivers" value="wszyscy" {%RFD_radio_wszyscy%} />Wszyscy<br>
             </p>
             <p>
                 <label for="subject">Temat: </label>

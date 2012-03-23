@@ -118,7 +118,7 @@ class Mailer {
         $promoted_list = array();
         $n->setPromotedServs($sm->completePromotedServs($dbc));
 
-        
+
         //pobieramy kolejno usług z Newsletter
         while (!is_null($promoted = $n->getService())) {
 
@@ -138,8 +138,7 @@ class Mailer {
 
         //rozsyłamy maile do wszystkich z grupy docelowej pobierając po kolei odbiorców z Newsletter
         while (!is_null($receiver = $n->getReceiver())) {
-
-            //$this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
+            $this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
         }
     }
 

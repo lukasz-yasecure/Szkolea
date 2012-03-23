@@ -4,7 +4,8 @@ class Newsletter {
 
     private $subject = null;
     private $content = null;
-    private $receivers = array();
+    private $receivers = '';
+    private $receivers_mails = array();
     private $promoted_servs = array();
     //iteratory
     private $receivers_mails_it = 0;
@@ -20,6 +21,10 @@ class Newsletter {
 
     public function getReceivers() {
         return $this->receivers;
+    }
+
+    public function getReceiversMails() {
+        return $this->receivers_mails;
     }
 
     public function setPromotedServs($promoted) {
@@ -38,15 +43,16 @@ class Newsletter {
         $this->receivers = $receivers;
     }
 
+    public function setReceiversMails($receivers_mails) {
+        $this->receivers_mails = $receivers_mails;
+    }
+
     //tworzenie listy odbiorców
     public function completeMailsList(DBC $dbc) {
 
-        $receivers_mails = array();
-
-
         //receivers mówi nam o grupie docelowej , względem której pobierane są maile z bazy , a następnie do których nastąpi mailing
-        if (isset($_POST['receivers'])) {
-            $sql = Query::getEmails($_POST['receivers']);
+        if (isset($this->receivers)) {
+            $sql = Query::getEmails($this->receivers);
             $result = $dbc->query($sql);
             if (!$result)
                 throw new DBQueryException($dbc->error, $sql, $dbc->errno);
@@ -61,26 +67,31 @@ class Newsletter {
                     $i++;
                 }
             }
-            $this->setReceivers($receivers_mails);
+            $this->setReceiversMails($receivers_mails);
         }
     }
 
     //pobieranie pojedyńczego odbiorcy po kolei przy każdokrotnym użyciu funkcji (interator)
     public function getReceiver() {
 
-        if ($this->receivers_mails_it == count($this->receivers))
+        if ($this->receivers_mails_it == count($this->receivers)) {
+            $this->receivers_mails_it = 0;
             return null;
-        else
+        } else
             $this->receivers_mails_it++;
         return $this->receivers[$this->receivers_mails_it - 1];
     }
 
-    //pobieranie pojedyńczej usługi po kolei przy każdokrotnym użyciu funkcji (interator)
+    /** pobieranie pojedyńczej usługi po kolei przy każdokrotnym użyciu funkcji (interator)
+     *
+     * @return ($this->promoted_servs[$this->promoted_servs_it-1]) pojedyńcza usługa
+     */
     public function getService() {
 
-        if ($this->promoted_servs_it == count($this->promoted_servs))
+        if ($this->promoted_servs_it == count($this->promoted_servs)) {
+            $promoted_servs_it = 0;
             return null;
-        else
+        } else
             $this->promoted_servs_it++;
         return $this->promoted_servs[$this->promoted_servs_it - 1];
     }
