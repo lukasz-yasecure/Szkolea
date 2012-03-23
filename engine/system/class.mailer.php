@@ -103,8 +103,7 @@ class Mailer {
     }
 
     //rozsyłanie Newslettera do użytkowników zgodnie z wyborem opcji (klienci, usługodawcy, wszyscy). Mail idzie zawsze także do Adminów
-    public function sendNewsletter($dbc, Newsletter $n) {
-        $sm = new ServiceManager();
+    public function sendNewsletter(Newsletter $n) {
 
         //szablony od maila
         $t_mail = new Template(Pathes::getPathTemplateMailNewsletter());
@@ -114,17 +113,14 @@ class Mailer {
         $t_mail->addSearchReplace('subject', $n->getSubject());
         $t_mail->addSearchReplace('content', $n->getContent());
 
-        //pobieramy wszystkie promowane usługi z ich nazwami
-        $promoted_list = array();
-        $n->setPromotedServs($sm->completePromotedServs($dbc));
-
+        $promoted_list = '';
 
         //pobieramy kolejno usług z Newsletter
         while (!is_null($promoted = $n->getService())) {
 
             //do szablonu wrzcamy kolejno ID_SERV do linku i NAZWĘ do wyświetlenia
 
-            $t_mail_list->addSearchReplace('id_serv', $promoted['id_serv']);
+            $t_mail_list->addSearchReplace('serv_link', Pathes::getScriptServicePath($promoted['id_serv']));
             $t_mail_list->addSearchReplace('name_serv', $promoted['name']);
 
             //dołączamy kolejne promowane usługi do całej listy

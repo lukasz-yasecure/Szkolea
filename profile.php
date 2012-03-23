@@ -760,22 +760,34 @@ try {
 
             //reakcja na POST
             if ((isset($_POST['submit']))) {
+                $sm = new ServiceManager();
+                $n = new Newsletter();
+
+                //pobieramy wszystkie promowane usługi z ich nazwami
+                $n->setPromotedServs($sm->completePromotedServs($dbc));
 
                 //wysyłanie Newslettera
                 $mailer = new Mailer();
-                $mailer->sendNewsletter($dbc, $ud->getNewsletter($dbc));
+                $mailer->sendNewsletter($ud->getNewsletter($dbc));
 
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
 
                 //wybieranie odpowiedniego radio na podstawie RFD
-                if (RFD::get('newsletter', 'receivers') == 'klienci')
+                if (RFD::get('newsletter', 'receivers') == 'klienci') {
                     $t->addSearchReplace('RFD_radio_klienci', 'checked="checked"');
-                elseif (RFD::get('newsletter', 'receivers') == 'uslugodawcy')
+                    $t->addSearchReplace('RFD_radio_uslugodawcy', '');
+                    $t->addSearchReplace('RFD_radio_wszyscy', '');
+                } elseif (RFD::get('newsletter', 'receivers') == 'uslugodawcy') {
                     $t->addSearchReplace('RFD_radio_uslugodawcy', 'checked="checked"');
-                elseif (RFD::get('newsletter', 'receivers') == 'wszyscy')
+                    $t->addSearchReplace('RFD_radio_klienci', '');
+                    $t->addSearchReplace('RFD_radio_wszyscy', '');
+                } elseif (RFD::get('newsletter', 'receivers') == 'wszyscy') {
                     $t->addSearchReplace('RFD_radio_wszyscy', 'checked="checked"');
+                    $t->addSearchReplace('RFD_radio_klienci', '');
+                    $t->addSearchReplace('RFD_radio_uslugodawcy', '');
+                }
 
                 RFD::clear('newsletter');
             } else {
@@ -784,12 +796,19 @@ try {
                 $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
 
                 //wybieranie odpowiedniego radio na podstawie RFD
-                if (RFD::get('newsletter', 'receivers') == 'klienci')
+                if (RFD::get('newsletter', 'receivers') == 'klienci') {
                     $t->addSearchReplace('RFD_radio_klienci', 'checked="checked"');
-                elseif (RFD::get('newsletter', 'receivers') == 'uslugodawcy')
+                    $t->addSearchReplace('RFD_radio_uslugodawcy', '');
+                    $t->addSearchReplace('RFD_radio_wszyscy', '');
+                } elseif (RFD::get('newsletter', 'receivers') == 'uslugodawcy') {
                     $t->addSearchReplace('RFD_radio_uslugodawcy', 'checked="checked"');
-                elseif (RFD::get('newsletter', 'receivers') == 'wszyscy')
+                    $t->addSearchReplace('RFD_radio_klienci', '');
+                    $t->addSearchReplace('RFD_radio_wszyscy', '');
+                } elseif (RFD::get('newsletter', 'receivers') == 'wszyscy') {
                     $t->addSearchReplace('RFD_radio_wszyscy', 'checked="checked"');
+                    $t->addSearchReplace('RFD_radio_klienci', '');
+                    $t->addSearchReplace('RFD_radio_uslugodawcy', '');
+                }
 
                 RFD::clear('newsletter');
             }
