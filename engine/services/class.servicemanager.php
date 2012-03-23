@@ -181,11 +181,16 @@ class ServiceManager {
      * @return Service[] $promoted_servs - tablica z numerami i nazwami usług
      * @throws DBQueryException 
      */
-    public function getPromotedServs(DBC $dbc) {
+    public function getPromotedServs(DBC $dbc, $id_user = NULL) {
+        $promoted_servs = '';
 
-        $promoted_servs;
+        //rozpatrujemy przypadek czy dla konkretnego użytkownika, czy dla wszystkich
+        if (is_null($id_user)) {
+            $sql = Query::getPromotedServs();
+        } else {
+            $sql = Query::getPromotedServs($id_user);
+        }
 
-        $sql = Query::getPromotedServs();
         $result = $dbc->query($sql);
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
@@ -193,7 +198,7 @@ class ServiceManager {
             $promoted_servs = NULL;
         else {
             $i = 0;
-            //tworzymy tablicę z numerami i nazwami usług
+            //tworzymy tablicę z usługami jako obiekty
             while ($row = $result->fetch_assoc()) {
                 $promoted_servs[$i] = $this->getServiceFromRow($row);
                 $i++;

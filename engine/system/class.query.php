@@ -770,9 +770,12 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
-    //pobieramy promowane usługi i ich nazwami
-    public static function getPromotedServs() {
-        $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv';
+    //pobieramy promowane usługi z ich nazwami, gdy podany użytkownik w parametrze to tylko jego, w przeciwnym wypadku wszystkie
+    public static function getPromotedServs($id_user = NULL) {
+        if (is_null($id_user))
+            $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv';
+        else
+            $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv WHERE serv_promoted.id_user=' . $id_user;
 
         return $sql;
     }

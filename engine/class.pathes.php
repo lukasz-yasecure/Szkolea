@@ -51,6 +51,8 @@ class Pathes {
     public static $template_profile_obserwowane_kategorie_zlecen = 'profile_k_zl_obs_k.html';
     public static $template_profile_edycja_danych = 'profile_k_dane_edycja.html';
     public static $template_profile_moje_obserwowane = 'profile_u_u_obs_moje.html';
+    public static $template_profile_moje_promowane = 'profile_u_u_prom.html';
+    public static $template_profile_promowana_usluga = 'profile_dostawca_promo_wybrana.html';
     public static $template_profile_obserwowane_kategorie_uslug_dostawcy = 'profile_u_u_obs_k.html';
     public static $template_profile_obserwowane_zlecenia_dostawcy = 'profile_u_zl_obs_zl.html';
     public static $template_profile_oferty_dostawca = 'profile_u_zl_oferty.html';
@@ -359,6 +361,10 @@ class Pathes {
         return Pathes::$template_path . Pathes::$template_profile_moje_obserwowane;
     }
 
+    public static function getPathTemplateProfilePromote() {
+        return Pathes::$template_path . Pathes::$template_profile_moje_promowane;
+    }
+
     public static function getPathTemplateProfileObservedServsCats() {
         return Pathes::$template_path . Pathes::$template_profile_obserwowane_kategorie_uslug_dostawcy;
     }
@@ -553,6 +559,10 @@ class Pathes {
 
     public static function getPathTemplatePayment() {
         return Pathes::$template_path . Pathes::$template_profile_payment;
+    }
+
+    public static function getPathTemplatePromotedService() {
+        return Pathes::$template_path . Pathes::$template_profile_promowana_usluga;
     }
 
 }

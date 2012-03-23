@@ -250,10 +250,37 @@ try {
     }
     else if ($u->isDostawca()) {
         if (isset($_GET['w'])) {
+
+            //USŁUGI - DOSTAWCA
             if ($_GET['w'] == 'servs') {
-                if (isset($_GET['a']) && $_GET['a'] == 1)
+                $s = new Service();
+                $sm = new ServiceManager();
+
+                //moje usługi
+                if (isset($_GET['a']) && $_GET['a'] == 1) {
                     $t = new Template(Pathes::getPathTemplateProfileMyObserved());
-                else {
+                }
+                //promowana usługa
+                elseif (isset($_GET['a']) && $_GET['a'] == 2) {
+
+                    $t = new Template(Pathes::getPathTemplateProfilePromote());
+
+                    $promoted = $sm->getPromotedServs($dbc, $u->getId_user());
+
+                    if (count($promoted) > 0) {
+                        $t_prom = new Template(Pathes::getPathTemplatePromotedService());
+                        $t_prom->addSearchReplace('serv_name', $promoted[0]->getName());
+                        $t_prom->addSearchReplace('data', UF::timestamp2date($promoted[0]->getPromoteDate_end()));
+                        $t_prom->addSearchReplace('serv_link', Pathes::getScriptServicePath($promoted[0]->getId_serv()));
+
+                        $t->addSearchReplace('here', $t_prom->getContent());
+                    }
+
+
+
+
+                    //obserwowane kategorie - domyślnie
+                } else {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE USLUG
                      */
@@ -816,7 +843,5 @@ try {
     echo $mt->getContent();
 } catch (Exception $e) {
     $em = new EXCManager($e);
-
-    //komentarz testtowy  ą ę ć ź ż ń ó ł
 }
 ?>
