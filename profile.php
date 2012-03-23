@@ -761,14 +761,16 @@ try {
             //reakcja na POST
             if ((isset($_POST['submit']))) {
                 $sm = new ServiceManager();
-                $n = new Newsletter();
 
-                //pobieramy wszystkie promowane usługi z ich nazwami
-                $n->setPromotedServs($sm->completePromotedServs($dbc));
+                //pobieramy obiekt Newsletter z uzupełnionymi danymi
+                $n = $ud->getNewsletter($dbc);
+
+                //uzupełniamy Newsletter o promowane usługi z ich nazwami
+                $n->setPromotedServs($sm->getPromotedServs($dbc));
 
                 //wysyłanie Newslettera
                 $mailer = new Mailer();
-                $mailer->sendNewsletter($ud->getNewsletter($dbc));
+                $mailer->sendNewsletter($n);
 
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));

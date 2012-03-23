@@ -33,6 +33,8 @@ class Service {
     private $subcat;
     private $moduly;
     private $date_uzg;
+    private $promote_date_add;
+    private $promote_date_end;
 
     public function getCat() {
         return $this->cat;
@@ -210,12 +212,28 @@ class Service {
         $this->kotm = $kotm;
     }
 
-    public function getKategoria_name() {
-        return $this->kategoria_name;
+    public function setPromoteDate_add($date) {
+        $this->promote_date_add = $date;
+    }
+
+    public function setPromoteDate_end($date) {
+        $this->promote_date_end = $date;
     }
 
     public function setKategoria_name($kategoria_name) {
         $this->kategoria_name = $kategoria_name;
+    }
+
+    public function getPromoteDate_add() {
+        return $this->promote_date_add;
+    }
+
+    public function getPromoteDate_end() {
+        return $this->promote_date_end;
+    }
+
+    public function getKategoria_name() {
+        return $this->kategoria_name;
     }
 
     public function getObszar_name() {
@@ -248,6 +266,13 @@ class Service {
 
     public function setModuly_names($moduly_names) {
         $this->moduly_names = $moduly_names;
+    }
+
+    public function isPromoted() {
+        if (isset($this->date_end) && $this->date_end > time())
+            return TRUE;
+        else
+            return FALSE;
     }
 
 }

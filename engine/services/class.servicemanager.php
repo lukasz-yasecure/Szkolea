@@ -83,28 +83,30 @@ class ServiceManager {
 
     public function getServiceFromRow($row) {
         $s = new Service();
-        $s->setId_serv($row['id_serv']);
-        $s->setId_user($row['id_user']);
-        $s->setDate_add($row['date_add']);
-        $s->setDate_end($row['date_end']);
-        $s->setName($row['name']);
-        $s->setProgram($row['program']);
-        $s->setDate_a($row['date_a']);
-        $s->setDate_b($row['date_b']);
-        $s->setPlace($row['place']);
-        $s->setWoj($row['woj']);
-        $s->setCena($row['cena']);
-        $s->setCena_($row['cena_']);
-        $s->setMail($row['mail']);
-        $s->setPhone($row['phone']);
-        $s->setContact($row['contact']);
-        $s->setDesc($row['desc']);
-        $s->setKategoria_name($row['kategoria_name']);
-        $s->setObszar_name($row['obszar_name']);
-        $s->setTematyka_name($row['tematyka_name']);
-        $s->setTematyka($row['tematyka']);
-        $s->setModuly_names($row['moduly_names']);
-        $s->setKotm($row['kotm']);
+        $s->setId_serv(isset($row['id_serv']) ? $row['id_serv'] : null);
+        $s->setId_user(isset($row['id_user']) ? $row['id_user'] : null);
+        $s->setDate_add(isset($row['date_add']) ? $row['date_add'] : null);
+        $s->setDate_end(isset($row['date_end']) ? $row['date_end'] : null);
+        $s->setName(isset($row['name']) ? $row['name'] : null);
+        $s->setProgram(isset($row['program']) ? $row['program'] : null);
+        $s->setDate_a(isset($row['date_a']) ? $row['date_a'] : null);
+        $s->setDate_b(isset($row['date_b']) ? $row['date_b'] : null);
+        $s->setPlace(isset($row['place']) ? $row['place'] : null);
+        $s->setWoj(isset($row['woj']) ? $row['woj'] : null);
+        $s->setCena(isset($row['cena']) ? $row['cena'] : null);
+        $s->setCena_(isset($row['cena_']) ? $row['cena_'] : null);
+        $s->setMail(isset($row['mail']) ? $row['mail'] : null);
+        $s->setPhone(isset($row['phone']) ? $row['phone'] : null);
+        $s->setContact(isset($row['contact']) ? $row['contact'] : null);
+        $s->setDesc(isset($row['desc']) ? $row['desc'] : null);
+        $s->setKategoria_name(isset($row['kategoria_name']) ? $row['kategoria_name'] : null);
+        $s->setObszar_name(isset($row['obszar_name']) ? $row['obszar_name'] : null);
+        $s->setTematyka_name(isset($row['tematyka_name']) ? $row['tematyka_name'] : null);
+        $s->setTematyka(isset($row['tematyka']) ? $row['tematyka'] : null);
+        $s->setModuly_names(isset($row['moduly_names']) ? $row['moduly_names'] : null);
+        $s->setKotm(isset($row['kotm']) ? $row['kotm'] : null);
+        $s->setPromoteDate_add(isset($row['promote_date_add']) ? $row['promote_date_add'] : null);
+        $s->setPromoteDate_end(isset($row['promote_date_end']) ? $row['promote_date_end'] : null);
         return $s;
     }
 
@@ -176,25 +178,24 @@ class ServiceManager {
     /** Funkcja pobierająca i tworząca tablicę promowanych usług z ich ID i NAZWĄ
      *
      * @param DBC $dbc
-     * @return Array() $promoted_servs - tablica z numerami i nazwami usług
+     * @return Service[] $promoted_servs - tablica z numerami i nazwami usług
      * @throws DBQueryException 
      */
-    public function completePromotedServs(DBC $dbc) {
+    public function getPromotedServs(DBC $dbc) {
 
-        $promoted_servs = array();
+        $promoted_servs;
 
         $sql = Query::getPromotedServs();
         $result = $dbc->query($sql);
         if (!$result)
             throw new DBQueryException($dbc->error, $sql, $dbc->errno);
         if ($result->num_rows <= 0)
-            $promoted_servs = array();
+            $promoted_servs = NULL;
         else {
             $i = 0;
             //tworzymy tablicę z numerami i nazwami usług
             while ($row = $result->fetch_assoc()) {
-                $promoted_servs[$i]['id_serv'] = $row['id_serv'];
-                $promoted_servs[$i]['name'] = $row['name'];
+                $promoted_servs[$i] = $this->getServiceFromRow($row);
                 $i++;
             }
         }

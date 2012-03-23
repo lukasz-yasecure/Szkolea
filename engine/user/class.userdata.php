@@ -1357,8 +1357,6 @@ class UserData {
      * @return Newsletter wszystkie adresy e-mail z grupy docelowej
      */
     public function getNewsletter(DBC $dbc) {
-//reakcja na POST
-
         $n = new Newsletter();
 
         //walidacja tematu

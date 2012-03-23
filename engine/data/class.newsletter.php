@@ -27,6 +27,10 @@ class Newsletter {
         return $this->receivers_mails;
     }
 
+    public function getPromotedServs() {
+        return $this->promoted_servs;
+    }
+
     public function setPromotedServs($promoted) {
         $this->promoted_servs = $promoted;
     }
@@ -79,7 +83,7 @@ class Newsletter {
             return null;
         } else
             $this->receivers_mails_it++;
-        return $this->receivers[$this->receivers_mails_it - 1];
+        return $this->receivers_mails[$this->receivers_mails_it - 1];
     }
 
     /** pobieranie pojedyńczej usługi po kolei przy każdokrotnym użyciu funkcji (interator)

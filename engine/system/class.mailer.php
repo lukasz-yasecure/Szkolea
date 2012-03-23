@@ -117,23 +117,24 @@ class Mailer {
 
         //pobieramy kolejno usług z Newsletter
         while (!is_null($promoted = $n->getService())) {
+            //do szablonu wrzcamy kolejno link do SERVICE i NAZWĘ do wyświetlenia
 
-            //do szablonu wrzcamy kolejno ID_SERV do linku i NAZWĘ do wyświetlenia
-
-            $t_mail_list->addSearchReplace('serv_link', Pathes::getScriptServicePath($promoted['id_serv']));
-            $t_mail_list->addSearchReplace('name_serv', $promoted['name']);
+            $t_mail_list->addSearchReplace('serv_link', Pathes::getScriptServicePath($promoted->getId_serv()));
+            $t_mail_list->addSearchReplace('name_serv', $promoted->getName());
 
             //dołączamy kolejne promowane usługi do całej listy
             $promoted_list .= $t_mail_list->getContent();
             $t_mail_list->clearSearchReplace();
         }
 
+
+
         //wklejamy do szablonu listę promowanych
         $t_mail->addSearchReplace('promoted', $promoted_list);
 
-
         //rozsyłamy maile do wszystkich z grupy docelowej pobierając po kolei odbiorców z Newsletter
         while (!is_null($receiver = $n->getReceiver())) {
+            STD::pre($receiver);
             $this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
         }
     }
