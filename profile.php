@@ -772,26 +772,7 @@ try {
                 $mailer = new Mailer();
                 $mailer->sendNewsletter($n);
 
-                //dane z RFD do szablonu
-                $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));
-                $t->addSearchReplace('RFD_content', RFD::get('newsletter', 'content'));
-
-                //wybieranie odpowiedniego radio na podstawie RFD
-                if (RFD::get('newsletter', 'receivers') == 'klienci') {
-                    $t->addSearchReplace('RFD_radio_klienci', 'checked="checked"');
-                    $t->addSearchReplace('RFD_radio_uslugodawcy', '');
-                    $t->addSearchReplace('RFD_radio_wszyscy', '');
-                } elseif (RFD::get('newsletter', 'receivers') == 'uslugodawcy') {
-                    $t->addSearchReplace('RFD_radio_uslugodawcy', 'checked="checked"');
-                    $t->addSearchReplace('RFD_radio_klienci', '');
-                    $t->addSearchReplace('RFD_radio_wszyscy', '');
-                } elseif (RFD::get('newsletter', 'receivers') == 'wszyscy') {
-                    $t->addSearchReplace('RFD_radio_wszyscy', 'checked="checked"');
-                    $t->addSearchReplace('RFD_radio_klienci', '');
-                    $t->addSearchReplace('RFD_radio_uslugodawcy', '');
-                }
-
-                RFD::clear('newsletter');
+                BFEC::addm(MSG::NewsletterSent(), Pathes::getScriptAdminNewsletter());
             } else {
                 //dane z RFD do szablonu
                 $t->addSearchReplace('RFD_subject', RFD::get('newsletter', 'subject'));

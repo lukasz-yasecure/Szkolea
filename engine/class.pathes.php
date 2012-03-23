@@ -206,8 +206,8 @@ class Pathes {
     public static function getScriptProfileZleceniaMoje() {
         return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
     }
-    
-        public static function getScriptAdminNewsletter() {
+
+    public static function getScriptAdminNewsletter() {
         return SC::$base_url . Pathes::$script_path . Pathes::$script_admin_newsletter;
     }
 

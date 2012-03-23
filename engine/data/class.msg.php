@@ -117,6 +117,10 @@ class MSG {
     public static function NoChoice() {
         return 'Nie dokonano wyboru opcji.';
     }
+    
+        public static function NewsletterSent() {
+        return 'Newsletter został rozesłany.';
+    }
 
 }
 

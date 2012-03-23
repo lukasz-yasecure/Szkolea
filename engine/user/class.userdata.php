@@ -1389,6 +1389,7 @@ class UserData {
         //przy błędach przekierowanie spowrotem na form z błędami
             BFEC::redirect(Pathes::getScriptAdminNewsletter());
 
+        RFD::clear('newsletter');
         return $n;
     }
 
