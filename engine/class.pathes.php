@@ -2,7 +2,6 @@
 
 class Pathes {
 
-    public static $base_url = '';
     public static $template_path = 'view/html/';
     public static $template_mail_path = 'view/mails/';
     public static $template_main = 'main.html';
@@ -70,6 +69,10 @@ class Pathes {
     public static $template_profile_faktury_oplacone = 'profile_dostawca_faktury_op.html';
     public static $template_profile_faktury_nieoplacone = 'profile_dostawca_faktury_dop.html';
     public static $template_profile_faktury_nieoplacone_lista = 'profile_dostawca_faktury_dop_lista.html';
+    public static $template_profile_payment_prowizja = 'profile_dostawca_payment_prowizja.html';
+    public static $template_profile_payment_form_prowizja = 'profile_dostawca_payment_form_prowizja.html';
+    public static $template_profile_payment_pakiet = 'profile_dostawca_payment_pakiet.html';
+    public static $template_profile_payment_form_pakiet = 'profile_dostawca_payment_form_pakiet.html';
     public static $template_profile_admin_zlecenia = 'admin_comms.html';
     public static $template_profile_admin_edycja_kategorii = 'admin_kategorie_edycja.html';
     public static $template_profile_admin_lista_uzytkownikow = 'admin_uzytkownicy_lista.html';
@@ -101,6 +104,7 @@ class Pathes {
     public static $mail_info_zakonczone_zlecenie_oferty = 'info_zakonczone_zlecenie_oferty.html';
     public static $mail_newsletter = 'admin_newsletter_mail.html';
     public static $mail_newsletter_list = 'admin_newsletter_mail_list.html';
+    public static $mail_unpaid_invoice = 'unpaid_invoice.html';
     public static $cennik = 'cennik.html';
     public static $priv_rules = 'priv_rules.html';
     public static $rules = 'rules.html';
@@ -156,61 +160,61 @@ class Pathes {
     }
 
     public static function getScriptActivationPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_activation;
+        return SC::$base_urlSC . Pathes::$script_path . Pathes::$script_activation;
     }
 
     public static function getScriptRemindPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_remind;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_remind;
     }
 
     public static function getScriptLoginPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_login;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_login;
     }
 
     public static function getScriptRegisterPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_register;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_register;
     }
 
     public static function getScriptAddCommPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_add_comm;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_add_comm;
     }
 
     public static function getScriptCommisionPath($id = null) {
         if (is_null($id))
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_commision;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_commision;
         else
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_commision . '?id=' . $id;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_commision . '?id=' . $id;
     }
 
     public static function getScriptServicePath($id = null) {
         if (is_null($id))
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_service;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_service;
         else
-            return Pathes::$base_url . Pathes::$script_path . Pathes::$script_service . '?id=' . $id;
+            return SC::$base_url . Pathes::$script_path . Pathes::$script_service . '?id=' . $id;
     }
 
     public static function getScriptAddServPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_add_serv;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_add_serv;
     }
 
     public static function getScriptIndexPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_index;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_index;
     }
 
     public static function getScriptProfilePath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile;
     }
 
     public static function getScriptProfilePackageBuyingPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages_buying;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_packages_buying;
     }
 
     public static function getScriptProfilePackagesPath() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_packages;
     }
 
     public static function getScriptProfileZleceniaMoje() {
-        return Pathes::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_zlecenia_moje;
     }
 
     public static function getScriptAdminNewsletter() {
@@ -437,6 +441,22 @@ class Pathes {
         return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone_lista;
     }
 
+    public static function getPathTemplateProfilePaymentProwizja() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_prowizja;
+    }
+
+    public static function getPathTemplateProfilePaymentFormProwizja() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_form_prowizja;
+    }
+
+    public static function getPathTemplateProfilePaymentPakiet() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_pakiet;
+    }
+
+    public static function getPathTemplateProfilePaymentFormPakiet() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_form_pakiet;
+    }
+
     public static function getPathTemplateProfileCommsForAdmin() {
         return Pathes::$template_path . Pathes::$template_profile_admin_zlecenia;
     }
@@ -490,13 +510,13 @@ class Pathes {
     }
 
     public static function getScriptProfileCard() {
-        return Pathes::$base_url . Pathes::$script_profile_card;
+        return SC::$base_url . Pathes::$script_profile_card;
     }
 
     public static function getPathTemplateMailInfoZakonczoneZlecenieWlasciciel() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_wlasciciel;
     }
-
+    
     public static function getPathTemplateMailInfoZakonczoneZlecenieDodane() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_dodane;
     }
@@ -513,6 +533,10 @@ class Pathes {
         return Pathes::$template_mail_path . Pathes::$mail_newsletter_list;
     }
 
+    public static function getPathTemplateMailInfoUnpaidInvoice() {
+        return Pathes::$template_mail_path . Pathes::$mail_unpaid_invoice;
+    }
+    
     public static function getPathTemplateCennik() {
         return Pathes::$template_path . Pathes::$cennik;
     }

@@ -767,6 +767,18 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         $sql = 'SELECT * FROM users_packages LEFT JOIN users_324 ON users_packages.id_user =  users_324.id_user LEFT JOIN packages ON users_packages.id_pakietu =  packages.id_pakietu ORDER BY date_begin DESC';
         return $sql;
     }
+    
+    public static function logDotPay($type,$urlc,$info) {
+        return "INSERT INTO `log_dotpay` (`id_log_dotpay`, `date_log_dotpay`, `urlc_control`, `type_log_dotpay`, `info_log_dotpay`) VALUES (NULL, '".time()."', '".$urlc."', '".$type."', '".$info."')";
+    }
+
+    public static function updateDotPay($id_faktura) {
+        return 'UPDATE faktury AS f, (SELECT max(numer_fv) AS max FROM faktury) AS m SET f.data_fv = '.time().', f.numer_fv = m.max+1 WHERE id_faktura = '.$id_faktura.'';  
+    }
+
+    public static function createUnpaidInvoiceDB($id_user,$id_ofe,$pr) {
+        return 'INSERT INTO faktury (id_faktura, id_user, typ, kwota_brutto, id_pakiet, id_oferta, numer_fv, data_fv, numer_fpf, data_fpf) SELECT NULL, '.$id_user.', 1, '.$pr.', NULL, '.$id_ofe.', NULL, NULL, MAX(numer_fpf)+1, '.time().' FROM faktury';   
+    }
 
     //pobieranie zbioru adresów email według kryteriów lub dla wszystkich
     public static function getEmails($who = '') {
