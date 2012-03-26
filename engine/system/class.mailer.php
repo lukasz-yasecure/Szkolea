@@ -137,6 +137,11 @@ class Mailer {
             $this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
         }
     }
+    
+    public function infoUnpaidInvoice(User $adresat) {
+        $tm = new Template(Pathes::getPathTemplateMailInfoUnpaidInvoice());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Dostępna faktura pro forma', $tm->getContent());
+    }
 
 }
 
