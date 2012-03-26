@@ -98,7 +98,8 @@ class System
         'cennik' => '',
         'priv_rules' => '',
         'rules' => '',
-        'dp_185' => ''
+        'dp_185' => '',
+        'invoice' => ''
     );
 
     private $template_path = 'view/html/';
@@ -127,7 +128,7 @@ class System
 
 
     private $class_path = 'engine/';
-    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/', 'data/', 'package/', 'admin/');
+    private $class_dirs = array('activation/', 'categories/', 'commisions/', 'index/', 'login/', 'register/', 'remind/', 'system/', 'user/', 'services/', 'offer/', 'profile/', 'data/', 'package/', 'invoice/', 'admin/');
     private $class_basic = array('class.log.php', 'class.uf.php', 'class.excmanager.php', 'classes.exceptions.php', 'class.pathes.php', 'class.sc.php');
     private $class_std = 'class.std.php';
 

@@ -149,10 +149,15 @@ try {
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
                     // wysyłane powiadomienie właścicielowi wybranej oferty
                     $gu = $dbc->query(Query::getOfferAccept($_GET['ofe'])); // pobierane dane wybranej oferty
-                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc, $gu->fetch_object()->id_user));
+                    $gu_fetch = $gu->fetch_object();
+                    $m->infoWybranaOfertaWlasciciel($um->getUser($dbc, $gu_fetch->id_user));
 
                     // wysyłane powiadomienia właścicielom odrzuconych ofert
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
+                    // faktura proforma: tworzymy wpis i wysyłamy powiadomienie
+                    $im = new InvoiceManager();
+                    $im->createUnpaidInvoiceIM($dbc, $m, $gu_fetch);
+
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
