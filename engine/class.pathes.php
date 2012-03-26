@@ -100,6 +100,7 @@ class Pathes {
     public static $mail_info_zakonczone_zlecenie_oferty = 'info_zakonczone_zlecenie_oferty.html';
     public static $mail_newsletter = 'admin_newsletter_mail.html';
     public static $mail_newsletter_list = 'admin_newsletter_mail_list.html';
+    public static $mail_unpaid_invoice = 'unpaid_invoice.html';
     public static $cennik = 'cennik.html';
     public static $priv_rules = 'priv_rules.html';
     public static $rules = 'rules.html';
@@ -497,7 +498,7 @@ class Pathes {
     public static function getPathTemplateMailInfoZakonczoneZlecenieWlasciciel() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_wlasciciel;
     }
-
+    
     public static function getPathTemplateMailInfoZakonczoneZlecenieDodane() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_dodane;
     }
@@ -514,6 +515,10 @@ class Pathes {
         return Pathes::$template_mail_path . Pathes::$mail_newsletter_list;
     }
 
+    public static function getPathTemplateMailInfoUnpaidInvoice() {
+        return Pathes::$template_mail_path . Pathes::$mail_unpaid_invoice;
+    }
+    
     public static function getPathTemplateCennik() {
         return Pathes::$template_path . Pathes::$cennik;
     }

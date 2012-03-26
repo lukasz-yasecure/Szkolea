@@ -1,7 +1,7 @@
 <?php
 
 class InvoiceManager {
-    public function createUnpaidInvoiceIM(DBC $dbc,Mailer $m,$ofe) {
+    public function createUnpaidInvoiceIM(DBC $dbc, $ofe) {
     /* 
      * $ofe - dane wybranej oferty
      */
