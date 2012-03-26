@@ -477,8 +477,12 @@ class Query {
         return $sql;
     }
 
-    public static function getAllServices() {
-        $sql = 'SELECT * FROM `services` WHERE date_end > ' . time() . ' ORDER BY date_end ASC';
+    //pobieranie wszystkich serwisów wszystkich użytkowników lub wszystkich serwisów dla konkretnego użytkownika
+    public static function getAllServices($id_user = NULL) {
+        if (is_null($id_user))
+            $sql = 'SELECT * FROM `services` WHERE date_end > ' . time() . ' ORDER BY date_end ASC';
+        else
+            $sql = 'SELECT * FROM `services` WHERE date_end > ' . time() . ' AND id_user=' . $id_user . ' ORDER BY date_end ASC';
         return $sql;
     }
 
@@ -624,6 +628,11 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
 
     public static function getActivePackagesForUser($id_user) {
         $sql = 'SELECT users_packages.* , packages.nazwa, packages.cena_brutto, packages.wizyt_znaki, packages.wizyt_www, packages.wizyt_logo, packages.wizyt_wyrozn, packages.baner, packages.uslugi_wyrozn, packages.mailing, packages.waznosc FROM users_packages LEFT JOIN packages ON users_packages.id_pakietu = packages.id_pakietu WHERE id_user =' . $id_user . ' AND date_end < NOW() ORDER BY date_end';
+        return $sql;
+    }
+
+    public static function getActivePackage5ForUser($id_user) {
+        $sql = 'SELECT * FROM `users_packages` WHERE id_pakietu=5 AND date_end< ' . time() . ' AND id_user=' . $id_user;
         return $sql;
     }
 
@@ -777,6 +786,12 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         else
             $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv WHERE serv_promoted.id_user=' . $id_user;
 
+        return $sql;
+    }
+
+    //wstawianie usługi do promowanych z czasem zakończenia = teraz+7
+    public static function insertPromotedService($id_serv, $id_user) {
+        $sql = 'INSERT INTO serv_promoted (id_user, id_serv, promote_date_add, promote_date_end) VALUES (' . $id_user . ', ' . $id_serv . ', ' . time() . ', ' . (time() + 604800) . ')';
         return $sql;
     }
 

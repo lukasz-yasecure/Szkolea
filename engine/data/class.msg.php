@@ -117,9 +117,25 @@ class MSG {
     public static function NoChoice() {
         return 'Nie dokonano wyboru opcji.';
     }
-    
-        public static function NewsletterSent() {
+
+    public static function NewsletterSent() {
         return 'Newsletter został rozesłany.';
+    }
+
+    public static function ServicePromotionSet() {
+        return 'Ustawiono promocję usługi.';
+    }
+
+    public static function instertError() {
+        return 'Dane nie zostały zapisane! Jeśli problem będzie się powtarzał skontaktuj się z administratorem.';
+    }
+
+    public static function noCorrectPackage() {
+        return 'Nie posiadasz odpowiedniego pakietu!';
+    }
+
+    public static function noServices() {
+        return 'Nie masz żadnych aktywnych usług.';
     }
 
 }

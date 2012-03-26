@@ -53,6 +53,8 @@ class Pathes {
     public static $template_profile_moje_obserwowane = 'profile_u_u_obs_moje.html';
     public static $template_profile_moje_promowane = 'profile_u_u_prom.html';
     public static $template_profile_promowana_usluga = 'profile_dostawca_promo_wybrana.html';
+    public static $template_profile_promowana_wybierz = 'profile_dostawca_promo_wybierz.html';
+    public static $template_profile_promowana_1_usluga = 'profile_dostawca_promo_wybierz_1_usluga.html';
     public static $template_profile_obserwowane_kategorie_uslug_dostawcy = 'profile_u_u_obs_k.html';
     public static $template_profile_obserwowane_zlecenia_dostawcy = 'profile_u_zl_obs_zl.html';
     public static $template_profile_oferty_dostawca = 'profile_u_zl_oferty.html';
@@ -118,6 +120,8 @@ class Pathes {
     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
     public static $script_profile_card = 'profile.php?w=dane&a=0';
     public static $script_admin_newsletter = 'profile.php?w=inne&a=newsletter';
+    public static $script_profile_services = 'profile.php?w=servs';
+    public static $script_profile_promoted_services = 'profile.php?w=servs&a=2';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -211,6 +215,14 @@ class Pathes {
 
     public static function getScriptAdminNewsletter() {
         return SC::$base_url . Pathes::$script_path . Pathes::$script_admin_newsletter;
+    }
+
+    public static function getScriptProfileServices() {
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_services;
+    }
+
+    public static function getScriptProfilePromotedServices() {
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_promoted_services;
     }
 
     public static function getCommGroupJoinFormTemplatePath() {
@@ -563,6 +575,14 @@ class Pathes {
 
     public static function getPathTemplatePromotedService() {
         return Pathes::$template_path . Pathes::$template_profile_promowana_usluga;
+    }
+
+    public static function getPathTemplatePromotedChoose() {
+        return Pathes::$template_path . Pathes::$template_profile_promowana_wybierz;
+    }
+
+    public static function getPathTemplatePromoted1ServiceForChoose() {
+        return Pathes::$template_path . Pathes::$template_profile_promowana_1_usluga;
     }
 
 }

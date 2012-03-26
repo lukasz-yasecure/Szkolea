@@ -255,6 +255,7 @@ try {
             if ($_GET['w'] == 'servs') {
                 $s = new Service();
                 $sm = new ServiceManager();
+                $ud = new UserData();
 
                 //moje usługi
                 if (isset($_GET['a']) && $_GET['a'] == 1) {
@@ -265,18 +266,47 @@ try {
 
                     $t = new Template(Pathes::getPathTemplateProfilePromote());
 
-                    $promoted = $sm->getPromotedServs($dbc, $u->getId_user());
-
-                    if (count($promoted) > 0) {
+                    //przypadek gdy użytkownik promuje już jakąś usługę, więc wyświetlamu mu ją i jej termin promowania
+                    if (count($promoted = $sm->getPromotedServs($dbc, $u->getId_user())) > 0) {
                         $t_prom = new Template(Pathes::getPathTemplatePromotedService());
                         $t_prom->addSearchReplace('serv_name', $promoted[0]->getName());
                         $t_prom->addSearchReplace('data', UF::timestamp2date($promoted[0]->getPromoteDate_end()));
                         $t_prom->addSearchReplace('serv_link', Pathes::getScriptServicePath($promoted[0]->getId_serv()));
 
                         $t->addSearchReplace('here', $t_prom->getContent());
+
+                        //przypadek gdy użytkownik ma pakiet 5
+                    } elseif ($ud->havePackage5($dbc, $u->getId_user())) {
+
+                        //przypadek gdy użytkownik posiada aktywne usługi
+                        if (count($user_services = $sm->getActiveServicesForUser($dbc, $u->getId_user())) > 0) {
+                            $t_choose = new Template(Pathes::getPathTemplatePromotedChoose());
+                            $t_radio = new Template(Pathes::getPathTemplatePromoted1ServiceForChoose());
+                            $radios = '';   //lista pól radio z szablonu na radio
+                            //generowanie listy pól radio dla wszystkich usług danego użytkownika
+                            for ($i = 0; $i < count($user_services); $i++) {
+                                $t_radio->addSearchReplace('id_serv', $user_services[$i]->getId_serv());
+                                $t_radio->addSearchReplace('name_serv', $user_services[$i]->getName());
+                                $radios .= $t_radio->getContent();
+                                $t_radio->clearSearchReplace();
+                            }
+                            $t_choose->addSearchReplace('lista', $radios);
+                            $t->addSearchReplace('here', $t_choose->getContent());
+
+                            //obsługa wyboru z radio usługi do promowania
+                            if (isset($_POST['promote_serv'])) {
+                                if ($sm->insertPromotedService($dbc, $_POST['promote_serv'], $u->getId_user()))
+                                    BFEC::addm(MSG::ServicePromotionSet(), Pathes::getScriptProfilePromotedServices());
+                                else
+                                    BFEC::add(MSG::instertError());
+                            }
+                        }else
+                        //brak aktywnych usług
+                            BFEC::add(MSG::noServices(), true, Pathes::getScriptProfileServices());
+                    } else {
+                        //brak odpowiednich pakietów
+                        BFEC::add(MSG::noCorrectPackage(), true, Pathes::getScriptProfilePackageBuyingPath());
                     }
-
-
 
 
                     //obserwowane kategorie - domyślnie
@@ -824,7 +854,7 @@ try {
             }
         }
 
-        //płatności  
+        //płatności
         elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && (isset($_GET['a']) && $_GET['a'] == 'platnosci')) {
             $t = new Template(Pathes::getPathTemplatePayment());
         }

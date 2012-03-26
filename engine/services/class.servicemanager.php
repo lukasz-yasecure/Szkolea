@@ -207,6 +207,40 @@ class ServiceManager {
         return $promoted_servs;
     }
 
+    /** Funkcja pobierająca i tworząca tablicę aktywnych usług danego użytkownika
+     *
+     * @param DBC $dbc
+     * @return Service[] $promoted_servs - tablica z usługami jako obiektami
+     * @throws DBQueryException 
+     */
+    public function getActiveServicesForUser(DBC $dbc, $id_user) {
+        $user_servs = '';
+
+        $sql = Query::getAllServices($id_user);
+        $result = $dbc->query($sql);
+        if (!$result)
+            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
+        if ($result->num_rows <= 0)
+            $user_servs = NULL; //w przypadku braku usług
+        else {
+            $i = 0;
+            //tworzymy tablicę z usługami jako obiekty
+            while ($row = $result->fetch_assoc()) {
+                $user_servs[$i] = $this->getServiceFromRow($row);
+                $i++;
+            }
+        }
+        return $user_servs;
+    }
+
+    //wstawianie usługi do promowanych
+    public function insertPromotedService(DBC $dbc, $id_serv, $id_user) {
+        $sql = Query::insertPromotedService($id_serv, $id_user);
+        $result = $dbc->query($sql);
+
+        return $result;
+    }
+
 }
 
 ?>
