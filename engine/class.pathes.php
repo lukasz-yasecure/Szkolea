@@ -50,6 +50,10 @@ class Pathes {
     public static $template_profile_obserwowane_kategorie_zlecen = 'profile_k_zl_obs_k.html';
     public static $template_profile_edycja_danych = 'profile_k_dane_edycja.html';
     public static $template_profile_moje_obserwowane = 'profile_u_u_obs_moje.html';
+    public static $template_profile_moje_promowane = 'profile_u_u_prom.html';
+    public static $template_profile_promowana_usluga = 'profile_dostawca_promo_wybrana.html';
+    public static $template_profile_promowana_wybierz = 'profile_dostawca_promo_wybierz.html';
+    public static $template_profile_promowana_1_usluga = 'profile_dostawca_promo_wybierz_1_usluga.html';
     public static $template_profile_obserwowane_kategorie_uslug_dostawcy = 'profile_u_u_obs_k.html';
     public static $template_profile_obserwowane_zlecenia_dostawcy = 'profile_u_zl_obs_zl.html';
     public static $template_profile_oferty_dostawca = 'profile_u_zl_oferty.html';
@@ -67,6 +71,7 @@ class Pathes {
     public static $template_profile_faktury_nieoplacone_lista = 'profile_dostawca_faktury_dop_lista.html';
     public static $template_profile_payment_prowizja = 'profile_dostawca_payment_prowizja.html';
     public static $template_profile_payment_form_prowizja = 'profile_dostawca_payment_form_prowizja.html';
+    public static $template_profile_payment_thank_you = 'profile_dostawca_payment_thankyou_prowizja.html';
     public static $template_profile_payment_pakiet = 'profile_dostawca_payment_pakiet.html';
     public static $template_profile_payment_form_pakiet = 'profile_dostawca_payment_form_pakiet.html';
     public static $template_profile_admin_zlecenia = 'admin_comms.html';
@@ -120,6 +125,8 @@ class Pathes {
     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
     public static $script_profile_card = 'profile.php?w=dane&a=0';
     public static $script_admin_newsletter = 'profile.php?w=inne&a=newsletter';
+    public static $script_profile_services = 'profile.php?w=servs';
+    public static $script_profile_promoted_services = 'profile.php?w=servs&a=2';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -213,6 +220,14 @@ class Pathes {
 
     public static function getScriptAdminNewsletter() {
         return SC::$base_url . Pathes::$script_path . Pathes::$script_admin_newsletter;
+    }
+
+    public static function getScriptProfileServices() {
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_services;
+    }
+
+    public static function getScriptProfilePromotedServices() {
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_promoted_services;
     }
 
     public static function getCommGroupJoinFormTemplatePath() {
@@ -363,6 +378,10 @@ class Pathes {
         return Pathes::$template_path . Pathes::$template_profile_moje_obserwowane;
     }
 
+    public static function getPathTemplateProfilePromote() {
+        return Pathes::$template_path . Pathes::$template_profile_moje_promowane;
+    }
+
     public static function getPathTemplateProfileObservedServsCats() {
         return Pathes::$template_path . Pathes::$template_profile_obserwowane_kategorie_uslug_dostawcy;
     }
@@ -429,6 +448,10 @@ class Pathes {
 
     public static function getPathTemplateProfilePaymentFormProwizja() {
         return Pathes::$template_path . Pathes::$template_profile_payment_form_prowizja;
+    }
+    
+    public static function getPathTemplateProfilePaymentThankYouProwizja() {
+        return Pathes::$template_path . Pathes::$template_profile_payment_thank_you;
     }
 
     public static function getPathTemplateProfilePaymentPakiet() {
@@ -577,6 +600,18 @@ class Pathes {
 
     public static function getPathTemplatePayment() {
         return Pathes::$template_path . Pathes::$template_profile_payment;
+    }
+
+    public static function getPathTemplatePromotedService() {
+        return Pathes::$template_path . Pathes::$template_profile_promowana_usluga;
+    }
+
+    public static function getPathTemplatePromotedChoose() {
+        return Pathes::$template_path . Pathes::$template_profile_promowana_wybierz;
+    }
+
+    public static function getPathTemplatePromoted1ServiceForChoose() {
+        return Pathes::$template_path . Pathes::$template_profile_promowana_1_usluga;
     }
 
 }

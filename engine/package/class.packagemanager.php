@@ -40,6 +40,8 @@ class PackageManager {
                 if ($this->mailing < $set['mailing'])
                     $this->mailing = $set['mailing'];
             }
+
+            return TRUE;
         }
     }
 
@@ -119,7 +121,9 @@ class PackageManager {
 
     public function czyMoznaWlaczycMailing() {
         if ($this->mailing <= 0)
-            throw new NieMoznaWlaczycMailingu;
+            return FALSE;
+        else
+            return TRUE;
     }
 
     public function usunUslugeUzytkownikowi(DBC $dbc, $id_user) {
@@ -155,7 +159,6 @@ class PackageManager {
     }
 
     public function sprawdzWizytowke(DBC $dbc, $id_user) {  //sprawdza czy wizytkówka istnieje już w bazie
-
         $sql = Query::getCardForUser($id_user);
 
         $r = $dbc->query($sql);
@@ -168,7 +171,6 @@ class PackageManager {
     }
 
     public function pobierzWizytowke(DBC $dbc, $id_user) {  //pobieramy dane do wizytówki
-
         $sql = Query::getCardForUser($id_user);
 
         $r = $dbc->query($sql);

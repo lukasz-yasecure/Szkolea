@@ -256,10 +256,69 @@ try {
     }
     else if ($u->isDostawca()) {
         if (isset($_GET['w'])) {
+
+            //USŁUGI - DOSTAWCA
             if ($_GET['w'] == 'servs') {
-                if (isset($_GET['a']) && $_GET['a'] == 1)
+                $sm = new ServiceManager();
+                $pm = new PackageManager();
+
+                //moje usługi
+                if (isset($_GET['a']) && $_GET['a'] == 1) {
                     $t = new Template(Pathes::getPathTemplateProfileMyObserved());
-                else {
+                }
+                //promowana usługa
+                elseif (isset($_GET['a']) && $_GET['a'] == 2) {
+
+                    $t = new Template(Pathes::getPathTemplateProfilePromote());
+
+                    //przypadek gdy użytkownik promuje już jakąś usługę, więc wyświetlamu mu ją i jej termin promowania
+                    if (count($promoted = $sm->getPromotedServs($dbc, $u->getId_user())) > 0) {
+                        $t_prom = new Template(Pathes::getPathTemplatePromotedService());
+                        $t_prom->addSearchReplace('serv_name', $promoted[0]->getName());
+                        $t_prom->addSearchReplace('data', UF::timestamp2date($promoted[0]->getPromoteDate_end()));
+                        $t_prom->addSearchReplace('serv_link', Pathes::getScriptServicePath($promoted[0]->getId_serv()));
+
+                        $r = $t_prom->getContent();
+
+                        //przypadek gdy użytkownik ma odpowiedni pakiet
+                    } elseif ($pm->pobierzInformacjePakietow($dbc, $u->getId_user()) && $pm->czyMoznaWlaczycMailing()) {
+
+                        //przypadek gdy użytkownik posiada aktywne usługi
+                        if (count($user_services = $sm->getActiveServicesForUser($dbc, $u->getId_user())) > 0) {
+
+                            //obsługa wyboru z radio usługi do promowania
+                            if (isset($_POST['promote_serv'])) {
+                                if ($sm->insertPromotedService($dbc, $_POST['promote_serv'], $u->getId_user()))
+                                    BFEC::addm(MSG::ServicePromotionSet(), Pathes::getScriptProfilePromotedServices());
+                                else
+                                    BFEC::add(MSG::instertError());
+                            }
+                            //jeśli nie ma $_POSTa to generujemy formularz
+                            else {
+                                $t_choose = new Template(Pathes::getPathTemplatePromotedChoose());
+                                $t_radio = new Template(Pathes::getPathTemplatePromoted1ServiceForChoose());
+                                $radios = '';   //lista pól radio z szablonu na radio
+                                //generowanie listy pól radio dla wszystkich usług danego użytkownika
+                                for ($i = 0; $i < count($user_services); $i++) {
+                                    $t_radio->addSearchReplace('id_serv', $user_services[$i]->getId_serv());
+                                    $t_radio->addSearchReplace('name_serv', $user_services[$i]->getName());
+                                    $radios .= $t_radio->getContent();
+                                    $t_radio->clearSearchReplace();
+                                }
+                                $t_choose->addSearchReplace('lista', $radios);
+                                $r = $t_choose->getContent();
+                            }
+                        } else
+                        //brak aktywnych usług
+                            BFEC::add(MSG::noServices(), true, Pathes::getScriptProfileServices());
+                    } else {
+                        //brak odpowiednich pakietów
+                        BFEC::add(MSG::noCorrectPackage(), true, Pathes::getScriptProfilePackageBuyingPath());
+                    }
+
+
+                    //obserwowane kategorie - domyślnie
+                } else {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE USLUG
                      */
@@ -438,10 +497,7 @@ try {
                             BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po usunięciu na odświeżony formularz wizytówki
                         }
 
-
-
-
-                        $t->addSearchReplace('here', $t_wiz->getContent());
+                        $r = $t_wiz->getContent();
                     }
                 } else if (isset($_GET['a']) && $_GET['a'] == 1) {
                     /*
@@ -496,7 +552,7 @@ try {
 
                         $temp.=$temp_lista->getContent();  //dołączenie do całości
                     }
-                    $t->addSearchReplace('here', $temp);
+                    $r = $temp;
 
                     //KUP PAKIET
                 } else if ((isset($_GET['a']) && $_GET['a'] == 1) || !isset($_GET['a'])) {
@@ -516,33 +572,34 @@ try {
 
                         $temp.=$temp_lista->getContent();
                     }
-
-                    $t->addSearchReplace('here', $temp);
+                    $r = $temp;
                 }
             } else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
                     else if ($_GET['a'] == 1) {
-                        if(isset($_GET['p'])) { // `p` jak payment
+                        if (isset($_GET['p'])) { // `p` jak payment
                             $t = new Template(Pathes::getPathTemplateProfilePaymentProwizja());
                             $fr = $dbc->query(Query::getDataProfileInvoice($_GET['p'])); // pobierane dane faktury / form result
-                            $r = $tm->getTemplateProfilePaymentFormProwizja($fr,$u); // form template
-                        } else if(isset($_GET['m']) AND $_GET['m'] == 'thankyou') {
+                            $r = $tm->getTemplateProfilePaymentFormProwizja($fr, $u); // form template
+                        } else if (isset($_GET['m']) AND $_GET['m'] == 'thankyou') {
                             $t = new Template(Pathes::getPathTemplateProfilePaymentThankYouProwizja());
+                            $r = MSG::paymentThankYou();
                         } else {
                             $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
                             $uil = $dbc->query(Query::getDataProfileUnpaidInvoiceList($u->getId_user())); // pobierana lista faktur proforma / unpaid invoice list
                             $r = $tm->getTemplateProfileUnpaidInvoiceList($uil); // unpaid invoice list template result
-                        }                       
-                        if(isset($_GET['f'])) {
-                            $fget = (int)$_GET['f'];
+                        }
+
+                        if (isset($_GET['f'])) {
+                            $fget = (int) $_GET['f'];
                             $f = $dbc->query(Query::getDataProfileInvoice($fget))->fetch_object(); // pobierane dane faktury wg. id_faktura
                         }
                         if (isset($fget) AND !empty($fget) AND isset($f)) {
                             $sys->loadPdf();
                             $pdf = new Pdf();
-                            $pdf->generate($u,$f,'fpf'); // generowanie pdf faktury pro forma (fpf)
+                            $pdf->generate($u, $f, 'fpf'); // generowanie pdf faktury pro forma (fpf)
                         }
                     }
                     else
@@ -801,7 +858,7 @@ try {
             }
         }
 
-        //płatności  
+        //płatności
         elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && (isset($_GET['a']) && $_GET['a'] == 'platnosci')) {
             $t = new Template(Pathes::getPathTemplatePayment());
         }
@@ -820,7 +877,5 @@ try {
     echo $mt->getContent();
 } catch (Exception $e) {
     $em = new EXCManager($e);
-
-    //komentarz testtowy  ą ę ć ź ż ń ó ł
 }
 ?>

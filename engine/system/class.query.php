@@ -477,8 +477,12 @@ class Query {
         return $sql;
     }
 
-    public static function getAllServices() {
-        $sql = 'SELECT * FROM `services` WHERE date_end > ' . time() . ' ORDER BY date_end ASC';
+    //pobieranie wszystkich serwisów wszystkich użytkowników lub wszystkich serwisów dla konkretnego użytkownika
+    public static function getAllServices($id_user = NULL) {
+        if (is_null($id_user))
+            $sql = 'SELECT * FROM `services` WHERE date_end > ' . time() . ' ORDER BY date_end ASC';
+        else
+            $sql = 'SELECT * FROM `services` WHERE date_end > ' . time() . ' AND id_user=' . $id_user . ' ORDER BY date_end ASC';
         return $sql;
     }
 
@@ -758,17 +762,17 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         $sql = 'SELECT * FROM users_packages LEFT JOIN users_324 ON users_packages.id_user =  users_324.id_user LEFT JOIN packages ON users_packages.id_pakietu =  packages.id_pakietu ORDER BY date_begin DESC';
         return $sql;
     }
-    
-    public static function logDotPay($type,$urlc,$info) {
-        return "INSERT INTO `log_dotpay` (`id_log_dotpay`, `date_log_dotpay`, `urlc_control`, `type_log_dotpay`, `info_log_dotpay`) VALUES (NULL, '".time()."', '".$urlc."', '".$type."', '".$info."')";
+
+    public static function logDotPay($type, $urlc, $info) {
+        return "INSERT INTO `log_dotpay` (`id_log_dotpay`, `date_log_dotpay`, `urlc_control`, `type_log_dotpay`, `info_log_dotpay`) VALUES (NULL, '" . time() . "', '" . $urlc . "', '" . $type . "', '" . $info . "')";
     }
 
     public static function updateDotPay($id_faktura) {
-        return 'UPDATE faktury AS f, (SELECT max(numer_fv) AS max FROM faktury) AS m SET f.data_fv = '.time().', f.numer_fv = m.max+1 WHERE id_faktura = '.$id_faktura.'';  
+        return 'UPDATE faktury AS f, (SELECT max(numer_fv) AS max FROM faktury) AS m SET f.data_fv = ' . time() . ', f.numer_fv = m.max+1 WHERE id_faktura = ' . $id_faktura . '';
     }
 
-    public static function createUnpaidInvoiceDB($id_user,$id_ofe,$pr) {
-        return 'INSERT INTO faktury (id_faktura, id_user, typ, kwota_brutto, id_pakiet, id_oferta, numer_fv, data_fv, numer_fpf, data_fpf) SELECT NULL, '.$id_user.', 1, '.$pr.', NULL, '.$id_ofe.', NULL, NULL, MAX(numer_fpf)+1, '.time().' FROM faktury';   
+    public static function createUnpaidInvoiceDB($id_user, $id_ofe, $pr) {
+        return 'INSERT INTO faktury (id_faktura, id_user, typ, kwota_brutto, id_pakiet, id_oferta, numer_fv, data_fv, numer_fpf, data_fpf) SELECT NULL, ' . $id_user . ', 1, ' . $pr . ', NULL, ' . $id_ofe . ', NULL, NULL, MAX(numer_fpf)+1, ' . time() . ' FROM faktury';
     }
 
     //pobieranie zbioru adresów email według kryteriów lub dla wszystkich
@@ -782,10 +786,19 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
-    //pobieramy promowane usługi i ich nazwami
-    public static function getPromotedServs() {
-        $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv';
+    //pobieramy promowane usługi z ich nazwami, gdy podany użytkownik w parametrze to tylko jego, w przeciwnym wypadku wszystkie
+    public static function getPromotedServs($id_user = NULL) {
+        if (is_null($id_user))
+            $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv';
+        else
+            $sql = 'SELECT serv_promoted.*, services.name FROM `serv_promoted` LEFT JOIN services ON services.id_serv = serv_promoted.id_serv WHERE serv_promoted.id_user=' . $id_user;
 
+        return $sql;
+    }
+
+    //wstawianie usługi do promowanych z czasem zakończenia = teraz+7
+    public static function insertPromotedService($id_serv, $id_user) {
+        $sql = 'INSERT INTO serv_promoted (id_user, id_serv, promote_date_add, promote_date_end) VALUES (' . $id_user . ', ' . $id_serv . ', ' . time() . ', ' . (time() + 604800) . ')';
         return $sql;
     }
 
