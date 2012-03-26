@@ -524,19 +524,17 @@ try {
                     if ($_GET['a'] == 0)
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
                     else if ($_GET['a'] == 1) {
-                        $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
-
-                        $unpaid_invoice_list = $dbc->query(Query::getDataProfileUnpaidInvoiceList($u->getId_user())); // pobierana lista faktur proforma
-                        while ($ui_item = $unpaid_invoice_list->fetch_object()) {
-                            $uil_t = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
-                            $uil_t->addSearchReplace('id_faktura', $ui_item->id_faktura);
-                            $uil_t->addSearchReplace('kwota', $ui_item->kwota_brutto);
-                            $uil_t->addSearchReplace('opis', 'Faktura pro forma: ' . $ui_item->numer_fpf);
-                            $uil_t->addSearchReplace('control', $ui_item->id_faktura);
-                            $r .= $uil_t->getContent();
-                        }
-                        $t->addSearchReplace('here', $r);
-
+                         if(isset($_GET['p'])) { // `p` jak payment
+                            $t = new Template(Pathes::getPathTemplateProfilePaymentProwizja());
+                            $fd = $dbc->query(Query::getDataProfileInvoice($_GET['p'])); // pobierane dane faktury / form data
+                            $r = $tm->getTemplateProfilePaymentFormProwizja($fd); // form template
+                        } else if(isset($_GET['m']) AND $_GET['m'] == 'thankyou') {
+                            $t = new Template(Pathes::getPathTemplateProfilePaymentThankYouProwizja());
+                        } else {
+                            $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
+                            $uil = $dbc->query(Query::getDataProfileUnpaidInvoiceList($u->getId_user())); // pobierana lista faktur proforma / unpaid invoice list
+                            $r = $tm->getTemplateProfileUnpaidInvoiceList($uil); // unpaid invoice list template result
+                        }          
                         if (isset($_GET['f'])) {
                             $fget = (int) $_GET['f'];
                             $f = $dbc->query(Query::getDataProfileInvoice($fget))->fetch_object(); // pobierane dane faktury wg. id_faktura
