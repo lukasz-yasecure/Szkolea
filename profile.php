@@ -524,7 +524,8 @@ try {
                     if ($_GET['a'] == 0)
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
                     else if ($_GET['a'] == 1) {
-                         if(isset($_GET['p'])) { // `p` jak payment
+
+                        if(isset($_GET['p'])) { // `p` jak payment
                             $t = new Template(Pathes::getPathTemplateProfilePaymentProwizja());
                             $fd = $dbc->query(Query::getDataProfileInvoice($_GET['p'])); // pobierane dane faktury / form data
                             $r = $tm->getTemplateProfilePaymentFormProwizja($fd); // form template
@@ -534,7 +535,7 @@ try {
                             $t = new Template(Pathes::getPathTemplateProfileUnpaidInvoice());
                             $uil = $dbc->query(Query::getDataProfileUnpaidInvoiceList($u->getId_user())); // pobierana lista faktur proforma / unpaid invoice list
                             $r = $tm->getTemplateProfileUnpaidInvoiceList($uil); // unpaid invoice list template result
-                        }          
+                        }  
                         if (isset($_GET['f'])) {
                             $fget = (int) $_GET['f'];
                             $f = $dbc->query(Query::getDataProfileInvoice($fget))->fetch_object(); // pobierane dane faktury wg. id_faktura
