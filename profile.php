@@ -156,7 +156,8 @@ try {
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
                     // faktura proforma: tworzymy wpis i wysyłamy powiadomienie
                     $im = new InvoiceManager();
-                    $im->createUnpaidInvoiceIM($dbc, $m, $um, $gu_fetch);
+                    $im->createUnpaidInvoiceIM($dbc, $gu_fetch);
+                    $m->infoUnpaidInvoice($um->getUser($dbc, $gu_fetch->id_user)); // powiadomienie: dostępna faktura pro forma
 
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
