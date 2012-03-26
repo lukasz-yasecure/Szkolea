@@ -253,9 +253,8 @@ try {
 
             //USŁUGI - DOSTAWCA
             if ($_GET['w'] == 'servs') {
-                $s = new Service();
                 $sm = new ServiceManager();
-                $ud = new UserData();
+                $pm = new PackageManager();
 
                 //moje usługi
                 if (isset($_GET['a']) && $_GET['a'] == 1) {
@@ -275,23 +274,11 @@ try {
 
                         $t->addSearchReplace('here', $t_prom->getContent());
 
-                        //przypadek gdy użytkownik ma pakiet 5
-                    } elseif ($ud->havePackage5($dbc, $u->getId_user())) {
+                        //przypadek gdy użytkownik ma odpowiedni pakiet
+                    } elseif ($pm->pobierzInformacjePakietow($dbc, $u->getId_user()) && $pm->czyMoznaWlaczycMailing()) {
 
                         //przypadek gdy użytkownik posiada aktywne usługi
                         if (count($user_services = $sm->getActiveServicesForUser($dbc, $u->getId_user())) > 0) {
-                            $t_choose = new Template(Pathes::getPathTemplatePromotedChoose());
-                            $t_radio = new Template(Pathes::getPathTemplatePromoted1ServiceForChoose());
-                            $radios = '';   //lista pól radio z szablonu na radio
-                            //generowanie listy pól radio dla wszystkich usług danego użytkownika
-                            for ($i = 0; $i < count($user_services); $i++) {
-                                $t_radio->addSearchReplace('id_serv', $user_services[$i]->getId_serv());
-                                $t_radio->addSearchReplace('name_serv', $user_services[$i]->getName());
-                                $radios .= $t_radio->getContent();
-                                $t_radio->clearSearchReplace();
-                            }
-                            $t_choose->addSearchReplace('lista', $radios);
-                            $t->addSearchReplace('here', $t_choose->getContent());
 
                             //obsługa wyboru z radio usługi do promowania
                             if (isset($_POST['promote_serv'])) {
@@ -300,7 +287,22 @@ try {
                                 else
                                     BFEC::add(MSG::instertError());
                             }
-                        }else
+                            //jeśli nie ma $_POSTa to generujemy formularz
+                            else {
+                                $t_choose = new Template(Pathes::getPathTemplatePromotedChoose());
+                                $t_radio = new Template(Pathes::getPathTemplatePromoted1ServiceForChoose());
+                                $radios = '';   //lista pól radio z szablonu na radio
+                                //generowanie listy pól radio dla wszystkich usług danego użytkownika
+                                for ($i = 0; $i < count($user_services); $i++) {
+                                    $t_radio->addSearchReplace('id_serv', $user_services[$i]->getId_serv());
+                                    $t_radio->addSearchReplace('name_serv', $user_services[$i]->getName());
+                                    $radios .= $t_radio->getContent();
+                                    $t_radio->clearSearchReplace();
+                                }
+                                $t_choose->addSearchReplace('lista', $radios);
+                                $t->addSearchReplace('here', $t_choose->getContent());
+                            }
+                        } else
                         //brak aktywnych usług
                             BFEC::add(MSG::noServices(), true, Pathes::getScriptProfileServices());
                     } else {

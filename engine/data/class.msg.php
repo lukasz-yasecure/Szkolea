@@ -131,7 +131,7 @@ class MSG {
     }
 
     public static function noCorrectPackage() {
-        return 'Nie posiadasz odpowiedniego pakietu!';
+        return 'Nie masz aktywnych pakietów pozwalających na promowanie usług. Aby promować usługę <a href="' . Pathes::getScriptProfilePackageBuyingPath() . '">kup jeden z pakietów</a>.';
     }
 
     public static function noServices() {

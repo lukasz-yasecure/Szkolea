@@ -1393,18 +1393,6 @@ class UserData {
         return $n;
     }
 
-    //funkcja sprawdzająca czy użytkownik posiada aktywny pakiet 5
-    public function havePackage5(DBC $dbc, $id_user) {
-        $sql = Query::getActivePackage5ForUser($id_user);
-        $result = $dbc->query($sql);
-        if (!$result)
-            throw new DBQueryException($dbc->error, $sql, $dbc->errno);
-        if ($result->num_rows <= 0) //nie posiada pakietu 5
-            return FALSE;
-        else
-            return TRUE;
-    }
-
 }
 
 ?>
