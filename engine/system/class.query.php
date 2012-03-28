@@ -715,7 +715,7 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     }
 
     public static function getDataProfileUnpaidInvoiceList($id_user) {
-        return 'SELECT * FROM `faktury` WHERE `id_user`=' . $id_user . ' AND `numer_fv` IS NULL'; // pobierane faktury proforma
+        return 'SELECT * FROM `faktury` WHERE `id_user`=' . $id_user . ' AND `typ`=1  AND `numer_fv` IS NULL'; // pobierane faktury proforma
     }
 
     public static function getDataProfilePaidInvoiceList($id_user) {

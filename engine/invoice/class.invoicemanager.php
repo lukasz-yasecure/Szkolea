@@ -17,7 +17,7 @@ class InvoiceManager {
     /* 
      * $pk - dane pakietu
      */
-        $dbc->query(Query::createUnpaidInvoice('1',$user_id,$pk['id_pakietu'],'NULL',$pk['cena_brutto'])); // tworzony nowy wpis faktury pro forma
+        $dbc->query(Query::createUnpaidInvoice('2',$user_id,$pk['id_pakietu'],'NULL',$pk['cena_brutto'])); // tworzony nowy wpis faktury pro forma
         BFEC::add('', true, 'profile.php?w=faktury&a=1&p='.$dbc->insert_id); // pobieranie id z mysqli, przekierowanie na formularz opłaty
     }
 }
