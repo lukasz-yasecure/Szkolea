@@ -49,19 +49,6 @@ try {
             }
         }
     }
-
-
-//w przypadku adresu typu profile.php?w=pakiety&action=kup_pakiet&pakiet=X dodawany jest dostawcy odpowiedni pakiet (X) od 2 do 5, w przeciwny wypadku wyjątek
-    if ($u->isDostawca() && isset($_GET['action']) && $_GET['action'] == 'kup_pakiet' && isset($_GET['pakiet'])) {
-        $pm = new PackageManager();
-        if (Valid::isNatural($_GET['pakiet']) && $_GET['pakiet'] <= 5 && $_GET['pakiet'] > 1) {     //sprawdzenie czy liczba oraz z czy z zakresu 2-5
-            $pakiet = $pm->pobierzPakiet($dbc, $_GET['pakiet']);
-            $pm->dodajPakietUzytkownikowi($dbc, $u->getId_user(), $pakiet);
-            BFEC::addm(MSG::profileAddPackagesSuccess(), Pathes::$script_profile_packages);   // komunikat o pomyślnym dodaniu pakietu i przekierowanie na aktywne profile
-        }else
-            throw new NieprawidloweIdPakietu;
-    }
-
     $dodatkowe_js = ''; // dla admina dochodza dodatkowe JS wiec wprowadzilem taka zmienna zeby mozna bylo dolaczyc tylko gdy sa potrzebne te pliki JS
 
     if ($u->isKlient()) {
@@ -156,7 +143,7 @@ try {
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
                     // faktura proforma: tworzymy wpis i wysyłamy powiadomienie
                     $im = new InvoiceManager();
-                    $im->createUnpaidInvoiceIM($dbc, $gu_fetch);
+                    $im->createUnpaidInvoiceProwizja($dbc, $gu_fetch);
                     $m->infoUnpaidInvoice($um->getUser($dbc, $gu_fetch->id_user)); // powiadomienie: dostępna faktura pro forma
 
                     while ($x = $res->fetch_assoc()) {
@@ -574,7 +561,20 @@ try {
                     }
                     $r = $temp;
                 }
-            } else if ($_GET['w'] == 'faktury') {
+                //kup_pakiet walidacja + czy z zakresu 2-5
+                if (isset($_GET['kup_pakiet'])) {
+                    if (Valid::isNatural($_GET['kup_pakiet']) && $_GET['kup_pakiet'] <= 5 && $_GET['kup_pakiet'] > 1) {
+                        $pkm = new PackageManager();
+                        $pk = $pkm->pobierzPakiet($dbc,$_GET['kup_pakiet']);
+                        $im = new InvoiceManager();
+                        $im->createUnpaidInvoicePakiet($dbc,$u->getId_user(),$pk); // dodana faktura proforma, pobierany id z mysqli, przekierowanie na formularz opłaty
+                    } else {
+                        throw new NieprawidloweIdPakietu;
+                    }
+                }
+            } 
+            //FAKTURY
+            else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
                     if ($_GET['a'] == 0)
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());

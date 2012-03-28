@@ -33,10 +33,11 @@ try
     $post = '';
     $amount = '';
     
-    $get_amount = $dbc->query(Query::getDataProfileInvoice($_POST['control'])); // pobierane dane faktury
-    if(isset($get_amount)) {
-        $a = $get_amount->fetch_object();
-        $amount = number_format($a->kwota_brutto, 2, '.', ''); 
+    $get_invoice = $dbc->query(Query::getDataProfileInvoice($_POST['control'])); // pobierane dane faktury
+    if(isset($get_invoice)) {
+        $fetch_invoice = $get_invoice->fetch_object();
+        $amount = number_format($fetch_invoice->kwota_brutto, 2, '.', '');
+        $typ = $fetch_invoice->typ; 
     }
     foreach($_POST as $k => $v) {
         $post .= $k.'::'.$v.'&&';
@@ -48,7 +49,12 @@ try
             if($md5 == $_POST['md5']) { // check MD5
                 if($_POST['t_status'] == '2') { // wykonana
                     $dbc->query(Query::logDotPay('1',$_POST['control'],$post));   
-                    $dbc->query(Query::updateDotPay($_POST['control']));   
+                    $dbc->query(Query::updateDotPay($_POST['control']));
+                    if($typ=='2') {
+                        $pm = new PackageManager();
+                        $pakiet = $pm->pobierzPakiet($dbc, $fetch_invoice->id_pakiet);
+                        $pm->dodajPakietUzytkownikowi($dbc, $fetch_invoice->id_user, $pakiet);
+                    } 
                     echo "OK";
                 } else { // 1 - nowa, 3 - odzrucona, 4, 5...
                     $dbc->query(Query::logDotPay('2',$_POST['control'],$post));   
