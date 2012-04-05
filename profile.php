@@ -530,13 +530,13 @@ try {
                                 BFEC::addm(MSG::submitedForBaner(), Pathes::getScriptProfileBaner());
                             }
                             else
-                                BFEC::add(MSG::profileNoPromotionAllow(), true, Pathes::$script_profile_packages_buying);
+                                BFEC::add(MSG::profileNoBanerAllow(), true, Pathes::$script_profile_packages_buying);
                         } else {
                             $t = new Template(Pathes::getPathTemplateProfileBaner());
                             $t->addSearchReplace('text', MSG::submitForBaner());
                         }
                     } else
-                        BFEC::add(MSG::profileNoPromotionAllow(), true, Pathes::$script_profile_packages_buying);
+                        BFEC::add(MSG::profileNoBanerAllow(), true, Pathes::$script_profile_packages_buying);
                 }
 
 
