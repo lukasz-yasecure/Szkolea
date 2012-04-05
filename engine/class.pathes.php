@@ -62,6 +62,7 @@ class Pathes {
     public static $template_profile_wizytowka = 'wizytowka.html';
     public static $template_profile_edycja_danych_dostawca = 'profile_u_dane_edycja.html';
     public static $template_profile_dane_oceny = 'profile_u_dane_oceny.html';
+    public static $template_profile_baner = 'profile_dostawca_baner.html';
     public static $template_profile_aktywne_pakiety = 'profile_dostawca_aktywne_pakiety.html';
     public static $template_profile_lista_aktywnych_pakietow = 'profile_dostawca_lista_aktywnych_pakietow.html';
     public static $template_profile_kup_pakiet = 'profile_dostawca_kup.html';
@@ -104,6 +105,7 @@ class Pathes {
     public static $mail_info_zakonczone_zlecenie_dodane = 'info_zakonczone_zlecenie_dodane.html';
     public static $mail_info_zakonczone_zlecenie_oferty = 'info_zakonczone_zlecenie_oferty.html';
     public static $mail_newsletter = 'admin_newsletter_mail.html';
+    public static $mail_baner_request = 'admin_baner.html';
     public static $mail_newsletter_list = 'admin_newsletter_mail_list.html';
     public static $mail_unpaid_invoice = 'unpaid_invoice.html';
     public static $cennik = 'cennik.html';
@@ -124,6 +126,7 @@ class Pathes {
     public static $script_profile_packages = 'profile.php?w=pakiety&a=0';
     public static $script_profile_zlecenia_moje = 'profile.php?w=comms&a=2';
     public static $script_profile_card = 'profile.php?w=dane&a=0';
+    public static $script_profile_baner = 'profile.php?w=dane&a=3';
     public static $script_admin_newsletter = 'profile.php?w=inne&a=newsletter';
     public static $script_profile_services = 'profile.php?w=servs';
     public static $script_profile_promoted_services = 'profile.php?w=servs&a=2';
@@ -414,6 +417,10 @@ class Pathes {
         return Pathes::$template_path . Pathes::$template_profile_dane_oceny;
     }
 
+    public static function getPathTemplateProfileBaner() {
+        return Pathes::$template_path . Pathes::$template_profile_baner;
+    }
+
     public static function getPathTemplateProfileActivePackages() {
         return Pathes::$template_path . Pathes::$template_profile_aktywne_pakiety;
     }
@@ -449,7 +456,7 @@ class Pathes {
     public static function getPathTemplateProfilePaymentFormProwizja() {
         return Pathes::$template_path . Pathes::$template_profile_payment_form_prowizja;
     }
-    
+
     public static function getPathTemplateProfilePaymentThankYouProwizja() {
         return Pathes::$template_path . Pathes::$template_profile_payment_thank_you;
     }
@@ -518,10 +525,14 @@ class Pathes {
         return SC::$base_url . Pathes::$script_profile_card;
     }
 
+    public static function getScriptProfileBaner() {
+        return SC::$base_url . Pathes::$script_profile_baner;
+    }
+
     public static function getPathTemplateMailInfoZakonczoneZlecenieWlasciciel() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_wlasciciel;
     }
-    
+
     public static function getPathTemplateMailInfoZakonczoneZlecenieDodane() {
         return Pathes::$template_mail_path . Pathes::$mail_info_zakonczone_zlecenie_dodane;
     }
@@ -534,6 +545,10 @@ class Pathes {
         return Pathes::$template_mail_path . Pathes::$mail_newsletter;
     }
 
+    public static function getPathTemplateMailBanerRequest() {
+        return Pathes::$template_mail_path . Pathes::$mail_baner_request;
+    }
+
     public static function getPathTemplateMailNewsletterList() {
         return Pathes::$template_mail_path . Pathes::$mail_newsletter_list;
     }
@@ -541,7 +556,7 @@ class Pathes {
     public static function getPathTemplateMailInfoUnpaidInvoice() {
         return Pathes::$template_mail_path . Pathes::$mail_unpaid_invoice;
     }
-    
+
     public static function getPathTemplateCennik() {
         return Pathes::$template_path . Pathes::$cennik;
     }

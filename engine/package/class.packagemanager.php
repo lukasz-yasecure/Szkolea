@@ -116,7 +116,9 @@ class PackageManager {
 
     public function czyMoznaDodacBaner() {
         if ($this->baner <= 0)
-            throw new NieMoznaDodacBanera;
+            return FALSE;
+        else
+            return TRUE;
     }
 
     public function czyMoznaWlaczycMailing() {

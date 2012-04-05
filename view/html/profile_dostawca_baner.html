@@ -12,50 +12,32 @@
         <div class="accountStrip"></div><!-- accountStrip -->
     </div><!-- myAccount -->
     <div class="menuAccountD">
-        <div class="accountButtonD"><a href="?w=dane&a=0">wizytówka</a></div><!-- accountButtonD -->
+        <div class="accountButtonDb"><a href="?w=dane&a=0">wizytówka</a></div><!-- accountButtonD -->
         <div class="accountButtonDb"><a href="?w=dane&a=1">edycja</a></div><!-- accountButtonD -->
         <div class="accountButtonDb"><a href="?w=dane&a=2">oceny</a></div><!-- accountButtonD -->
-        <div class="accountButtonDb"><a href="?w=dane&a=3">baner</a></div><!-- accountButtonD -->
+        <div class="accountButtonD"><a href="?w=dane&a=3">baner</a></div><!-- accountButtonD -->
     </div><!-- menuAccountD -->
     <div class="accountMain">
         <div class="accountTitle">
-        Tutaj możesz edytować swoją wizytówkę.
+            Tutaj możesz umieścić swój baner.
         </div><!-- accountTitle -->
         <br clear="all" />
         <div class="accountLine"></div><!-- accountLine -->
-        {%here%}
+        <div><form name="prosba_baner" method="post">
+                <p>
+                    {%text%}
+                </p>
+                <p>
+                    <input class="submit"  name="submit" type="submit" value="Wyślij"/>
+                </p>
+
+            </form>
+
+        </div>
+
+
+
+
     </div><!-- accountMain -->
 </div><!-- main -->
 
-
-
-<script type="text/javascript">
-    // ogranicznik liczby znaków
-    function SignLimit(tab,max)
-    {
-        var oSpan = document.getElementById( 'counter' );
-        oSpan.innerHTML = ( tab.value.length );
-        if ( tab.value.length = max )
-        {
-            input = tab.value.substring(0,max);
-            tab.value = input;
-        }
-    }
-</script>  
-
-<script type="text/javascript" src="js/jquery.form.js"></script>
-
-<script type="text/javascript">
- $(document).ready(function() 
- { 
- $('#photoimg').live('change', function() 
- { 
- $("#preview").html('');
- $("#preview").html('<img src="img/loader.gif" alt="Uploading...."/>');
- $("#imageform").ajaxForm(
- {
- target: '#preview'
- }).submit();
- });
- }); 
-</script>
