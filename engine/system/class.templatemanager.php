@@ -812,11 +812,14 @@ class TemplateManager {
     }
     
     public function getTemplateProfileUnpaidInvoiceList($r) {
+        $data = "";
         while ($x = $r->fetch_object()) {
             $x_t = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
+            $x_t->addSearchReplace('data',date('Y m d', $x->data_fv));
             $x_t->addSearchReplace('id_faktura', $x->id_faktura);
-            return $x_t->getContent();
+            $data .= $x_t->getContent();
         }
+    return $data; 
     }
  
     public function getTemplateProfilePaymentFormProwizja($fr,$ur) {
