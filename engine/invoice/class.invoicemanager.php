@@ -1,7 +1,7 @@
 <?php
 
 class InvoiceManager {
-    public function createUnpaidInvoiceIM(DBC $dbc, $ofe) {
+    public function createUnpaidInvoiceProwizja(DBC $dbc, $ofe) {
     /* 
      * $ofe - dane wybranej oferty
      */
@@ -10,7 +10,15 @@ class InvoiceManager {
         $pr = $ofe->cena * 0.15; // wyliczana prowizja
         if ($pr <= $min_pr) $sum_pr = $min_pr * $ile;
         if ($pr > $min_pr) $sum_pr = $pr * $ile;
-        $dbc->query(Query::createUnpaidInvoiceDB($ofe->id_user,$ofe->id_ofe,$sum_pr)); // tworzony nowy wpis faktury
+        $dbc->query(Query::createUnpaidInvoice('1',$ofe->id_user,'NULL',$ofe->id_ofe,$sum_pr)); // tworzony nowy wpis faktury pro forma
+    }
+
+    public function createUnpaidInvoicePakiet(DBC $dbc,$user_id,$pk) {
+    /* 
+     * $pk - dane pakietu
+     */
+        $dbc->query(Query::createUnpaidInvoice('2',$user_id,$pk['id_pakietu'],'NULL',$pk['cena_brutto'])); // tworzony nowy wpis faktury pro forma
+        BFEC::add('', true, 'profile.php?w=faktury&a=1&p='.$dbc->insert_id); // pobieranie id z mysqli, przekierowanie na formularz opłaty
     }
 }
 

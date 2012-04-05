@@ -715,7 +715,7 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
     }
 
     public static function getDataProfileUnpaidInvoiceList($id_user) {
-        return 'SELECT * FROM `faktury` WHERE `id_user`=' . $id_user . ' AND `numer_fv` IS NULL'; // pobierane faktury proforma
+        return 'SELECT * FROM `faktury` WHERE `id_user`=' . $id_user . ' AND `typ`=1  AND `numer_fv` IS NULL'; // pobierane faktury proforma
     }
 
     public static function getDataProfilePaidInvoiceList($id_user) {
@@ -771,8 +771,8 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return 'UPDATE faktury AS f, (SELECT max(numer_fv) AS max FROM faktury) AS m SET f.data_fv = ' . time() . ', f.numer_fv = m.max+1 WHERE id_faktura = ' . $id_faktura . '';
     }
 
-    public static function createUnpaidInvoiceDB($id_user, $id_ofe, $pr) {
-        return 'INSERT INTO faktury (id_faktura, id_user, typ, kwota_brutto, id_pakiet, id_oferta, numer_fv, data_fv, numer_fpf, data_fpf) SELECT NULL, ' . $id_user . ', 1, ' . $pr . ', NULL, ' . $id_ofe . ', NULL, NULL, MAX(numer_fpf)+1, ' . time() . ' FROM faktury';
+    public static function createUnpaidInvoice($typ, $id_user, $id_pakiet, $id_ofe, $kwota) {
+        return 'INSERT INTO faktury (id_faktura, id_user, typ, kwota_brutto, id_pakiet, id_oferta, numer_fv, data_fv, numer_fpf, data_fpf) SELECT NULL, ' . $id_user . ', ' . $typ . ', ' . $kwota . ', ' . $id_pakiet . ', ' . $id_ofe . ', NULL, NULL, MAX(numer_fpf)+1, ' . time() . ' FROM faktury';
     }
 
     //pobieranie zbioru adresów email według kryteriów lub dla wszystkich
