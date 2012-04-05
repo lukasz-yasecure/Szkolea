@@ -821,6 +821,17 @@ class TemplateManager {
         }
     return $data; 
     }
+    
+        public function getTemplateProfilePaidInvoiceList($r) {
+        $data = "";
+        while ($x = $r->fetch_object()) {
+            $x_t = new Template(Pathes::getPathTemplateProfilePaidInvoiceList());
+            $x_t->addSearchReplace('data',date('Y m d', $x->data_fv));
+            $x_t->addSearchReplace('id_faktura', $x->id_faktura);
+            $data .= $x_t->getContent();
+        }
+    return $data; 
+    }
  
     public function getTemplateProfilePaymentFormProwizja($fr,$ur) {
         $ft = new Template(Pathes::getPathTemplateProfilePaymentFormProwizja()); // faktura template
