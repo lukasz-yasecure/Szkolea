@@ -580,7 +580,7 @@ try {
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
                     else if ($_GET['a'] == 1) {
                         if (isset($_GET['p'])) { // `p` jak payment
-                            $t = new Tlate(Pathes::getPathTemplateProfilePaymentProwizja());
+                            $t = new Template(Pathes::getPathTemplateProfilePaymentProwizja());
                             $fr = $dbc->query(Query::getDataProfileInvoice($_GET['p'])); // pobierane dane faktury / form result
                             $r = $tm->getTemplateProfilePaymentFormProwizja($fr, $u); // form template
                         } else if (isset($_GET['m']) AND $_GET['m'] == 'thankyou') {
