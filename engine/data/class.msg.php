@@ -130,16 +130,28 @@ class MSG {
         return 'Dane nie zostały zapisane! Jeśli problem będzie się powtarzał skontaktuj się z administratorem.';
     }
 
-    public static function noCorrectPackage() {
+    public static function profileNoPromotionAllow() {
         return 'Nie masz aktywnych pakietów pozwalających na promowanie usług. Aby promować usługę <a href="' . Pathes::getScriptProfilePackageBuyingPath() . '">kup jeden z pakietów</a>.';
+    }
+
+    public static function profileNoBanerAllow() {
+        return 'Nie masz aktywnych pakietów pozwalających na dodanie banera. Aby promować usługę <a href="' . Pathes::getScriptProfilePackageBuyingPath() . '">kup jeden z pakietów</a>.';
     }
 
     public static function noServices() {
         return 'Nie masz żadnych aktywnych usług.';
     }
-    
+
     public static function paymentThankYou() {
         return 'Dziękujemy za dokonanie wpłaty!';
+    }
+
+    public static function submitForBaner() {
+        return 'Użyj poniższego przycisku, aby wysłać zapytanie o dodanie banera na nasza strone. Osoba odpowiadająca za banery wkrótce się z Tobą skontaktuje.';
+    }
+
+    public static function submitedForBaner() {
+        return 'Zapytanie o dodanie banera zostało wysłane.';
     }
 
 }

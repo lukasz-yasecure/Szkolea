@@ -137,10 +137,21 @@ class Mailer {
             $this->sendMail($receiver, 'noreply@szkolea.pl', $n->getSubject(), $t_mail->getContent());
         }
     }
-    
+
     public function infoUnpaidInvoice(User $adresat) {
         $tm = new Template(Pathes::getPathTemplateMailInfoUnpaidInvoice());
         $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Dostępna faktura pro forma', $tm->getContent());
+    }
+
+    //wysłanie maila do Szkolea o prośbie użytkownika o baner
+    public function sendToAdminBanerRequest(User $u) {
+        $t_mail = new Template(Pathes::getPathTemplateMailBanerRequest());
+
+        //wrzucamy do szablony od maila ID użytkownika i adres email
+        $t_mail->addSearchReplace('id', $u->getId_user());
+        $t_mail->addSearchReplace('email', $u->getEmail());
+
+        $this->sendMail('biuro@szkolea.pl', $u->getEmail(), 'Zapytanie o baner (użytkownik ID:' . $u->getId_user() . ')', $t_mail->getContent());
     }
 
 }
