@@ -300,7 +300,7 @@ try {
                             BFEC::add(MSG::noServices(), true, Pathes::getScriptProfileServices());
                     } else {
                         //brak odpowiednich pakietów
-                        BFEC::add(MSG::noCorrectPackage(), true, Pathes::getScriptProfilePackageBuyingPath());
+                        BFEC::add(MSG::profileNoPromotionAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
                     }
 
 
@@ -509,8 +509,40 @@ try {
                     } catch (ErrorsInprofileEditForm $e) {
                         BFEC::add('', true, 'profile.php?w=dane&a=1');
                     }
-                } else
+
+                    //DOSTAWCA - OCENY
+                } elseif (isset($_GET['a']) && $_GET['a'] == 2) {
                     $t = new Template(Pathes::getPathTemplateProfileRateData());
+                }
+
+                //DOSTAWCA - BANER
+                elseif (isset($_GET['a']) && $_GET['a'] == 3) {
+                    $pkgm = new PackageManager();
+                    $pkgm->pobierzInformacjePakietow($dbc, $u->getId_user());
+
+                    if ($pkgm->czyMoznaDodacBaner()) {
+
+                        if (isset($_POST['submit'])) {
+                            if ($pkgm->czyMoznaDodacBaner()) {
+                                $mailer = new Mailer();
+                                $mailer->sendToAdminBanerRequest($u);
+
+                                BFEC::addm(MSG::submitedForBaner(), Pathes::getScriptProfileBaner());
+                            }
+                            else
+                                BFEC::add(MSG::profileNoPromotionAllow(), true, Pathes::$script_profile_packages_buying);
+                        } else {
+                            $t = new Template(Pathes::getPathTemplateProfileBaner());
+                            $t->addSearchReplace('text', MSG::submitForBaner());
+                        }
+                    } else
+                        BFEC::add(MSG::profileNoPromotionAllow(), true, Pathes::$script_profile_packages_buying);
+                }
+
+
+                //przypadek gdy wybrana opcja nie pasuje do powyższych - przechodzimy wtedy na MojeDane->Wizytówka    
+                else
+                    BFEC::redirect(Pathes::$script_profile_card);
             }
             //AKTYWNE PAKIETY
             else if ($_GET['w'] == 'pakiety') {
@@ -565,14 +597,14 @@ try {
                 if (isset($_GET['kup_pakiet'])) {
                     if (Valid::isNatural($_GET['kup_pakiet']) && $_GET['kup_pakiet'] <= 5 && $_GET['kup_pakiet'] > 1) {
                         $pkm = new PackageManager();
-                        $pk = $pkm->pobierzPakiet($dbc,$_GET['kup_pakiet']);
+                        $pk = $pkm->pobierzPakiet($dbc, $_GET['kup_pakiet']);
                         $im = new InvoiceManager();
-                        $im->createUnpaidInvoicePakiet($dbc,$u->getId_user(),$pk); // dodana faktura proforma, pobierany id z mysqli, przekierowanie na formularz opłaty
+                        $im->createUnpaidInvoicePakiet($dbc, $u->getId_user(), $pk); // dodana faktura proforma, pobierany id z mysqli, przekierowanie na formularz opłaty
                     } else {
                         throw new NieprawidloweIdPakietu;
                     }
                 }
-            } 
+            }
             //FAKTURY
             else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
