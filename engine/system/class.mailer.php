@@ -151,7 +151,7 @@ class Mailer {
         $t_mail->addSearchReplace('id', $u->getId_user());
         $t_mail->addSearchReplace('email', $u->getEmail());
 
-        $this->sendMail('biuro@szkolea.pl', $u->getEmail(), 'Zapytanie o baner (użytkownik ID:' . $u->getId_user() . ')', $t_mail->getContent());
+        $this->sendMail('biuro@szkolea.pl', 'noreply@szkolea.pl', 'Zapytanie o baner (użytkownik ID:' . $u->getId_user() . ')', $t_mail->getContent());
     }
 
 }
