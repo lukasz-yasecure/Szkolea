@@ -810,21 +810,31 @@ class TemplateManager {
         $t->addSearchReplace('date_b', UF::timestamp2date($r['date_a']));
         return $t;
     }
-    
+
     public function getTemplateProfileUnpaidInvoiceList($r) {
         $data = "";
         while ($x = $r->fetch_object()) {
             $x_t = new Template(Pathes::getPathTemplateProfileUnpaidInvoiceList());
-            $x_t->addSearchReplace('data',date('Y m d', $x->data_fv));
+            $x_t->addSearchReplace('data', date('Y m d', $x->data_fv));
             $x_t->addSearchReplace('id_faktura', $x->id_faktura);
             $data .= $x_t->getContent();
         }
-    return $data; 
+        return $data;
     }
- 
-    public function getTemplateProfilePaymentFormProwizja($fr,$ur) {
+
+    public function getTemplateProfilePaidInvoiceList($r) {
+        $data = "";
+        while ($x = $r->fetch_object()) {
+            $x_t = new Template(Pathes::getPathTemplateProfilePaidInvoiceList());
+            $x_t->addSearchReplace('data', date('Y m d', $x->data_fv));
+            $x_t->addSearchReplace('id_faktura', $x->id_faktura);
+            $data .= $x_t->getContent();
+        }
+        return $data;
+    }
+
+    public function getTemplateProfilePaymentFormProwizja($fr, $ur) {
         $ft = new Template(Pathes::getPathTemplateProfilePaymentFormProwizja()); // faktura template
-        
         // faktura dane
         $id_faktura = "";
         $kwota_brutto = "";
@@ -833,7 +843,7 @@ class TemplateManager {
         $id_faktura = $fd->id_faktura;
         $kwota_brutto = $fd->kwota_brutto;
         $opis = $fd->id_faktura;
-        
+
         // user dane
         $imie = "";
         $nazwisko = "";
@@ -861,9 +871,8 @@ class TemplateManager {
         $ft->addSearchReplace('street', $street);
         $ft->addSearchReplace('postcode', $postcode);
         $ft->addSearchReplace('phone', $phone);
-        return $ft->getContent(); 
+        return $ft->getContent();
     }
-
 
 }
 

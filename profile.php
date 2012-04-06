@@ -608,8 +608,15 @@ try {
             //FAKTURY
             else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
-                    if ($_GET['a'] == 0)
+
+                    //opłacone faktury
+                    if ($_GET['a'] == 0) {
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
+
+                        $uil = $dbc->query(Query::getDataProfilePaidInvoiceList($u->getId_user())); // pobierana lista faktur opłaconych / paid invoice list
+                        $r = $tm->getTemplateProfilePaidInvoiceList($uil); // paid invoice list template result
+                    }
+                    //nieopłacone faktury
                     else if ($_GET['a'] == 1) {
                         if (isset($_GET['p'])) { // `p` jak payment
                             $t = new Template(Pathes::getPathTemplateProfilePaymentProwizja());
@@ -635,10 +642,10 @@ try {
                         }
                     }
                     else
-                        $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
+                        BFEC::redirect(Pathes::getScriptProfileUnpaidInvoices());
                 }
                 else
-                    $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
+                    BFEC::redirect(Pathes::getScriptProfileUnpaidInvoices());
             }
             else
                 $t = new Template(Pathes::getPathTemplateProfileU());

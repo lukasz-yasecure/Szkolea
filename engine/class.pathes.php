@@ -68,6 +68,7 @@ class Pathes {
     public static $template_profile_kup_pakiet = 'profile_dostawca_kup.html';
     public static $template_profile_lista_pakietow = 'profile_dostawca_lista_pakietow.html';
     public static $template_profile_faktury_oplacone = 'profile_dostawca_faktury_op.html';
+    public static $template_profile_faktury_oplacone_lista = 'profile_dostawca_faktury_op_lista.html';
     public static $template_profile_faktury_nieoplacone = 'profile_dostawca_faktury_dop.html';
     public static $template_profile_faktury_nieoplacone_lista = 'profile_dostawca_faktury_dop_lista.html';
     public static $template_profile_payment_prowizja = 'profile_dostawca_payment_prowizja.html';
@@ -130,6 +131,7 @@ class Pathes {
     public static $script_admin_newsletter = 'profile.php?w=inne&a=newsletter';
     public static $script_profile_services = 'profile.php?w=servs';
     public static $script_profile_promoted_services = 'profile.php?w=servs&a=2';
+    public static $script_profile_unpaid_invoices = 'profile.php?w=faktury&a=1';
 
     public static function getTemplateActivationMailPath() {
         return Pathes::$template_path . Pathes::$template_activation_mail;
@@ -231,6 +233,10 @@ class Pathes {
 
     public static function getScriptProfilePromotedServices() {
         return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_promoted_services;
+    }
+
+    public static function getScriptProfileUnpaidInvoices() {
+        return SC::$base_url . Pathes::$script_path . Pathes::$script_profile_unpaid_invoices;
     }
 
     public static function getCommGroupJoinFormTemplatePath() {
@@ -447,6 +453,10 @@ class Pathes {
 
     public static function getPathTemplateProfileUnpaidInvoiceList() {
         return Pathes::$template_path . Pathes::$template_profile_faktury_nieoplacone_lista;
+    }
+
+    public static function getPathTemplateProfilePaidInvoiceList() {
+        return Pathes::$template_path . Pathes::$template_profile_faktury_oplacone_lista;
     }
 
     public static function getPathTemplateProfilePaymentProwizja() {
