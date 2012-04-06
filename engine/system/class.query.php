@@ -726,6 +726,10 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return 'SELECT * FROM `faktury` WHERE `id_faktura`=' . $id_faktura; // pobierana faktura wg. id_fakrura
     }
 
+    public static function getAllInvoice() {
+        return 'SELECT * FROM `faktury` ORDER BY (CASE WHEN data_fv IS NULL THEN data_fpf ELSE data_fv END) DESC'; // lista faktur poukładana według dat
+    }
+
     public static function getAllUsers() {
         return 'SELECT * FROM users_324';
     }

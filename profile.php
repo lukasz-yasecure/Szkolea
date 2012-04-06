@@ -899,7 +899,59 @@ try {
 
         //płatności
         elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && (isset($_GET['a']) && $_GET['a'] == 'platnosci')) {
+
             $t = new Template(Pathes::getPathTemplatePayment());
+            $t_tabs = new Template(Pathes::getPathTemplatePaymentTables());
+            $t_tab = new Template(Pathes::getPathTemplatePaymentTable());
+            $t_tab_1row = new Template(Pathes::getPathTemplatePaymentTable1Row());
+
+            $im = new InvoiceManager();
+
+            //pomocnicze
+            $faktury = $im->getInvoices($dbc);
+            $lista_op = '';
+            $lista_nieop = '';
+
+
+            if (!is_null($faktury)) {
+                $ilosc = count($faktury);
+
+                //wypełnienie szablonu
+                for ($i = 0; $i < $ilosc; $i++) {
+                    $t_tab_1row->addSearchReplace('nr_fv', $faktury[$i]->getNumer_fv());
+                    $t_tab_1row->addSearchReplace('nr_prof', $faktury[$i]->getNumer_fpf());
+                    $t_tab_1row->addSearchReplace('data_fv', $faktury[$i]->getData_fv());
+                    $t_tab_1row->addSearchReplace('data_prof', $faktury[$i]->getData_fpf());
+                    $t_tab_1row->addSearchReplace('user', $faktury[$i]->getId_user());
+                    $t_tab_1row->addSearchReplace('id_fv', $faktury[$i]->getId_faktura());
+                    $t_tab_1row->addSearchReplace('za_co', $faktury[$i]->getTyp());
+
+                    //sprawdzenie czy faktura została opłacona na podstawie tego, czy istnieje faktura VAT
+                    //na tej podstawie ustawienie linków i przypisanie do odpowiedniej grupy  ( $lista_op || $lista_nieop )
+                    if ($faktury[$i]->getNumer_fv() == '-') {
+
+                        $t_tab_1row->addSearchReplace('pobierz_prof', 'pobierz');
+                        $t_tab_1row->addSearchReplace('pobierz_fv', '');
+                        $lista_nieop .= $t_tab_1row->getContent();
+                    } else {
+                        $t_tab_1row->addSearchReplace('pobierz_prof', '');
+                        $t_tab_1row->addSearchReplace('pobierz_fv', 'pobierz');
+                        $lista_op .= $t_tab_1row->getContent();
+                    }
+
+                    $t_tab_1row->clearSearchReplace();
+                }
+            }else
+                $t_tab->addSearchReplace('row', '');
+
+            //wrzucenie wszystkiego do odpowiednich szablonów
+            $t_tab->addSearchReplace('row', $lista_op);
+            $t_tabs->addSearchReplace('table_op', $t_tab->getContent());
+            $t_tab->clearSearchReplace();
+            $t_tab->addSearchReplace('row', $lista_nieop);
+            $t_tabs->addSearchReplace('table_nieop', $t_tab->getContent());
+
+            $t->addSearchReplace('here', $t_tabs->getContent());
         }
         //CZYSTY SZABLON - w przypadku, gdy opcje nie pasują do wszystkich powyższych wyświetla się domyśny szablon baz wybranej zakładki
         else {
