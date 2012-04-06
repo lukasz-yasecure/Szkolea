@@ -91,6 +91,9 @@ class Pathes {
     public static $template_profile_admin_stats_zlecenia_lista = 'admin_stat_zlecenia_lista.html';
     public static $template_profile_admin_stats_uslugi_lista = 'admin_stat_uslugi_lista.html';
     public static $template_profile_admin_stats_pakiety_lista = 'admin_stat_pakiety_lista.html';
+    public static $template_profile_admin_payment_table = 'admin_payments_table.html';
+    public static $template_profile_admin_payment_tables = 'admin_payments_tables.html';
+    public static $template_profile_admin_payment_table_1row = 'admin_payments_table_1_row.html';
     public static $template_profile_offer_details = 'admin_oferta_szczegoly.html';
     public static $template_profile_newsletter = 'admin_newsletter.html';
     public static $template_profile_payment = 'admin_inne_platnosci.html';
@@ -613,6 +616,18 @@ class Pathes {
 
     public static function getPathTemplateStatsPackagesList() {
         return Pathes::$template_path . Pathes::$template_profile_admin_stats_pakiety_lista;
+    }
+
+    public static function getPathTemplatePaymentTable() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_payment_table;
+    }
+
+    public static function getPathTemplatePaymentTables() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_payment_tables;
+    }
+
+    public static function getPathTemplatePaymentTable1Row() {
+        return Pathes::$template_path . Pathes::$template_profile_admin_payment_table_1row;
     }
 
     public static function getPathTemplateOfferDetails() {
