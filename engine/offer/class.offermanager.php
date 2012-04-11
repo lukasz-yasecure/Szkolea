@@ -96,6 +96,24 @@ class OfferManager {
         //return 'Trener jeszcze nie zapłacił';
     }
 
+    //pobranie ofert użytkownika i dane faktury
+    public function getUserOffersInvoices(DBC $dbc,$id_user) {
+        $sql = Query::getUserOffersInvoicesInDB($id_user);
+        $r = $dbc->query($sql);
+
+        $oferty = array();
+        $i = 0;
+
+        if ($r != FALSE) {
+            while ($r_ofe = $r->fetch_assoc()) {
+                $oferty[$i] = $this->getOfferFromRow($r_ofe);   //każda pozycja w tablicy to obiekt z ofertą (pełne dane) 
+                $oferty[$i]->setPayment(isset($r_ofe['data_fv'])?true:false);   //pole status płatności
+                $i++;
+            }
+        }
+        return $oferty;
+    }
+
 }
 
 ?>

@@ -391,7 +391,7 @@ class TemplateManager {
             }
         } else {
             while (!is_null($s = $r->getServ())) {
-                $rlt->addServ($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $s->getKategoria_name(), $s->getName(), $s->getId_serv(), $s->getPlace(), $s->getCena(), UF::getDoKonca($s->getDate_end()), $s->getModuly_names(), $s->getProgram());
+                $rlt->addServ($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $s->getKategoria_name(), $s->getName(), $s->getId_serv(), $s->getPlace(), $s->getCena(), UF::getDoKonca($s->getDate_end()), $s->getModuly_names(), $s->getProgram(), "test");
             }
         }
         return $rlt;
@@ -418,10 +418,10 @@ class TemplateManager {
 
         if ($r->areCommisionsSet()) {
             while (!is_null($c = $r->getComm())) {
-                $show_offers = "";
+                $status = "";
                 if (time() > $c->getDate_end())
-                    $show_offers = '<li><a href="profile.php?w=offers&id=' . $c->getId_comm() . '">pokaż oferty</a></li>';
-                $rlt->addComm($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names(), $show_offers);
+                   $status = '<li><a href="profile.php?w=offers&id=' . $c->getId_comm() . '">pokaż oferty</a></li>';
+                $rlt->addComm($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names(), $status);
             }
         }
         else {

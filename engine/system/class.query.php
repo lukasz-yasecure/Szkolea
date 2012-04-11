@@ -565,7 +565,7 @@ class Query {
     }
 
     public static function getOfferAccept($ofe) {
-        return 'SELECT * FROM `commisions_ofe` WHERE `id_ofe` = ' . $ofe; // pobierane dane wybranej oferty
+        return 'SELECT * FROM `commisions_ofe` WHERE `id_ofe` = ' . $ofe; // pobierane dane wybranej oferty. Dublikat zapytania getOffer!!!
     }
 
     public static function getOfferAcceptNo($ofe) {
@@ -752,6 +752,11 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
+    public static function getUserOffersInvoicesInDB($id_user) {
+        $sql = 'SELECT * FROM commisions_ofe C LEFT JOIN faktury F ON C.id_user = F.id_user WHERE C.id_user=' . $id_user;
+        return $sql;
+    }
+
     public static function getAllCommsDescDate() {
         $sql = 'SELECT * FROM commisions LEFT JOIN users_324 ON commisions.id_user =  users_324.id_user ORDER BY date_add DESC';
         return $sql;
@@ -805,6 +810,11 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         $sql = 'INSERT INTO serv_promoted (id_user, id_serv, promote_date_add, promote_date_end) VALUES (' . $id_user . ', ' . $id_serv . ', ' . time() . ', ' . (time() + 604800) . ')';
         return $sql;
     }
+
+    public static function getOffersJoinComms($id_user) {
+        $sql = 'SELECT * FROM `commisions_ofe` CO LEFT JOIN commisions C ON CO.id_comm=C.id_comm WHERE CO.id_user=' . $id_user;
+        return $sql;       
+    } 
 
 }
 

@@ -29,7 +29,6 @@ try {
     $tm = new TemplateManager();
     $dbc = new DBC($sys);
 
-
     $r = '';
     $cm = new CategoryManager();
 
@@ -342,7 +341,8 @@ try {
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
-                    $r = $rm->getResults($dbc, $s, 'SELECT * FROM `commisions_ofe` CO LEFT JOIN commisions C ON CO.id_comm=C.id_comm WHERE CO.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
+                    $r = $rm->getResults($dbc, $s, Query::getOffersJoinComms($u->getId_user())); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu @@@nie wiem o co chodzi z tym lewym menu w dziale zlecenia/oferty
+                    print_r($r);
                     $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'offer'); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'offer'); // szablon wynikow
                     $r = $rt->getContent();

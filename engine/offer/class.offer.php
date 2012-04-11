@@ -14,6 +14,7 @@ class Offer {
     private $date_a;
     private $date_b;
     private $status;
+    private $payment;
     private $wlasciciel;
 
     public function getId_ofe() {
@@ -110,6 +111,14 @@ class Offer {
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+
+    public function getPayment() {
+        return $this->payment;
+    }
+
+    public function setPayment($payment) {
+        $this->payment = $payment;
     }
 
     /** Właściciel jako obiek typu User dla oferty
