@@ -420,14 +420,14 @@ class TemplateManager {
         if ($r->areCommisionsSet()) {
             while (!is_null($c = $r->getComm())) {
                 $status = "";
-               STD::pre($c);
-                exit; 
                 if ($u->isKlient()) {
                     if (time() > $c->getDate_end())
                         $status = '<li><a href="profile.php?w=offers&id=' . $c->getId_comm() . '">pokaż oferty</a></li>';
                     }
                     else {
-                        $status = $om->getOfferIsPaid($c->getId_comm());
+                        // miał być wyświetlany status oferty, obecnie jest przerabiane
+                        $status = "";
+                        // $status = $om->getOfferIsPaid($c->getId_comm());
                     }
                 $rlt->addComm($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names(), $status);
             }
@@ -882,6 +882,21 @@ class TemplateManager {
         return $ft->getContent();
     }
 
+    public function getTemplateProfileOffersAndIsPaid($r) {
+        $data = "";
+        while ($x = $r->fetch_object()) {
+            $status = "";
+            if (isset($x->id_faktura)) {
+                if($x->data_fv != "") $status = "lista dopisanych";
+                else $status = "<a href=\"profile.php?w=faktury&a=1&p=".$x->id_faktura."\">opłać fakturę";
+            }
+            $x_t = new Template(Pathes::$template_path.'profile_offers_and_is_paid.html');
+            $x_t->addSearchReplace('id_offer', $x->id_ofe);
+            $x_t->addSearchReplace('status', $status);
+            $data .= $x_t->getContent();
+        }
+        return $data;
+    }
 }
 
 ?>

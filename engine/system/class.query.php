@@ -752,8 +752,8 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
-    public static function getUserOffersInvoicesInDB($id_user) {
-        $sql = 'SELECT * FROM commisions_ofe C LEFT JOIN faktury F ON C.id_user = F.id_user WHERE C.id_user=' . $id_user;
+    public static function getDataUserOffersInvoicesInDB($id_user) {
+        $sql = 'SELECT * FROM commisions_ofe O LEFT JOIN faktury F ON O.id_ofe = F.id_oferta WHERE O.id_user=' . $id_user;
         return $sql;
     }
 
