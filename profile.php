@@ -77,7 +77,7 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT * FROM `observe_comms` OC LEFT JOIN commisions C ON OC.id_obs=C.id_comm WHERE OC.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 2) {
@@ -90,7 +90,7 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT c.*,o.count_offers FROM `commisions` c LEFT JOIN (SELECT `id_comm`,COUNT(*) count_offers FROM `commisions_ofe` GROUP BY `id_comm`) as o ON (o.id_comm = c.id_comm) WHERE c.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'moje'); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u, 'moje'); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'moje'); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 3) {
@@ -103,7 +103,7 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT * FROM `commisions_group` CG LEFT JOIN commisions C ON CG.id_comm=C.id_comm WHERE CG.id_user=' . $u->getId_user() . ' GROUP BY C.id_comm'); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'biore'); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u, 'biore'); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'biore'); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 4)
@@ -329,7 +329,7 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT * FROM `observe_comms` OC LEFT JOIN commisions C ON OC.id_obs=C.id_comm WHERE OC.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 2) {
@@ -341,9 +341,8 @@ try {
                     $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
-                    $r = $rm->getResults($dbc, $s, Query::getOffersJoinComms($u->getId_user())); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu @@@nie wiem o co chodzi z tym lewym menu w dziale zlecenia/oferty
-                    print_r($r);
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'offer'); // szablon listy z wynikami
+                    $r = $rm->getResults($dbc, $s, Query::getOffersJoinComms($u->getId_user())); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u, 'offer'); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'offer'); // szablon wynikow
                     $r = $rt->getContent();
                 } else {

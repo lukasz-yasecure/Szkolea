@@ -114,6 +114,10 @@ class OfferManager {
         return $oferty;
     }
 
+    public function getOfferIsPaid($id_offer) {
+        
+    }
+
 }
 
 ?>

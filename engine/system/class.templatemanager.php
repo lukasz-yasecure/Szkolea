@@ -397,7 +397,7 @@ class TemplateManager {
         return $rlt;
     }
 
-    public function getResultsListTemplateForProfile(System $sys, Results $r, $profile = null) {
+    public function getResultsListTemplateForProfile(System $sys, Results $r, User $u, $profile = null) {
         if (is_null($profile))
             $path = 'view/html/index_results_row_comm_profile.html';
         else if ($profile == 'offer')
@@ -411,7 +411,8 @@ class TemplateManager {
             throw new NoTemplateFile($path . ' plik nie istnieje!');
 
         $rlt = new ResultsListTemplate(file_get_contents($path));
-
+        $om = new OfferManager();
+        
         $colors = array('#f9f9f9', '#ececec', '#f9f9f9', '#ececec');
         $i = 0;
 
@@ -419,8 +420,15 @@ class TemplateManager {
         if ($r->areCommisionsSet()) {
             while (!is_null($c = $r->getComm())) {
                 $status = "";
-                if (time() > $c->getDate_end())
-                   $status = '<li><a href="profile.php?w=offers&id=' . $c->getId_comm() . '">pokaż oferty</a></li>';
+               STD::pre($c);
+                exit; 
+                if ($u->isKlient()) {
+                    if (time() > $c->getDate_end())
+                        $status = '<li><a href="profile.php?w=offers&id=' . $c->getId_comm() . '">pokaż oferty</a></li>';
+                    }
+                    else {
+                        $status = $om->getOfferIsPaid($c->getId_comm());
+                    }
                 $rlt->addComm($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names(), $status);
             }
         }
