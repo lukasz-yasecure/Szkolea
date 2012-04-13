@@ -337,11 +337,8 @@ try {
                      * DOSTAWCA - OFERTY
                      */
                     
-                    // @p1 przerabiana lista wynik
                     $t = new Template(Pathes::getPathTemplateProfileOffersForDeveloper());
-                    
                     $offers_query = $dbc->query(Query::getDataUserOffersInvoicesInDB($u->getId_user())); // pobierana lista ofert wg. id_user (dostawca)
-                    // STD::pre($offers_query->fetch_array()); exit; // temp debug
                     $r = $tm->getTemplateProfileOffersAndIsPaid($offers_query);
                 } else {
                     /*
@@ -357,6 +354,13 @@ try {
                         $r.= '<tr><td' . $c1 . '>' . $a[0] . '</td><td' . $c2 . '>' . $a[1] . '</td><td' . $c3 . '>' . $a[2] . '</td><td><button id="kasuj" name="id" value="' . $x['id_obs'] . '">Kasuj</button></td></tr>';
                     }
                 }
+            } else if ($_GET['w'] == 'zapisani') {
+                    /*
+                     * DOSTAWCA - ZAPISANI DO ZLECENIA
+                     */
+                    $t = new Template(Pathes::$template_path.'profile_zapisani.html');
+                    $participants_query = $dbc->query(Query::getDataParticipants($_GET['id']));
+                    $r = $tm->getTemplateProfileParticipants($participants_query); 
             } else if ($_GET['w'] == 'dane') {
 
                 //DOSTAWCA - EDYCJA WIZYTÓWKI

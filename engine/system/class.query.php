@@ -816,6 +816,16 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;       
     } 
 
+    //zwraca liczbę zapisanych do zlecenia i dane użytkownika 
+    public static function getDataParticipants($id_comm) {
+        $sql = 'SELECT G.*, COUNT(*) AS liczba_zapisanych, U.*
+        FROM commisions_group G
+        LEFT JOIN users_324 U
+        ON G.id_user = U.id_user 
+        WHERE id_comm = '.$id_comm.'
+        GROUP BY G.id_user';
+        return $sql; 
+    }
 }
 
 ?>

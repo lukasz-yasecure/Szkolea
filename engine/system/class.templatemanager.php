@@ -887,8 +887,8 @@ class TemplateManager {
         while ($x = $r->fetch_object()) {
             $status = "";
             if (isset($x->id_faktura)) {
-                if($x->data_fv != "") $status = "lista dopisanych";
-                else $status = "<a href=\"profile.php?w=faktury&a=1&p=".$x->id_faktura."\">opłać fakturę";
+                if($x->data_fv != "") $status = "<a href=\"profile.php?w=zapisani&id=".$x->id_comm."\">lista dopisanych</a>";
+                else $status = "<a href=\"profile.php?w=faktury&a=1&p=".$x->id_faktura."\">opłać fakturę</a>";
             }
             $x_t = new Template(Pathes::$template_path.'profile_offers_and_is_paid.html');
             $x_t->addSearchReplace('id_offer', $x->id_ofe);
@@ -897,6 +897,26 @@ class TemplateManager {
         }
         return $data;
     }
+
+    public function getTemplateProfileParticipants($r) {
+        $data = "";
+        while ($x = $r->fetch_object()) {
+            $x_t = new Template(Pathes::$template_path.'profile_zapisani_lista.html');
+            $x_t->addSearchReplace('id_comm', $x->id_comm);
+            $x_t->addSearchReplace('liczba_zapisanych', $x->liczba_zapisanych);
+            $x_t->addSearchReplace('os_name', $x->os_name);
+            $x_t->addSearchReplace('os_surname', $x->os_surname);
+            $x_t->addSearchReplace('os_street', $x->os_street);
+            $x_t->addSearchReplace('os_city', $x->os_city);
+            $x_t->addSearchReplace('os_house_number', $x->os_house_number);
+            $x_t->addSearchReplace('os_postcode', $x->os_postcode);
+            $x_t->addSearchReplace('os_phone', $x->os_phone);
+            $data .= $x_t->getContent();
+            
+        } 
+        return $data;
+    }
+
 }
 
 ?>
