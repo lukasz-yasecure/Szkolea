@@ -35,7 +35,6 @@ class Commision
     private $subcat; // id obszaru
     private $moduly; // idy
     private $oferty; // liczba ofert
-    private $show_offers; // link 'pokaż oferty'
     private $count_offers; // liczba ofert
 
     public function getOferty() {
@@ -262,14 +261,6 @@ class Commision
         $this->parts = $parts;
     }
     
-    public function getShow_offers() {
-        return $this->show_offers;
-    }
-
-    public function setShow_offers($show_offers) {
-        $this->show_offers = $show_offers;
-    }
-
     public function getCount_offers() {
         return $this->count_offers;
     }
