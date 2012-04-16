@@ -143,6 +143,11 @@ class Mailer {
         $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Dostępna faktura pro forma', $tm->getContent());
     }
 
+    public function infoPaidInvoice(User $adresat) {
+        $tm = new Template(Pathes::getPathTemplateMailInfoPaidInvoice());
+        $this->sendMail($adresat->getEmail(), 'noreply@szkolea.pl', 'Dostępna faktura vat', $tm->getContent());
+    }
+
     //wysłanie maila do Szkolea o prośbie użytkownika o baner
     public function sendToAdminBanerRequest(User $u) {
         $t_mail = new Template(Pathes::getPathTemplateMailBanerRequest());

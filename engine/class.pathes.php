@@ -112,6 +112,7 @@ class Pathes {
     public static $mail_baner_request = 'admin_baner.html';
     public static $mail_newsletter_list = 'admin_newsletter_mail_list.html';
     public static $mail_unpaid_invoice = 'unpaid_invoice.html';
+    public static $mail_paid_invoice = 'paid_invoice.html';
     public static $cennik = 'cennik.html';
     public static $priv_rules = 'priv_rules.html';
     public static $rules = 'rules.html';
@@ -568,6 +569,10 @@ class Pathes {
 
     public static function getPathTemplateMailInfoUnpaidInvoice() {
         return Pathes::$template_mail_path . Pathes::$mail_unpaid_invoice;
+    }
+    
+    public static function getPathTemplateMailInfoPaidInvoice() {
+        return Pathes::$template_mail_path . Pathes::$mail_paid_invoice;
     }
 
     public static function getPathTemplateCennik() {

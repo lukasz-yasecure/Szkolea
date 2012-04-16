@@ -27,7 +27,6 @@ try
     $sys = new System('dp_185', true); // nowy kontener ustawien aplikacji, laduje moduly (klasy)
     $sm = new SessionManager();
     $um = new UserManager();
-    $u = $um->getUserFromSession($sm);
     $dbc = new DBC($sys);
     
     $post = '';
@@ -54,7 +53,10 @@ try
                         $pm = new PackageManager();
                         $pakiet = $pm->pobierzPakiet($dbc, $fetch_invoice->id_pakiet);
                         $pm->dodajPakietUzytkownikowi($dbc, $fetch_invoice->id_user, $pakiet);
-                    } 
+                    }
+
+                    $mailer = new Mailer();
+                    $mailer->infoPaidInvoice($um->getUser($dbc,$fetch_invoice->id_user));
                     echo "OK";
                 } else { // 1 - nowa, 3 - odzrucona, 4, 5...
                     $dbc->query(Query::logDotPay('2',$_POST['control'],$post));   
