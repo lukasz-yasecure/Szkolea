@@ -565,7 +565,7 @@ class Query {
     }
 
     public static function getOfferAccept($ofe) {
-        return 'SELECT * FROM `commisions_ofe` WHERE `id_ofe` = ' . $ofe; // pobierane dane wybranej oferty
+        return 'SELECT * FROM `commisions_ofe` WHERE `id_ofe` = ' . $ofe; // pobierane dane wybranej oferty. Dublikat zapytania getOffer!!!
     }
 
     public static function getOfferAcceptNo($ofe) {
@@ -752,6 +752,11 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
+    public static function getDataUserOffersInvoicesInDB($id_user) {
+        $sql = 'SELECT * FROM commisions_ofe O LEFT JOIN faktury F ON O.id_ofe = F.id_oferta WHERE O.id_user=' . $id_user;
+        return $sql;
+    }
+
     public static function getAllCommsDescDate() {
         $sql = 'SELECT * FROM commisions LEFT JOIN users_324 ON commisions.id_user =  users_324.id_user ORDER BY date_add DESC';
         return $sql;
@@ -806,6 +811,21 @@ FROM commisions C INNER JOIN users_324 U ON C.id_user = U.id_user INNER JOIN com
         return $sql;
     }
 
+    public static function getOffersJoinComms($id_user) {
+        $sql = 'SELECT * FROM `commisions_ofe` CO LEFT JOIN commisions C ON CO.id_comm=C.id_comm WHERE CO.id_user=' . $id_user;
+        return $sql;       
+    } 
+
+    //zwraca liczbę zapisanych do zlecenia i dane użytkownika 
+    public static function getDataParticipants($id_comm) {
+        $sql = 'SELECT G.*, COUNT(*) AS liczba_zapisanych, U.*
+        FROM commisions_group G
+        LEFT JOIN users_324 U
+        ON G.id_user = U.id_user 
+        WHERE id_comm = '.$id_comm.'
+        GROUP BY G.id_user';
+        return $sql; 
+    }
 }
 
 ?>

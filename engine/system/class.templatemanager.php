@@ -391,13 +391,13 @@ class TemplateManager {
             }
         } else {
             while (!is_null($s = $r->getServ())) {
-                $rlt->addServ($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $s->getKategoria_name(), $s->getName(), $s->getId_serv(), $s->getPlace(), $s->getCena(), UF::getDoKonca($s->getDate_end()), $s->getModuly_names(), $s->getProgram());
+                $rlt->addServ($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $s->getKategoria_name(), $s->getName(), $s->getId_serv(), $s->getPlace(), $s->getCena(), UF::getDoKonca($s->getDate_end()), $s->getModuly_names(), $s->getProgram(), "test");
             }
         }
         return $rlt;
     }
 
-    public function getResultsListTemplateForProfile(System $sys, Results $r, $profile = null) {
+    public function getResultsListTemplateForProfile(System $sys, Results $r, User $u, $profile = null) {
         if (is_null($profile))
             $path = 'view/html/index_results_row_comm_profile.html';
         else if ($profile == 'offer')
@@ -411,17 +411,25 @@ class TemplateManager {
             throw new NoTemplateFile($path . ' plik nie istnieje!');
 
         $rlt = new ResultsListTemplate(file_get_contents($path));
-
+        $om = new OfferManager();
+        
         $colors = array('#f9f9f9', '#ececec', '#f9f9f9', '#ececec');
         $i = 0;
 
 
         if ($r->areCommisionsSet()) {
             while (!is_null($c = $r->getComm())) {
-                $show_offers = "";
-                if (time() > $c->getDate_end())
-                    $show_offers = '<li><a href="profile.php?w=offers&id=' . $c->getId_comm() . '">pokaż oferty</a></li>';
-                $rlt->addComm($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names(), $show_offers);
+                $status = "";
+                if ($u->isKlient()) {
+                    if (time() > $c->getDate_end())
+                        $status = '<li><a href="profile.php?w=offers&id=' . $c->getId_comm() . '">pokaż oferty</a></li>';
+                    }
+                    else {
+                        // miał być wyświetlany status oferty, obecnie jest przerabiane
+                        $status = "";
+                        // $status = $om->getOfferIsPaid($c->getId_comm());
+                    }
+                $rlt->addComm($colors[$i % 4], $colors[(++$i) % 4], 'img/icons/free-for-job.png', $c->getKategoria_name(), $c->getTematyka_name(), $c->getId_comm(), $c->getPlace(), $c->getParts_count(), $c->getCena_min(), $c->getCena_max(), UF::getDoKonca($c->getDate_end()), $c->getModuly_names(), $status);
             }
         }
         else {
@@ -872,6 +880,41 @@ class TemplateManager {
         $ft->addSearchReplace('postcode', $postcode);
         $ft->addSearchReplace('phone', $phone);
         return $ft->getContent();
+    }
+
+    public function getTemplateProfileOffersAndIsPaid($r) {
+        $data = "";
+        while ($x = $r->fetch_object()) {
+            $status = "";
+            if (isset($x->id_faktura)) {
+                if($x->data_fv != "") $status = "<a href=\"profile.php?w=zapisani&id=".$x->id_comm."\">lista dopisanych</a>";
+                else $status = "<a href=\"profile.php?w=faktury&a=1&p=".$x->id_faktura."\">opłać fakturę</a>";
+            }
+            $x_t = new Template(Pathes::$template_path.'profile_offers_and_is_paid.html');
+            $x_t->addSearchReplace('id_offer', $x->id_ofe);
+            $x_t->addSearchReplace('status', $status);
+            $data .= $x_t->getContent();
+        }
+        return $data;
+    }
+
+    public function getTemplateProfileParticipants($r) {
+        $data = "";
+        while ($x = $r->fetch_object()) {
+            $x_t = new Template(Pathes::$template_path.'profile_zapisani_lista.html');
+            $x_t->addSearchReplace('id_comm', $x->id_comm);
+            $x_t->addSearchReplace('liczba_zapisanych', $x->liczba_zapisanych);
+            $x_t->addSearchReplace('os_name', $x->os_name);
+            $x_t->addSearchReplace('os_surname', $x->os_surname);
+            $x_t->addSearchReplace('os_street', $x->os_street);
+            $x_t->addSearchReplace('os_city', $x->os_city);
+            $x_t->addSearchReplace('os_house_number', $x->os_house_number);
+            $x_t->addSearchReplace('os_postcode', $x->os_postcode);
+            $x_t->addSearchReplace('os_phone', $x->os_phone);
+            $data .= $x_t->getContent();
+            
+        } 
+        return $data;
     }
 
 }

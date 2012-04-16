@@ -29,7 +29,6 @@ try {
     $tm = new TemplateManager();
     $dbc = new DBC($sys);
 
-
     $r = '';
     $cm = new CategoryManager();
 
@@ -45,7 +44,7 @@ try {
                 else if ($_POST['action'] == 'zl_kasuj')
                     $sql = 'DELETE FROM `observe_comms` WHERE `id_user` = ' . $u->getId_user() . ' AND `id_obs` = \'' . $id . '\'';
                 $dbc->query($sql);
-                BFEC::addm('Usuniƒôto z obserwowanych!', SessionManager::getBackURL_Static());
+                BFEC::addm('UsuniÍto z obserwowanych!', SessionManager::getBackURL_Static());
             }
         }
     }
@@ -78,7 +77,7 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT * FROM `observe_comms` OC LEFT JOIN commisions C ON OC.id_obs=C.id_comm WHERE OC.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 2) {
@@ -91,7 +90,7 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT c.*,o.count_offers FROM `commisions` c LEFT JOIN (SELECT `id_comm`,COUNT(*) count_offers FROM `commisions_ofe` GROUP BY `id_comm`) as o ON (o.id_comm = c.id_comm) WHERE c.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'moje'); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u, 'moje'); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'moje'); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 3) {
@@ -104,7 +103,7 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT * FROM `commisions_group` CG LEFT JOIN commisions C ON CG.id_comm=C.id_comm WHERE CG.id_user=' . $u->getId_user() . ' GROUP BY C.id_comm'); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'biore'); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u, 'biore'); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'biore'); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 4)
@@ -132,26 +131,26 @@ try {
                 $t = new Template(Pathes::getPathTemplateProfileZleceniaMoje());
                 $res = $dbc->query(Query::getOfferForComm($_GET['id'])); // pobierane oferty wg. id zlecenia (tylko statu 1 lub 2)
                 $get_group = $dbc->query(Query::getGroupCommUsers($_GET['id'])); // pobierana lista dodanych do zlecenia
-                if (isset($_GET['ofe'])) { // wyb√≥r oferty przez klienta
+                if (isset($_GET['ofe'])) { // wybÛr oferty przez klienta
                     $dbc->query(Query::getOfferAcceptYes($_GET['ofe'])); // oznacza status oferty jako 2, czyli oferta wybrana (1 - dodana, 2 - wybrana, 3 - rezygnacja)
-                    // wysy≈Çane powiadomienie w≈Ça≈õcicielowi wybranej oferty
+                    // wysy≥ane powiadomienie w≥a∂cicielowi wybranej oferty
                     $gu = $dbc->query(Query::getOfferAccept($_GET['ofe'])); // pobierane dane wybranej oferty
                     $gu_fetch = $gu->fetch_object();
                     $m->infoWybranaOfertaWlasciciel($um->getUser($dbc, $gu_fetch->id_user));
 
-                    // wysy≈Çane powiadomienia w≈Ça≈õcicielom odrzuconych ofert
+                    // wysy≥ane powiadomienia w≥a∂cicielom odrzuconych ofert
                     $res = $dbc->query(Query::getOfferAcceptYesAfter($_GET['id'], $_GET['ofe'])); // pobieramy oferty zlecenia z wyjatkiem wybranej oferty
-                    // faktura proforma: tworzymy wpis i wysy≈Çamy powiadomienie
+                    // faktura proforma: tworzymy wpis i wysy≥amy powiadomienie
                     $im = new InvoiceManager();
                     $im->createUnpaidInvoiceProwizja($dbc, $gu_fetch);
-                    $m->infoUnpaidInvoice($um->getUser($dbc, $gu_fetch->id_user)); // powiadomienie: dostƒôpna faktura pro forma
+                    $m->infoUnpaidInvoice($um->getUser($dbc, $gu_fetch->id_user)); // powiadomienie: dostÍpna faktura pro forma
 
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
                         $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
 
-                    // wysy≈Çane informacje o wybranej ofercie dodanym do zlecenia osobom
+                    // wysy≥ane informacje o wybranej ofercie dodanym do zlecenia osobom
                     while ($x = $get_group->fetch_assoc()) {
                         $m->infoWybranaOfertaDodaneDoZlecenia($um->getUser($dbc, $x['id_user']));
                     }
@@ -159,10 +158,10 @@ try {
                 } elseif (isset($_GET['resign'])) {
                     while ($x = $res->fetch_assoc()) {
                         $dbc->query(Query::getOfferAcceptNo($x['id_ofe'])); // oznaczamy oferty jako odrzucone
-                        // wysy≈Çamy powiadomienie w≈Ça≈õcicielowi odrzuconej oferty
+                        // wysy≥amy powiadomienie w≥a∂cicielowi odrzuconej oferty
                         $m->infoOdrzuconaOfertaWlasciciel($um->getUser($dbc, $x['id_user']));
                     }
-                    // wysy≈Çane informacje o odrzuconej ofercie dodanym do zlecenia osobom
+                    // wysy≥ane informacje o odrzuconej ofercie dodanym do zlecenia osobom
                     while ($x = $get_group->fetch_assoc()) {
                         $m->infoOdrzuconaOfertaDodaneDoZlecenia($um->getUser($dbc, $x['id_user']));
                     }
@@ -217,18 +216,18 @@ try {
                  */
                 try {
                     if (!isset($_POST['profile_edit_form'])) {
-                        $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane u≈ºytkownika z bazy
-                        $t = new Template(Pathes::getPathTemplateProfileEdit()); // szablon profilu u≈ºytkownika
+                        $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane uøytkownika z bazy
+                        $t = new Template(Pathes::getPathTemplateProfileEdit()); // szablon profilu uøytkownika
                         $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                         $r = $pft->getContent();
                     } else if (isset($_POST['profile_edit_form'])) {
                         $ud = new UserData();
-                        $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane u≈ºytkownika z bazy
-                        $t = new Template(Pathes::getPathTemplateProfileEdit()); // szablon profilu u≈ºytkownika
+                        $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane uøytkownika z bazy
+                        $t = new Template(Pathes::getPathTemplateProfileEdit()); // szablon profilu uøytkownika
                         $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                         $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
                         $um->updateProfileData($dbc, $rfd, $u); // edycja danych w bazie
-                        header('Location:' . $_SERVER['REQUEST_URI']); // prze≈Çadowanie strony, kasujemy stary $_POST
+                        header('Location:' . $_SERVER['REQUEST_URI']); // prze≥adowanie strony, kasujemy stary $_POST
                         $r = $pft->getContent();
                     }
                 } catch (ErrorsInprofileEditForm $e) {
@@ -244,21 +243,21 @@ try {
     else if ($u->isDostawca()) {
         if (isset($_GET['w'])) {
 
-            //US≈ÅUGI - DOSTAWCA
+            //US£UGI - DOSTAWCA
             if ($_GET['w'] == 'servs') {
                 $sm = new ServiceManager();
                 $pm = new PackageManager();
-
-                //moje us≈Çugi
+                
+                //moje us≥ugi
                 if (isset($_GET['a']) && $_GET['a'] == 1) {
                     $t = new Template(Pathes::getPathTemplateProfileMyObserved());
                 }
-                //promowana us≈Çuga
+                //promowana us≥uga
                 elseif (isset($_GET['a']) && $_GET['a'] == 2) {
 
                     $t = new Template(Pathes::getPathTemplateProfilePromote());
 
-                    //przypadek gdy u≈ºytkownik promuje ju≈º jakƒÖ≈õ us≈Çugƒô, wiƒôc wy≈õwietlamu mu jƒÖ i jej termin promowania
+                    //przypadek gdy uøytkownik promuje juø jak±∂ us≥ugÍ, wiÍc wy∂wietlamu mu j± i jej termin promowania
                     if (count($promoted = $sm->getPromotedServs($dbc, $u->getId_user())) > 0) {
                         $t_prom = new Template(Pathes::getPathTemplatePromotedService());
                         $t_prom->addSearchReplace('serv_name', $promoted[0]->getName());
@@ -267,25 +266,25 @@ try {
 
                         $r = $t_prom->getContent();
 
-                        //przypadek gdy u≈ºytkownik ma odpowiedni pakiet
+                        //przypadek gdy uøytkownik ma odpowiedni pakiet
                     } elseif ($pm->pobierzInformacjePakietow($dbc, $u->getId_user()) && $pm->czyMoznaWlaczycMailing()) {
 
-                        //przypadek gdy u≈ºytkownik posiada aktywne us≈Çugi
+                        //przypadek gdy uøytkownik posiada aktywne us≥ugi
                         if (count($user_services = $sm->getActiveServicesForUser($dbc, $u->getId_user())) > 0) {
 
-                            //obs≈Çuga wyboru z radio us≈Çugi do promowania
+                            //obs≥uga wyboru z radio us≥ugi do promowania
                             if (isset($_POST['promote_serv'])) {
                                 if ($sm->insertPromotedService($dbc, $_POST['promote_serv'], $u->getId_user()))
                                     BFEC::addm(MSG::ServicePromotionSet(), Pathes::getScriptProfilePromotedServices());
                                 else
                                     BFEC::add(MSG::instertError());
                             }
-                            //je≈õli nie ma $_POSTa to generujemy formularz
+                            //je∂li nie ma $_POSTa to generujemy formularz
                             else {
                                 $t_choose = new Template(Pathes::getPathTemplatePromotedChoose());
                                 $t_radio = new Template(Pathes::getPathTemplatePromoted1ServiceForChoose());
-                                $radios = '';   //lista p√≥l radio z szablonu na radio
-                                //generowanie listy p√≥l radio dla wszystkich us≈Çug danego u≈ºytkownika
+                                $radios = '';   //lista pÛl radio z szablonu na radio
+                                //generowanie listy pÛl radio dla wszystkich us≥ug danego uøytkownika
                                 for ($i = 0; $i < count($user_services); $i++) {
                                     $t_radio->addSearchReplace('id_serv', $user_services[$i]->getId_serv());
                                     $t_radio->addSearchReplace('name_serv', $user_services[$i]->getName());
@@ -296,15 +295,15 @@ try {
                                 $r = $t_choose->getContent();
                             }
                         } else
-                        //brak aktywnych us≈Çug
+                        //brak aktywnych us≥ug
                             BFEC::add(MSG::noServices(), true, Pathes::getScriptProfileServices());
                     } else {
-                        //brak odpowiednich pakiet√≥w
+                        //brak odpowiednich pakietÛw
                         BFEC::add(MSG::profileNoPromotionAllow(), true, Pathes::getScriptProfilePackageBuyingPath());
                     }
 
 
-                    //obserwowane kategorie - domy≈õlnie
+                    //obserwowane kategorie - domy∂lnie
                 } else {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE USLUG
@@ -330,22 +329,17 @@ try {
                     $s->setWhat('comms');
                     $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
                     $r = $rm->getResults($dbc, $s, 'SELECT * FROM `observe_comms` OC LEFT JOIN commisions C ON OC.id_obs=C.id_comm WHERE OC.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r); // szablon listy z wynikami
+                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, $u); // szablon listy z wynikami
                     $rt = $tm->getResultsTemplateForProfile($sys, $rlt); // szablon wynikow
                     $r = $rt->getContent();
                 } else if (isset($_GET['a']) && $_GET['a'] == 2) {
                     /*
                      * DOSTAWCA - OFERTY
                      */
+                    
                     $t = new Template(Pathes::getPathTemplateProfileOffersForDeveloper());
-                    $ud = new UserData();
-                    $s = $ud->getSearch(); // pobieramy parametry szukania jesli jakies sa
-                    $s->setWhat('comms');
-                    $rm = new ResultsManager(); // tworzymi liste wynikow do wyswietlenia
-                    $r = $rm->getResults($dbc, $s, 'SELECT * FROM `commisions_ofe` CO LEFT JOIN commisions C ON CO.id_comm=C.id_comm WHERE CO.id_user=' . $u->getId_user()); // tutaj tak naprawde dopiero tworzymy liste wynikow na bazie wyszukiwania/wyboru z lewego menu
-                    $rlt = $tm->getResultsListTemplateForProfile($sys, $r, 'offer'); // szablon listy z wynikami
-                    $rt = $tm->getResultsTemplateForProfile($sys, $rlt, 'offer'); // szablon wynikow
-                    $r = $rt->getContent();
+                    $offers_query = $dbc->query(Query::getDataUserOffersInvoicesInDB($u->getId_user())); // pobierana lista ofert wg. id_user (dostawca)
+                    $r = $tm->getTemplateProfileOffersAndIsPaid($offers_query);
                 } else {
                     /*
                      * DOSTAWCA - OBSERWOWANE KATEGORIE ZLECEN
@@ -360,9 +354,16 @@ try {
                         $r.= '<tr><td' . $c1 . '>' . $a[0] . '</td><td' . $c2 . '>' . $a[1] . '</td><td' . $c3 . '>' . $a[2] . '</td><td><button id="kasuj" name="id" value="' . $x['id_obs'] . '">Kasuj</button></td></tr>';
                     }
                 }
+            } else if ($_GET['w'] == 'zapisani') {
+                    /*
+                     * DOSTAWCA - ZAPISANI DO ZLECENIA
+                     */
+                    $t = new Template(Pathes::$template_path.'profile_zapisani.html');
+                    $participants_query = $dbc->query(Query::getDataParticipants($_GET['id']));
+                    $r = $tm->getTemplateProfileParticipants($participants_query); 
             } else if ($_GET['w'] == 'dane') {
 
-                //DOSTAWCA - EDYCJA WIZYT√ìWKI
+                //DOSTAWCA - EDYCJA WIZYT”WKI
                 if ((isset($_GET['a']) && $_GET['a'] == 0) || !isset($_GET['a'])) {
 
                     $t = new Template(Pathes::getPathTemplateProfileCardForDeveloper());
@@ -377,7 +378,7 @@ try {
                             $_POST['opis'] = Valid::antyHTML($_POST['opis']);
                             $_POST['opis'] = nl2br($_POST['opis']);
 
-                            //sprawdzenie d≈Çugo≈õci wizyt√≥wki czy zgodna z dozwolonƒÖ
+                            //sprawdzenie d≥ugo∂ci wizytÛwki czy zgodna z dozwolon±
                             if (strlen($_POST['opis']) <= $pkgm->iIleZnakowWizytowka()) {
                                 RFD::add('edycja_wizytowki', 'opis', $_POST['opis']);
                             }else
@@ -407,81 +408,81 @@ try {
                             $sql = Query::setNewCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'), 'NULL');
                             $dbc->query($sql);
                             RFD::clear('edycja_wizytowki');
-                            if ($dbc->affected_rows != 1) // obs≈Çuga b≈Çedu gdy ilo≈õƒá zmienionych wierszy inna ni≈º 1
+                            if ($dbc->affected_rows != 1) // obs≥uga b≥edu gdy ilo∂Ê zmienionych wierszy inna niø 1
                                 throw new NieZaktualizowanoWizytowki;
                         }else if (!BFEC::isError()) {
-                            //w przypadku gdy rekord odno≈õnie wizyt√≥wki ju≈º istnieje
+                            //w przypadku gdy rekord odno∂nie wizytÛwki juø istnieje
                             $sql = Query::setCardForUser($u->getId_user(), RFD::get('edycja_wizytowki', 'opis'), RFD::get('edycja_wizytowki', 'www'));
                             $dbc->query($sql);
                             RFD::clear('edycja_wizytowki');
-                            if (strlen($dbc->error) > 0) // obs≈Çuga b≈Çedu gdy ilo≈õƒá zmienionych wierszy inna ni≈º 1
+                            if (strlen($dbc->error) > 0) // obs≥uga b≥edu gdy ilo∂Ê zmienionych wierszy inna niø 1
                                 throw new NieZaktualizowanoWizytowki;
                         }
 
 
-                        BFEC::addm(MSG::profileCardUpdate(), Pathes::getScriptProfileCard()); //przekierowanie po obs≈Çu≈ºeniu formularza na od≈õwie≈ºony formularz wizyt√≥wki
+                        BFEC::addm(MSG::profileCardUpdate(), Pathes::getScriptProfileCard()); //przekierowanie po obs≥uøeniu formularza na od∂wieøony formularz wizytÛwki
                     }
                     else {
 
-                        $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());     //podmieniamy w szablonie ilo≈õƒá znak√≥w wizyt√≥wki na pobranƒÖ z bazy dla odpowiedniego u≈ºytkownika
+                        $t_wiz->addSearchReplace('ilosc_znakow', $pkgm->iIleZnakowWizytowka());     //podmieniamy w szablonie ilo∂Ê znakÛw wizytÛwki na pobran± z bazy dla odpowiedniego uøytkownika
 
 
-                        if ($pkgm->czyMoznaDodacWWW()) {    // sprawdzamy czy u≈ºytkownik mo≈ºe dodawaƒá www i blokujemu mu tƒÖ opcje lub nie
+                        if ($pkgm->czyMoznaDodacWWW()) {    // sprawdzamy czy uøytkownik moøe dodawaÊ www i blokujemu mu t± opcje lub nie
                             $t_wiz->addSearchReplace('www_disabled', '');
                         } else {
                             $t_wiz->addSearchReplace('www_disabled', 'disabled="disabled"');
                         }
-                        if ($pkgm->czyMoznaDodacLogo()) {   // sprawdzamy czy u≈ºytkownik mo≈ºe dodawaƒá logo i blokujemu mu tƒÖ opcje lub nie
+                        if ($pkgm->czyMoznaDodacLogo()) {   // sprawdzamy czy uøytkownik moøe dodawaÊ logo i blokujemu mu t± opcje lub nie
                             $t_wiz->addSearchReplace('logo_disabled', '');
                         } else {
                             $t_wiz->addSearchReplace('logo_disabled', 'disabled="disabled"');
                         }
 
-                        //pobieramy informacje o wizytowce w bazie, gdyz musimy wiedziec czy generowac nowy rekord odnosnie wizyt√≥wki czy updateowaƒá istniejƒÖcy ju≈º
+                        //pobieramy informacje o wizytowce w bazie, gdyz musimy wiedziec czy generowac nowy rekord odnosnie wizytÛwki czy updateowaÊ istniej±cy juø
                         if ($pkgm->sprawdzWizytowke($dbc, $u->getId_user())) {
                             $pkgm->pobierzWizytowke($dbc, $u->getId_user());
 
 
-                            //pobieramy opis z bazy, lub w przypadku jego braku ≈Çadujemy z RFD
+                            //pobieramy opis z bazy, lub w przypadku jego braku ≥adujemy z RFD
                             if (strlen($pkgm->pobierzOpis()) > 0) {
                                 $t_wiz->addSearchReplace('RFD_opis', $pkgm->pobierzOpis());
                             } else {
                                 $t_wiz->addSearchReplace('RFD_opis', RFD::get('edycja_wizytowki', 'opis'));
                             }
 
-                            //pobieramy URL z bazy, lub w przypadku jego braku ≈Çadujemy z RFD
+                            //pobieramy URL z bazy, lub w przypadku jego braku ≥adujemy z RFD
                             if (strlen($pkgm->pobierzURL()) > 0) {
                                 $t_wiz->addSearchReplace('RFD_www', $pkgm->pobierzURL());
                             } else {
                                 $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
                             }
-                        } else {    //gdy nie ma wizyt√≥wki w bazie ≈Çadujemy dane od razu z RFD
+                        } else {    //gdy nie ma wizytÛwki w bazie ≥adujemy dane od razu z RFD
                             $t_wiz->addSearchReplace('RFD_opis', RFD::get('edycja_wizytowki', 'opis'));
                             $t_wiz->addSearchReplace('RFD_www', RFD::get('edycja_wizytowki', 'www'));
                         }
 
-                        //gdy u≈ºytkownik ma ju≈º logo wy≈õwietlamu mu je z przyciskiem USU≈É
+                        //gdy uøytkownik ma juø logo wy∂wietlamu mu je z przyciskiem USU—
                         if (strlen($pkgm->pobierzLogoLink()) > 0 && !($pkgm->pobierzLogoLink() == 'NULL')) {
                             $t_wiz->addSearchReplace('logo', 'loga/' . $pkgm->pobierzLogoLink());
                             $t_wiz_usun = new Template(Pathes::getPathTemplateProfileDeleteLogo());
                             $t_wiz->addSearchReplace('usun', $t_wiz_usun->getContent());
 
 
-                            //je≈õli u≈ºytkownik nie ma jeszcze loga ≈ÇƒÖdujemu mu obrazek domy≈õlny bez przycisku USU≈É
+                            //je∂li uøytkownik nie ma jeszcze loga ≥±dujemu mu obrazek domy∂lny bez przycisku USU—
                         } else {
                             $t_wiz->addSearchReplace('logo', 'loga/default.png');
                             $t_wiz->addSearchReplace('usun', '');
                         }
 
 
-                        //usuwanie loga z przycisku USU≈É
+                        //usuwanie loga z przycisku USU—
                         if (isset($_GET['usun_logo']) && $_GET['usun_logo'] == 1) {
 
                             unlink('loga/' . $pkgm->pobierzLogoLink());
                             $sql = Query::setLogoForUser($u->getId_user(), '');
                             $dbc->query($sql);
 
-                            BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po usuniƒôciu na od≈õwie≈ºony formularz wizyt√≥wki
+                            BFEC::redirect(Pathes::getScriptProfileCard()); //przekierowanie po usuniÍciu na od∂wieøony formularz wizytÛwki
                         }
 
                         $r = $t_wiz->getContent();
@@ -492,18 +493,18 @@ try {
                      */
                     try {
                         if (!isset($_POST['profile_edit_form'])) {
-                            $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane u≈ºytkownika z bazy
-                            $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu u≈ºytkownika
+                            $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane uøytkownika z bazy
+                            $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu uøytkownika
                             $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                             $r = $pft->getContent();
                         } else if (isset($_POST['profile_edit_form'])) {
                             $ud = new UserData();
-                            $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane u≈ºytkownika z bazy
-                            $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu u≈ºytkownika
+                            $gu = $um->getUser($dbc, $u->getId_user()); // pobieramy dane uøytkownika z bazy
+                            $t = new Template(Pathes::getPathTemplateProfileEditForDeveloper()); // szablon profilu uøytkownika
                             $pft = $tm->getProfileEditFormTemplate($sys, $gu, $u); // szablon z formularzem
                             $rfd = $ud->getProfileEditFormData(); // pobieramy dane z klasy ProfileEditForm
                             $um->updateProfileData($dbc, $rfd, $u); // edycja danych w bazie
-                            header('Location:' . $_SERVER['REQUEST_URI']); // prze≈Çadowanie strony, kasujemy stary $_POST
+                            header('Location:' . $_SERVER['REQUEST_URI']); // prze≥adowanie strony, kasujemy stary $_POST
                             $r = $pft->getContent();
                         }
                     } catch (ErrorsInprofileEditForm $e) {
@@ -540,7 +541,7 @@ try {
                 }
 
 
-                //przypadek gdy wybrana opcja nie pasuje do powy≈ºszych - przechodzimy wtedy na MojeDane->Wizyt√≥wka    
+                //przypadek gdy wybrana opcja nie pasuje do powyøszych - przechodzimy wtedy na MojeDane->WizytÛwka    
                 else
                     BFEC::redirect(Pathes::$script_profile_card);
             }
@@ -556,20 +557,20 @@ try {
 
                     $temp = '';
 
-                    //generowanie listy aktywnych pakiet√≥w dla DOSTAWCY
-                    foreach ($pakiet as $temporary) {  //ka≈ºdy pakiet (po kolei jako temporary) dodawany do szablonu
+                    //generowanie listy aktywnych pakietÛw dla DOSTAWCY
+                    foreach ($pakiet as $temporary) {  //kaødy pakiet (po kolei jako temporary) dodawany do szablonu
                         $temp_lista->clearSearchReplace();
                         $temp_lista->addSearchReplace('id', $temporary['id_pakietu']);
                         $temp_lista->addSearchReplace('date_begin', date("d-m-Y H:i", $temporary['date_begin']));
 
 
-                        //w przypadku pierwszewgo pakietu zamiast daty ko≈Ñcowej wy≈õwietlamy napis o jej braku - pakiet podstawowy jest do≈ºywotni
+                        //w przypadku pierwszewgo pakietu zamiast daty koÒcowej wy∂wietlamy napis o jej braku - pakiet podstawowy jest doøywotni
                         if ($temporary['id_pakietu'] == 1)
-                            $temp_lista->addSearchReplace('date_end', 'bez daty ko≈Ñcowej');
+                            $temp_lista->addSearchReplace('date_end', 'bez daty koÒcowej');
                         else
                             $temp_lista->addSearchReplace('date_end', date("d-m-Y H:i", $temporary['date_end']));
 
-                        $temp.=$temp_lista->getContent();  //do≈ÇƒÖczenie do ca≈Ço≈õci
+                        $temp.=$temp_lista->getContent();  //do≥±czenie do ca≥o∂ci
                     }
                     $r = $temp;
 
@@ -577,13 +578,13 @@ try {
                 } else if ((isset($_GET['a']) && $_GET['a'] == 1) || !isset($_GET['a'])) {
                     $t = new Template(Pathes::getPathTemplateProfileBuyPackage());
 
-                    //dodawanie listy pakietow do zak≈Çadki PAKIETY w profilu DOSTAWCY
+                    //dodawanie listy pakietow do zak≥adki PAKIETY w profilu DOSTAWCY
 
                     $temp_lista = new Template(Pathes::getPathTemplateProfilePackagesList());
 
                     $temp = '';
 
-                    //generowanie listy pakiet√≥w od 2 do 5 dla DOSTAWCY
+                    //generowanie listy pakietÛw od 2 do 5 dla DOSTAWCY
                     for ($i = 2; $i <= 5; $i++) {
 
                         $temp_lista->clearSearchReplace();
@@ -599,7 +600,7 @@ try {
                         $pkm = new PackageManager();
                         $pk = $pkm->pobierzPakiet($dbc, $_GET['kup_pakiet']);
                         $im = new InvoiceManager();
-                        $im->createUnpaidInvoicePakiet($dbc, $u->getId_user(), $pk); // dodana faktura proforma, pobierany id z mysqli, przekierowanie na formularz op≈Çaty
+                        $im->createUnpaidInvoicePakiet($dbc, $u->getId_user(), $pk); // dodana faktura proforma, pobierany id z mysqli, przekierowanie na formularz op≥aty
                     } else {
                         throw new NieprawidloweIdPakietu;
                     }
@@ -609,14 +610,14 @@ try {
             else if ($_GET['w'] == 'faktury') {
                 if (isset($_GET['a'])) {
 
-                    //op≈Çacone faktury
+                    //opøacone faktury
                     if ($_GET['a'] == 0) {
                         $t = new Template(Pathes::getPathTemplateProfilePaidInvoice());
 
-                        $uil = $dbc->query(Query::getDataProfilePaidInvoiceList($u->getId_user())); // pobierana lista faktur op≈Çaconych / paid invoice list
+                        $uil = $dbc->query(Query::getDataProfilePaidInvoiceList($u->getId_user())); // pobierana lista faktur opøaconych / paid invoice list
                         $r = $tm->getTemplateProfilePaidInvoiceList($uil); // paid invoice list template result
                     }
-                    //nieop≈Çacone faktury
+                    //nieopøacone faktury
                     else if ($_GET['a'] == 1) {
                         if (isset($_GET['p'])) { // `p` jak payment
                             $t = new Template(Pathes::getPathTemplateProfilePaymentProwizja());
@@ -655,7 +656,7 @@ try {
     }
     else if ($u->isAdmin()) {
 
-        //wy≈õwietlenie listy zlece≈Ñ dla admina
+        //wy∂wietlenie listy zleceÒ dla admina
         if ((isset($_GET['w']) && $_GET['w'] == 'comms' && !isset($_GET['a'])) || (isset($_GET['w']) && $_GET['w'] == 'comms' && isset($_GET['a']) && $_GET['a'] == '0')) {
 
             $t = new Template(Pathes::getPathTemplateProfileCommsForAdmin());
@@ -679,7 +680,7 @@ try {
 
             $dodatkowe_js = file_get_contents('temp/admin.html');
 
-            //LISTA U≈ªYTKOWNIK√ìW
+            //LISTA UØYTKOWNIK”W
         } else if (isset($_GET['w']) && $_GET['w'] == 'uzytkownicy' && ((isset($_GET['a']) && $_GET['a'] == '0') || !isset($_GET['a']))) {
             $t = new Template(Pathes::getPathTemplateProfileUsersListForAdmin());
             $sql = Query::getAllUsers();
@@ -693,12 +694,12 @@ try {
                 $t_user = file_get_contents(Pathes::getPathTemplateProfileUsersSublistForAdmin());
 
                 while ($row = $result->fetch_assoc()) {
-                    $user = $um->getUserFromRow($row);  //u≈ºytkownicy kolejno przerabiani na obiekty
-                    //ustawienie rodzaju u≈ºytkownika wzglƒôdem symbolizujƒÖcej litery
+                    $user = $um->getUserFromRow($row);  //uøytkownicy kolejno przerabiani na obiekty
+                    //ustawienie rodzaju uøytkownika wzglÍdem symbolizuj±cej litery
                     if ($user->getKind() == 'A')
                         $kind = 'admin';
                     elseif ($user->getKind() == 'D')
-                        $kind = 'us≈Çugodawca';
+                        $kind = 'us≥ugodawca';
                     elseif ($user->getKind() == 'K')
                         $kind = 'klient';
 
@@ -707,7 +708,7 @@ try {
                             array('{%id_user%}', '{%nazwa%}', '{%kind%}'), array($user->getId_user(), $user->getFullName(), $kind), $t_user);
                 }
             }
-            //KONKRETNY U≈ªYTKOWNIK
+            //KONKRETNY UØYTKOWNIK
         }else if (isset($_GET['w']) && $_GET['w'] == 'uzytkownik' && isset($_GET['u']) && is_numeric($_GET['u'])) {
 
             $t = new Template(Pathes::getPathTemplateProfileUsersListForAdmin());
@@ -723,16 +724,16 @@ try {
 
                 while ($row = $result->fetch_assoc()) {
 
-                    $user = $um->getUserFromRow($row);  //zamiana danych u≈ºytkownika na obiekt
-                    //ustawienie rodzaju u≈ºytkownika wzglƒôdem symbolizujƒÖcej litery
+                    $user = $um->getUserFromRow($row);  //zamiana danych uøytkownika na obiekt
+                    //ustawienie rodzaju uøytkownika wzglÍdem symbolizuj±cej litery
                     if ($user->getKind() == 'A')
                         $kind = 'admin';
                     elseif ($user->getKind() == 'D')
-                        $kind = 'us≈Çugodawca';
+                        $kind = 'us≥ugodawca';
                     elseif ($user->getKind() == 'K')
                         $kind = 'klient';
 
-                    //ustawienie statusu u≈ºytkownika wzglƒôdem symbolizujƒÖcej liczby
+                    //ustawienie statusu uøytkownika wzglÍdem symbolizuj±cej liczby
                     if ($user->getStatus() == 0)
                         $status = 'nieaktywny';
                     elseif ($user->getStatus() == 1)
@@ -746,15 +747,15 @@ try {
             }
         }
         //STATYSTYKI
-        //podstawowƒÖ stronƒÖ jest strona ofertami
+        //podstawow± stron± jest strona ofertami
         elseif ((isset($_GET['w']) && $_GET['w'] == 'statystyki' && !isset($_GET['a'])) || (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'oferty')) {
             $t = new Template(Pathes::getPathTemplateStatsOffers());
 
-            //je≈õli mamy ustawiony parametr 'o' to przechodzimy na konkretnƒÖ ofertƒô
+            //je∂li mamy ustawiony parametr 'o' to przechodzimy na konkretn± ofertÍ
             if (isset($_GET['o']) && is_numeric($_GET['o'])) {
                 $om = new OfferManager();
 
-                $sql = Query::getOffer($_GET['o']); //wczytujemy odpowiedniƒÖ ofertƒô z bazy
+                $sql = Query::getOffer($_GET['o']); //wczytujemy odpowiedni± ofertÍ z bazy
                 $result = $dbc->query($sql);
 
                 if (!$result)
@@ -772,7 +773,7 @@ try {
                             $om->getOfferFromRow($row)->getCena(), UF::cenax2name($om->getOfferFromRow($row)->getCenax()), UF::rozl2name($om->getOfferFromRow($row)->getRozl()), UF::timestamp2date($om->getOfferFromRow($row)->getDate_a(), true), UF::timestamp2date($om->getOfferFromRow($row)->getDate_b(), true), $om->getStatusOffersChoiceForComm($offer, $om->getOfferFromRow($row)->getId_comm()), $inne['sala'], $inne['materialy'], $inne['lunch'], $inne['kawa'], ($om->getOfferFromRow($row)->getIle_kaw() ? $om->getOfferFromRow($row) : '0')), $temp);
                     }
                 }
-            } else {    //w standardowym przypadku wy≈õwietlamy listƒô ofert
+            } else {    //w standardowym przypadku wy∂wietlamy listÍ ofert
                 //wczytujemy dane posortowane po dacie
                 $sql = Query::getAllOffersDescDate();
                 $result = $dbc->query($sql);
@@ -784,13 +785,13 @@ try {
                     $temp = file_get_contents(Pathes::getPathTemplateStatsOffersList());
 
                     while ($row = $result->fetch_assoc()) {
-                        $user = $um->getUserFromRow($row);  //zamiana danych u≈ºytkownika na obiekt
+                        $user = $um->getUserFromRow($row);  //zamiana danych uøytkownika na obiekt
                         //podmiana w szablonie
                         $r.= str_replace(array('{%data%}', '{%id_ofe%}', '{%id_comm%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_add'], true), $row['id_ofe'], $row['id_comm'], $user->getFullName(), $user->getId_user()), $temp);
                     }
                 }
             }
-            //statystyki dla zlece≈Ñ
+            //statystyki dla zleceÒ
         } elseif (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'zlecenia') {
             $t = new Template(Pathes::getPathTemplateStatsComms());
 
@@ -805,13 +806,13 @@ try {
                 $temp = file_get_contents(Pathes::getPathTemplateStatsCommsList());
 
                 while ($row = $result->fetch_assoc()) {
-                    $user = $um->getUserFromRow($row);  //zamiana danych u≈ºytkownika na obiekt
+                    $user = $um->getUserFromRow($row);  //zamiana danych uøytkownika na obiekt
                     //podmiana w szablonie
                     $r.= str_replace(array('{%data%}', '{%id_comm%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_add'], true), $row['id_comm'], $user->getFullName(), $user->getId_user()), $temp);
                 }
             }
 
-            //statystyki dla us≈Çug
+            //statystyki dla us≥ug
         } elseif (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'uslugi') {
             $t = new Template(Pathes::getPathTemplateStatsServs());
 
@@ -826,12 +827,12 @@ try {
                 $temp = file_get_contents(Pathes::getPathTemplateStatsServsList());
 
                 while ($row = $result->fetch_assoc()) {
-                    $user = $um->getUserFromRow($row);  //zamiana danych u≈ºytkownika na obiekt
+                    $user = $um->getUserFromRow($row);  //zamiana danych uøytkownika na obiekt
                     //podmiana w szablonie
                     $r.= str_replace(array('{%data%}', '{%id_serv%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_add'], true), $row['id_serv'], $user->getFullName(), $user->getId_user()), $temp);
                 }
             }
-            //statystyki dla pakiet√≥w
+            //statystyki dla pakietÛw
         } elseif (isset($_GET['w']) && $_GET['w'] == 'statystyki' && isset($_GET['a']) && $_GET['a'] == 'pakiety') {
             $t = new Template(Pathes::getPathTemplateStatsPackages());
 
@@ -846,7 +847,7 @@ try {
                 $temp = file_get_contents(Pathes::getPathTemplateStatsPackagesList());
 
                 while ($row = $result->fetch_assoc()) {
-                    $user = $um->getUserFromRow($row);  //zamiana danych u≈ºytkownika na obiekt
+                    $user = $um->getUserFromRow($row);  //zamiana danych uøytkownika na obiekt
                     //podmiana w szablonie
                     $r.= str_replace(array('{%data%}', '{%id_pakietu%}', '{%nazwa_pakietu%}', '{%nazwa%}', '{%id_user%}'), array(UF::timestamp2date($row['date_begin'], true), $row['id_pakietu'], $row['nazwa'], $user->getFullName(), $user->getId_user()), $temp);
                 }
@@ -862,13 +863,13 @@ try {
             if ((isset($_POST['submit']))) {
                 $sm = new ServiceManager();
 
-                //pobieramy obiekt Newsletter z uzupe≈Çnionymi danymi
+                //pobieramy obiekt Newsletter z uzupe≥nionymi danymi
                 $n = $ud->getNewsletter($dbc);
 
-                //uzupe≈Çniamy Newsletter o promowane us≈Çugi z ich nazwami
+                //uzupe≥niamy Newsletter o promowane us≥ugi z ich nazwami
                 $n->setPromotedServs($sm->getPromotedServs($dbc));
 
-                //wysy≈Çanie Newslettera
+                //wysy≥anie Newslettera
                 $mailer = new Mailer();
                 $mailer->sendNewsletter($n);
 
@@ -897,7 +898,7 @@ try {
             }
         }
 
-        //p≈Çatno≈õci
+        //p≥atno∂ci
         elseif (isset($_GET['w']) && $_GET['w'] == 'inne' && (isset($_GET['a']) && $_GET['a'] == 'platnosci')) {
 
             $t = new Template(Pathes::getPathTemplatePayment());
@@ -916,7 +917,7 @@ try {
             if (!is_null($faktury)) {
                 $ilosc = count($faktury);
 
-                //wype≈Çnienie szablonu
+                //wype≥nienie szablonu
                 for ($i = 0; $i < $ilosc; $i++) {
                     $t_tab_1row->addSearchReplace('nr_fv', $faktury[$i]->getNumer_fv());
                     $t_tab_1row->addSearchReplace('nr_prof', $faktury[$i]->getNumer_fpf());
@@ -926,8 +927,8 @@ try {
                     $t_tab_1row->addSearchReplace('id_fv', $faktury[$i]->getId_faktura());
                     $t_tab_1row->addSearchReplace('za_co', $faktury[$i]->getTyp());
 
-                    //sprawdzenie czy faktura zosta≈Ça op≈Çacona na podstawie tego, czy istnieje faktura VAT
-                    //na tej podstawie ustawienie link√≥w i przypisanie do odpowiedniej grupy  ( $lista_op || $lista_nieop )
+                    //sprawdzenie czy faktura zosta≥a op≥acona na podstawie tego, czy istnieje faktura VAT
+                    //na tej podstawie ustawienie linkÛw i przypisanie do odpowiedniej grupy  ( $lista_op || $lista_nieop )
                     if ($faktury[$i]->getNumer_fv() == '-') {
 
                         $t_tab_1row->addSearchReplace('pobierz_prof', 'pobierz');
@@ -944,7 +945,7 @@ try {
             }else
                 $t_tab->addSearchReplace('row', '');
 
-            //wrzucenie wszystkiego do odpowiednich szablon√≥w
+            //wrzucenie wszystkiego do odpowiednich szablonÛw
             $t_tab->addSearchReplace('row', $lista_op);
             $t_tabs->addSearchReplace('table_op', $t_tab->getContent());
             $t_tab->clearSearchReplace();
@@ -953,7 +954,7 @@ try {
 
             $t->addSearchReplace('here', $t_tabs->getContent());
         }
-        //CZYSTY SZABLON - w przypadku, gdy opcje nie pasujƒÖ do wszystkich powy≈ºszych wy≈õwietla siƒô domy≈õny szablon baz wybranej zak≈Çadki
+        //CZYSTY SZABLON - w przypadku, gdy opcje nie pasuj± do wszystkich powyøszych wy∂wietla siÍ domy∂ny szablon baz wybranej zak≥adki
         else {
             $t = new Template(Pathes::getPathTemplateProfileAdmin());
             $r = '';

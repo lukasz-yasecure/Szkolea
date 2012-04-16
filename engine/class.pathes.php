@@ -653,7 +653,6 @@ class Pathes {
     public static function getPathTemplatePromoted1ServiceForChoose() {
         return Pathes::$template_path . Pathes::$template_profile_promowana_1_usluga;
     }
-
 }
 
 ?>
